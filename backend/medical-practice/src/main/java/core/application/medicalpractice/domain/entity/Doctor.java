@@ -1,23 +1,20 @@
 package core.application.medicalpractice.domain.entity;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.UUID;
 
-import core.application.medicalpractice.domain.valueObjects.*;
 
 public class Doctor {
 
     private final UUID id;
     private String firstName, lastName;
-    private List<Appointment> appointments;
+    //private List<Appointment> appointments;
     private String speciality;
     
     public Doctor(String firstName, String lastName, String speciality) {
         this.id = UUID.randomUUID();
         this.firstName = firstName;
         this.lastName = lastName;
-        this.appointments = new ArrayList<>();
+        //this.appointments = new ArrayList<>();
         this.speciality = speciality;
     }
 
@@ -41,7 +38,7 @@ public class Doctor {
         this.lastName = lastName;
     }
 
-    public List<Appointment> getAppointments() {
+    /*public List<Appointment> getAppointments() {
         return appointments;
     }
 
@@ -58,7 +55,7 @@ public class Doctor {
 
     public void removeAppointment(Appointment appointment){
         appointments.remove(appointment);
-    }
+    }*/
 
     public String getSpeciality() {
         return speciality;
@@ -75,7 +72,7 @@ public class Doctor {
         result = prime * result + ((id == null) ? 0 : id.hashCode());
         result = prime * result + ((firstName == null) ? 0 : firstName.hashCode());
         result = prime * result + ((lastName == null) ? 0 : lastName.hashCode());
-        result = prime * result + ((appointments == null) ? 0 : appointments.hashCode());
+        //result = prime * result + ((appointments == null) ? 0 : appointments.hashCode());
         result = prime * result + ((speciality == null) ? 0 : speciality.hashCode());
         return result;
     }
@@ -104,11 +101,11 @@ public class Doctor {
                 return false;
         } else if (!lastName.equals(other.lastName))
             return false;
-        if (appointments == null) {
+        /*if (appointments == null) {
             if (other.appointments != null)
                 return false;
         } else if (!appointments.equals(other.appointments))
-            return false;
+            return false;*/
         if (speciality == null) {
             if (other.speciality != null)
                 return false;
