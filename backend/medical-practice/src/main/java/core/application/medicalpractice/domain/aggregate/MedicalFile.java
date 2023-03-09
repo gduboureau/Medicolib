@@ -10,14 +10,22 @@ public class MedicalFile {
     
     private List<Consultation> consultations;
     private UUID patientId;
+    private final UUID medicalId;
+
+    
+    public MedicalFile(UUID patientId){
+        consultations = new ArrayList<>();
+        this.patientId = patientId;
+        this.medicalId = UUID.randomUUID();
+    }
+
 
     public UUID getPatientId() {
         return patientId;
     }
 
-    public MedicalFile(UUID patientId){
-        consultations = new ArrayList<>();
-        this.patientId = patientId;
+    public UUID getMedicalId(){
+        return medicalId;
     }
 
     public void addConsultation(Consultation consultation){
