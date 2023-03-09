@@ -8,10 +8,14 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 
+import core.application.medicalpractice.infra.MedicalRepository;
+
 @SpringBootApplication
 public class MedicalPracticeApplication {
 
 	public static void main(String[] args) {
+		//MedicalRepository test = new MedicalRepository();
+		//test.Test(); //Test for Postgre Connection
 		SpringApplication.run(MedicalPracticeApplication.class, args);
 	}
 
