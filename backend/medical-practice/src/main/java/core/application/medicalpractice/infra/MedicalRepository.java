@@ -2,35 +2,74 @@ package core.application.medicalpractice.infra;
 
 import java.sql.*;
 
-public class MedicalRepository {
+import core.application.medicalpractice.domain.entity.*;
 
-    public void Test ()
-  {
-    try
-    {
-      //étape 1: charger la classe de driver
+public class MedicalRepository {
+  public Connection connection() throws SQLException {
+    try {
       Class.forName("org.postgresql.Driver");
-      //étape 2: créer l'objet de connexion
-      String host = "postgresql-medical-practice.alwaysdata.net";
-      String port = "5432";
-      String data_base = "medical-practice_folders";
-      String user = "medical-practice";
-      String password = "8kPmx2.!XnW97pF"; 
-      Connection conn = DriverManager.getConnection(
+    } catch (ClassNotFoundException e) {
+      e.printStackTrace();
+    }
+    String host = "postgresql-medical-practice.alwaysdata.net";
+    String port = "5432";
+    String data_base = "medical-practice_folders";
+    String user = "medical-practice";
+    String password = "8kPmx2.!XnW97pF";
+    Connection conn = DriverManager.getConnection(
         "jdbc:postgresql://" + host + ":" + port + "/" + data_base, user, password);
-      //étape 3: créer l'objet statement 
-      Statement stmt = conn.createStatement();
-      ResultSet res = stmt.executeQuery("SELECT * FROM Users");
-      //étape 4: exécuter la requête
-      while(res.next())
-        System.out.println(res.getInt(1)+"  "+res.getString(2)
-        +"  "+res.getString(3));
-      //étape 5: fermez l'objet de connexion
+    return conn;
+  }
+
+  public void closeConnection(Connection conn) {
+    try {
       conn.close();
+    } catch (SQLException e) {
+      e.printStackTrace();
     }
-    catch(Exception e){ 
-      System.out.println(e);
-    }
+  }
+
+  public void saveDoctor(Doctor doctor) throws SQLException {
+    Connection conn = connection();
+    Statement stmt = conn.createStatement();
+    String request = "INSERT INTO Doctors(doctorid, firstname, lastname, speciality) VALUES ("
+        + doctor.getId().toString() + ","
+        + doctor.getFirstName() + ","
+        + doctor.getLastName() + "," + doctor.getSpeciality() + ");";
+    stmt.executeUpdate(request);
+    closeConnection(conn);
+  }
+
+  public void savePatient(Patient patient) throws SQLException {
+    Connection conn = connection();
+    Statement stmt = conn.createStatement();
+    String request = "INSERT INTO Patients(patientid, firstname, lastname, gender, birthday, weight, height, mail, address) VALUES ("
+        + patient.getId().toString() + "," + patient.getFirstName() + "," + patient.getGender() + ","
+        + new java.sql.Date(patient.getBirthday().getTime()) + "," + patient.getWeight() + "," + patient.getHeight()
+        + "," + patient.getMail() + "," + patient.getAdress().toString() + ")";
+    stmt.executeUpdate(request);
+    closeConnection(conn);
+  }
+
+  public void saveUser(String mail, String password) throws SQLException {
+    Connection conn = connection();
+    Statement stmt = conn.createStatement();
+    String request = "INSERT INTO Users(mail, password) VALUES (" + mail + "," + password + ")";
+    stmt.executeUpdate(request);
+    closeConnection(conn);
+  }
+
+  public void saveConsultation(Consultation consultation) throws SQLException {
+    Connection conn = connection();
+    Statement stmt = conn.createStatement();
+    String request = "INSERT INTO Consultations(consultationid, patientid, date, beginconsultation, endconsultation, doctorid) VALUES ("
+        + consultation.getId().toString() + "," + consultation.getPatient().getId().toString() + ","
+        + new java.sql.Date(consultation.getAppointment().getDate().getBeginDate().getTime()) + ","
+        + new java.sql.Timestamp(consultation.getAppointment().getDate().getBeginDate().getTime()) + ","
+        + new java.sql.Timestamp(consultation.getAppointment().getDate().getEndDate().getTime()) + ","
+        + consultation.getDoctor().getId().toString() + ")";
+    stmt.executeUpdate(request);
+    closeConnection(conn);
   }
 
 }
