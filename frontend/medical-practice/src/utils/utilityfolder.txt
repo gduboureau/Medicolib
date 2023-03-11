@@ -1,0 +1,1 @@
+contains small function, that will be used in most case
