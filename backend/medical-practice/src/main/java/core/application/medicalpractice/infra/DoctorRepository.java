@@ -11,4 +11,5 @@ public interface DoctorRepository{
 
     public List<Doctor> getAllDoctors();
     public List<String> getAllSpecialities();
+    public List<Doctor> getDoctorsBySpeciality(String speciality);
 }

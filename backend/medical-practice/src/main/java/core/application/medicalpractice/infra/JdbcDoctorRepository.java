@@ -52,5 +52,22 @@ public class JdbcDoctorRepository implements DoctorRepository {
     return specialityList;
   }
 
+  @Override
+  public List<Doctor> getDoctorsBySpeciality(String speciality) {
+    List<Doctor> doctorList = new ArrayList<Doctor>();
+    try {
+      PreparedStatement stmt = connection.prepareStatement("SELECT * FROM doctors WHERE speciality = '" + speciality + "'");
+      ResultSet rs = stmt.executeQuery();
+
+      while(rs.next()){
+        Doctor doctor = new Doctor(rs.getString(1), rs.getString(2),rs.getString(3),rs.getString(4));
+        doctorList.add(doctor);
+      }
+    } catch (SQLException e) {
+
+      e.printStackTrace();
+    }
+    return doctorList;
+  }
 
 }
