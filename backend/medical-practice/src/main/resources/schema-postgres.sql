@@ -1,6 +1,8 @@
+CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
+
 DROP TABLE IF EXISTS Patients;
 CREATE TABLE Patients ( 
-    PatientId varchar(80) CONSTRAINT Patient_key PRIMARY KEY,
+    PatientId uuid DEFAULT uuid_generate_v4() CONSTRAINT Patient_key PRIMARY KEY,
     Firstname varchar(25) CONSTRAINT Firstname_null NOT NULL,
     Lastname varchar(25) CONSTRAINT Lastname_null NOT NULL,
     Gender char(1) CONSTRAINT Gender_check CHECK (Gender in ('M','F')),
@@ -19,7 +21,7 @@ CREATE TABLE Users (
 
 DROP TABLE IF EXISTS Consultations;
 CREATE TABLE Consultations (
-    ConsultationId varchar(80) CONSTRAINT Consultaiton_key PRIMARY KEY,
+    ConsultationId uuid DEFAULT uuid_generate_v4() CONSTRAINT Consultaiton_key PRIMARY KEY,
     PatientId varchar(80) CONSTRAINT PatientId_null NOT NULL,
     Date date CONSTRAINT Date_null NOT NULL,
     BeginConsultation time CONSTRAINT BeginConsultation_null NOT NULL,
@@ -29,7 +31,7 @@ CREATE TABLE Consultations (
 
 DROP TABLE IF EXISTS Doctors;
 CREATE TABLE Doctors (
-    DoctorId varchar(80) CONSTRAINT Doctor_key PRIMARY KEY,
+    DoctorId uuid DEFAULT uuid_generate_v4() CONSTRAINT Doctor_key PRIMARY KEY,
     Firstname varchar(25) CONSTRAINT Firstname_null NOT NULL,
     Lastname varchar(25) CONSTRAINT Lastname_null NOT NULL,
     Speciality varchar(25) CONSTRAINT Speciality_check CHECK (Speciality in ('Neurology','General Practitioner', 'Dermatology', 'Dentist', 'Ophthalmology', 'Pediatrics'))
