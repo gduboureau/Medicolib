@@ -3,7 +3,6 @@ package core.application.medicalpractice.infra;
 import java.sql.*;
 import java.util.*;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import core.application.DButils.DBUtil;
@@ -35,5 +34,23 @@ public class JdbcDoctorRepository implements DoctorRepository {
     }
     return doctorList;
   }
+
+  @Override
+  public List<String> getAllSpecialities(){
+    List<String> specialityList = new ArrayList<String>();
+    try {
+      PreparedStatement stmt = connection.prepareStatement("SELECT DISTINCT speciality FROM doctors");
+      ResultSet rs = stmt.executeQuery();
+
+      while(rs.next()){
+        specialityList.add(rs.getString(1));
+      }
+    } catch (SQLException e) {
+      
+      e.printStackTrace();
+    }
+    return specialityList;
+  }
+
 
 }

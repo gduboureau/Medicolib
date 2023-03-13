@@ -18,5 +18,10 @@ public class DoctorController {
 	public List<Doctor> getAllDoctors(){
 		return this.jdbcDoctorRepository.getAllDoctors();
 	}
+
+	@RequestMapping(value="/doctors/specialities", method=RequestMethod.GET, produces="application/json")
+	public List<String> getAllSpecialities(){
+		return this.jdbcDoctorRepository.getAllSpecialities();
+	}
 	
 }

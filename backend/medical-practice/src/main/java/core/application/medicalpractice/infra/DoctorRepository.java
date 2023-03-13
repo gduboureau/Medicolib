@@ -10,4 +10,5 @@ import core.application.medicalpractice.domain.entity.Doctor;
 public interface DoctorRepository{
 
     public List<Doctor> getAllDoctors();
+    public List<String> getAllSpecialities();
 }

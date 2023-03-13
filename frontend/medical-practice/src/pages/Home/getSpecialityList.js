@@ -1,5 +1,0 @@
-function getSpecialityList(){
-    return(
-        
-    );
-}

@@ -34,6 +34,6 @@ CREATE TABLE Doctors (
     DoctorId uuid DEFAULT uuid_generate_v4() CONSTRAINT Doctor_key PRIMARY KEY,
     Firstname varchar(25) CONSTRAINT Firstname_null NOT NULL,
     Lastname varchar(25) CONSTRAINT Lastname_null NOT NULL,
-    Speciality varchar(25) CONSTRAINT Speciality_check CHECK (Speciality in ('Neurology','General Practitioner', 'Dermatology', 'Dentist', 'Ophthalmology', 'Pediatrics'))
+    Speciality varchar(25) CONSTRAINT Speciality_check CHECK (Speciality in ('Neurologue','Generaliste', 'Dermatologue', 'Dentiste', 'Ophtalmologue', 'Pediatre'))
 );
 

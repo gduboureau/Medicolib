@@ -1,16 +1,20 @@
 import React from 'react';
+import SpecialityList from './SpecialityList';
 import '../../assets/HomePage.css';
 
 function HomePage() {
   return (
-    <div className="homepage">
-      <h1>Bienvenue chez Cabinet Médical</h1>
-      <p>Prenez vos rendez-vous médicaux rapidement et simplement juste ici.</p>
+    <div>
+      <SpecialityList />
+    </div>
+    // <div className="homepage">
+    //   <h1>Bienvenue chez Cabinet Médical</h1>
+    //   <p>Prenez vos rendez-vous médicaux rapidement et simplement juste ici.</p>
 
       
 
-      <button className="btn-appointment">Prendre rendez-vous</button>
-    </div>
+    //   <button className="btn-appointment">Prendre rendez-vous</button>
+    // </div>
   );
 }
 
