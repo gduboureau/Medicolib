@@ -3,6 +3,8 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import ReactDOM from 'react-dom/client';
 import reportWebVitals from './reportWebVitals';
 import HomePage from './pages/Home/index';
+import DrSpecialityPage from './pages/DoctorsBySpeciality/index';
+
 
 
 function Router(){
@@ -10,6 +12,7 @@ function Router(){
     <BrowserRouter>
     <Routes>
       <Route path = "/" element = {<HomePage />} />
+      <Route path = "/doctors/Dentiste" element = {<DrSpecialityPage />} />
     </Routes>
     </BrowserRouter>
   );
