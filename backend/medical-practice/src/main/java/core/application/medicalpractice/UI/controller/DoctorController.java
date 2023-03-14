@@ -6,27 +6,28 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
+
+import core.application.medicalpractice.application.MedicalPractice;
 import core.application.medicalpractice.domain.entity.Doctor;
-import core.application.medicalpractice.infra.JdbcDoctorRepository;
 
 @RestController
 public class DoctorController {
     
 	@Autowired
-	private JdbcDoctorRepository jdbcDoctorRepository;
+	private MedicalPractice medicalPractice;
 
 	@RequestMapping(value="/doctors", method=RequestMethod.GET, produces="application/json")
 	public List<Doctor> getAllDoctors(){
-		return this.jdbcDoctorRepository.getAllDoctors();
+		return this.medicalPractice.getAllDoctors();
 	}
 
 	@RequestMapping(value="/doctors/specialities", method=RequestMethod.GET, produces="application/json")
 	public List<String> getAllSpecialities(){
-		return this.jdbcDoctorRepository.getAllSpecialities();
+		return this.medicalPractice.getAllSpecialities();
 	}
 	
 	@RequestMapping(value="/doctors/{speciality}", method=RequestMethod.GET, produces="application/json")
     public List<Doctor> getDoctorsBySpeciality(@PathVariable("speciality") String speciality){
-        return this.jdbcDoctorRepository.getDoctorsBySpeciality(speciality);
+        return this.medicalPractice.getDoctorsBySpeciality(speciality);
     }
 }

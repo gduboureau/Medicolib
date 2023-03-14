@@ -28,5 +28,13 @@ public class DBUtil {
         
         return connection;
     }
+
+    public static void closeConnection(Connection conn) {
+        try {
+          conn.close();
+        } catch (SQLException e) {
+          e.printStackTrace();
+        }
+    }
     
 }

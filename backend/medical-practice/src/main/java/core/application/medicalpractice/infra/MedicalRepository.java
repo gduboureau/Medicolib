@@ -28,28 +28,7 @@ public class MedicalRepository {
       e.printStackTrace();
     }
   }
-
-  public void saveDoctor(Doctor doctor) throws SQLException {
-    Connection conn = connection();
-    Statement stmt = conn.createStatement();
-    String request = "INSERT INTO Doctors(doctorid, firstname, lastname, speciality) VALUES ("
-        + doctor.getId().toString() + ","
-        + doctor.getFirstName() + ","
-        + doctor.getLastName() + "," + doctor.getSpeciality() + ");";
-    stmt.executeUpdate(request);
-    closeConnection(conn);
-  }
-
-  public void savePatient(Patient patient) throws SQLException {
-    Connection conn = connection();
-    Statement stmt = conn.createStatement();
-    String request = "INSERT INTO Patients(patientid, firstname, lastname, gender, birthday, weight, height, mail, address) VALUES ("
-        + patient.getId().toString() + "," + patient.getFirstName() + "," + patient.getGender() + ","
-        + new java.sql.Date(patient.getBirthday().getTime()) + "," + patient.getWeight() + "," + patient.getHeight()
-        + "," + patient.getMail() + "," + patient.getAdress().toString() + ")";
-    stmt.executeUpdate(request);
-    closeConnection(conn);
-  }
+  
 
   public void saveUser(String mail, String password) throws SQLException {
     Connection conn = connection();
