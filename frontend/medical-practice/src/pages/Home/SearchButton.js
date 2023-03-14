@@ -1,16 +1,18 @@
-import axios from "axios";
-import React, {useState, useEffect} from "react";
+import { useNavigate } from 'react-router-dom';
 
 
 function SearchButton(){
 
-    const searchBtn = (e) => {
+    const navigate = useNavigate();
 
-        e.preventDefault();
+    const searchBtn = () => {
+
         var select = document.getElementById('dropdown-specialityList');
         var speciality = select.options[select.selectedIndex].value;
 
-        document.location.href="/doctors/"+speciality;
+        if (speciality !== ""){
+            navigate(`/doctors/${speciality}`);
+        }
     }
 
     return(

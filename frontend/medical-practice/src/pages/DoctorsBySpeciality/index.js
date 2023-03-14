@@ -1,12 +1,12 @@
 import React from 'react';
 import '../../assets/HomePage.css';
-import ArrayDoctors from './ArrayDoctors';
+import ListDoctors from './ListDoctors';
 
 
 function DrSpecialityPage() {
   return (
     <div>
-      <ArrayDoctors />
+      <ListDoctors />
     </div>
   );
 }

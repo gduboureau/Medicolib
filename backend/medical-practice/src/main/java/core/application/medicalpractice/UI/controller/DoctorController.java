@@ -1,4 +1,4 @@
-package core.application.medicalpractice.controller;
+package core.application.medicalpractice.UI.controller;
 
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
