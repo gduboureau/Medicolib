@@ -4,6 +4,7 @@ import ReactDOM from 'react-dom/client';
 import reportWebVitals from './reportWebVitals';
 import HomePage from './pages/Home/index';
 import DrSpecialityPage from './pages/DoctorsBySpeciality/index';
+import DoctorPage from './pages/Doctor';
 
 
 
@@ -13,6 +14,7 @@ function Router(){
     <Routes>
       <Route path = "/" element = {<HomePage />} />
       <Route path = "/doctors/:speciality" element = {<DrSpecialityPage />} />
+      <Route path = "/doctors/:firstName-lastName-speciality" element = {<DoctorPage />} />
     </Routes>
     </BrowserRouter>
   );
