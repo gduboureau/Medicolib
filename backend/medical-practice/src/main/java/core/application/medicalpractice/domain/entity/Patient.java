@@ -3,22 +3,21 @@ package core.application.medicalpractice.domain.entity;
 import java.util.Date;
 import java.util.UUID;
 
-import core.application.medicalpractice.domain.aggregate.MedicalFile;
 import core.application.medicalpractice.domain.valueObjects.*;
 
 public class Patient {
-    
+
     private final UUID id;
     private String firstName, lastName, gender;
     private Date birthday;
     private String numSocial;
     private String mail;
     private Address adress;
-    private MedicalFile medicalFile;
     private float weight, height;
-    //private List<Appointment> appointments;
+    // private List<Appointment> appointments;
 
-    public Patient(String firstName, String lastName, String gender, Date birthday, String numSocial, String mail, Address adress, MedicalFile medicalFile, float weight, float height) {
+    public Patient(String firstName, String lastName, String gender, Date birthday, String numSocial, String mail,
+            Address adress, float weight, float height) {
         this.id = UUID.randomUUID();
         this.firstName = firstName;
         this.lastName = lastName;
@@ -27,7 +26,6 @@ public class Patient {
         this.numSocial = numSocial;
         this.mail = mail;
         this.adress = adress;
-        this.medicalFile = medicalFile;
         this.weight = weight;
         this.height = height;
     }
@@ -64,11 +62,11 @@ public class Patient {
         return birthday;
     }
 
-    public float getHeight(){
+    public float getHeight() {
         return height;
     }
 
-    public float getWeight(){
+    public float getWeight() {
         return weight;
     }
 
@@ -100,15 +98,11 @@ public class Patient {
         this.adress = adress;
     }
 
-    public MedicalFile getMedicalFile(){
-        return medicalFile;
-    }
-
-    public void setHeight(float height){
+    public void setHeight(float height) {
         this.height = height;
     }
 
-    public void setWeight(float weight){
+    public void setWeight(float weight) {
         this.weight = weight;
     }
 
@@ -124,7 +118,6 @@ public class Patient {
         result = prime * result + ((numSocial == null) ? 0 : numSocial.hashCode());
         result = prime * result + ((mail == null) ? 0 : mail.hashCode());
         result = prime * result + ((adress == null) ? 0 : adress.hashCode());
-        result = prime * result + ((medicalFile == null) ? 0 : medicalFile.hashCode());
         result = prime * result + Float.floatToIntBits(weight);
         result = prime * result + Float.floatToIntBits(height);
         return result;
@@ -179,11 +172,6 @@ public class Patient {
                 return false;
         } else if (!adress.equals(other.adress))
             return false;
-        if (medicalFile == null) {
-            if (other.medicalFile != null)
-                return false;
-        } else if (!medicalFile.equals(other.medicalFile))
-            return false;
         if (Float.floatToIntBits(weight) != Float.floatToIntBits(other.weight))
             return false;
         if (Float.floatToIntBits(height) != Float.floatToIntBits(other.height))
@@ -191,25 +179,25 @@ public class Patient {
         return true;
     }
 
-    /*public List<Appointment> getAppointments() {
-        return appointments;
-    }
-
-    public void addAppointment(Appointment appointment){
-        appointments.add(appointment);
-    }
-
-    public Appointment getAppointment(Appointment appointment){
-        for(Appointment app : appointments){
-            if (app.equals(appointment)) return app;
-        }
-        return null;
-    }
-
-    public void removeAppointment(Appointment appointment){
-        appointments.remove(appointment);
-    }*/
-
-
+    /*
+     * public List<Appointment> getAppointments() {
+     * return appointments;
+     * }
+     * 
+     * public void addAppointment(Appointment appointment){
+     * appointments.add(appointment);
+     * }
+     * 
+     * public Appointment getAppointment(Appointment appointment){
+     * for(Appointment app : appointments){
+     * if (app.equals(appointment)) return app;
+     * }
+     * return null;
+     * }
+     * 
+     * public void removeAppointment(Appointment appointment){
+     * appointments.remove(appointment);
+     * }
+     */
 
 }

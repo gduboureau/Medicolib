@@ -3,14 +3,14 @@ package core.application.medicalpractice.domain.valueObjects;
 import java.util.UUID;
 
 public class Address {
-    
+
     private final int number;
     private final String street;
     private final String city;
     private final int postalCode;
     private final UUID id;
 
-    public Address(int number, String street, String city, int postalCode){
+    public Address(int number, String street, String city, int postalCode) {
         this.number = number;
         this.street = street;
         this.city = city;
@@ -18,7 +18,7 @@ public class Address {
         this.id = UUID.randomUUID();
     }
 
-    public UUID getId(){
+    public UUID getId() {
         return id;
     }
 
@@ -36,6 +36,12 @@ public class Address {
 
     public int getPostalCode() {
         return postalCode;
+    }
+
+    @Override
+    public String toString() {
+        return this.number + this.street + this.postalCode + this.city;
+
     }
 
     @Override

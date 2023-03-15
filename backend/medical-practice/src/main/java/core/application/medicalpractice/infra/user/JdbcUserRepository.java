@@ -13,32 +13,33 @@ import core.application.DButils.DBUtil;
 public class JdbcUserRepository implements UserRepository {
 
     Connection connection;
-    
-    public boolean saveUser(String mail, String password){
-        try{
+
+    public boolean saveUser(String mail, String password) {
+        try {
             connection = DBUtil.getConnection();
             Statement stmt = connection.createStatement();
-            String request = "INSERT INTO Users(mail, password) VALUES (" + "'"+mail+"'" + "," + "'"+password+"'" + ")";
+            String request = "INSERT INTO Users(mail, password) VALUES (" + "'" + mail + "'" + "," + "'" + password
+                    + "'" + ")";
             stmt.executeUpdate(request);
             DBUtil.closeConnection(connection);
-        }catch(SQLException e){
+        } catch (SQLException e) {
             return false;
         }
         return true;
-      }
+    }
 
-    public void resetPassword(String mail, String password) throws SQLException{
+    public void resetPassword(String mail, String password) throws SQLException {
         connection = DBUtil.getConnection();
         Statement stmt = connection.createStatement();
-        String request = "UPDATE Users SET password=" + "'"+password+"'" + "WHERE mail=" + "'"+mail+"'";
+        String request = "UPDATE Users SET password=" + "'" + password + "'" + "WHERE mail=" + "'" + mail + "'";
         stmt.executeUpdate(request);
         DBUtil.closeConnection(connection);
     }
 
-    public boolean checkLoginExist(String mail, String password) throws SQLException{
+    public boolean checkLoginExist(String mail, String password) throws SQLException {
         connection = DBUtil.getConnection();
         Statement stmt = connection.createStatement();
-        String request = "SELECT * FROM Users WHERE mail=" + "'"+mail+"' AND" + "password=" + "'"+password+"'";
+        String request = "SELECT * FROM Users WHERE mail=" + "'" + mail + "' AND" + "password=" + "'" + password + "'";
         ResultSet rs = stmt.executeQuery(request);
         return rs.next();
     }

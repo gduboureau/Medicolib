@@ -28,25 +28,16 @@ public class MedicalRepository {
       e.printStackTrace();
     }
   }
-  
-
-  public void saveUser(String mail, String password) throws SQLException {
-    Connection conn = connection();
-    Statement stmt = conn.createStatement();
-    String request = "INSERT INTO Users(mail, password) VALUES (" + mail + "," + password + ")";
-    stmt.executeUpdate(request);
-    closeConnection(conn);
-  }
 
   public void saveConsultation(Consultation consultation) throws SQLException {
     Connection conn = connection();
     Statement stmt = conn.createStatement();
     String request = "INSERT INTO Consultations(consultationid, patientid, date, beginconsultation, endconsultation, doctorid) VALUES ("
-        + consultation.getId().toString() + "," + consultation.getPatient().getId().toString() + ","
+        + "'" + consultation.getId() + "'" + "," + "'" + consultation.getPatient().getId() + "'" + ","
         + new java.sql.Date(consultation.getAppointment().getDate().getBeginDate().getTime()) + ","
         + new java.sql.Timestamp(consultation.getAppointment().getDate().getBeginDate().getTime()) + ","
-        + new java.sql.Timestamp(consultation.getAppointment().getDate().getEndDate().getTime()) + ","
-        + consultation.getDoctor().getId().toString() + ")";
+        + new java.sql.Timestamp(consultation.getAppointment().getDate().getEndDate().getTime()) + "," + "'"
+        + consultation.getDoctor().getId() + "'" + ")";
     stmt.executeUpdate(request);
     closeConnection(conn);
   }
