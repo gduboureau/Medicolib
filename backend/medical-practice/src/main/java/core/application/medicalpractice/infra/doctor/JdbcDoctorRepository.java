@@ -1,4 +1,4 @@
-package core.application.medicalpractice.infra;
+package core.application.medicalpractice.infra.doctor;
 
 import java.sql.*;
 import java.util.*;

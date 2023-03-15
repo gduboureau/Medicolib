@@ -2,7 +2,7 @@ CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
 
 DROP TABLE IF EXISTS Patients;
 CREATE TABLE Patients ( 
-    PatientId uuid DEFAULT uuid_generate_v4() CONSTRAINT Patient_key PRIMARY KEY,
+    PatientId varchar(80) CONSTRAINT Patient_key PRIMARY KEY,
     Firstname varchar(25) CONSTRAINT Firstname_null NOT NULL,
     Lastname varchar(25) CONSTRAINT Lastname_null NOT NULL,
     Gender char(1) CONSTRAINT Gender_check CHECK (Gender in ('M','F')),
@@ -36,4 +36,3 @@ CREATE TABLE Doctors (
     Lastname varchar(25) CONSTRAINT Lastname_null NOT NULL,
     Speciality varchar(25) CONSTRAINT Speciality_check CHECK (Speciality in ('Neurologue','Generaliste', 'Dermatologue', 'Dentiste', 'Ophtalmologue', 'Pediatre'))
 );
-

@@ -1,4 +1,4 @@
-package core.application.medicalpractice.infra;
+package core.application.medicalpractice.infra.patient;
 
 import java.sql.SQLException;
 import java.util.List;
