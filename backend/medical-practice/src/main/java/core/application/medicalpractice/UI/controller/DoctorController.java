@@ -1,20 +1,21 @@
 package core.application.medicalpractice.UI.controller;
 
 import java.sql.SQLException;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import core.application.medicalpractice.application.MedicalPractice;
 import core.application.medicalpractice.domain.entity.Doctor;
 import core.application.medicalpractice.domain.entity.Patient;
+import core.application.medicalpractice.domain.entity.User;
 import core.application.medicalpractice.domain.valueObjects.Address;
 
 @RestController
@@ -38,25 +39,15 @@ public class DoctorController {
 		return this.medicalPractice.getDoctorsBySpeciality(speciality);
 	}
 
-	@RequestMapping(value = "/register", method = RequestMethod.POST)
-	public void savePatient(
-		@RequestParam(value = "firstname") String firstname, 
-		@RequestParam(value ="lastname") String lastname, 
-		@RequestParam(value ="gender") String gender,
-		@RequestParam(value ="birthday") String birthday,
-		@RequestParam(value ="numsocial") String numSocial,
-		@RequestParam(value ="email") String email,
-		@RequestParam(value ="street") String street,
-		@RequestParam(value ="numstreet") int numStreet,
-		@RequestParam(value ="postalcode") int postalCode,
-		@RequestParam(value ="city") String city,
-		@RequestParam(value ="password") String password) throws SQLException, ParseException{
-			SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
-			Date birthDay = format.parse(birthday);
-			Address address = new Address(numStreet, street, city, postalCode);
-			Patient patient = new Patient(firstname, lastname, gender, birthDay, numSocial, email, address, 0, 0);
-			medicalPractice.savePatient(patient);
-			medicalPractice.saveUser(email, password);
-		}
+	@PostMapping(value = "/register")
+	public ResponseEntity<User> savePatient(@RequestBody User user) throws SQLException {
+		System.out.println(user.toString());
+		User userSaved = new User(user.getFirstName(), user.getLastName(), user.getGender(), user.getMail(), user.getPassword());
+		medicalPractice.saveUser(user.getMail(), user.getPassword());
+		// Patient patient = new Patient(user.getFirstName(), user.getLastName(), user.getGender(), null, null, user.getMail(), null, 0, 0);
+		//medicalPractice.savePatient(patient);
+		return new ResponseEntity<User>(userSaved, HttpStatus.CREATED);
+	}
+	
 
 }
