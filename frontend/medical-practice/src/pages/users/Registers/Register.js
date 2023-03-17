@@ -1,49 +1,63 @@
 import React from "react";
+import SubmitFormButton from "./SubmitFormButton";
 
 const Register = (props) => {
   return (
-    <div className="tab-content">
-      <form className="form-profile">
-        <h1>BIENVENUE</h1>
-        <fieldset>
+    <div>
+      <form className="form-register" method="post">
           <legend>Créer votre compte</legend>
           <div className="form-group">
-            <label for="sexe">Sexe :</label>
-            <input type="radio" className="form-control" id="f" name="sexe" value="h" checked/> Homme
-            <input type="radio" className="form-control" id="f" name="sexe" value="f"/> Femme
+            <label htmlFor="gender">Sexe :</label>
+            <input type="radio" id="h" name="gender" value="h"/> Homme
+            <input type="radio" id="f" name="gender" value="f"/> Femme
           </div>
           <div className="form-group">
-            <label for="name">Nom :</label>
-            <input type="text" className="form-control" id="lastname" name="lastname"/>
+            <label htmlFor="lastname">Nom :</label>
+            <input type="text" id="lastname" name="lastname"/>
           </div>
           <div className="form-group">
-            <label for="firstname">Prenom :</label>
-            <input type="text" className="form-control" id="firstname" name="firstname"/>
+            <label htmlFor="firstname">Prenom :</label>
+            <input type="text" id="firstname" name="firstname"/>
           </div>
           <div className="form-group">
-            <label for="phone">Téléphone :</label>
-            <input type="text" className="form-control" id="phone" name="phone"/>
+            <label htmlFor="birthday">Date de naissance :</label>
+            <input type="date" id="birthday" name="birthday"/>
           </div>
           <div className="form-group">
-            <label for="birthdate">Date de naissance :</label>
-            <input type="date" className="form-control" id="birthdate" name="birthdate"/>
+            <label htmlFor="NumSocial">NumSocial : </label>
+            <input type="text" id="NumSocialId" name="NumSocial"/>
           </div>
           <div className="form-group">
-            <label for="email">Email :</label>
-            <input type="email" className="form-control" id="emailId" placeholder="mail@mail.fr"/>
+            <label htmlFor="email">Email :</label>
+            <input type="email" id="emailId" placeholder="mail@mail.fr"/>
           </div>
           <div className="form-group">
-            <label for="password">Mot de passe :</label>
-            <input type="password" className="form-control" id="password" placeholder="Password"/>
+            <label htmlFor="street">Rue :</label>
+            <input type="text" id="streetId" placeholder="rue des cerisiers"/>
           </div>
           <div className="form-group">
-            <label for="password">Confirmation :</label>
-            <input type="password" className="form-control" id="passwordConfirm" placeholder="Password"/>
+            <label htmlFor="NumStreet">N° Rue :</label>
+            <input type="number" id="numStreetId" placeholder="1"/>
           </div>
-          <button type="submit" className="btn btn-outline-primary">
+          <div className="form-group">
+            <label htmlFor="PostalCode">Code postal : </label>
+            <input type="number" id="PostalCodeId" placeholder="33000"/>
+          </div>
+          <div className="form-group">
+            <label htmlFor="City">Ville : </label>
+            <input type="text" id="CityId" placeholder="Bordeaux"/>
+          </div>
+          <div className="form-group">
+            <label htmlFor="password">Mot de passe :</label>
+            <input type="password" id="password" placeholder="Password"/>
+          </div>
+          <div className="form-group">
+            <label htmlFor="password">Confirmation :</label>
+            <input type="password" id="passwordConfirm" placeholder="Password"/>
+          </div>
+          <button type="submit" className="btn btn-outline-primary" onClick={SubmitFormButton}>
             Se connecter
           </button>
-        </fieldset>
       </form>
     </div>
   );

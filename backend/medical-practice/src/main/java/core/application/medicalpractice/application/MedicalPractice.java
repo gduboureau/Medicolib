@@ -13,6 +13,7 @@ import core.application.medicalpractice.domain.valueObjects.Appointment;
 import core.application.medicalpractice.infra.doctor.JdbcDoctorRepository;
 import core.application.medicalpractice.infra.medical.MedicalRepository;
 import core.application.medicalpractice.infra.patient.JdbcPatientRepository;
+import core.application.medicalpractice.infra.user.JdbcUserRepository;
 
 @Service
 public class MedicalPractice {
@@ -20,12 +21,14 @@ public class MedicalPractice {
     private MedicalRepository medicalDatas;
     private JdbcDoctorRepository doctorRepository;
     private JdbcPatientRepository patientRepository;
+    private JdbcUserRepository userRepository;
     private HashMap<Integer, MedicalFile> medicalFiles;
 
     public MedicalPractice() throws SQLException {
         this.medicalDatas = new MedicalRepository();
         this.doctorRepository = new JdbcDoctorRepository();
         this.patientRepository = new JdbcPatientRepository();
+        this.userRepository = new JdbcUserRepository();
         this.medicalFiles = new HashMap<>();
     }
 
@@ -56,6 +59,12 @@ public class MedicalPractice {
     public void savePatient(Patient patient) throws SQLException {
         patientRepository.savePatient(patient);
 
+    }
+
+    // requests for user 
+
+    public void saveUser(String email, String password){
+        userRepository.saveUser(email, password);
     }
 
     // requests for medical files

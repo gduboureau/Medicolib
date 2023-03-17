@@ -1,8 +1,6 @@
 import React, { useContext, useState } from 'react';
 import Auth from '../Authentification/Auth';
 import { login } from '../Authentification/AuthApi';
-/*//import './Login.css';*/
-
 
 
 const Login = ({history}) => {
@@ -32,7 +30,7 @@ const Login = ({history}) => {
         }
     }
 
-    const useInsertionEffect = (() => {
+    const useEffect = (() => {
         if(isAuthenticated){
             history.replace('/login');
         }
@@ -40,7 +38,6 @@ const Login = ({history}) => {
 
     return(
         <div className="login-wrapper">
-        <h1>BIENVENUE</h1>
         <p>Connecter-vous à votre compte</p>
         <form className='form-profile' onSubmit={handleSubmit}>
             <label>
