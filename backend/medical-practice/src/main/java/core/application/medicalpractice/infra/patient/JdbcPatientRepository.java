@@ -41,11 +41,21 @@ public class JdbcPatientRepository implements PatientRepository {
   public void savePatient(Patient patient) throws SQLException {
     Statement stmt = connection.createStatement();
     String request = "INSERT INTO Patients(patientid, firstname, lastname, gender, birthday, weight, height, mail, address) VALUES ("
-        + "'" + patient.getId() + "'" + "," + "'" + patient.getFirstName() + "'" + "," + "'"
-        + patient.getGender() + "'" + "," + new java.sql.Date(patient.getBirthday().getTime()) + ","
+        + "'" + patient.getId() + "'" + "," + "'" + patient.getFirstName() + "'" + "," + "'" + patient.getLastName()
+        + "'" + "," + "'"
+        + patient.getGender() + "'" + "," + "'" + new java.sql.Date(patient.getBirthday().getTime()) + "'" + ","
         + patient.getWeight() + "," + patient.getHeight() + "," + "'" + patient.getMail() + "'" + "," + "'"
-        + patient.getAdress().toString() + "'" + ")";
+        + patient.getAdress() + "'" + ")";
     stmt.executeUpdate(request);
-    DBUtil.closeConnection(connection);
+    // DBUtil.closeConnection(connection);
+  }
+
+  @Override
+  public boolean checkPatientExist(String mail) throws SQLException {
+    connection = DBUtil.getConnection();
+    Statement stmt = connection.createStatement();
+    String request = "SELECT * FROM Patients WHERE mail=" + "'" + mail + "'";
+    ResultSet rs = stmt.executeQuery(request);
+    return rs.next();
   }
 }

@@ -39,7 +39,7 @@ public class JdbcUserRepository implements UserRepository {
     public boolean checkLoginExist(String mail, String password) throws SQLException {
         connection = DBUtil.getConnection();
         Statement stmt = connection.createStatement();
-        String request = "SELECT * FROM Users WHERE mail=" + "'" + mail + "' AND" + "password=" + "'" + password + "'";
+        String request = "SELECT * FROM Users WHERE mail=" + "'" + mail + "' AND " + "password=" + "'" + password + "'";
         ResultSet rs = stmt.executeQuery(request);
         return rs.next();
     }

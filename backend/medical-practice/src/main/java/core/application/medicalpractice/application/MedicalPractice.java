@@ -61,10 +61,18 @@ public class MedicalPractice {
 
     }
 
-    // requests for user 
+    public boolean checkPatientExist(String mail) throws SQLException {
+        return patientRepository.checkPatientExist(mail);
+    }
 
-    public void saveUser(String email, String password){
+    // requests for user
+
+    public void saveUser(String email, String password) {
         userRepository.saveUser(email, password);
+    }
+
+    public boolean checkLoginExist(String email, String password) throws SQLException {
+        return userRepository.checkLoginExist(email, password);
     }
 
     // requests for medical files

@@ -1,10 +1,13 @@
 package core.application.medicalpractice.UI.controller;
 
+import java.util.Date;
 import java.sql.SQLException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.List;
+import java.util.Map;
+
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -13,10 +16,9 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import core.application.medicalpractice.application.MedicalPractice;
+import core.application.medicalpractice.domain.entity.Address;
 import core.application.medicalpractice.domain.entity.Doctor;
 import core.application.medicalpractice.domain.entity.Patient;
-import core.application.medicalpractice.domain.entity.User;
-import core.application.medicalpractice.domain.valueObjects.Address;
 
 @RestController
 public class DoctorController {
@@ -40,14 +42,21 @@ public class DoctorController {
 	}
 
 	@PostMapping(value = "/register")
-	public ResponseEntity<User> savePatient(@RequestBody User user) throws SQLException {
-		System.out.println(user.toString());
-		User userSaved = new User(user.getFirstName(), user.getLastName(), user.getGender(), user.getMail(), user.getPassword());
-		medicalPractice.saveUser(user.getMail(), user.getPassword());
-		// Patient patient = new Patient(user.getFirstName(), user.getLastName(), user.getGender(), null, null, user.getMail(), null, 0, 0);
-		//medicalPractice.savePatient(patient);
-		return new ResponseEntity<User>(userSaved, HttpStatus.CREATED);
+	public void savePatient(@RequestBody Map<String, String> map) throws SQLException, ParseException {
+		String firstName = map.get("firstName");
+		String lastName = map.get("lastName");
+		String gender = map.get("gender");
+		String date = map.get("date");
+		String mail = map.get("mail");
+		String password = map.get("password");
+		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+		Date parsed = format.parse(date);
+		if (!medicalPractice.checkPatientExist(mail)) {
+			Patient patient = new Patient(firstName, lastName, gender, parsed, password, mail, new Address(19, "rue roustaing", "Talence", 33400), 0, 0);
+			medicalPractice.savePatient(patient);
+		}
+		if (!medicalPractice.checkLoginExist(mail, password)) {
+			medicalPractice.saveUser(mail, password);
+		}
 	}
-	
-
 }

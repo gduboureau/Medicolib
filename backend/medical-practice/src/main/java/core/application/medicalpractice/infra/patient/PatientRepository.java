@@ -10,9 +10,11 @@ import core.application.medicalpractice.domain.valueObjects.Appointment;
 
 @Repository
 public interface PatientRepository {
-    
+
     public List<Appointment> getAppointmentsByPatient(Patient patient);
 
     public void savePatient(Patient patient) throws SQLException;
-    
+
+    public boolean checkPatientExist(String mail) throws SQLException;
+
 }

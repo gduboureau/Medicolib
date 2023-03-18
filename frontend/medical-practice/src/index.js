@@ -9,22 +9,27 @@ import { hasAuthenticated } from './pages/users/Authentification/AuthApi';
 import Auth from './pages/users/Authentification/Auth';
 import RegisterPage from './pages/users/Registers';
 import LoginPage from './pages/users/Login';
+import Error from './utils/Error';
+import Layout from './pages/Layout';
 
 
 
-function Router(){
-  const [isAuthenticated, setIsAuthenticated ] = useState(hasAuthenticated());
-  return(
-    <Auth.Provider value = {{isAuthenticated, setIsAuthenticated}}>
-    <BrowserRouter>
-    <Routes>
-      <Route path = "/" element = {<HomePage />} />
-      <Route path = "/doctors/:speciality" element = {<DrSpecialityPage />} />
-      <Route path = "/doctors/:firstName-lastName-speciality" element = {<DoctorPage />} />
-      <Route exact path="/register" element={<RegisterPage/>} />
-      <Route exact path="/login" element={<LoginPage />} />
-    </Routes>
-    </BrowserRouter>
+function Router() {
+  const [isAuthenticated, setIsAuthenticated] = useState(hasAuthenticated());
+  return (
+    <Auth.Provider value={{ isAuthenticated, setIsAuthenticated }}>
+      <BrowserRouter>
+        <Routes>
+          <Route element={<Layout />}>
+            <Route index element={<HomePage />} />
+            <Route path="/doctors/:speciality" element={<DrSpecialityPage />} />
+            <Route path="/doctors/:firstName-lastName-speciality" element={<DoctorPage />} />
+            <Route exact path="/register" element={<RegisterPage />} />
+            <Route exact path="/login" element={<LoginPage />} />
+            <Route path="*" element={<Error />} />
+          </Route>
+        </Routes>
+      </BrowserRouter>
     </Auth.Provider>
   );
 }

@@ -1,13 +1,13 @@
-package core.application.medicalpractice.domain.valueObjects;
+package core.application.medicalpractice.domain.entity;
 
 import java.util.UUID;
 
 public class Address {
 
-    private final int number;
-    private final String street;
-    private final String city;
-    private final int postalCode;
+    private int number;
+    private String street;
+    private String city;
+    private int postalCode;
     private final UUID id;
 
     public Address(int number, String street, String city, int postalCode) {
@@ -26,21 +26,37 @@ public class Address {
         return number;
     }
 
+    public void setNumber(int number) {
+        this.number = number;
+    }
+
     public String getStreet() {
         return street;
+    }
+
+    public void setStreet(String street) {
+        this.street = street;
     }
 
     public String getCity() {
         return city;
     }
 
+    public void setCity(String city) {
+        this.city = city;
+    }
+
     public int getPostalCode() {
         return postalCode;
     }
 
+    public void setPostalCode(int postalCode) {
+        this.postalCode = postalCode;
+    }
+
     @Override
     public String toString() {
-        return this.number + this.street + this.postalCode + this.city;
+        return this.number + " " + this.street + " " + this.postalCode + " " + this.city;
 
     }
 
