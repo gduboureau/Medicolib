@@ -52,7 +52,7 @@ public class DoctorController {
 		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
 		Date parsed = format.parse(date);
 		if (!medicalPractice.checkPatientExist(mail)) {
-			Patient patient = new Patient(firstName, lastName, gender, parsed, password, mail, new Address(19, "rue roustaing", "Talence", 33400), 0, 0);
+			Patient patient = new Patient(firstName, lastName, gender, parsed, password, mail, null, 0, 0);
 			medicalPractice.savePatient(patient);
 		}
 		if (!medicalPractice.checkLoginExist(mail, password)) {
