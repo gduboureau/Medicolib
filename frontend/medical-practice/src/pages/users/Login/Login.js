@@ -1,59 +1,48 @@
-import React, { useContext, useState } from 'react';
-import Auth from '../Authentification/Auth';
-import { login } from '../Authentification/AuthApi';
+import React, { useState } from 'react';
+import axios from 'axios';
+import {useNavigate} from 'react-router-dom';
+import { accountService } from '../Authentification/LocalStorage';
 
-
-const Login = ({history}) => {
-    const {isAuthenticated, setIsAuthenticated } = useContext(Auth);
-
-    const[user, setUser] = useState({
-        username: "",
-        password: ""
+const Login = () => {
+    const navigate = useNavigate();
+    const [credentials, setCredentials] = useState({
+        login: "",
+        password: "",
     })
 
-    const handleChange = ({currentTarget}) => {
-        const { name, value } = currentTarget;
-
-        setUser({...user, [name]: value})
+    const onChange = (e) => {
+        setCredentials({ ...credentials, [e.target.name]: e.target.value });
     }
 
-    const handleSubmit = async event => {
-        event.preventDefault();
-
-        try {
-            const response = await login(user);
-            setIsAuthenticated(response);
-            history.replace('/login');
-        } catch ({response}) {
-            console.log(response);
-            
-        }
+    const handleSubmit = (e) => {
+        e.preventDefault();
+        axios.post("/login", credentials)
+          .then(res => {
+            accountService.saveToken(res.data)
+            navigate('/')
+        })
+        .catch(error => console.log(error))
     }
 
-    const useEffect = (() => {
-        if(isAuthenticated){
-            history.replace('/login');
-        }
-    }, [history, isAuthenticated]);
 
-    return(
-        <div className="login-wrapper">
+return (
+    <div className="login-wrapper">
         <p>Connecter-vous à votre compte</p>
         <form className='form-profile' onSubmit={handleSubmit}>
             <label>
                 <p>Email</p>
-                <input type="text" placeholder="Email" required onChange={handleChange}/>
+                <input name="login" type="text" placeholder="Email" onChange={onChange} />
             </label>
             <label>
                 <p>Mot de passe</p>
-                <input type="password" placeholder="Password" required onChange={handleChange}/>
+                <input name="password" type="password" placeholder="Password" onChange={onChange} />
             </label>
-                <div>
-                    <button type="submit" className="btn btn-outline-primary" >Se connecter</button>
-                </div>
+            <div>
+                <button type="submit" className="btn btn-outline-primary" >Se connecter</button>
+            </div>
         </form>
-        </div>
-    )
+    </div>
+)
 }
 
 export default Login;
