@@ -4,7 +4,8 @@ import { accountService } from "./LocalStorage";
 
 const AuthGuard = ({children}) => {
     if(!accountService.isLogged()){
-        <Navigate to="/login" />
+        console.log(accountService.isLogged());
+        return <Navigate to="/login" />
     }
     return children;
 }

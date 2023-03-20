@@ -19,7 +19,7 @@ const Login = () => {
         axios.post("/login", credentials)
           .then(res => {
             accountService.saveToken(res.data)
-            navigate('/')
+            navigate('/admin')
         })
         .catch(error => console.log(error))
     }
