@@ -20,7 +20,7 @@ function SpecialityList(){
     return(
         <div>
         <select id="dropdown-specialityList" value={speciality} onChange={handleChange}>
-            <option value ="" hidden>Que cherchez vous ?</option>
+            <option value ="">Que cherchez vous ?</option>
             {specialityList.map(speciality => (
                 <option key={speciality}>{speciality}</option>
             ))

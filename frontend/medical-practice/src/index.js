@@ -11,6 +11,7 @@ import RegisterPage from './pages/users/Registers';
 import LoginPage from './pages/users/Login';
 import Error from './utils/Error';
 import Layout from './pages/Layout';
+import AllDrPage from './pages/Doctors';
 
 
 
@@ -22,8 +23,9 @@ function Router() {
         <Routes>
           <Route element={<Layout />}>
             <Route index element={<HomePage />} />
-            <Route path="/doctors/:speciality" element={<DrSpecialityPage />} />
-            <Route path="/doctors/:firstName-lastName-speciality" element={<DoctorPage />} />
+            <Route path="/docteurs" element={<AllDrPage />} />
+            <Route path="/docteurs/:speciality" element={<DrSpecialityPage />} />
+            <Route path="/docteurs/:firstName-lastName-speciality" element={<DoctorPage />} />
             <Route exact path="/register" element={<RegisterPage />} />
             <Route exact path="/login" element={<LoginPage />} />
             <Route path="*" element={<Error />} />

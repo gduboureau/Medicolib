@@ -12,7 +12,9 @@ function SearchButton(){
         var speciality = select.options[select.selectedIndex].value;
 
         if (speciality !== ""){
-            navigate(`/doctors/${speciality}`);
+            navigate(`/docteurs/${speciality}`);
+        }else{
+            navigate(`/docteurs`);
         }
     }
 

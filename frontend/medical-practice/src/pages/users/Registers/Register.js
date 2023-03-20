@@ -33,7 +33,7 @@ const Register = () => {
       <form onSubmit={handleSubmit}>
         <div>
           <label htmlFor="gender">Sexe :</label>
-          <input type="radio" id="h" name="gender" value="H" onChange={handleChange} required/> Homme
+          <input type="radio" id="h" name="gender" value="M" onChange={handleChange} required/> Homme
           <input type="radio" id="f" name="gender" value="F" onChange={handleChange} /> Femme
         </div>
         <div>

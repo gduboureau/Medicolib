@@ -41,22 +41,4 @@ public class DoctorController {
 		return this.medicalPractice.getDoctorsBySpeciality(speciality);
 	}
 
-	@PostMapping(value = "/register")
-	public void savePatient(@RequestBody Map<String, String> map) throws SQLException, ParseException {
-		String firstName = map.get("firstName");
-		String lastName = map.get("lastName");
-		String gender = map.get("gender");
-		String date = map.get("date");
-		String mail = map.get("mail");
-		String password = map.get("password");
-		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
-		Date parsed = format.parse(date);
-		if (!medicalPractice.checkPatientExist(mail)) {
-			Patient patient = new Patient(firstName, lastName, gender, parsed, password, mail, null, 0, 0);
-			medicalPractice.savePatient(patient);
-		}
-		if (!medicalPractice.checkLoginExist(mail, password)) {
-			medicalPractice.saveUser(mail, password);
-		}
-	}
 }

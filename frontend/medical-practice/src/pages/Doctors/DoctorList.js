@@ -6,16 +6,15 @@ import { useNavigate } from 'react-router-dom';
 
 function ArrayDoctors(){
 
-    const { speciality } = useParams();
     const [DoctorList, setDoctorList] = useState([]);
     const navigate = useNavigate();
 
     useEffect(() =>{
-        axios.get(`/doctors/${speciality}`).then(res => {
+        axios.get(`/doctors`).then(res => {
             const newData = res.data;
             setDoctorList(newData);
         });
-    }, [speciality]);
+    }, []);
 
     const SelectedDoctor = (firstName, lastName, speciality) => {
         navigate(`/docteurs/${firstName}-${lastName}-${speciality}`);
