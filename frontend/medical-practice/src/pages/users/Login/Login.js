@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import {useNavigate} from 'react-router-dom';
 import { accountService } from '../Authentification/LocalStorage';
+import { Link } from "react-router-dom";
 
 const Login = () => {
     const navigate = useNavigate();
@@ -19,7 +20,7 @@ const Login = () => {
         axios.post("/login", credentials)
           .then(res => {
             accountService.saveToken(res.data)
-            navigate('/admin')
+            navigate('/admin/appointments')
         })
         .catch(error => console.log(error))
     }
@@ -39,6 +40,9 @@ return (
             </label>
             <div>
                 <button type="submit" className="btn btn-outline-primary" >Se connecter</button>
+            </div>
+            <div>
+                <Link to="/register">Enregistrez-vous</Link>
             </div>
         </form>
     </div>

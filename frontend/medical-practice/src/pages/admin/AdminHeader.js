@@ -17,6 +17,7 @@ const AHeader = () => {
         <header>
             <nav>
                 <ul>
+                    <li><Link to="/">Home</Link></li>
                     <li><Link to="appointments">Appointments</Link> </li>
                     <li><Link to="edit">Account</Link></li>
                     <button onClick={logout}>Log out</button>
