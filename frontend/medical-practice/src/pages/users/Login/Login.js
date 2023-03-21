@@ -20,6 +20,7 @@ const Login = () => {
         axios.post("/login", credentials)
           .then(res => {
             accountService.saveToken(res.data)
+            accountService.saveEmail(credentials.login)
             navigate('/admin/appointments')
         })
         .catch(error => console.log(error))

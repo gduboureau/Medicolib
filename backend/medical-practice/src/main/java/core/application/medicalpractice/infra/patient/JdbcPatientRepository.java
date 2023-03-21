@@ -40,14 +40,23 @@ public class JdbcPatientRepository implements PatientRepository {
   @Override
   public void savePatient(Patient patient) throws SQLException {
     Statement stmt = connection.createStatement();
-    String request = "INSERT INTO Patients(patientid, firstname, lastname, gender, birthday, weight, height, mail, address) VALUES ("
-        + "'" + patient.getId() + "'" + "," + "'" + patient.getFirstName() + "'" + "," + "'" + patient.getLastName()
-        + "'" + "," + "'"
-        + patient.getGender() + "'" + "," + "'" + new java.sql.Date(patient.getBirthday().getTime()) + "'" + ","
-        + patient.getWeight() + "," + patient.getHeight() + "," + "'" + patient.getMail() + "'" + "," + "'"
-        + patient.getAdress() + "'" + ")";
-    stmt.executeUpdate(request);
-    // DBUtil.closeConnection(connection);
+
+    if (checkPatientExist(patient.getMail())){
+      String request = "UPDATE Patients SET firstname = '" + patient.getFirstName() + "',lastname = '" + patient.getLastName()
+      + "', gender = '" + patient.getGender() + "', birthday = '" + patient.getBirthday() + "', weight = '" + patient.getWeight() 
+      + "', height = '" + patient.getHeight() + "', mail = '" + patient.getMail() + "', address = '" + patient.getAdress() + "'";
+      stmt.executeUpdate(request);
+    }else{
+      String request = "INSERT INTO Patients(patientid, firstname, lastname, gender, birthday, weight, height, mail, address) VALUES ("
+      + "'" + patient.getId() + "'" + "," + "'" + patient.getFirstName() + "'" + "," + "'" + patient.getLastName()
+      + "'" + "," + "'"
+      + patient.getGender() + "'" + "," + "'" + new java.sql.Date(patient.getBirthday().getTime()) + "'" + ","
+      + patient.getWeight() + "," + patient.getHeight() + "," + "'" + patient.getMail() + "'" + "," + "'"
+      + patient.getAdress() + "'" + ")";
+      stmt.executeUpdate(request);
+      // DBUtil.closeConnection(connection);
+    }
+
   }
 
   @Override
@@ -58,4 +67,23 @@ public class JdbcPatientRepository implements PatientRepository {
     ResultSet rs = stmt.executeQuery(request);
     return rs.next();
   }
+
+  @Override
+  public List<String> getInformationsPatient(String mail) throws SQLException {
+    connection = DBUtil.getConnection();
+    Statement stmt = connection.createStatement();
+    String request = "SELECT * FROM Patients WHERE mail=" + "'" + mail + "'";
+    ResultSet rs = stmt.executeQuery(request);
+    ResultSetMetaData rsmd = rs.getMetaData();
+    List<String> informations = new ArrayList<>();
+    if (rs.next()){
+      for (int i = 1; i < rsmd.getColumnCount() + 1 ; i++){
+        informations.add(rs.getString(i));
+      }
+    }
+    return informations;
+  }
+
+
+
 }

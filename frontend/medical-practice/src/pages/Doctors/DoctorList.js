@@ -11,7 +11,7 @@ function ArrayDoctors(){
     useEffect(() =>{
         axios.get(`/doctors`).then(res => {
             const newData = res.data;
-            setDoctorList(newData);
+            setDoctorList(newData); 
         });
     }, []);
 

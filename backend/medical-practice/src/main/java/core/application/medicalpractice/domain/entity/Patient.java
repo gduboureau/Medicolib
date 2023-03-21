@@ -3,7 +3,6 @@ package core.application.medicalpractice.domain.entity;
 import java.util.Date;
 import java.util.UUID;
 
-import core.application.medicalpractice.domain.valueObjects.*;
 
 public class Patient {
 

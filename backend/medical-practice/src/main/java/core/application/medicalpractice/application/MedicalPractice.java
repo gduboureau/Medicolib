@@ -65,6 +65,10 @@ public class MedicalPractice {
         return patientRepository.checkPatientExist(mail);
     }
 
+    public List<String> getInformationsPatient(String mail) throws SQLException{
+        return patientRepository.getInformationsPatient(mail);
+    }
+
     // requests for user
 
     public void saveUser(String email, String password) {
@@ -73,6 +77,10 @@ public class MedicalPractice {
 
     public boolean checkLoginExist(String email, String password) throws SQLException {
         return userRepository.checkLoginExist(email, password);
+    }
+
+    public void resetPassword(String mail, String password) throws SQLException{
+        userRepository.resetPassword(mail, password);
     }
 
     // requests for medical files

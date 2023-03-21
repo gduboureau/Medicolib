@@ -11,4 +11,16 @@ let isLogged = () => {
     return !!token
 }
 
-export const accountService = {saveToken, logout, isLogged}
+let saveEmail = (mail) => {
+    localStorage.setItem('mail',mail);
+}
+
+let getEmail = () => {
+    return localStorage.getItem('mail');
+}
+
+let deleteEmail = () => {
+    localStorage.removeItem('mail');
+}
+
+export const accountService = {saveToken, logout, isLogged, saveEmail, getEmail, deleteEmail}
