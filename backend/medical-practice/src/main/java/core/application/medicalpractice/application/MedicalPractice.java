@@ -69,6 +69,14 @@ public class MedicalPractice {
         return patientRepository.getInformationsPatient(mail);
     }
 
+    public Address getAddress(String mail) throws SQLException{
+        return patientRepository.getAddress(mail);
+    }
+
+    public void saveAddress(Patient patient) throws SQLException{
+        patientRepository.saveAddress(patient);
+    }
+
     // requests for user
 
     public void saveUser(String email, String password) {

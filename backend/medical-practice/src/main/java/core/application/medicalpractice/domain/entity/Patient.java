@@ -29,6 +29,20 @@ public class Patient {
         this.height = height;
     }
 
+    public Patient(UUID patientId,String firstName, String lastName, String gender, Date birthday, String numSocial, String mail,
+            Address adress, float weight, float height) {
+        this.id = patientId;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.gender = gender;
+        this.birthday = birthday;
+        this.numSocial = numSocial;
+        this.mail = mail;
+        this.adress = adress;
+        this.weight = weight;
+        this.height = height;
+    }
+
     public UUID getId() {
         return id;
     }

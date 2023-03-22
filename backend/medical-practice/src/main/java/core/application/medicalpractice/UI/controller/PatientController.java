@@ -6,6 +6,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -35,7 +36,8 @@ public class PatientController {
 		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
 		Date parsed = format.parse(date);
 		if (!medicalPractice.checkPatientExist(mail)) {
-			Patient patient = new Patient(firstName, lastName, gender, parsed, password, mail, null, 0, 0);
+			Patient patient = new Patient(firstName, lastName, gender, parsed, "", mail, new Address(1, " ", " ", 1), 0, 0);
+			medicalPractice.saveAddress(patient);
 			medicalPractice.savePatient(patient);
 		}
 		if (!medicalPractice.checkLoginExist(mail, password)) {
@@ -50,26 +52,35 @@ public class PatientController {
 
 	@PostMapping(value = "/modify-informations")
 	public void modifyInformationPatient(@RequestBody Map<String, String> map) throws SQLException, ParseException{
+		String mail = map.get("email");
 		String firstName = map.get("firstName");
 		String lastName = map.get("lastName");
 		String gender = map.get("gender");
 		String date = map.get("date");
-		String mail = map.get("email");
 		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
 		Date parsed = format.parse(date);
 		String newPassword = map.get("password");
 		float height = Float.parseFloat(map.get("height"));
 		float weight = Float.parseFloat(map.get("weight"));
+		String NumSocial = map.get("numSocial");
+		Address addr = null;
+		try {
+			int NumRue = Integer.parseInt(map.get("NumRue"));
+			int postalCode = Integer.parseInt(map.get("PostalCode"));
+			String NomRue = map.get("NomRue");
+			String city = map.get("City");
+			addr = new Address(NumRue, NomRue, city, postalCode);
+		} catch (Exception e) {
+			addr = medicalPractice.getAddress(mail);
+		}
 
-		int NumRue = Integer.parseInt(map.get("NumRue"));
-		String NomRue = map.get("NomRue");
-		int postalCode = Integer.parseInt(map.get("PostalCode"));
-		String city = map.get("City");
+		UUID idPatient = UUID.fromString(medicalPractice.getInformationsPatient(mail).get(0));
 
-		Address addr = new Address(NumRue, NomRue, city, postalCode);
-		Patient patient = new Patient(firstName, lastName, gender, parsed, "",mail, addr, weight, height);
-		
+		Patient patient = new Patient(idPatient, firstName, lastName, gender, parsed, NumSocial,mail, addr, weight, height);
+		medicalPractice.saveAddress(patient);
 		medicalPractice.savePatient(patient);
-		medicalPractice.resetPassword(mail, newPassword);
+		if (newPassword != null){
+			medicalPractice.resetPassword(mail, newPassword);
+		}
 	}
 }

@@ -8,6 +8,7 @@ import java.sql.Statement;
 import org.springframework.stereotype.Service;
 
 import core.application.DButils.DBUtil;
+import core.application.medicalpractice.domain.entity.Address;
 
 @Service
 public class JdbcUserRepository implements UserRepository {
@@ -43,4 +44,5 @@ public class JdbcUserRepository implements UserRepository {
         ResultSet rs = stmt.executeQuery(request);
         return rs.next();
     }
+
 }

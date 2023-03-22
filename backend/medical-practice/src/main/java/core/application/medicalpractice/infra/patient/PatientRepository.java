@@ -5,7 +5,7 @@ import java.util.List;
 
 import org.springframework.stereotype.Repository;
 
-import core.application.medicalpractice.domain.entity.Patient;
+import core.application.medicalpractice.domain.entity.*;
 import core.application.medicalpractice.domain.valueObjects.Appointment;
 
 @Repository
@@ -18,5 +18,9 @@ public interface PatientRepository {
     public boolean checkPatientExist(String mail) throws SQLException;
 
     public List<String> getInformationsPatient(String mail) throws SQLException;
+
+    public Address getAddress(String mail) throws SQLException;
+
+    public void saveAddress(Patient patient) throws SQLException;
 
 }
