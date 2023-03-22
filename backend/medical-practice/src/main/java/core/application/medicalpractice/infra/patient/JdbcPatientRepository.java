@@ -45,7 +45,7 @@ public class JdbcPatientRepository implements PatientRepository {
       String request = "UPDATE Patients SET firstname = '" + patient.getFirstName() + "',lastname = '" + patient.getLastName()
       + "', gender = '" + patient.getGender() + "', birthday = '" + patient.getBirthday() + "', weight = '" + patient.getWeight() 
       + "', height = '" + patient.getHeight() + "', mail = '" + patient.getMail() + "', address = '" + patient.getAdress() + "', numsocial = '"
-      + patient.getNumSocial() + "'";
+      + patient.getNumSocial() + "' WHERE mail = '" + patient.getMail() + "'";
       stmt.executeUpdate(request);
     }else{
       String request = "INSERT INTO Patients(patientid, firstname, lastname, gender, birthday, weight, height, mail, address, numsocial) VALUES ("

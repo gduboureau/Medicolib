@@ -31,11 +31,10 @@ const Edit = () => {
     axios.post("/informations-patient", mail)
       .then((response) => {
         const newData = response.data;
-        if (newData[8] === "null"){
+        if (newData[8] === "1   1  "){
             newData[8] = "";
           }
         setData({
-            
             firstName: newData[1],
             lastName: newData[2],
             gender: newData[3],
@@ -44,6 +43,7 @@ const Edit = () => {
             height: newData[6],
             email: newData[7],
             address: newData[8],
+            numSocial: newData[9]
           });
       })
       .catch((error) => {
@@ -68,6 +68,7 @@ const Edit = () => {
         e.preventDefault();
         axios.post("/modify-informations", data)
           .then((response) => {
+            console.log(data)
           })
           .catch((error) => {
             console.log(error);
@@ -85,7 +86,7 @@ const Edit = () => {
                     Nom <input type="text" name="lastName" defaultValue={data.lastName} onChange={handleChange} />
                 </div>
                 <div>
-                    Numéro de sécurité sociale <input type="number" name="NumSocial" defaultValue={data.numSocial} onChange={handleChange} />
+                    Numéro de sécurité sociale <input type="text" name="numSocial" defaultValue={data.numSocial} onChange={handleChange} />
                 </div>
                 <div>
                     Sexe <input type="radio" id="h" name="gender" value="M" checked={data.gender === "M"}  onChange={handleChange} /> Homme
