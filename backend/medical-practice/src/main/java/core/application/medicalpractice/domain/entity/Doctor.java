@@ -3,13 +3,14 @@ package core.application.medicalpractice.domain.entity;
 public class Doctor {
 
     private String id;
-    private String firstName, lastName;
+    private String firstName, lastName, gender;
     private String speciality;
     
-    public Doctor(String id, String firstName, String lastName, String speciality) {
+    public Doctor(String id, String firstName, String lastName, String gender, String speciality) {
         this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
+        this.gender = gender;
         this.speciality = speciality;
     }
 
@@ -33,6 +34,14 @@ public class Doctor {
         this.lastName = lastName;
     }
 
+    public String getGender() {
+        return gender;
+    }
+
+    public void setGender(String gender) {
+        this.gender = gender;
+    }
+
     public String getSpeciality() {
         return speciality;
     }
@@ -48,6 +57,7 @@ public class Doctor {
         result = prime * result + ((id == null) ? 0 : id.hashCode());
         result = prime * result + ((firstName == null) ? 0 : firstName.hashCode());
         result = prime * result + ((lastName == null) ? 0 : lastName.hashCode());
+        result = prime * result + ((gender == null) ? 0 : gender.hashCode());
         result = prime * result + ((speciality == null) ? 0 : speciality.hashCode());
         return result;
     }
@@ -76,6 +86,11 @@ public class Doctor {
                 return false;
         } else if (!lastName.equals(other.lastName))
             return false;
+        if (gender == null) {
+            if (other.gender != null)
+                return false;
+        } else if (!gender.equals(other.gender))
+            return false;
         if (speciality == null) {
             if (other.speciality != null)
                 return false;
@@ -84,4 +99,5 @@ public class Doctor {
         return true;
     }
 
+    
 }
