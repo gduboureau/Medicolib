@@ -46,3 +46,12 @@ CREATE TABLE Address (
     PostalCode int CONSTRAINT PostalCode_constraint check (PostalCode > 0),
     City varchar(25) CONSTRAINT City_null NOT NULL
 );
+
+DROP TABLE IF EXISTS Appointments;
+CREATE TABLE Appointments (
+    AppointmentId varchar(80) CONSTRAINT Appointment_key PRIMARY KEY,
+    DoctorId uuid CONSTRAINT DoctorId_null NOT NULL
+    PatientId varchar(80) CONSTRAINT PatientId_null NOT NULL,
+    StartDate timestamp CONSTRAINT start_null NOT NULL,
+    EndDate timestamp CONSTRAINT end_null NOT NULL,
+);

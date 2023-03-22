@@ -1,9 +1,32 @@
-import React from "react";
+import React, {useState, useEffect} from "react";
+import axios from 'axios';
+import { accountService } from "../users/Authentification/LocalStorage";
 
 const Appointments = () => {
+
+    let mail = {mail : accountService.getEmail()};
+
+    const [AppointmentList, setAppointments] = useState([]);
+
+    useEffect(() =>{
+        axios.post("/appointments", mail).then(res => {
+            const newData = res.data;
+            setAppointments(newData); 
+        });
+    }, []);
+
+    console.log();
+    
     return (
         <div>
-            Your appointments !
+            {AppointmentList.map((appointment,index) => (
+                <button className="doctor-card" key={index}>
+                    <p>{appointment[0]} {appointment[1]}</p>
+                    <p>{appointment[2]}</p>
+                    <p>{appointment[3]}</p>
+                    <p>{appointment[4]}</p>
+                </button>
+            ))}
         </div>
     );
 };

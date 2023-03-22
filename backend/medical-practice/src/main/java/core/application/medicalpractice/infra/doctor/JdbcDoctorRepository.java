@@ -7,8 +7,6 @@ import org.springframework.stereotype.Service;
 
 import core.application.DButils.DBUtil;
 import core.application.medicalpractice.domain.entity.Doctor;
-import core.application.medicalpractice.domain.valueObjects.Appointment;
-import core.application.medicalpractice.domain.valueObjects.TimeSlot;
 
 @Service
 public class JdbcDoctorRepository implements DoctorRepository {
@@ -71,22 +69,4 @@ public class JdbcDoctorRepository implements DoctorRepository {
     }
     return doctorList;
   }
-
-  public List<Appointment> getAppointmentsByDoctors(Doctor doctor){
-    List<Appointment> appointments = new ArrayList<Appointment>();
-    try {
-      PreparedStatement stmt = connection.prepareStatement("SELECT beginconsultation,endconsultation FROM consultations WHERE doctorId = '" + doctor.getId() + "'");
-      ResultSet rs = stmt.executeQuery();
-
-      while(rs.next()){
-        Appointment appt = new Appointment(new TimeSlot(rs.getDate(1), rs.getDate(2)));
-        appointments.add(appt);
-      }
-    } catch (SQLException e) {
-
-      e.printStackTrace();
-    }
-    return appointments;
-  }
-
 }

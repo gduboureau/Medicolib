@@ -34,9 +34,9 @@ public class MedicalRepository {
     Statement stmt = conn.createStatement();
     String request = "INSERT INTO Consultations(consultationid, patientid, date, beginconsultation, endconsultation, doctorid) VALUES ("
         + "'" + consultation.getId() + "'" + "," + "'" + consultation.getPatient().getId() + "'" + ","
-        + new java.sql.Date(consultation.getAppointment().getDate().getBeginDate().getTime()) + ","
-        + new java.sql.Timestamp(consultation.getAppointment().getDate().getBeginDate().getTime()) + ","
-        + new java.sql.Timestamp(consultation.getAppointment().getDate().getEndDate().getTime()) + "," + "'"
+        + new java.sql.Date(consultation.getAppointment().getTimeSlot().getBeginDate().getTime()) + ","
+        + new java.sql.Timestamp(consultation.getAppointment().getTimeSlot().getBeginDate().getTime()) + ","
+        + new java.sql.Timestamp(consultation.getAppointment().getTimeSlot().getEndDate().getTime()) + "," + "'"
         + consultation.getDoctor().getId() + "'" + ")";
     stmt.executeUpdate(request);
     closeConnection(conn);

@@ -9,7 +9,6 @@ import org.springframework.stereotype.Service;
 
 import core.application.medicalpractice.domain.aggregate.*;
 import core.application.medicalpractice.domain.entity.*;
-import core.application.medicalpractice.domain.valueObjects.Appointment;
 import core.application.medicalpractice.infra.doctor.JdbcDoctorRepository;
 import core.application.medicalpractice.infra.medical.MedicalRepository;
 import core.application.medicalpractice.infra.patient.JdbcPatientRepository;
@@ -46,14 +45,10 @@ public class MedicalPractice {
         return doctorRepository.getDoctorsBySpeciality(speciality);
     }
 
-    public List<Appointment> getAppointmentByDoctor(Doctor doctor) throws SQLException {
-        return doctorRepository.getAppointmentsByDoctors(doctor);
-    }
-
     // requests for patients
 
-    public List<Appointment> getAppointmentByPatient(Patient patient) throws SQLException {
-        return patientRepository.getAppointmentsByPatient(patient);
+    public List<List<String>> getAppointmentByPatient(String mail) throws SQLException {
+        return patientRepository.getAllAppointmentsByPatient(mail);
     }
 
     public void savePatient(Patient patient) throws SQLException {

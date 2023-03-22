@@ -1,13 +1,14 @@
 package core.application.medicalpractice.infra.patient;
 
 import java.sql.*;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.*;
 
 import org.springframework.stereotype.Service;
 
 import core.application.DButils.DBUtil;
 import core.application.medicalpractice.domain.entity.*;
-import core.application.medicalpractice.domain.valueObjects.*;
 
 @Service
 public class JdbcPatientRepository implements PatientRepository {
@@ -19,20 +20,21 @@ public class JdbcPatientRepository implements PatientRepository {
   }
 
   @Override
-  public List<Appointment> getAppointmentsByPatient(Patient patient) {
-    List<Appointment> appointments = new ArrayList<Appointment>();
-    try {
-      PreparedStatement stmt = connection.prepareStatement(
-          "SELECT beginconsultation,endconsultation FROM consultations WHERE patientId = '" + patient.getId() + "'");
-      ResultSet rs = stmt.executeQuery();
-
-      while (rs.next()) {
-        Appointment appt = new Appointment(new TimeSlot(rs.getDate(1), rs.getDate(2)));
-        appointments.add(appt);
-      }
-    } catch (SQLException e) {
-
-      e.printStackTrace();
+  public List<List<String>> getAllAppointmentsByPatient(String mail) throws SQLException{
+    List<List<String>> appointments = new ArrayList<List<String>>();
+    DateFormat df = new SimpleDateFormat("EEEE d MMM yyyy");
+    Statement stmt = connection.createStatement();
+    String sql = "SELECT doctors.firstname, doctors.lastname, doctors.speciality, appointments.startdate FROM doctors JOIN appointments ON doctors.doctorid = appointments.doctorid WHERE appointments.patientid= (SELECT patientid FROM Patients WHERE mail= "
+        + "'" + mail + "'" + ")";
+    ResultSet rs = stmt.executeQuery(sql);
+    while (rs.next()) {
+      List<String> l = new ArrayList<>();
+      l.add(rs.getString(1));
+      l.add(rs.getString(2));
+      l.add(rs.getString(3));
+      l.add(df.format(rs.getDate(4)).toString());
+      l.add(rs.getTime(4).toString());
+      appointments.add(l);
     }
     return appointments;
   }
@@ -55,7 +57,6 @@ public class JdbcPatientRepository implements PatientRepository {
       + patient.getWeight() + "," + patient.getHeight() + "," + "'" + patient.getMail() + "'" + "," + "'"
       + patient.getAdress() + "','" + patient.getNumSocial() + "')";
       stmt.executeUpdate(request);
-      // DBUtil.closeConnection(connection);
     }
 
   }
@@ -85,6 +86,7 @@ public class JdbcPatientRepository implements PatientRepository {
     return informations;
   }
 
+  @Override
   public void saveAddress(Patient patient) throws SQLException{
     connection = DBUtil.getConnection();
     Statement stmt = connection.createStatement();
@@ -102,6 +104,7 @@ public class JdbcPatientRepository implements PatientRepository {
     }
   }
 
+  @Override
   public Address getAddress(String mail) throws SQLException{
     connection = DBUtil.getConnection();
     Statement stmt = connection.createStatement();

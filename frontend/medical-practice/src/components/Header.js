@@ -11,8 +11,8 @@ const Header = () => {
             <header>
                 <nav>
                     <ul>
-                        <li><Link to="/"> Home</Link> </li>
-                        <li><Link to="/login">Log In</Link></li>
+                        <li><Link to="/">Accueil</Link> </li>
+                        <li><Link to="/login">Se connecter</Link></li>
                     </ul>
                 </nav>
             </header>
@@ -23,8 +23,8 @@ const Header = () => {
             <header>
             <nav>
                 <ul>
-                    <li><Link to="/"> Home</Link> </li>
-                    <li><Link to="/admin/appointments"> Mon compte</Link> </li>
+                    <li><Link to="/">Accueil</Link> </li>
+                    <li><Link to="/admin/appointments">Mon compte</Link> </li>
                 </ul>
             </nav>
         </header>
