@@ -4,6 +4,7 @@ import java.sql.SQLException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
@@ -20,10 +21,10 @@ import core.application.medicalpractice.domain.entity.Patient;
 @RestController
 public class PatientController {
 
-    @Autowired
+	@Autowired
 	private MedicalPractice medicalPractice;
 
-    @PostMapping(value = "/register")
+	@PostMapping(value = "/register")
 	public void savePatient(@RequestBody Map<String, String> map) throws SQLException, ParseException {
 		String firstName = map.get("firstName");
 		String lastName = map.get("lastName");
@@ -34,7 +35,8 @@ public class PatientController {
 		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
 		Date parsed = format.parse(date);
 		if (!medicalPractice.checkPatientExist(mail)) {
-			Patient patient = new Patient(firstName, lastName, gender, parsed, "", mail, new Address(1, " ", " ", 1), 0, 0);
+			Patient patient = new Patient(firstName, lastName, gender, parsed, "", mail, new Address(1, " ", " ", 1), 0,
+					0);
 			medicalPractice.saveAddress(patient);
 			medicalPractice.savePatient(patient);
 		}
@@ -49,7 +51,7 @@ public class PatientController {
 	}
 
 	@PostMapping(value = "/modify-informations")
-	public void modifyInformationPatient(@RequestBody Map<String, String> map) throws SQLException, ParseException{
+	public void modifyInformationPatient(@RequestBody Map<String, String> map) throws SQLException, ParseException {
 		String mail = map.get("email");
 		String firstName = map.get("firstName");
 		String lastName = map.get("lastName");
@@ -74,16 +76,27 @@ public class PatientController {
 
 		UUID idPatient = UUID.fromString(medicalPractice.getInformationsPatient(mail).get(0));
 
-		Patient patient = new Patient(idPatient, firstName, lastName, gender, parsed, NumSocial,mail, addr, weight, height);
+		Patient patient = new Patient(idPatient, firstName, lastName, gender, parsed, NumSocial, mail, addr, weight,
+				height);
 		medicalPractice.saveAddress(patient);
 		medicalPractice.savePatient(patient);
-		if (newPassword != null){
+		if (newPassword != null) {
 			medicalPractice.resetPassword(mail, newPassword);
 		}
 	}
 
 	@PostMapping(value = "/appointments")
-	public List<List<String>> AllAppointmentByPatient(@RequestBody Map<String, String> map) throws SQLException, ParseException{
+	public List<List<String>> AllAppointmentByPatient(@RequestBody Map<String, String> map)
+			throws SQLException, ParseException {
 		return medicalPractice.getAppointmentByPatient(map.get("mail"));
 	}
+
+	@PostMapping(value = "/makeappointment")
+	public void makeAnAppointment(@RequestBody HashMap<String, String> map) throws SQLException {
+		String id = map.get("id");
+		String mail = map.get("mail");
+		medicalPractice.makeAnAppointment(id, mail);
+	}
+
+	
 }

@@ -40,4 +40,9 @@ public class DoctorController {
 		return this.medicalPractice.getDoctorById(doctorid);
 	}
 
+	@RequestMapping(value = "/{firstname}-{lastname}/booking", method = RequestMethod.GET, produces = "application/json")
+	public List<List<String>> displayAppointments(@PathVariable("firstname") String firstName, @PathVariable("lastname") String lastName) throws SQLException{
+		return this.medicalPractice.displayAppointments(firstName, lastName);
+	}
+
 }

@@ -1,6 +1,8 @@
 package core.application.medicalpractice.infra.doctor;
 
 import java.sql.*;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.*;
 
 import org.springframework.stereotype.Service;
@@ -85,5 +87,25 @@ public class JdbcDoctorRepository implements DoctorRepository {
       e.printStackTrace();
     }
     return doctor;
+  }
+
+  @Override
+  public List<List<String>> displayAppointments(String firstName, String lastName) throws SQLException {
+    List<List<String>> appointments = new ArrayList<>();
+    DateFormat df = new SimpleDateFormat("EEEE d MMM");
+    DateFormat tf = new SimpleDateFormat("HH:mm");
+    PreparedStatement stmt = connection
+        .prepareStatement("SELECT * FROM AvailableTimeSlots WHERE doctorid=(SELECT doctorid FROM Doctors WHERE firstname=" + "'" + firstName + "'" + " AND lastname=" + "'" + lastName + "')");
+    ResultSet rs = stmt.executeQuery();
+    while (rs.next()) {
+      List<String> l = new ArrayList<>();
+      l.add(rs.getString(1));
+      l.add(rs.getString(2));
+      l.add(df.format(rs.getDate(3)).toString());
+      l.add(tf.format(rs.getTime(3)).toString());
+      l.add(tf.format(rs.getTime(4)).toString());
+      appointments.add(l);
+    }
+    return appointments;
   }
 }

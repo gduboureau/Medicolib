@@ -49,6 +49,10 @@ public class MedicalPractice {
         return doctorRepository.getDoctorById(doctorid);
     }
 
+    public List<List<String>> displayAppointments(String firstname, String lastname) throws SQLException{
+        return doctorRepository.displayAppointments(firstname, lastname);
+    }
+
     // requests for patients
 
     public List<List<String>> getAppointmentByPatient(String mail) throws SQLException {
@@ -74,6 +78,10 @@ public class MedicalPractice {
 
     public void saveAddress(Patient patient) throws SQLException{
         patientRepository.saveAddress(patient);
+    }
+
+    public void makeAnAppointment(String id, String mail) throws SQLException{
+        patientRepository.makeAnAppointment(id, mail);
     }
 
     // requests for user

@@ -51,8 +51,16 @@ CREATE TABLE Address (
 DROP TABLE IF EXISTS Appointments;
 CREATE TABLE Appointments (
     AppointmentId varchar(80) CONSTRAINT Appointment_key PRIMARY KEY,
-    DoctorId uuid CONSTRAINT DoctorId_null NOT NULL
+    DoctorId uuid CONSTRAINT DoctorId_null NOT NULL,
     PatientId varchar(80) CONSTRAINT PatientId_null NOT NULL,
-    StartDate timestamp CONSTRAINT start_null NOT NULL,
-    EndDate timestamp CONSTRAINT end_null NOT NULL,
+    Starttime timestamp CONSTRAINT start_null NOT NULL,
+    EndTime timestamp CONSTRAINT end_null NOT NULL
+);
+
+DROP TABLE IF EXISTS AvailableTimeSlots;
+CREATE TABLE AvailableTimeSlots(
+	TimeSlotId uuid DEFAULT uuid_generate_v4() CONSTRAINT id_key PRIMARY KEY,
+    DoctorId uuid CONSTRAINT DoctorId_null NOT NULL,
+    StartTime timestamp CONSTRAINT start_null NOT NULL,
+    EndTime timestamp CONSTRAINT end_null NOT NULL
 );

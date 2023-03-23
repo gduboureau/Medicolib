@@ -21,10 +21,11 @@ const Appointments = () => {
         <div>
             {AppointmentList.map((appointment,index) => (
                 <button className="doctor-card" key={index}>
-                    <p>{appointment[0]} {appointment[1]}</p>
-                    <p>{appointment[2]}</p>
+                    <p>{appointment[1]} {appointment[2]}</p>
                     <p>{appointment[3]}</p>
                     <p>{appointment[4]}</p>
+                    <p>{appointment[5]}</p>
+                    <button>Annulez le rendez-vous</button>
                 </button>
             ))}
         </div>

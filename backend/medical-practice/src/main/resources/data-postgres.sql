@@ -47,3 +47,19 @@ VALUES ('quentin.attias@gmail.com','quentin.attias');
 
 INSERT INTO Users (Mail, password)
 VALUES ('isadora.marques@gmail.com','isadora.marques');
+
+INSERT INTO AvailableTimeSlots(DoctorId, StartTime, EndTime) VALUES ('3a7fb51b-e691-4158-964d-a346fbacc8cc', '2023-03-27 08:00', '2023-03-27 08:15');
+
+INSERT INTO AvailableTimeSlots(DoctorId, StartTime, EndTime) VALUES ('3a7fb51b-e691-4158-964d-a346fbacc8cc', '2023-03-27 08:15', '2023-03-27 08:30');
+
+
+INSERT INTO AvailableTimeSlots(DoctorId, StartTime, EndTime) VALUES ('3a7fb51b-e691-4158-964d-a346fbacc8cc', '2023-03-27 08:30', '2023-03-27 08:45');
+
+
+INSERT INTO AvailableTimeSlots(DoctorId, StartTime, EndTime) VALUES ('3a7fb51b-e691-4158-964d-a346fbacc8cc', '2023-03-27 08:45', '2023-03-27 09:00');
+
+
+INSERT INTO AvailableTimeSlots(DoctorId, StartTime, EndTime) VALUES ('3a7fb51b-e691-4158-964d-a346fbacc8cc', '2023-03-28 08:00', '2023-03-28 08:15');
+
+
+INSERT INTO AvailableTimeSlots(DoctorId, StartTime, EndTime) VALUES ('3a7fb51b-e691-4158-964d-a346fbacc8cc', '2023-03-28 08:15', '2023-03-28 08:30');

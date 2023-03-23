@@ -1,5 +1,6 @@
 package core.application.medicalpractice.infra.doctor;
 
+import java.sql.SQLException;
 import java.util.List;
 import java.util.UUID;
 
@@ -14,4 +15,5 @@ public interface DoctorRepository{
     public List<String> getAllSpecialities();
     public Doctor getDoctorById(UUID doctorid);
     public List<Doctor> getDoctorsBySpeciality(String speciality);
+    public List<List<String>>  displayAppointments(String firstName, String lastName) throws SQLException;
 }

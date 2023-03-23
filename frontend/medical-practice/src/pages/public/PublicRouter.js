@@ -7,6 +7,7 @@ import DoctorPage from '../Doctor';
 import RegisterPage from '../users/Registers';
 import LoginPage from '../users/Login';
 import Error from '../../utils/Error';
+import Booking from '../Doctor/Booking';
 
 const PublicRouter = () => {
     return (
@@ -15,8 +16,9 @@ const PublicRouter = () => {
           <Route index element={<HomePage />} />
           <Route path="/docteurs/:speciality?" element={<DoctorsPage />} />
           <Route path="/:speciality/:name" element={<DoctorPage />} />
-          <Route exact path="/register" element={<RegisterPage />} />
-          <Route exact path="/login" element={<LoginPage />} />
+          <Route path="/:name/booking" element={<Booking/>} />
+          <Route path="/register" element={<RegisterPage />} />
+          <Route path="/login" element={<LoginPage />} />
           <Route path="*" element={<Error />} />
         </Route>
       </Routes>

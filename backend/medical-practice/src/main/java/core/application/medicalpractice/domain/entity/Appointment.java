@@ -11,8 +11,8 @@ public class Appointment {
     private UUID patientId;
     private TimeSlot timeSlot;
 
-    public Appointment(UUID doctorId, UUID patientId, TimeSlot timeSlot){
-        this.id = UUID.randomUUID();
+    public Appointment(UUID id, UUID doctorId, UUID patientId, TimeSlot timeSlot){
+        this.id = id;
         this.doctorId = doctorId;
         this.patientId = patientId;
         this.timeSlot = timeSlot;
