@@ -84,6 +84,10 @@ public class MedicalPractice {
         patientRepository.makeAnAppointment(id, mail);
     }
 
+    public void cancelAppointment(String id) throws SQLException{
+        patientRepository.cancelAppointment(id);
+    }
+
     // requests for user
 
     public void saveUser(String email, String password) {

@@ -1,7 +1,6 @@
 package core.application.medicalpractice.infra.patient;
 
 import java.sql.SQLException;
-import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
@@ -20,6 +19,8 @@ public interface PatientRepository {
     public void removeTimeSlot(UUID id) throws SQLException;
 
     public void makeAnAppointment(String id, String mail) throws SQLException;
+
+    public void cancelAppointment(String id) throws SQLException;
 
     public void savePatient(Patient patient) throws SQLException;
 

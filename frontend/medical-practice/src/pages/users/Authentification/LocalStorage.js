@@ -4,6 +4,7 @@ let saveToken = (token) => {
 
 let logout = () => {
     localStorage.removeItem('token')
+    deleteEmail()
 }
 
 let isLogged = () => {

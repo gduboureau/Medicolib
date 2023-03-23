@@ -145,7 +145,8 @@ public class JdbcPatientRepository implements PatientRepository {
     Statement stmt = connection.createStatement();
     String request = "INSERT INTO Appointments(AppointmentId, doctorId, PatientId, startTime, endTime) VALUES (" + "'"
         + appointment.getId() + "'" + "," + "'" + appointment.getDoctorId() + "'" + "," + "'"
-        + appointment.getPatientId() + "'" + "," + "'" + new Timestamp(appointment.getTimeSlot().getBeginDate().getTime()) + "'" + ","
+        + appointment.getPatientId() + "'" + "," + "'"
+        + new Timestamp(appointment.getTimeSlot().getBeginDate().getTime()) + "'" + ","
         + "'" + new Timestamp(appointment.getTimeSlot().getEndDate().getTime()) + "'" + ")";
     stmt.executeUpdate(request);
   }
@@ -168,10 +169,28 @@ public class JdbcPatientRepository implements PatientRepository {
     if (rs.next()) {
       appointment = new Appointment(UUID.fromString(rs.getString(1)), UUID.fromString(rs.getString(2)),
           getPatientIdByMail(mail), new TimeSlot(rs.getTimestamp(3), rs.getTimestamp(4)));
-          removeTimeSlot(UUID.fromString(rs.getString(1)));
+      removeTimeSlot(UUID.fromString(rs.getString(1)));
     }
     addAppointment(appointment);
-    
+
+  }
+
+  @Override
+  public void cancelAppointment(String id) throws SQLException {
+    connection = DBUtil.getConnection();
+    Statement stmt = connection.createStatement();
+    String request = "SELECT * FROM Appointments WHERE appointmentId =" + "'" + id + "'";
+    ResultSet rs = stmt.executeQuery(request);
+    if (rs.next()) {
+      Statement stmt2 = connection.createStatement();
+      String request2 = "INSERT INTO AvailableTimeSlots(doctorId, startTime, endTime) VALUES (" + "'" + rs.getString(2)
+          + "'" + "," + "'" + rs.getTimestamp(4) + "'" + "," + "'" + rs.getTimestamp(5) + "'" + ")";
+      stmt2.executeUpdate(request2);
+    }
+
+    Statement stmt3 = connection.createStatement();
+    String request3 = "DELETE FROM Appointments WHERE appointmentId =" + "'" + id + "'";
+    stmt3.executeUpdate(request3);
 
   }
 }

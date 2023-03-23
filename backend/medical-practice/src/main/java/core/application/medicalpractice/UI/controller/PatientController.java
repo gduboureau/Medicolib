@@ -98,5 +98,11 @@ public class PatientController {
 		medicalPractice.makeAnAppointment(id, mail);
 	}
 
-	
+	@PostMapping(value = "/cancelappointment")
+	public void cancelAppointment(@RequestBody HashMap<String, String> map) throws SQLException {
+		String id = map.get("id");
+		medicalPractice.cancelAppointment(id);
+	}
+
+
 }
