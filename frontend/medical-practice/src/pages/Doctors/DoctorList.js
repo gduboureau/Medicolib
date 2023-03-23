@@ -1,6 +1,5 @@
 import axios from "axios";
 import React, {useState, useEffect} from "react";
-import { useParams } from "react-router-dom";
 import '../../assets/DrSpecialityPage.css';
 import { useNavigate } from 'react-router-dom';
 
@@ -12,7 +11,7 @@ function ArrayDoctors(){
     useEffect(() =>{
         axios.get(`/doctors`).then(res => {
             const newData = res.data;
-            setDoctorList(newData);
+            setDoctorList(newData); 
         });
     }, []);
 

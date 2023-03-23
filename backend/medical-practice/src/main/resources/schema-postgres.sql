@@ -10,7 +10,8 @@ CREATE TABLE Patients (
     Weight float CONSTRAINT Weight_null NOT NULL,
     Height float CONSTRAINT Height_null NOT NULL,
     Mail varchar(320) CONSTRAINT Mail_null NOT NULL,
-    Address varchar (250) CONSTRAINT Address_null NOT NULL
+    Address varchar (250) CONSTRAINT Address_null NOT NULL,
+    NumSocial varchar(20) constraint NumSocial_null NOT NULL
 );
 
 DROP TABLE IF EXISTS Users;
@@ -35,4 +36,22 @@ CREATE TABLE Doctors (
     Firstname varchar(25) CONSTRAINT Firstname_null NOT NULL,
     Lastname varchar(25) CONSTRAINT Lastname_null NOT NULL,
     Speciality varchar(25) CONSTRAINT Speciality_check CHECK (Speciality in ('Neurologue','Generaliste', 'Dermatologue', 'Dentiste', 'Ophtalmologue', 'Pediatre'))
+);
+
+DROP TABLE IF EXISTS Address;
+CREATE TABLE Address (
+    PatientId varchar(80) CONSTRAINT PatientId_key PRIMARY KEY,
+    NumRue int CONSTRAINT NumRue_constraint check (NumRue > 0),
+    NomRue varchar(50) CONSTRAINT NomRue_null NOT NULL,
+    PostalCode int CONSTRAINT PostalCode_constraint check (PostalCode > 0),
+    City varchar(25) CONSTRAINT City_null NOT NULL
+);
+
+DROP TABLE IF EXISTS Appointments;
+CREATE TABLE Appointments (
+    AppointmentId varchar(80) CONSTRAINT Appointment_key PRIMARY KEY,
+    DoctorId uuid CONSTRAINT DoctorId_null NOT NULL
+    PatientId varchar(80) CONSTRAINT PatientId_null NOT NULL,
+    StartDate timestamp CONSTRAINT start_null NOT NULL,
+    EndDate timestamp CONSTRAINT end_null NOT NULL,
 );

@@ -3,7 +3,6 @@ package core.application.medicalpractice.domain.entity;
 import java.util.Date;
 import java.util.UUID;
 
-import core.application.medicalpractice.domain.valueObjects.*;
 
 public class Patient {
 
@@ -19,6 +18,20 @@ public class Patient {
     public Patient(String firstName, String lastName, String gender, Date birthday, String numSocial, String mail,
             Address adress, float weight, float height) {
         this.id = UUID.randomUUID();
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.gender = gender;
+        this.birthday = birthday;
+        this.numSocial = numSocial;
+        this.mail = mail;
+        this.adress = adress;
+        this.weight = weight;
+        this.height = height;
+    }
+
+    public Patient(UUID patientId,String firstName, String lastName, String gender, Date birthday, String numSocial, String mail,
+            Address adress, float weight, float height) {
+        this.id = patientId;
         this.firstName = firstName;
         this.lastName = lastName;
         this.gender = gender;

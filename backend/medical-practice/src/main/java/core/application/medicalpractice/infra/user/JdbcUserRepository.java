@@ -43,4 +43,5 @@ public class JdbcUserRepository implements UserRepository {
         ResultSet rs = stmt.executeQuery(request);
         return rs.next();
     }
+
 }

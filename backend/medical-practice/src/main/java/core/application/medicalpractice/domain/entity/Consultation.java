@@ -3,8 +3,6 @@ package core.application.medicalpractice.domain.entity;
 import java.util.List;
 import java.util.UUID;
 
-import core.application.medicalpractice.domain.valueObjects.*;
-
 public class Consultation {
 
     private final UUID id;
