@@ -3,7 +3,7 @@ import '../../assets/HomePage.css';
 import DoctorList from './DoctorList';
 
 
-function AllDrPage() {
+function DoctorsPage() {
   return (
     <div>
       <DoctorList />
@@ -11,4 +11,4 @@ function AllDrPage() {
   );
 }
 
-export default AllDrPage;
+export default DoctorsPage;

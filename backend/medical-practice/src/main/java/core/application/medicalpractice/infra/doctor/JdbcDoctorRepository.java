@@ -25,7 +25,7 @@ public class JdbcDoctorRepository implements DoctorRepository {
       ResultSet rs = stmt.executeQuery();
 
       while(rs.next()){
-        Doctor doctor = new Doctor(rs.getString(1), rs.getString(2),rs.getString(3),rs.getString(4));
+        Doctor doctor = new Doctor(rs.getString(1), rs.getString(2),rs.getString(3), rs.getString(4), rs.getString(5));
         doctorList.add(doctor);
       }
     } catch (SQLException e) {
@@ -60,7 +60,7 @@ public class JdbcDoctorRepository implements DoctorRepository {
       ResultSet rs = stmt.executeQuery();
 
       while(rs.next()){
-        Doctor doctor = new Doctor(rs.getString(1), rs.getString(2),rs.getString(3),rs.getString(4));
+        Doctor doctor = new Doctor(rs.getString(1), rs.getString(2),rs.getString(3), rs.getString(4), rs.getString(5));
         doctorList.add(doctor);
       }
     } catch (SQLException e) {
@@ -68,5 +68,22 @@ public class JdbcDoctorRepository implements DoctorRepository {
       e.printStackTrace();
     }
     return doctorList;
+  }
+
+  @Override
+  public Doctor getDoctorById(UUID doctorid) {
+    Doctor doctor = null;
+    try {
+      PreparedStatement stmt = connection.prepareStatement("SELECT * FROM doctors WHERE doctorid = '" + doctorid + "'");
+      ResultSet rs = stmt.executeQuery();
+      while(rs.next()){
+      doctor = new Doctor(rs.getString(1), rs.getString(2),rs.getString(3), rs.getString(4), rs.getString(5));
+      }
+
+    } catch (SQLException e) {
+
+      e.printStackTrace();
+    }
+    return doctor;
   }
 }

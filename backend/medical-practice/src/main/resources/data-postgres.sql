@@ -1,26 +1,26 @@
-INSERT INTO Doctors (Firstname, Lastname, Speciality)
-VALUES ('Laetitia', 'Morel', 'Dermatologue');
+INSERT INTO Doctors (Firstname, Lastname, Gender, Speciality)
+VALUES ('Laetitia', 'Morel', 'F', 'Dermatologue');
 
-INSERT INTO Doctors (Firstname, Lastname, Speciality)
-VALUES ('Sanaa', 'Abadi', 'Neurologue');
+INSERT INTO Doctors (Firstname, Lastname, Gender, Speciality)
+VALUES ('Sanaa', 'Abadi', 'F', 'Neurologue');
 
-INSERT INTO Doctors (Firstname, Lastname, Speciality)
-VALUES ('Céline', 'Dubé', 'Ophtalmologue');
+INSERT INTO Doctors (Firstname, Lastname, Gender, Speciality)
+VALUES ('Céline', 'Dubé', 'F', 'Ophtalmologue');
 
-INSERT INTO Doctors (Firstname, Lastname, Speciality)
-VALUES ('Maxime', 'Bélanger', 'Pediatre');
+INSERT INTO Doctors (Firstname, Lastname, Gender, Speciality)
+VALUES ('Maxime', 'Bélanger', 'M', 'Pediatre');
 
-INSERT INTO Doctors (Firstname, Lastname, Speciality)
-VALUES ('Yannick', 'Rousseau', 'Generaliste');
+INSERT INTO Doctors (Firstname, Lastname, Gender, Speciality)
+VALUES ('Yannick', 'Rousseau', 'M', 'Generaliste');
 
-INSERT INTO Doctors (Firstname, Lastname, Speciality)
-VALUES ('Maeva', 'Bernardin', 'Dentiste');
+INSERT INTO Doctors (Firstname, Lastname, Gender, Speciality)
+VALUES ('Maeva', 'Bernardin', 'F', 'Dentiste');
 
-INSERT INTO Doctors (Firstname, Lastname, Speciality)
-VALUES ('Quentin', 'Attias', 'Neurologue');
+INSERT INTO Doctors (Firstname, Lastname, Gender, Speciality)
+VALUES ('Quentin', 'Attias', 'M', 'Neurologue');
 
-INSERT INTO Doctors (Firstname, Lastname, Speciality)
-VALUES ('Isadora', 'Marques', 'Dermatologue');
+INSERT INTO Doctors (Firstname, Lastname, Gender, Speciality)
+VALUES ('Isadora', 'Marques', 'F', 'Dermatologue');
 
 
 
