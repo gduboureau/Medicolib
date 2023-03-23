@@ -44,4 +44,12 @@ public class JdbcUserRepository implements UserRepository {
         return rs.next();
     }
 
+    public boolean checkUserExist(String mail) throws SQLException {
+        connection = DBUtil.getConnection();
+        Statement stmt = connection.createStatement();
+        String request = "SELECT * FROM Users WHERE mail=" + "'" + mail + "'";
+        ResultSet rs = stmt.executeQuery(request);
+        return rs.next();
+    }
+
 }

@@ -98,6 +98,11 @@ public class MedicalPractice {
         userRepository.resetPassword(mail, password);
     }
 
+    public boolean checkUserExist(String mail) throws SQLException{
+        return userRepository.checkUserExist(mail);
+    }
+
+
     // requests for medical files
 
     public int createMedicalFile() {
