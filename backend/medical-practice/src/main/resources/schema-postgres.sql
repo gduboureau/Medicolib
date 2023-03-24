@@ -59,8 +59,9 @@ CREATE TABLE Appointments (
 
 DROP TABLE IF EXISTS AvailableTimeSlots;
 CREATE TABLE AvailableTimeSlots(
-	TimeSlotId uuid DEFAULT uuid_generate_v4() CONSTRAINT id_key PRIMARY KEY,
+	TimeSlotId uuid DEFAULT uuid_generate_v4() CONSTRAINT id_null NOT NULL,
     DoctorId uuid CONSTRAINT DoctorId_null NOT NULL,
     StartTime timestamp CONSTRAINT start_null NOT NULL,
+    PRIMARY KEY (TimeSlotId, DoctorId, StartTime),
     EndTime timestamp CONSTRAINT end_null NOT NULL
 );

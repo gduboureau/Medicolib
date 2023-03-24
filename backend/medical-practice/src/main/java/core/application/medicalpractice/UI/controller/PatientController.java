@@ -25,7 +25,7 @@ public class PatientController {
 	private MedicalPractice medicalPractice;
 
 	@PostMapping(value = "/register")
-	public void savePatient(@RequestBody Map<String, String> map) throws SQLException, ParseException {
+	public boolean savePatient(@RequestBody Map<String, String> map) throws SQLException, ParseException {
 		String firstName = map.get("firstName");
 		String lastName = map.get("lastName");
 		String gender = map.get("gender");
@@ -34,6 +34,9 @@ public class PatientController {
 		String password = map.get("password");
 		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
 		Date parsed = format.parse(date);
+		if (medicalPractice.checkPatientExist(mail)) {
+			return false;
+		}
 		if (!medicalPractice.checkPatientExist(mail)) {
 			Patient patient = new Patient(firstName, lastName, gender, parsed, "", mail, new Address(1, " ", " ", 1), 0,
 					0);
@@ -43,6 +46,7 @@ public class PatientController {
 		if (!medicalPractice.checkLoginExist(mail, password)) {
 			medicalPractice.saveUser(mail, password);
 		}
+		return true;
 	}
 
 	@PostMapping(value = "/informations-patient")
@@ -103,6 +107,5 @@ public class PatientController {
 		String id = map.get("id");
 		medicalPractice.cancelAppointment(id);
 	}
-
 
 }

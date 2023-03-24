@@ -4,7 +4,6 @@ import java.sql.*;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.*;
-import java.util.Date;
 
 import org.springframework.stereotype.Service;
 
@@ -40,7 +39,7 @@ public class JdbcPatientRepository implements PatientRepository {
     DateFormat df = new SimpleDateFormat("EEEE d MMM yyyy");
     Statement stmt = connection.createStatement();
     String sql = "SELECT appointments.appointmentid, doctors.firstname, doctors.lastname, doctors.speciality, appointments.StartTime FROM doctors JOIN appointments ON doctors.doctorid = appointments.doctorid WHERE appointments.patientid= (SELECT patientid FROM Patients WHERE mail= "
-        + "'" + mail + "'" + ")";
+        + "'" + mail + "'" + ") ORDER BY appointments.starttime";
     ResultSet rs = stmt.executeQuery(sql);
     while (rs.next()) {
       List<String> l = new ArrayList<>();
