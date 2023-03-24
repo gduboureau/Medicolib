@@ -17,7 +17,7 @@ const PublicRouter = () => {
         <Route index element={<HomePage />} />
         <Route path="/docteurs/:speciality?" element={<DoctorsPage />} />
         <Route path="/:speciality/:name" element={ <DoctorPage /> } />
-        <Route path="/:name/booking" element={<AuthGuard><Booking /></AuthGuard>} />
+        <Route path="/:speciality/:name/booking" element={<AuthGuard><Booking /></AuthGuard>} />
         <Route path="/register" element={<RegisterPage />} />
         <Route path="/login" element={<LoginPage />} />
         <Route path="*" element={<Error />} />

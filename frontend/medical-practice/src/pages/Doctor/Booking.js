@@ -1,30 +1,30 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import { useNavigate, useParams } from "react-router";
+import { useParams,useNavigate } from "react-router";
 import { accountService } from "../users/Authentification/LocalStorage";
 
 let mail = accountService.getEmail();
 
 const Booking = () => {
+
     const { name } = useParams();
-    const [firstname, lastname] = name.split("-");
 
     const [AppointmentList, setAppointmentList] = useState([]);
-    const navigate = useNavigate();
 
+    const navigate = useNavigate();
 
     useEffect(() => {
         axios.get(`/${name}/booking`).then(res => {
             const newData = res.data;
             setAppointmentList(newData);
-            console.log(newData)
         });
-    }, []);
+    }, [name]);
 
     const onClick = (id) => {
         axios.post('/makeappointment', { id, mail })
         .then((response) => {
             console.log(response);
+            navigate("/admin/appointments")
         })
         .catch((error) => {
             console.log(error);
