@@ -118,7 +118,6 @@ public class JdbcDoctorRepository implements DoctorRepository {
   @Override
   public List<List<String>> getAllAppointmentsDoctor(String mail) throws SQLException {
     List<List<String>> appointments = new ArrayList<List<String>>();
-    DateFormat df = new SimpleDateFormat("dd-MM-yyyy");
     Statement stmt = connection.createStatement();
     String sql = "SELECT appointments.appointmentid, appointments.StartTime, appointments.endtime, patients.firstname, patients.lastname FROM patients JOIN appointments ON patients.patientid = appointments.patientid WHERE appointments.doctorid= (SELECT doctorid FROM Doctors WHERE mail= "
         + "'" + mail + "'" + ") ORDER BY appointments.starttime";
@@ -126,7 +125,7 @@ public class JdbcDoctorRepository implements DoctorRepository {
     while (rs.next()) {
       List<String> l = new ArrayList<>();
       l.add(rs.getString(1));
-      l.add(df.format(rs.getDate(2)).toString());
+      l.add(rs.getDate(2).toString());
       l.add(rs.getTime(2).toString());
       l.add(rs.getTime(3).toString());
       l.add(rs.getString(4));
