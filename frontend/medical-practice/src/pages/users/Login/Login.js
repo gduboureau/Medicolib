@@ -1,12 +1,13 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-import {useNavigate} from 'react-router-dom';
 import { accountService } from '../Authentification/LocalStorage';
-import { Link } from "react-router-dom";
+import { Link, useNavigate, useLocation } from "react-router-dom";
 
 const Login = () => {
 
     const navigate = useNavigate();
+
+    const { state } = useLocation();
 
     const [showForgotPassword, setShowForgotPassword] = useState(false);
 
@@ -46,7 +47,7 @@ const Login = () => {
           .then(res => {
             accountService.saveToken(res.data)
             accountService.saveEmail(credentials.login)
-            navigate(-1)
+            navigate(state?.prev);
         })
         .catch(error => console.log(error))
     }
