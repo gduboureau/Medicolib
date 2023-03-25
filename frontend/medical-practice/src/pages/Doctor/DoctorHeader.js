@@ -5,7 +5,7 @@ import { useNavigate } from "react-router-dom";
 
 import '../../components/header.css';
 
-const AHeader = () => {
+const DoctorHeader = () => {
     const navigate = useNavigate();
     const logout = () => {
         accountService.logout();
@@ -17,9 +17,7 @@ const AHeader = () => {
         <header>
             <nav>
                 <ul>
-                    <li><Link to="/">Accueil</Link></li>
-                    <li><Link to="appointments">Mes rendez-vous</Link> </li>
-                    <li><Link to="edit">Mon compte</Link></li>
+                    <li><Link to="appointments">Planning</Link> </li>
                     <button onClick={logout}>Déconnexion</button>
                 </ul>
             </nav>
@@ -28,4 +26,4 @@ const AHeader = () => {
     );
 };
 
-export default AHeader;
+export default DoctorHeader;

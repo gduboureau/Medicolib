@@ -7,6 +7,7 @@ import AdminRouter from './pages/admin/AdminRouter';
 import PublicRouter from './pages/public/PublicRouter';
 import AuthGuard from './pages/users/Authentification/AuthGuard';
 import Error from './utils/Error';
+import DoctorRouter from './pages/Doctor/DoctorRouter';
 
 
 function Router() {
@@ -17,6 +18,10 @@ function Router() {
           <Route path="/admin/*" element={
             <AuthGuard>
               <AdminRouter />
+            </AuthGuard>} />
+            <Route path="/doctor/*" element={
+            <AuthGuard>
+              <DoctorRouter />
             </AuthGuard>} />
           <Route path="*" element={<Error />} />
       </Routes>

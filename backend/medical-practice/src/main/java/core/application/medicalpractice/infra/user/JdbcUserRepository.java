@@ -52,4 +52,17 @@ public class JdbcUserRepository implements UserRepository {
         return rs.next();
     }
 
+    @Override
+    public String getUserType(String mail) throws SQLException {
+        String userType = null;
+        connection = DBUtil.getConnection();
+        Statement stmt = connection.createStatement();
+        String request = "SELECT userType FROM Users WHERE mail=" + "'" + mail + "'";
+        ResultSet rs = stmt.executeQuery(request);
+        if (rs.next()){
+            userType = rs.getString(1);
+        }
+        return userType;
+    }
+
 }

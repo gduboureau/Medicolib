@@ -120,7 +120,7 @@ public class JdbcDoctorRepository implements DoctorRepository {
     List<List<String>> appointments = new ArrayList<List<String>>();
     DateFormat df = new SimpleDateFormat("dd-MM-yyyy");
     Statement stmt = connection.createStatement();
-    String sql = "SELECT appointments.appointmentid, appointments.StartTime, appointment.endtime, patients.firstname, patients.lastname FROM patients JOIN appointments ON patients.patientid = appointments.patientid WHERE appointments.doctorid= (SELECT doctorid FROM Doctors WHERE mail= "
+    String sql = "SELECT appointments.appointmentid, appointments.StartTime, appointments.endtime, patients.firstname, patients.lastname FROM patients JOIN appointments ON patients.patientid = appointments.patientid WHERE appointments.doctorid= (SELECT doctorid FROM Doctors WHERE mail= "
         + "'" + mail + "'" + ") ORDER BY appointments.starttime";
     ResultSet rs = stmt.executeQuery(sql);
     while (rs.next()) {

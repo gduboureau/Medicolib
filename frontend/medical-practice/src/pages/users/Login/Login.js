@@ -20,7 +20,7 @@ const Login = () => {
         login: "",
         password: "",
     })
-    
+
 
     const onChange = (e) => {
         setCredentials({ ...credentials, [e.target.name]: e.target.value });
@@ -34,22 +34,28 @@ const Login = () => {
         console.log(mailConfirmation.mail)
         e.preventDefault();
         axios.post("/new-password", mailConfirmation)
-          .then(res => {
-            console.log(res)
-          })
-        .catch(error => console.log(error))
+            .then(res => {
+                console.log(res)
+            })
+            .catch(error => console.log(error))
     }
 
 
     const handleSubmit = (e) => {
         e.preventDefault();
         axios.post("/login", credentials)
-          .then(res => {
-            accountService.saveToken(res.data)
-            accountService.saveEmail(credentials.login)
-            navigate(state?.prev);
-        })
-        .catch(error => console.log(error))
+            .then(res => {
+                console.log(res)
+                accountService.saveToken(res.data[0])
+                accountService.saveEmail(credentials.login)
+                if (res.data[1] === 'patient') {
+                    navigate(state?.prev);
+                }
+                else{
+                    navigate('/doctor/appointments')
+                }
+            })
+            .catch(error => console.log(error))
     }
 
     const handleButtonChange = (e) => {
@@ -59,46 +65,46 @@ const Login = () => {
         } else {
             setShowForgotPassword(false);
         }
-      };
+    };
 
 
-return (
-    <div className="login-wrapper">
-        <p>Connecter-vous à votre compte</p>
-        <form className='form-profile'>
-            <label>
-                <p>Email</p>
-                <input name="login" type="text" placeholder="Email" onChange={onChange}/>
-            </label>
-            <label>
-                <p>Mot de passe</p>
-                <input name="password" type="password" placeholder="Password" onChange={onChange}/>
-            </label>
-            <div>
-                <button onClick={handleSubmit} className="btn btn-outline-primary" >Se connecter</button>
-            </div>
-            <div>
-                <button onClick={handleButtonChange} className="forget-password" >Mot de passe oublié ? </button>
-            </div>
-            {showForgotPassword ?(
-                <>
+    return (
+        <div className="login-wrapper">
+            <p>Connecter-vous à votre compte</p>
+            <form className='form-profile'>
+                <label>
+                    <p>Email</p>
+                    <input name="login" type="text" placeholder="Email" onChange={onChange} />
+                </label>
+                <label>
+                    <p>Mot de passe</p>
+                    <input name="password" type="password" placeholder="Password" onChange={onChange} />
+                </label>
                 <div>
-                    Adresse du mot de passe oublié<input name ="mail" type="text" onChange={newPassword} required/>
+                    <button onClick={handleSubmit} className="btn btn-outline-primary" >Se connecter</button>
                 </div>
                 <div>
-                    <button onClick={sendNewPassword} className="btn modif-info">Envoyer le nouveau mot de passe</button>
+                    <button onClick={handleButtonChange} className="forget-password" >Mot de passe oublié ? </button>
                 </div>
-                </>
-            ) : (
-                <>
-                </>
-            )}
-            <div>
-                <Link to="/register">Enregistrez-vous</Link>
-            </div>
-        </form>
-    </div>
-)
+                {showForgotPassword ? (
+                    <>
+                        <div>
+                            Adresse du mot de passe oublié<input name="mail" type="text" onChange={newPassword} required />
+                        </div>
+                        <div>
+                            <button onClick={sendNewPassword} className="btn modif-info">Envoyer le nouveau mot de passe</button>
+                        </div>
+                    </>
+                ) : (
+                    <>
+                    </>
+                )}
+                <div>
+                    <Link to="/register">Enregistrez-vous</Link>
+                </div>
+            </form>
+        </div>
+    )
 }
 
 export default Login;

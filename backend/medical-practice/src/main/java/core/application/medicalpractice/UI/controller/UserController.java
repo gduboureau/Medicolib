@@ -1,6 +1,8 @@
 package core.application.medicalpractice.UI.controller;
 
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,9 +34,13 @@ public class UserController {
 	public ResponseEntity<?>  checkLogin(@RequestBody Map<String, String> map) throws SQLException {
         String email = map.get("login");
         String password = map.get("password");
+        List<String> response = new ArrayList<>();
         if (medicalPractice.checkLoginExist(email, password)){
             String token = jwtToken.createToken(email);
-            return ResponseEntity.ok(token);
+            String userType = medicalPractice.getUserType(email);
+            response.add(token);
+            response.add(userType);
+            return ResponseEntity.ok(response);
         }
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
 	}

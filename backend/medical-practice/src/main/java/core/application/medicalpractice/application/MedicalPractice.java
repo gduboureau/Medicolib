@@ -110,6 +110,10 @@ public class MedicalPractice {
         return userRepository.checkUserExist(mail);
     }
 
+    public String getUserType(String mail) throws SQLException{
+        return userRepository.getUserType(mail);
+    }
+
 
     // requests for medical files
 

@@ -5,11 +5,6 @@ import { accountService } from "../users/Authentification/LocalStorage";
 import './appointments.css';
 
 function ConfirmationModal(props) {
-    const handleConfirm = () => {
-        props.onConfirm();
-        handleClose();
-    };
-
     const handleClose = () => {
         props.onClose();
     };

@@ -11,5 +11,6 @@ public interface UserRepository {
     public void resetPassword(String email, String password) throws SQLException;
     public boolean checkLoginExist(String email, String password) throws SQLException;
     public boolean checkUserExist(String mail) throws SQLException;
+    public String getUserType(String mail) throws SQLException;
     
 }
