@@ -96,7 +96,7 @@ public class JdbcDoctorRepository implements DoctorRepository {
   @Override
   public List<List<String>> displayAppointments(String firstName, String lastName) throws SQLException {
     List<List<String>> appointments = new ArrayList<>();
-    DateFormat df = new SimpleDateFormat("EEEE d MMM");
+    DateFormat df = new SimpleDateFormat("EEEE d MMM yyyy");
     DateFormat tf = new SimpleDateFormat("HH:mm");
     PreparedStatement stmt = connection
         .prepareStatement(
