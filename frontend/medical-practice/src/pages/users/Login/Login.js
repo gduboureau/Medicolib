@@ -46,7 +46,7 @@ const Login = () => {
           .then(res => {
             accountService.saveToken(res.data)
             accountService.saveEmail(credentials.login)
-            navigate('/admin/appointments')
+            navigate(-1)
         })
         .catch(error => console.log(error))
     }

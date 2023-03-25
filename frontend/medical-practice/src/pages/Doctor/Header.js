@@ -1,12 +1,12 @@
-import React, {useState, useEffect} from "react";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
 import ProfilPictureF from '../../assets/ProfilPictureF.png';
 import ProfilPictureM from '../../assets/ProfilPictureM.png';
-import { useNavigate,useParams } from "react-router";
+import { useNavigate, useParams } from "react-router";
 
 
-function Header(props){
-  
+function Header(props) {
+
   const { selectedDoctorId } = props;
   const [Doctor, setDoctor] = useState("");
   const { speciality } = useParams();
@@ -14,16 +14,16 @@ function Header(props){
   const navigate = useNavigate();
 
   useEffect(() => {
-      axios.post(`/doctors/id=${selectedDoctorId}`).then(res => {
-        const newData = res.data;
-        setDoctor(newData);
-      });
+    axios.post(`/doctors/id=${selectedDoctorId}`).then(res => {
+      const newData = res.data;
+      setDoctor(newData);
+    });
   }, [selectedDoctorId]);
 
   const onClick = () => {
-    navigate(`/${Doctor.speciality}/${Doctor.firstName}-${Doctor.lastName}/booking`)
+    navigate(`/${Doctor.speciality}/${Doctor.firstName}-${Doctor.lastName}/booking`, { replace: true })
   }
-        
+
   return (
     <div>
       {Doctor.gender === 'F' ? (
@@ -31,13 +31,13 @@ function Header(props){
       ) : Doctor.gender === 'M' ? (
         <img src={ProfilPictureM} alt="Profil Male" />
       ) : null}
-      {Doctor.gender!==undefined && Doctor.lastName!==undefined && Doctor.speciality!==undefined ? (
+      {Doctor.gender !== undefined && Doctor.lastName !== undefined && Doctor.speciality !== undefined ? (
         <div>
           <p>Dr. {Doctor.firstName} {Doctor.lastName}, {Doctor.speciality}.</p>
           <button onClick={onClick} className="go-to-booking" >Prendre un RDV</button>
         </div>
       ) : null}
     </div>
-    );
+  );
 }
 export default Header;
