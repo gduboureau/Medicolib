@@ -1,13 +1,15 @@
 import React, { useState } from "react";
-//import SubmitFormButton from "./SubmitFormButton";
 import axios from 'axios';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link} from 'react-router-dom';
 import { accountService } from "../Authentification/LocalStorage";
-
 
 const Register = () => {
 
   const navigate = useNavigate();
+
+  const [confirmPassword, setConfirmPassword] = useState('');
+
+  const [errorMessage, setErrorMessage] = useState("");
 
   const [data, setData] = useState({
     firstName: "",
@@ -17,8 +19,6 @@ const Register = () => {
     mail: "",
     password: "",
   });
-
-  const [confirmPassword, setConfirmPassword] = useState('');
 
   const handleChange = (e) => {
     setData({ ...data, [e.target.name]: e.target.value });
@@ -30,23 +30,19 @@ const Register = () => {
       axios.post("/register", data)
         .then((response) => {
           console.log(response.data);
-          if (response.data === false) {
-            const errorMessage = document.createElement("p");
-            errorMessage.innerHTML = "Cette adresse mail existe déjà";
-            document.getElementById("error-mail").appendChild(errorMessage);
-          }
-          else {
-            axios.post("/login", { login: data.mail, password: data.password })
-              .then(res => {
-                accountService.saveToken(res.data)
-                accountService.saveEmail(data.mail)
-                navigate('/admin/appointments')
-              })
-              .catch(error => console.log(error))
-          }
+          axios.post("/login", { login: data.mail, password: data.password })
+            .then(res => {
+              accountService.saveToken(res.data)
+              accountService.saveEmail(data.mail)
+              navigate('/')
+            })
+            .catch(error => console.log(error))
+
         })
         .catch((error) => {
-          console.log(error);
+          console.log(error.response.data)
+                setErrorMessage(error.response.data);
+
         })
     } else {
       const errorMessage = document.createElement("p");
@@ -76,12 +72,11 @@ const Register = () => {
           <label htmlFor="date">Date de naissance</label>
           <input type="date" name="date" onChange={handleChange} required />
         </div>
-        <div id="error-mail">
-          <div>
-            <label htmlFor="email">Email :</label>
-            <input type="email" name="mail" placeholder="mail@mail.fr" onChange={handleChange} required />
-          </div>
+        <div>
+          <label htmlFor="email">Email :</label>
+          <input type="email" name="mail" placeholder="mail@mail.fr" onChange={handleChange} required />
         </div>
+        {errorMessage && <p>{errorMessage}</p>}
         <div id="error-message">
           <div>
             <label htmlFor="password">Mot de passe :</label>
@@ -100,6 +95,9 @@ const Register = () => {
           Se connecter
         </button>
       </form>
+      <div>
+        <Link to="/login">Vous avez déjà un compte ? Connectez-vous en cliquant ici.</Link>
+      </div>
     </div>
   );
 };

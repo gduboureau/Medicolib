@@ -24,7 +24,7 @@ public interface PatientRepository {
 
     public void savePatient(Patient patient) throws SQLException;
 
-    public boolean checkPatientExist(String mail) throws SQLException;
+    public boolean checkPatientExist(String mail, String firstname, String lastname) throws SQLException;
 
     public List<String> getInformationsPatient(String mail) throws SQLException;
 

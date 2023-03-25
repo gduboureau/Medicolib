@@ -4,10 +4,11 @@ import { accountService } from '../Authentification/LocalStorage';
 import { Link, useNavigate, useLocation } from "react-router-dom";
 
 const Login = () => {
-
     const navigate = useNavigate();
 
     const { state } = useLocation();
+
+    const [errorMessage, setErrorMessage] = useState("");
 
     const [showForgotPassword, setShowForgotPassword] = useState(false);
 
@@ -51,11 +52,14 @@ const Login = () => {
                 if (res.data[1] === 'patient') {
                     navigate(state?.prev);
                 }
-                else{
+                else {
                     navigate('/doctor/appointments')
                 }
             })
-            .catch(error => console.log(error))
+            .catch(error => {
+                console.log(error.response.data)
+                setErrorMessage(error.response.data);
+            })
     }
 
     const handleButtonChange = (e) => {
@@ -80,6 +84,7 @@ const Login = () => {
                     <p>Mot de passe</p>
                     <input name="password" type="password" placeholder="Password" onChange={onChange} />
                 </label>
+                {errorMessage && <p>{errorMessage}</p>}
                 <div>
                     <button onClick={handleSubmit} className="btn btn-outline-primary" >Se connecter</button>
                 </div>
@@ -100,7 +105,7 @@ const Login = () => {
                     </>
                 )}
                 <div>
-                    <Link to="/register">Enregistrez-vous</Link>
+                    <Link to="/register">Enregistrez-vous </Link>
                 </div>
             </form>
         </div>

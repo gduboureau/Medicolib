@@ -58,7 +58,7 @@ public class JdbcPatientRepository implements PatientRepository {
   public void savePatient(Patient patient) throws SQLException {
     Statement stmt = connection.createStatement();
 
-    if (checkPatientExist(patient.getMail())) {
+    if (checkPatientExist(patient.getMail(), patient.getFirstName(), patient.getLastName())) {
       String request = "UPDATE Patients SET firstname = '" + patient.getFirstName() + "',lastname = '"
           + patient.getLastName()
           + "', gender = '" + patient.getGender() + "', birthday = '" + patient.getBirthday() + "', weight = '"
@@ -80,10 +80,11 @@ public class JdbcPatientRepository implements PatientRepository {
   }
 
   @Override
-  public boolean checkPatientExist(String mail) throws SQLException {
+  public boolean checkPatientExist(String mail, String firstname, String lastname) throws SQLException {
     connection = DBUtil.getConnection();
     Statement stmt = connection.createStatement();
-    String request = "SELECT * FROM Patients WHERE mail=" + "'" + mail + "'";
+    String request = "SELECT * FROM Patients WHERE mail=" + "'" + mail + "'" + " OR firstname=" + "'" + firstname + "'"
+        + " OR lastname=" + "'" + lastname + "'";
     ResultSet rs = stmt.executeQuery(request);
     return rs.next();
   }

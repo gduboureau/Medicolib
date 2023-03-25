@@ -68,8 +68,8 @@ public class MedicalPractice {
 
     }
 
-    public boolean checkPatientExist(String mail) throws SQLException {
-        return patientRepository.checkPatientExist(mail);
+    public boolean checkPatientExist(String mail, String firstname, String lastname) throws SQLException {
+        return patientRepository.checkPatientExist(mail, firstname, lastname);
     }
 
     public List<String> getInformationsPatient(String mail) throws SQLException{

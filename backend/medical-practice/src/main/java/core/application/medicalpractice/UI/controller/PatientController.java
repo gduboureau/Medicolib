@@ -9,7 +9,11 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
+import org.apache.catalina.connector.Response;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.HttpStatusCode;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -25,7 +29,7 @@ public class PatientController {
 	private MedicalPractice medicalPractice;
 
 	@PostMapping(value = "/register")
-	public boolean savePatient(@RequestBody Map<String, String> map) throws SQLException, ParseException {
+	public ResponseEntity<?> savePatient(@RequestBody Map<String, String> map) throws SQLException, ParseException {
 		String firstName = map.get("firstName");
 		String lastName = map.get("lastName");
 		String gender = map.get("gender");
@@ -34,10 +38,10 @@ public class PatientController {
 		String password = map.get("password");
 		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
 		Date parsed = format.parse(date);
-		if (medicalPractice.checkPatientExist(mail)) {
-			return false;
+		if (medicalPractice.checkPatientExist(mail, firstName, lastName)) {
+			return ResponseEntity.status(HttpStatus.FORBIDDEN).body("Vous avez déjà un compte, veuillez vous connecter.");
 		}
-		if (!medicalPractice.checkPatientExist(mail)) {
+		if (!medicalPractice.checkPatientExist(mail, firstName, lastName)) {
 			Patient patient = new Patient(firstName, lastName, gender, parsed, "", mail, new Address(1, " ", " ", 1), 0,
 					0);
 			medicalPractice.saveAddress(patient);
@@ -46,7 +50,7 @@ public class PatientController {
 		if (!medicalPractice.checkLoginExist(mail, password)) {
 			medicalPractice.saveUser(mail, password);
 		}
-		return true;
+		return new ResponseEntity<>(HttpStatus.OK);
 	}
 
 	@PostMapping(value = "/informations-patient")

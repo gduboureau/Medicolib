@@ -96,10 +96,10 @@ const Edit = () => {
                     Date de naissance<input type="date" name="date" defaultValue={data.date} onChange={handleChange} />
                 </div>
                 <div>
-                    Poids <input type="number" name="weight" defaultValue={data.weight} onChange={handleChange} />
+                    Poids (en kg)<input type="number" name="weight" defaultValue={data.weight} onChange={handleChange} />
                 </div>
                 <div>
-                    Taille <input type="number" name="height" defaultValue={data.height} onChange={handleChange} />
+                    Taille (en cm) <input type="number" name="height" defaultValue={data.height} onChange={handleChange} />
                 </div>
                 <div>
                     Email <input type="email" name="mail" defaultValue={data.email} onChange={handleChange} />
