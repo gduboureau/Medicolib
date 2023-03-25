@@ -5,13 +5,15 @@ public class Doctor {
     private String id;
     private String firstName, lastName, gender;
     private String speciality;
+    private String mail;
     
-    public Doctor(String id, String firstName, String lastName, String gender, String speciality) {
+    public Doctor(String id, String firstName, String lastName, String gender, String speciality, String mail) {
         this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
         this.gender = gender;
         this.speciality = speciality;
+        this.mail = mail;
     }
 
     public String getId() {
@@ -50,6 +52,14 @@ public class Doctor {
         this.speciality = speciality;
     }
 
+    public String getMail() {
+        return mail;
+    }
+
+    public void setMail(String mail) {
+        this.mail = mail;
+    }
+
     @Override
     public int hashCode() {
         final int prime = 31;
@@ -59,6 +69,7 @@ public class Doctor {
         result = prime * result + ((lastName == null) ? 0 : lastName.hashCode());
         result = prime * result + ((gender == null) ? 0 : gender.hashCode());
         result = prime * result + ((speciality == null) ? 0 : speciality.hashCode());
+        result = prime * result + ((mail == null) ? 0 : mail.hashCode());
         return result;
     }
 
@@ -95,6 +106,11 @@ public class Doctor {
             if (other.speciality != null)
                 return false;
         } else if (!speciality.equals(other.speciality))
+            return false;
+        if (mail == null) {
+            if (other.mail != null)
+                return false;
+        } else if (!mail.equals(other.mail))
             return false;
         return true;
     }

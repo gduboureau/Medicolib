@@ -27,7 +27,8 @@ public class JdbcDoctorRepository implements DoctorRepository {
       ResultSet rs = stmt.executeQuery();
 
       while (rs.next()) {
-        Doctor doctor = new Doctor(rs.getString(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getString(5));
+        Doctor doctor = new Doctor(rs.getString(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getString(5),
+            rs.getString(6));
         doctorList.add(doctor);
       }
     } catch (SQLException e) {
@@ -63,7 +64,8 @@ public class JdbcDoctorRepository implements DoctorRepository {
       ResultSet rs = stmt.executeQuery();
 
       while (rs.next()) {
-        Doctor doctor = new Doctor(rs.getString(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getString(5));
+        Doctor doctor = new Doctor(rs.getString(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getString(5),
+            rs.getString(6));
         doctorList.add(doctor);
       }
     } catch (SQLException e) {
@@ -80,7 +82,8 @@ public class JdbcDoctorRepository implements DoctorRepository {
       PreparedStatement stmt = connection.prepareStatement("SELECT * FROM doctors WHERE doctorid = '" + doctorid + "'");
       ResultSet rs = stmt.executeQuery();
       while (rs.next()) {
-        doctor = new Doctor(rs.getString(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getString(5));
+        doctor = new Doctor(rs.getString(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getString(5),
+            rs.getString(6));
       }
 
     } catch (SQLException e) {
@@ -111,4 +114,26 @@ public class JdbcDoctorRepository implements DoctorRepository {
     }
     return appointments;
   }
+
+  @Override
+  public List<List<String>> getAllAppointmentsDoctor(String mail) throws SQLException {
+    List<List<String>> appointments = new ArrayList<List<String>>();
+    DateFormat df = new SimpleDateFormat("dd-MM-yyyy");
+    Statement stmt = connection.createStatement();
+    String sql = "SELECT appointments.appointmentid, appointments.StartTime, appointment.endtime, patients.firstname, patients.lastname FROM patients JOIN appointments ON patients.patientid = appointments.patientid WHERE appointments.doctorid= (SELECT doctorid FROM Doctors WHERE mail= "
+        + "'" + mail + "'" + ") ORDER BY appointments.starttime";
+    ResultSet rs = stmt.executeQuery(sql);
+    while (rs.next()) {
+      List<String> l = new ArrayList<>();
+      l.add(rs.getString(1));
+      l.add(df.format(rs.getDate(2)).toString());
+      l.add(rs.getTime(2).toString());
+      l.add(rs.getTime(3).toString());
+      l.add(rs.getString(4));
+      l.add(rs.getString(5));
+      appointments.add(l);
+    }
+    return appointments;
+  }
+
 }

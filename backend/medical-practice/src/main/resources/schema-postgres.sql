@@ -17,7 +17,8 @@ CREATE TABLE Patients (
 DROP TABLE IF EXISTS Users;
 CREATE TABLE Users ( 
     Mail varchar(320) CONSTRAINT User_key PRIMARY KEY,
-    password varchar(50) CONSTRAINT Password_null NOT NULL
+    password varchar(50) CONSTRAINT Password_null NOT NULL, 
+    userType varchar(50) DEFAULT 'patient' CONSTRAINT userType_null NOT NULL
 );
 
 DROP TABLE IF EXISTS Consultations;
@@ -36,7 +37,8 @@ CREATE TABLE Doctors (
     Firstname varchar(25) CONSTRAINT Firstname_null NOT NULL,
     Lastname varchar(25) CONSTRAINT Lastname_null NOT NULL,
     Gender varchar(5) CONSTRAINT Gender_null NOT NULL,
-    Speciality varchar(25) CONSTRAINT Speciality_check CHECK (Speciality in ('Neurologue','Generaliste', 'Dermatologue', 'Dentiste', 'Ophtalmologue', 'Pediatre'))
+    Speciality varchar(25) CONSTRAINT Speciality_check CHECK (Speciality in ('Neurologue','Generaliste', 'Dermatologue', 'Dentiste', 'Ophtalmologue', 'Pediatre')),
+    Mail varchar(320) CONSTRAINT Mail_null NOT NULL
 );
 
 DROP TABLE IF EXISTS Address;

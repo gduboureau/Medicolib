@@ -53,6 +53,10 @@ public class MedicalPractice {
         return doctorRepository.displayAppointments(firstname, lastname);
     }
 
+    public List<List<String>> getAllAppointmentsDoctor(String mail) throws SQLException{
+        return doctorRepository.getAllAppointmentsDoctor(mail);
+    }
+
     // requests for patients
 
     public List<List<String>> getAppointmentByPatient(String mail) throws SQLException {
