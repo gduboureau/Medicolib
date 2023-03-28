@@ -26,7 +26,6 @@ const Booking = () => {
     axios
       .post("/makeappointment", { id, mail })
       .then((response) => {
-        console.log(response);
         navigate("/admin/appointments");
       })
       .catch((error) => {
@@ -61,7 +60,12 @@ const Booking = () => {
     <div>
       <p>Choisissez la date de la consultation</p>
       <div>
-        <button onClick={() => setSelectedWeek(new Date(selectedWeek.getFullYear(), selectedWeek.getMonth(), selectedWeek.getDate() - 7))}>Semaine précédente</button>
+        <button onClick={() => 
+          {const date = new Date();
+           if (selectedWeek.getTime() - 7 >= date.getTime()){
+            setSelectedWeek(new Date(selectedWeek.getFullYear(), selectedWeek.getMonth(), selectedWeek.getDate() - 7))}}
+           }
+          >Semaine précédente</button>
         <button onClick={() => setSelectedWeek(new Date(selectedWeek.getFullYear(), selectedWeek.getMonth(), selectedWeek.getDate() + 7))}>Semaine suivante</button>
       </div>
       <table>
