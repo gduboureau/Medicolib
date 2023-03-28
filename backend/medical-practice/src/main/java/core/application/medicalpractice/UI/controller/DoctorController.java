@@ -53,4 +53,9 @@ public class DoctorController {
 		return medicalPractice.getAllAppointmentsDoctor(map.get("mail"));
 	}
 
+	@PostMapping(value = "/getPatients")
+	public List<List<String>> getAllPatientByDoctor(@RequestBody Map<String, String> map) throws SQLException {
+		return medicalPractice.getPatientsByDoctor(map.get("mail"));
+	}
+
 }

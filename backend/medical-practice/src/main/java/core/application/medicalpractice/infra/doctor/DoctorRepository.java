@@ -17,4 +17,6 @@ public interface DoctorRepository{
     public List<Doctor> getDoctorsBySpeciality(String speciality);
     public List<List<String>>  displayAppointments(String firstName, String lastName) throws SQLException;
     public List<List<String>> getAllAppointmentsDoctor(String mail) throws SQLException;
+    public List<List<String>> getPatientsByDoctor(String mail) throws SQLException;
+    public UUID getDoctorIdByMail(String mail) throws SQLException;
 }

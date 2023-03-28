@@ -25,11 +25,18 @@ DROP TABLE IF EXISTS Consultations;
 CREATE TABLE Consultations (
     ConsultationId uuid DEFAULT uuid_generate_v4() CONSTRAINT Consultaiton_key PRIMARY KEY,
     PatientId varchar(80) CONSTRAINT PatientId_null NOT NULL,
-    Date date CONSTRAINT Date_null NOT NULL,
-    BeginConsultation time CONSTRAINT BeginConsultation_null NOT NULL,
-    EndConsultation time CONSTRAINT EndConsultation_null NOT NULL,
-    DoctorId varchar(80) CONSTRAINT DoctorId_null NOT NULL
+    Starttime timestamp CONSTRAINT start_null NOT NULL,
+    EndTime timestamp CONSTRAINT end_null NOT NULL,
+    DoctorId varchar(80) CONSTRAINT DoctorId_null NOT NULL,
+    PrescriptionsId uuid CONSTRAINT PrescriptionsId_null NOT NULL
 );
+
+DROP TABLE IF EXISTS Prescriptions;
+CREATE TABLE Prescriptions (
+    PrescriptionsId uuid DEFAULT uuid_generate_v4() CONSTRAINT PrescriptionsId_key PRIMARY KEY,
+    Description Text CONSTRAINT Description_null NOT NULL
+);
+
 
 DROP TABLE IF EXISTS Doctors;
 CREATE TABLE Doctors (
@@ -66,4 +73,12 @@ CREATE TABLE AvailableTimeSlots(
     StartTime timestamp CONSTRAINT start_null NOT NULL,
     PRIMARY KEY (TimeSlotId, DoctorId, StartTime),
     EndTime timestamp CONSTRAINT end_null NOT NULL
+);
+
+DROP TABLE IF EXISTS MedicalFile;
+CREATE TABLE MedicalFile(
+	MedicalFileId uuid DEFAULT uuid_generate_v4() CONSTRAINT MedicalFileId_key PRIMARY KEY,
+    DoctorId uuid CONSTRAINT DoctorId_null NOT NULL,
+    PatientId varchar(80) CONSTRAINT PatientId_null NOT NULL,
+    ConsultationId uuid[] CONSTRAINT DoctorId_null NOT NULL
 );

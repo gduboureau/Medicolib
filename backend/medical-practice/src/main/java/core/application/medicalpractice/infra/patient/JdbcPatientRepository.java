@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import core.application.DButils.DBUtil;
 import core.application.medicalpractice.domain.entity.*;
 import core.application.medicalpractice.domain.valueObjects.TimeSlot;
+import core.application.medicalpractice.infra.medical.MedicalRepository;
 
 @Service
 public class JdbcPatientRepository implements PatientRepository {
@@ -161,6 +162,7 @@ public class JdbcPatientRepository implements PatientRepository {
 
   @Override
   public void makeAnAppointment(String id, String mail) throws SQLException {
+    MedicalRepository medicalRepository = new MedicalRepository();
     Appointment appointment = null;
     connection = DBUtil.getConnection();
     Statement stmt = connection.createStatement();
@@ -172,7 +174,9 @@ public class JdbcPatientRepository implements PatientRepository {
       removeTimeSlot(UUID.fromString(rs.getString(1)));
     }
     addAppointment(appointment);
-
+    if (!medicalRepository.checkMedicalFileExist(mail, UUID.fromString(rs.getString(2)))){
+      medicalRepository.createMedicalFile(getPatientIdByMail(mail), UUID.fromString(rs.getString(2)));
+    }
   }
 
   @Override

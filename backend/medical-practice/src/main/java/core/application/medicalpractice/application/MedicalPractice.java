@@ -57,6 +57,10 @@ public class MedicalPractice {
         return doctorRepository.getAllAppointmentsDoctor(mail);
     }
 
+    public List<List<String>> getPatientsByDoctor(String mail) throws SQLException{
+        return doctorRepository.getPatientsByDoctor(mail);
+    }
+
     // requests for patients
 
     public List<List<String>> getAppointmentByPatient(String mail) throws SQLException {

@@ -1,37 +1,31 @@
 package core.application.medicalpractice.domain.entity;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
-import core.application.medicalpractice.domain.valueObjects.Medicine;
 
-public class MedicinePrescription extends PrescriptionDecorator{
+public class MedicinePrescription{
+    
     private final UUID id;
-    private final Map<Integer, Medicine> medications;
+    private final List<String> medications;
     
 
-    public MedicinePrescription(Prescription prescription){
-        super(prescription);
-        medications = new HashMap<>();
+    public MedicinePrescription(){
+        medications = new ArrayList<>();
         id = UUID.randomUUID();
     }
 
-    public void addMedicine(int quantity, Medicine medicine){
-        medications.put(quantity, medicine);
+    public void addMedicine(String medicine){
+        medications.add(medicine);
     }
 
-    public Map<Integer, Medicine> getMedications(){
+    public List<String> getMedications(){
         return medications;
     }
 
     public UUID getID(){
         return this.id; 
-    }
-
-    @Override
-    public String getName(){
-        return "medicine prescription";
     }
 
     @Override

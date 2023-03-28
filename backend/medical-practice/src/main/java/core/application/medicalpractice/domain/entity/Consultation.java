@@ -9,9 +9,9 @@ public class Consultation {
     private Appointment appointment;
     private Patient patient;
     private Doctor doctor;
-    private List<Prescription> prescriptions;
+    private List<MedicinePrescription> prescriptions;
     
-    public Consultation(Appointment appointment, Patient patient, Doctor doctor, List<Prescription> prescriptions) {
+    public Consultation(Appointment appointment, Patient patient, Doctor doctor, List<MedicinePrescription> prescriptions) {
         this.id = UUID.randomUUID();
         this.appointment = appointment;
         this.patient = patient;
@@ -47,11 +47,11 @@ public class Consultation {
         this.doctor = doctor;
     }
 
-    public List<Prescription> getPrescriptions() {
+    public List<MedicinePrescription> getPrescriptions() {
         return prescriptions;
     }
 
-    public void addPrescriptions(Prescription prescription) {
+    public void addPrescriptions(MedicinePrescription prescription) {
         prescriptions.add(prescription);
     }
 

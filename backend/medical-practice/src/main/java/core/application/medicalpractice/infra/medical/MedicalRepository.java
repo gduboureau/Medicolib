@@ -1,6 +1,8 @@
 package core.application.medicalpractice.infra.medical;
 
+import core.application.medicalpractice.infra.patient.*;
 import java.sql.*;
+import java.util.UUID;
 
 import core.application.medicalpractice.domain.entity.*;
 
@@ -40,6 +42,31 @@ public class MedicalRepository {
         + consultation.getDoctor().getId() + "'" + ")";
     stmt.executeUpdate(request);
     closeConnection(conn);
+  }
+
+  public Boolean checkMedicalFileExist(String mail, UUID doctorId) throws SQLException{
+    JdbcPatientRepository patientRep = new JdbcPatientRepository();
+    Connection conn = connection();
+    Statement stmt = conn.createStatement();
+    String request = "SELECT * FROM medicalfile where patientid = '" + patientRep.getPatientIdByMail(mail) + "' and doctorid = '" + doctorId + "'";
+    ResultSet rs = stmt.executeQuery(request);
+    return rs.next();
+  }
+
+  public void createMedicalFile(UUID patientId, UUID doctorId) throws SQLException{
+    Connection conn = connection();
+    Statement stmt = conn.createStatement();
+    String request = "INSERT INTO MedicalFile(doctorId, patientId,consultationId) VALUES ('"
+        + doctorId + "','" + patientId + "', '{}')";
+    stmt.executeUpdate(request);
+  }
+
+  public void addConsultationToMedicalFile(UUID patientId, UUID doctorId, UUID consultationId) throws SQLException{
+    Connection conn = connection();
+    Statement stmt = conn.createStatement();
+    String request = "UPDATE MedicalFile SET consultationid = array_append(consultationid,'" + consultationId +
+        "') where patientid = '" + patientId + "' and doctorid = '" + doctorId + "'";
+    stmt.executeUpdate(request);
   }
 
 }

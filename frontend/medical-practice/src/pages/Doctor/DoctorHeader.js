@@ -18,6 +18,7 @@ const DoctorHeader = () => {
             <nav>
                 <ul>
                     <li><Link to="appointments">Planning</Link> </li>
+                    <li><Link to="consultations">Consultations</Link> </li>
                     <button onClick={logout}>Déconnexion</button>
                 </ul>
             </nav>

@@ -135,4 +135,34 @@ public class JdbcDoctorRepository implements DoctorRepository {
     return appointments;
   }
 
+  public List<List<String>> getPatientsByDoctor(String mail) throws SQLException {
+    List<List<String>> patients = new ArrayList<List<String>>();
+    Statement stmt = connection.createStatement();
+    String sql = "SELECT * FROM Patients JOIN MedicalFile on (MedicalFile.patientid = Patients.patientid) where doctorid = '" + getDoctorIdByMail(mail) + "'";
+    ResultSet rs = stmt.executeQuery(sql);
+    while (rs.next()) {
+      List<String> l = new ArrayList<>();
+      l.add(rs.getString(2));
+      l.add(rs.getString(3));
+      l.add(rs.getString(4));
+      l.add(rs.getDate(5).toString());
+      l.add(rs.getString(8));
+      patients.add(l);
+    }
+    return patients;
+  }
+
+  @Override
+  public UUID getDoctorIdByMail(String mail) throws SQLException {
+    UUID doctorId = null;
+    connection = DBUtil.getConnection();
+    Statement stmt = connection.createStatement();
+    String request = "SELECT doctorId FROM Doctors WHERE mail =" + "'" + mail + "'";
+    ResultSet rs = stmt.executeQuery(request);
+    if (rs.next()) {
+      doctorId = UUID.fromString(rs.getString(1));
+    }
+    return doctorId;
+  }
+
 }
