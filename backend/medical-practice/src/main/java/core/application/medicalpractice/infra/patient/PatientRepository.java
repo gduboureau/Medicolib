@@ -32,4 +32,6 @@ public interface PatientRepository {
 
     public void saveAddress(Patient patient) throws SQLException;
 
+    public UUID getPatientIdByName(String firstname, String lastname) throws SQLException;
+
 }

@@ -197,4 +197,17 @@ public class JdbcPatientRepository implements PatientRepository {
     stmt3.executeUpdate(request3);
 
   }
+
+  @Override
+  public UUID getPatientIdByName(String firstname, String lastname) throws SQLException {
+    UUID patientId = null;
+    connection = DBUtil.getConnection();
+    Statement stmt = connection.createStatement();
+    String request = "SELECT patientId FROM Patients WHERE lastname =" + "'" + lastname + "' AND firstname = '" + firstname + "'";
+    ResultSet rs = stmt.executeQuery(request);
+    if (rs.next()) {
+      patientId = UUID.fromString(rs.getString(1));
+    }
+    return patientId;
+  } 
 }

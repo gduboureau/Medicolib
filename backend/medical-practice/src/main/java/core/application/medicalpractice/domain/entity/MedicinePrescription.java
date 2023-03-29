@@ -1,6 +1,5 @@
 package core.application.medicalpractice.domain.entity;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -11,8 +10,8 @@ public class MedicinePrescription{
     private final List<String> medications;
     
 
-    public MedicinePrescription(){
-        medications = new ArrayList<>();
+    public MedicinePrescription(List<String> medications){
+        this.medications = medications;
         id = UUID.randomUUID();
     }
 

@@ -8,22 +8,27 @@ import PublicRouter from './pages/public/PublicRouter';
 import AuthGuard from './pages/users/Authentification/AuthGuard';
 import Error from './utils/Error';
 import DoctorRouter from './pages/Doctor/DoctorRouter';
-
+import AuthGuardDoctor from './pages/users/Authentification/AuthGuardDoctor';
+import AuthGuardPatient from './pages/users/Authentification/AuthGuardPatient';
 
 function Router() {
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="/*" element={<PublicRouter />} />
-          <Route path="/admin/*" element={
-            <AuthGuard>
+        <Route path="/*" element={<AuthGuardDoctor><PublicRouter /></AuthGuardDoctor>} />
+        <Route path="/admin/*" element={
+          <AuthGuard>
+            <AuthGuardDoctor>
               <AdminRouter />
-            </AuthGuard>} />
-            <Route path="/doctor/*" element={
-            <AuthGuard>
+            </AuthGuardDoctor>
+          </AuthGuard>} />
+        <Route path="/doctor/*" element={
+          <AuthGuard>
+            <AuthGuardPatient>
               <DoctorRouter />
-            </AuthGuard>} />
-          <Route path="*" element={<Error />} />
+            </AuthGuardPatient>
+          </AuthGuard>} />
+        <Route path="*" element={<Error />} />
       </Routes>
     </BrowserRouter>
   );

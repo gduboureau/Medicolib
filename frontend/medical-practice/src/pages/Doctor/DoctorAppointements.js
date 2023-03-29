@@ -5,7 +5,7 @@ import timeGridPlugin from '@fullcalendar/timegrid';
 import interactionPlugin from '@fullcalendar/interaction';
 import frLocale from '@fullcalendar/core/locales/fr';
 import axios from 'axios';
-import { accountService } from "../users/Authentification/LocalStorage";
+import { accountService } from "../users/Authentification/Sessionstorage";
 
 const DoctorAppointments = () => {
     const [AppointmentList, setAppointments] = useState([]);
@@ -21,7 +21,7 @@ const DoctorAppointments = () => {
             console.log(newData)
             setAppointments(newData);
         });
-    }, []);
+    }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
     return (
         <FullCalendar

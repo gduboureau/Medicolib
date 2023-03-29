@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { useParams, useNavigate } from "react-router";
-import { accountService } from "../users/Authentification/LocalStorage";
+import { accountService } from "../users/Authentification/Sessionstorage";
 import moment from 'moment';
 import 'moment/locale/fr';
 

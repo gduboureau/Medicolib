@@ -1,8 +1,12 @@
 import axios from 'axios';
-import { accountService } from "../users/Authentification/LocalStorage";
+import { accountService } from "../users/Authentification/Sessionstorage";
 import { useEffect, useState } from 'react';
 import './patient.css';
+import { useNavigate } from "react-router-dom";
+
 const ShowPatients = () => {
+
+    const navigate = useNavigate();
 
     const [patientsList, setPatientsList] = useState([]);
 
@@ -18,10 +22,9 @@ const ShowPatients = () => {
     useEffect(() => {
         axios.post("/getPatients", mail).then(res => {
             const newData = res.data;
-            console.log(newData);
             setPatientsList(newData)
         });
-    }, []);
+    }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
     const pageNumbers = [];
     for (let i = 1; i <= Math.ceil(patientsList.length / patientsPerPage); i++) {
@@ -31,6 +34,11 @@ const ShowPatients = () => {
     const handleClick = (event) => {
         setCurrentPage(Number(event.target.id));
     };
+
+    const handleConsultationClick = (firstname, lastname) => {
+        let name = firstname + "-" + lastname
+        navigate(`/doctor/${name}/consultation`);
+    }
 
     return (
         <div className="container">
@@ -54,7 +62,7 @@ const ShowPatients = () => {
                             <td>{patient[2]}</td>
                             <td>{patient[4]}</td>
                             <td>
-                                <button className="btn edit-btn">Consulter</button>
+                                <button className="btn edit-btn" onClick={() => handleConsultationClick(patient[0], patient[1])}>Consulter</button>
                                 <button className="btn delete-btn">Modifier</button>
                             </td>
                         </tr>

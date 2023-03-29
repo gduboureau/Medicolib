@@ -3,7 +3,7 @@ import { Routes, Route } from 'react-router-dom';
 import DoctorLayout from './DoctorLayout';
 import DoctorAppointments from './DoctorAppointements'
 import Error from '../../utils/Error';
-import Consultation from './Prescription';
+import Consultation from './Consultation';
 import ShowPatients from './ShowPatients';
 
 const DoctorRouter = () => {
@@ -11,7 +11,7 @@ const DoctorRouter = () => {
     <Routes>
     <Route element={<DoctorLayout />}>
         <Route path="/appointments" element={<DoctorAppointments />} />
-        <Route path="/consultations" element={<Consultation />} />
+        <Route path="/:name/consultation" element={<Consultation />} />
         <Route path="/patients" element={<ShowPatients/>} />
         <Route path="*" element={<Error />} />
     </Route>

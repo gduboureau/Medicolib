@@ -1,6 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import { accountService } from "../users/Authentification/LocalStorage";
+import { accountService } from "../users/Authentification/Sessionstorage";
 import { useNavigate } from "react-router-dom";
 
 import '../../components/header.css';
@@ -18,7 +18,7 @@ const DoctorHeader = () => {
             <nav>
                 <ul>
                     <li><Link to="appointments">Planning</Link> </li>
-                    <li><Link to="consultations">Consultations</Link> </li>
+                    <li><Link to="patients">Mes patients</Link> </li>
                     <button onClick={logout}>Déconnexion</button>
                 </ul>
             </nav>

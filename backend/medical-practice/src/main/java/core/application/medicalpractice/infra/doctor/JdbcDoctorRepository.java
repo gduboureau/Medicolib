@@ -4,11 +4,14 @@ import java.sql.*;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.*;
+import java.util.Date;
 
 import org.springframework.stereotype.Service;
 
 import core.application.DButils.DBUtil;
 import core.application.medicalpractice.domain.entity.Doctor;
+import core.application.medicalpractice.domain.entity.MedicinePrescription;
+import core.application.medicalpractice.infra.patient.JdbcPatientRepository;
 
 @Service
 public class JdbcDoctorRepository implements DoctorRepository {
@@ -163,6 +166,34 @@ public class JdbcDoctorRepository implements DoctorRepository {
       doctorId = UUID.fromString(rs.getString(1));
     }
     return doctorId;
+  }
+
+  public UUID addPrescription(List<String> medicList) throws SQLException {
+    connection = DBUtil.getConnection();
+    Statement stmt = connection.createStatement();
+    MedicinePrescription medicinePrescription = new MedicinePrescription(medicList);
+    StringBuilder stringBuilder = new StringBuilder();
+    for (String medic : medicList){
+      stringBuilder.append(medic + " ");
+    }
+    String request = "INSERT INTO Prescriptions (prescriptionsId, Description) VALUES (" + "'"
+     + medicinePrescription.getID() + "', '" + stringBuilder.toString() + "')";
+    stmt.executeUpdate(request);
+    return medicinePrescription.getID();
+  }
+
+  @Override
+  public void addConsultation(String mail, String lastname, String firstname, Date date, String motif, List<String> medicList) throws SQLException {
+    JdbcPatientRepository patientRepository = new JdbcPatientRepository();
+    UUID patientid = patientRepository.getPatientIdByName(firstname, lastname);
+    UUID doctorId = getDoctorIdByMail(mail);
+    connection = DBUtil.getConnection();
+    Statement stmt = connection.createStatement();
+    String request = "INSERT INTO Consultations(PatientId , DoctorId , Day , PrescriptionsId ) VALUES (" + "'"
+    + patientid + "'" + "," + "'" + doctorId + "'" + "," + "'"
+    + new java.sql.Date(date.getTime()) + "'" + "," + "'"
+    + addPrescription(medicList) + "')";
+    stmt.executeUpdate(request);
   }
 
 }

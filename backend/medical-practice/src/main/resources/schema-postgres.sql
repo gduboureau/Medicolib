@@ -25,15 +25,14 @@ DROP TABLE IF EXISTS Consultations;
 CREATE TABLE Consultations (
     ConsultationId uuid DEFAULT uuid_generate_v4() CONSTRAINT Consultaiton_key PRIMARY KEY,
     PatientId varchar(80) CONSTRAINT PatientId_null NOT NULL,
-    Starttime timestamp CONSTRAINT start_null NOT NULL,
-    EndTime timestamp CONSTRAINT end_null NOT NULL,
     DoctorId varchar(80) CONSTRAINT DoctorId_null NOT NULL,
-    PrescriptionsId uuid CONSTRAINT PrescriptionsId_null NOT NULL
+    Day date CONSTRAINT day_null NOT NULL,
+    PrescriptionsId uuid
 );
 
 DROP TABLE IF EXISTS Prescriptions;
 CREATE TABLE Prescriptions (
-    PrescriptionsId uuid DEFAULT uuid_generate_v4() CONSTRAINT PrescriptionsId_key PRIMARY KEY,
+    PrescriptionsId uuid CONSTRAINT PrescriptionsId_key PRIMARY KEY,
     Description Text CONSTRAINT Description_null NOT NULL
 );
 

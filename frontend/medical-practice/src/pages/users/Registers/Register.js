@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import axios from 'axios';
 import { useNavigate, Link} from 'react-router-dom';
-import { accountService } from "../Authentification/LocalStorage";
+import { accountService } from "../Authentification/Sessionstorage";
 
 const Register = () => {
 

@@ -1,6 +1,7 @@
 package core.application.medicalpractice.application;
 
 import java.sql.SQLException;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.UUID;
@@ -59,6 +60,10 @@ public class MedicalPractice {
 
     public List<List<String>> getPatientsByDoctor(String mail) throws SQLException{
         return doctorRepository.getPatientsByDoctor(mail);
+    }
+
+    public void addConsultation(String mail, String lastname, String firstname, Date date, String motif, List<String> medicList) throws SQLException {
+        doctorRepository.addConsultation(mail, lastname, firstname, date, motif, medicList);
     }
 
     // requests for patients

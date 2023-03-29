@@ -2,7 +2,7 @@ import React from "react";
 import axios from 'axios';
 import {useState, useEffect} from "react";
 
-import { accountService } from "../users/Authentification/LocalStorage";
+import { accountService } from "../users/Authentification/Sessionstorage";
 
 const Edit = () => {
 
@@ -49,7 +49,7 @@ const Edit = () => {
       .catch((error) => {
         console.log(error);
       });
-    }, []);
+    }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
     const handleChange = (e) => {
         const { name, value } = e.target;

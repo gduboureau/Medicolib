@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import axios from 'axios';
-import { accountService } from "../users/Authentification/LocalStorage";
+import { accountService } from "../users/Authentification/Sessionstorage";
 
 import './appointments.css';
 
@@ -26,7 +26,7 @@ function ConfirmationModal(props) {
 
 const Appointments = () => {
     const [selectedAppointment, setSelectedAppointment] = useState(null);
-    const [showModal, setShowModal] = useState(false);
+    const [setShowModal] = useState(false);
     let mail = { mail: accountService.getEmail() };
 
     const [AppointmentList, setAppointments] = useState([]);
@@ -36,7 +36,7 @@ const Appointments = () => {
             const newData = res.data;
             setAppointments(newData);
         });
-    }, []);
+    }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
     const handleCancelAppointment = (id) => {
         setSelectedAppointment(id);

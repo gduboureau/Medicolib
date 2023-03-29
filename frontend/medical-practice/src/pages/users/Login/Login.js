@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-import { accountService } from '../Authentification/LocalStorage';
+import { accountService } from '../Authentification/Sessionstorage';
 import { Link, useNavigate, useLocation } from "react-router-dom";
 
 const Login = () => {
@@ -49,6 +49,7 @@ const Login = () => {
                 console.log(res)
                 accountService.saveToken(res.data[0])
                 accountService.saveEmail(credentials.login)
+                accountService.saveUserType(res.data[1])
                 if (res.data[1] === 'patient') {
                     navigate(state?.prev);
                 }

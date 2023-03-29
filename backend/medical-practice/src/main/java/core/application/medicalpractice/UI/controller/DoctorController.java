@@ -1,6 +1,12 @@
 package core.application.medicalpractice.UI.controller;
 
+import java.lang.reflect.Array;
 import java.sql.SQLException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
@@ -58,4 +64,19 @@ public class DoctorController {
 		return medicalPractice.getPatientsByDoctor(map.get("mail"));
 	}
 
+	@PostMapping(value = "/prescriptions")
+	public void addConsultation(@RequestBody Map<String, Object> map) throws SQLException, ParseException {
+		String date = (String) map.get("date");
+		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+		Date parsed = format.parse(date);
+		String firstName = (String) map.get("firstname");
+		String lastName = (String) map.get("lastname");
+		String motif = (String) map.get("motif");
+		String mail = (String) map.get("mail");
+		List<?> medicList = new ArrayList<>();
+		if (map.get("medicList").getClass().isArray()){
+			medicList = Arrays.asList(map.get("medicList"));
+		}
+		medicalPractice.addConsultation(mail, lastName, firstName, parsed, motif, (List<String>) medicList);
+	}
 }
