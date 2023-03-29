@@ -50,24 +50,29 @@ public class MedicalPractice {
         return doctorRepository.getDoctorById(doctorid);
     }
 
-    public List<List<String>> displayAppointments(String firstname, String lastname) throws SQLException{
+    public List<List<String>> displayAppointments(String firstname, String lastname) throws SQLException {
         return doctorRepository.displayAppointments(firstname, lastname);
     }
 
-    public List<List<String>> getAllAppointmentsDoctor(String mail) throws SQLException{
+    public List<List<String>> getAllAppointmentsDoctor(String mail) throws SQLException {
         return doctorRepository.getAllAppointmentsDoctor(mail);
     }
 
-    public List<List<String>> getPatientsByDoctor(String mail) throws SQLException{
+    public List<List<String>> getPatientsByDoctor(String mail) throws SQLException {
         return doctorRepository.getPatientsByDoctor(mail);
     }
 
-    public void addConsultation(String mail, String lastname, String firstname, Date date, String motif, List<String> medicList) throws SQLException {
+    public void addConsultation(String mail, String lastname, String firstname, Date date, String motif,
+            List<String> medicList) throws SQLException {
         doctorRepository.addConsultation(mail, lastname, firstname, date, motif, medicList);
     }
 
-    public List<String> getMedicalFile(String mail, String firstname, String lastname) throws SQLException{
-        return doctorRepository.getMedicalFile(mail, firstname, lastname);
+    public List<List<String>> getMedicalFile(String mail, String firstname, String lastname) throws SQLException {
+        List<String> informations = patientRepository
+                .getInformationsPatient(patientRepository.getMailByName(firstname, lastname));
+        List<List<String>> consultations = doctorRepository.getConsultations(mail, firstname, lastname);
+        consultations.add(informations);
+        return consultations;
     }
 
     // requests for patients
@@ -85,23 +90,23 @@ public class MedicalPractice {
         return patientRepository.checkPatientExist(mail, firstname, lastname);
     }
 
-    public List<String> getInformationsPatient(String mail) throws SQLException{
+    public List<String> getInformationsPatient(String mail) throws SQLException {
         return patientRepository.getInformationsPatient(mail);
     }
 
-    public Address getAddress(String mail) throws SQLException{
+    public Address getAddress(String mail) throws SQLException {
         return patientRepository.getAddress(mail);
     }
 
-    public void saveAddress(Patient patient) throws SQLException{
+    public void saveAddress(Patient patient) throws SQLException {
         patientRepository.saveAddress(patient);
     }
 
-    public void makeAnAppointment(String id, String mail) throws SQLException{
+    public void makeAnAppointment(String id, String mail) throws SQLException {
         patientRepository.makeAnAppointment(id, mail);
     }
 
-    public void cancelAppointment(String id) throws SQLException{
+    public void cancelAppointment(String id) throws SQLException {
         patientRepository.cancelAppointment(id);
     }
 
@@ -115,18 +120,17 @@ public class MedicalPractice {
         return userRepository.checkLoginExist(email, password);
     }
 
-    public void resetPassword(String mail, String password) throws SQLException{
+    public void resetPassword(String mail, String password) throws SQLException {
         userRepository.resetPassword(mail, password);
     }
 
-    public boolean checkUserExist(String mail) throws SQLException{
+    public boolean checkUserExist(String mail) throws SQLException {
         return userRepository.checkUserExist(mail);
     }
 
-    public String getUserType(String mail) throws SQLException{
+    public String getUserType(String mail) throws SQLException {
         return userRepository.getUserType(mail);
     }
-
 
     // requests for medical files
 

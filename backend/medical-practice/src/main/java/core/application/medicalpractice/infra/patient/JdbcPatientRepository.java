@@ -31,15 +31,25 @@ public class JdbcPatientRepository implements PatientRepository {
     if (rs.next()) {
       patientId = UUID.fromString(rs.getString(1));
     }
-    rs.close();
-    stmt.close();
-    connection.close();
     return patientId;
   }
 
   @Override
-  public List<List<String>> getAllAppointmentsByPatient(String mail) throws SQLException {
+  public String getMailByName(String firstname, String lastname) throws SQLException {
+    String mail = null;
     connection = DBUtil.getConnection();
+    Statement stmt = connection.createStatement();
+    String request = "SELECT mail FROM Patients WHERE firstname=" + "'" + firstname + "' AND lastname=" + "'" + lastname
+        + "'";
+    ResultSet rs = stmt.executeQuery(request);
+    if (rs.next()) {
+      mail = rs.getString(1);
+    }
+    return mail;
+  }
+
+  @Override
+  public List<List<String>> getAllAppointmentsByPatient(String mail) throws SQLException {
     List<List<String>> appointments = new ArrayList<List<String>>();
     DateFormat df = new SimpleDateFormat("EEEE d MMM yyyy");
     Statement stmt = connection.createStatement();
@@ -56,15 +66,11 @@ public class JdbcPatientRepository implements PatientRepository {
       l.add(rs.getTime(5).toString());
       appointments.add(l);
     }
-    rs.close();
-    stmt.close();
-    connection.close();
     return appointments;
   }
 
   @Override
   public void savePatient(Patient patient) throws SQLException {
-    connection = DBUtil.getConnection();
     Statement stmt = connection.createStatement();
 
     if (checkPatientExist(patient.getMail(), patient.getFirstName(), patient.getLastName())) {
@@ -85,8 +91,6 @@ public class JdbcPatientRepository implements PatientRepository {
           + patient.getAdress() + "','" + patient.getNumSocial() + "')";
       stmt.executeUpdate(request);
     }
-    stmt.close();
-    connection.close();
 
   }
 
@@ -97,11 +101,7 @@ public class JdbcPatientRepository implements PatientRepository {
     String request = "SELECT * FROM Patients WHERE mail=" + "'" + mail + "'" + " OR firstname=" + "'" + firstname + "'"
         + " OR lastname=" + "'" + lastname + "'";
     ResultSet rs = stmt.executeQuery(request);
-    Boolean exist = rs.next();
-    rs.close();
-    stmt.close();
-    connection.close();
-    return exist;
+    return rs.next();
   }
 
   @Override
@@ -117,9 +117,6 @@ public class JdbcPatientRepository implements PatientRepository {
         informations.add(rs.getString(i));
       }
     }
-    rs.close();
-    stmt.close();
-    connection.close();
     return informations;
   }
 
@@ -141,8 +138,6 @@ public class JdbcPatientRepository implements PatientRepository {
           + patient.getAdress().getCity() + "'";
       stmt.executeUpdate(request);
     }
-    stmt.close();
-    connection.close();
   }
 
   @Override
@@ -156,9 +151,6 @@ public class JdbcPatientRepository implements PatientRepository {
     if (rs.next()) {
       addr = new Address(rs.getInt(2), rs.getString(3), rs.getString(5), rs.getInt(4));
     }
-    rs.close();
-    stmt.close();
-    connection.close();
     return addr;
   }
 
@@ -172,8 +164,6 @@ public class JdbcPatientRepository implements PatientRepository {
         + new Timestamp(appointment.getTimeSlot().getBeginDate().getTime()) + "'" + ","
         + "'" + new Timestamp(appointment.getTimeSlot().getEndDate().getTime()) + "'" + ")";
     stmt.executeUpdate(request);
-    stmt.close();
-    connection.close();
   }
 
   @Override
@@ -182,8 +172,6 @@ public class JdbcPatientRepository implements PatientRepository {
     Statement stmt = connection.createStatement();
     String request = "DELETE FROM AvailableTimeSlots WHERE TimeSlotId =" + "'" + id + "'";
     stmt.executeUpdate(request);
-    stmt.close();
-    connection.close();
   }
 
   @Override
@@ -200,12 +188,9 @@ public class JdbcPatientRepository implements PatientRepository {
       removeTimeSlot(UUID.fromString(rs.getString(1)));
     }
     addAppointment(appointment);
-    if (!medicalRepository.checkMedicalFileExist(mail, UUID.fromString(rs.getString(2)))){
+    if (!medicalRepository.checkMedicalFileExist(mail, UUID.fromString(rs.getString(2)))) {
       medicalRepository.createMedicalFile(getPatientIdByMail(mail), UUID.fromString(rs.getString(2)));
     }
-    rs.close();
-    stmt.close();
-    connection.close();
   }
 
   @Override
@@ -224,9 +209,7 @@ public class JdbcPatientRepository implements PatientRepository {
     Statement stmt3 = connection.createStatement();
     String request3 = "DELETE FROM Appointments WHERE appointmentId =" + "'" + id + "'";
     stmt3.executeUpdate(request3);
-    rs.close();
-    stmt.close();
-    connection.close();
+
   }
 
   @Override
@@ -234,14 +217,12 @@ public class JdbcPatientRepository implements PatientRepository {
     UUID patientId = null;
     connection = DBUtil.getConnection();
     Statement stmt = connection.createStatement();
-    String request = "SELECT patientId FROM Patients WHERE lastname =" + "'" + lastname + "' AND firstname = '" + firstname + "'";
+    String request = "SELECT patientId FROM Patients WHERE lastname =" + "'" + lastname + "' AND firstname = '"
+        + firstname + "'";
     ResultSet rs = stmt.executeQuery(request);
     if (rs.next()) {
       patientId = UUID.fromString(rs.getString(1));
     }
-    rs.close();
-    stmt.close();
-    connection.close();
     return patientId;
-  } 
+  }
 }

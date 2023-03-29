@@ -12,6 +12,8 @@ import core.application.medicalpractice.domain.entity.*;
 public interface PatientRepository {
     public UUID getPatientIdByMail(String mail) throws SQLException;
 
+    public String getMailByName(String firstname, String lastname) throws SQLException;
+
     public List<List<String>> getAllAppointmentsByPatient(String mail) throws SQLException;
 
     public void addAppointment(Appointment appointment) throws SQLException;

@@ -77,10 +77,11 @@ public class DoctorController {
 	}
 
 	@PostMapping(value = "/getMedicalFile")
-	public List<String> getMedicalFile(@RequestBody Map<String, String> map) throws SQLException, ParseException {
+	public List<List<String>> getMedicalFile(@RequestBody Map<String, String> map) throws SQLException, ParseException {
 		String firstname = map.get("firstname");
 		String lastname = map.get("lastname");
 		String mail = map.get("mail");
 		return medicalPractice.getMedicalFile(mail, firstname, lastname);
+
 	}
 }
