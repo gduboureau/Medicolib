@@ -1,6 +1,6 @@
 import axios from 'axios';
 import { accountService } from "../users/Authentification/Sessionstorage";
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import './patient.css';
 import { useNavigate } from "react-router-dom";
 
@@ -35,9 +35,14 @@ const ShowPatients = () => {
         setCurrentPage(Number(event.target.id));
     };
 
-    const handleConsultationClick = (firstname, lastname) => {
+    const handleConsultation = (firstname, lastname) => {
         let name = firstname + "-" + lastname
         navigate(`/doctor/${name}/consultation`);
+    }
+
+    const handleMedicalFile = (firstname, lastname) => {
+        let name = firstname + "-" + lastname
+        navigate(`/doctor/${name}/dossier-medical`);
     }
 
     return (
@@ -62,8 +67,8 @@ const ShowPatients = () => {
                             <td>{patient[2]}</td>
                             <td>{patient[4]}</td>
                             <td>
-                                <button className="btn edit-btn" onClick={() => handleConsultationClick(patient[0], patient[1])}>Consulter</button>
-                                <button className="btn delete-btn">Modifier</button>
+                                <button className="btn edit-btn" onClick={() => handleConsultation(patient[0], patient[1])}>Consultation</button>
+                                <button className="btn delete-btn" onClick={() => handleMedicalFile(patient[0], patient[1])}>Dossier médical</button>
                             </td>
                         </tr>
                     ))}

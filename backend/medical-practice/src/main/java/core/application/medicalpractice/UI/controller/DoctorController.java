@@ -1,11 +1,9 @@
 package core.application.medicalpractice.UI.controller;
 
-import java.lang.reflect.Array;
 import java.sql.SQLException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -64,6 +62,7 @@ public class DoctorController {
 		return medicalPractice.getPatientsByDoctor(map.get("mail"));
 	}
 
+	@SuppressWarnings("unchecked")
 	@PostMapping(value = "/prescriptions")
 	public void addConsultation(@RequestBody Map<String, Object> map) throws SQLException, ParseException {
 		String date = (String) map.get("date");
@@ -73,10 +72,15 @@ public class DoctorController {
 		String lastName = (String) map.get("lastname");
 		String motif = (String) map.get("motif");
 		String mail = (String) map.get("mail");
-		List<?> medicList = new ArrayList<>();
-		if (map.get("medicList").getClass().isArray()){
-			medicList = Arrays.asList(map.get("medicList"));
-		}
-		medicalPractice.addConsultation(mail, lastName, firstName, parsed, motif, (List<String>) medicList);
+		ArrayList<String> medicList = (ArrayList<String>) map.get("medicList");
+		medicalPractice.addConsultation(mail, lastName, firstName, parsed, motif, medicList);
+	}
+
+	@PostMapping(value = "/getMedicalFile")
+	public List<String> getMedicalFile(@RequestBody Map<String, String> map) throws SQLException, ParseException {
+		String firstname = map.get("firstname");
+		String lastname = map.get("lastname");
+		String mail = map.get("mail");
+		return medicalPractice.getMedicalFile(mail, firstname, lastname);
 	}
 }

@@ -22,4 +22,5 @@ public interface DoctorRepository{
     public UUID getDoctorIdByMail(String mail) throws SQLException;
     public void addConsultation(String mail, String lastname, String firstname, Date date, String motif, List<String> medicList) throws SQLException;
     public UUID addPrescription(List<String> medicList) throws SQLException;
+    public List<String> getMedicalFile(String mail, String firstname, String lastname) throws SQLException;
 }

@@ -141,7 +141,8 @@ public class JdbcDoctorRepository implements DoctorRepository {
   public List<List<String>> getPatientsByDoctor(String mail) throws SQLException {
     List<List<String>> patients = new ArrayList<List<String>>();
     Statement stmt = connection.createStatement();
-    String sql = "SELECT * FROM Patients JOIN MedicalFile on (MedicalFile.patientid = Patients.patientid) where doctorid = '" + getDoctorIdByMail(mail) + "'";
+    String sql = "SELECT * FROM Patients JOIN MedicalFile on (MedicalFile.patientid = Patients.patientid) where doctorid = '"
+        + getDoctorIdByMail(mail) + "'";
     ResultSet rs = stmt.executeQuery(sql);
     while (rs.next()) {
       List<String> l = new ArrayList<>();
@@ -173,27 +174,73 @@ public class JdbcDoctorRepository implements DoctorRepository {
     Statement stmt = connection.createStatement();
     MedicinePrescription medicinePrescription = new MedicinePrescription(medicList);
     StringBuilder stringBuilder = new StringBuilder();
-    for (String medic : medicList){
+    for (String medic : medicList) {
       stringBuilder.append(medic + " ");
     }
     String request = "INSERT INTO Prescriptions (prescriptionsId, Description) VALUES (" + "'"
-     + medicinePrescription.getID() + "', '" + stringBuilder.toString() + "')";
+        + medicinePrescription.getID() + "', '" + stringBuilder.toString() + "')";
     stmt.executeUpdate(request);
     return medicinePrescription.getID();
   }
 
   @Override
-  public void addConsultation(String mail, String lastname, String firstname, Date date, String motif, List<String> medicList) throws SQLException {
+  public void addConsultation(String mail, String lastname, String firstname, Date date, String motif,
+      List<String> medicList) throws SQLException {
     JdbcPatientRepository patientRepository = new JdbcPatientRepository();
     UUID patientid = patientRepository.getPatientIdByName(firstname, lastname);
     UUID doctorId = getDoctorIdByMail(mail);
     connection = DBUtil.getConnection();
     Statement stmt = connection.createStatement();
     String request = "INSERT INTO Consultations(PatientId , DoctorId , Day , PrescriptionsId ) VALUES (" + "'"
-    + patientid + "'" + "," + "'" + doctorId + "'" + "," + "'"
-    + new java.sql.Date(date.getTime()) + "'" + "," + "'"
-    + addPrescription(medicList) + "')";
+        + patientid + "'" + "," + "'" + doctorId + "'" + "," + "'"
+        + new java.sql.Date(date.getTime()) + "'" + "," + "'"
+        + addPrescription(medicList) + "')";
     stmt.executeUpdate(request);
+  }
+
+  @Override
+  public List<String> getMedicalFile(String mail, String firstname, String lastname) throws SQLException {
+    JdbcPatientRepository patientRepository = new JdbcPatientRepository();
+    UUID patientid = patientRepository.getPatientIdByName(firstname, lastname);
+    UUID doctorId = getDoctorIdByMail(mail);
+    List<String> informations = new ArrayList<>();
+    SimpleDateFormat df = new SimpleDateFormat("dd/MM/yyyy");
+    connection = DBUtil.getConnection();
+    Statement stmt = connection.createStatement();
+    String request = "SELECT * FROM Patients JOIN Consultations ON Patients.patientid = Consultations.patientid JOIN Prescriptions ON Consultations.prescriptionsid = Prescriptions.prescriptionsid WHERE consultations.patientid ="
+        + "'" + patientid + "'" + " AND consultations.doctorid=" + "'" + doctorId + "'";
+    ResultSet rs = stmt.executeQuery(request);
+    if (rs.next()) {
+      informations.add(rs.getString(1));
+      informations.add(rs.getString(2));
+      informations.add(rs.getString(3));
+      informations.add(rs.getString(4));
+      informations.add(df.format(rs.getDate(5)).toString());
+      if (rs.getFloat(6) == 0) {
+        informations.add("Non renseigné");
+      } else {
+        informations.add(Float.toString(rs.getFloat(6)));
+      }
+      if (rs.getFloat(7) == 0) {
+        informations.add("Non renseigné");
+      } else {
+        informations.add(Float.toString(rs.getFloat(7)));
+      }
+      informations.add(rs.getString(8));
+      if (rs.getString(9).equals("1   1  ")) {
+        informations.add("Non renseigné");
+      } else {
+        informations.add(rs.getString(9));
+      }
+      if (rs.getString(10).equals("")) {
+        informations.add("Non renseigné");
+      } else {
+        informations.add(rs.getString(10));
+      }
+      informations.add(rs.getString(14));
+      informations.add(rs.getString(17));
+    }
+    return informations;
   }
 
 }

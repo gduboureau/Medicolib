@@ -66,6 +66,10 @@ public class MedicalPractice {
         doctorRepository.addConsultation(mail, lastname, firstname, date, motif, medicList);
     }
 
+    public List<String> getMedicalFile(String mail, String firstname, String lastname) throws SQLException{
+        return doctorRepository.getMedicalFile(mail, firstname, lastname);
+    }
+
     // requests for patients
 
     public List<List<String>> getAppointmentByPatient(String mail) throws SQLException {
