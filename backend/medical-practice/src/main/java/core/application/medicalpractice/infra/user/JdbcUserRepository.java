@@ -21,6 +21,7 @@ public class JdbcUserRepository implements UserRepository {
             String request = "INSERT INTO Users(mail, password) VALUES (" + "'" + mail + "'" + "," + "'" + password
                     + "'" + ")";
             stmt.executeUpdate(request);
+            stmt.close();
             DBUtil.closeConnection(connection);
         } catch (SQLException e) {
             return false;
@@ -33,6 +34,7 @@ public class JdbcUserRepository implements UserRepository {
         Statement stmt = connection.createStatement();
         String request = "UPDATE Users SET password=" + "'" + password + "'" + "WHERE mail=" + "'" + mail + "'";
         stmt.executeUpdate(request);
+        stmt.close();
         DBUtil.closeConnection(connection);
     }
 
@@ -41,7 +43,11 @@ public class JdbcUserRepository implements UserRepository {
         Statement stmt = connection.createStatement();
         String request = "SELECT * FROM Users WHERE mail=" + "'" + mail + "' AND " + "password=" + "'" + password + "'";
         ResultSet rs = stmt.executeQuery(request);
-        return rs.next();
+        Boolean exist = rs.next();
+        rs.close();
+        stmt.close();
+        DBUtil.closeConnection(connection);
+        return exist;
     }
 
     public boolean checkUserExist(String mail) throws SQLException {
@@ -49,7 +55,11 @@ public class JdbcUserRepository implements UserRepository {
         Statement stmt = connection.createStatement();
         String request = "SELECT * FROM Users WHERE mail=" + "'" + mail + "'";
         ResultSet rs = stmt.executeQuery(request);
-        return rs.next();
+        Boolean exist = rs.next();
+        rs.close();
+        stmt.close();
+        DBUtil.closeConnection(connection);
+        return exist;
     }
 
     @Override
@@ -62,6 +72,9 @@ public class JdbcUserRepository implements UserRepository {
         if (rs.next()){
             userType = rs.getString(1);
         }
+        rs.close();
+        stmt.close();
+        DBUtil.closeConnection(connection);
         return userType;
     }
 

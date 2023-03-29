@@ -23,7 +23,8 @@ public class JdbcDoctorRepository implements DoctorRepository {
   }
 
   @Override
-  public List<Doctor> getAllDoctors() {
+  public List<Doctor> getAllDoctors() throws SQLException {
+    connection = DBUtil.getConnection();
     List<Doctor> doctorList = new ArrayList<Doctor>();
     try {
       PreparedStatement stmt = connection.prepareStatement("SELECT * FROM doctors");
@@ -34,6 +35,9 @@ public class JdbcDoctorRepository implements DoctorRepository {
             rs.getString(6));
         doctorList.add(doctor);
       }
+      rs.close();
+      stmt.close();
+      connection.close();
     } catch (SQLException e) {
 
       e.printStackTrace();
@@ -42,7 +46,8 @@ public class JdbcDoctorRepository implements DoctorRepository {
   }
 
   @Override
-  public List<String> getAllSpecialities() {
+  public List<String> getAllSpecialities() throws SQLException {
+    connection = DBUtil.getConnection();
     List<String> specialityList = new ArrayList<String>();
     try {
       PreparedStatement stmt = connection.prepareStatement("SELECT DISTINCT speciality FROM doctors");
@@ -51,6 +56,9 @@ public class JdbcDoctorRepository implements DoctorRepository {
       while (rs.next()) {
         specialityList.add(rs.getString(1));
       }
+      rs.close();
+      stmt.close();
+      connection.close();
     } catch (SQLException e) {
 
       e.printStackTrace();
@@ -59,7 +67,8 @@ public class JdbcDoctorRepository implements DoctorRepository {
   }
 
   @Override
-  public List<Doctor> getDoctorsBySpeciality(String speciality) {
+  public List<Doctor> getDoctorsBySpeciality(String speciality) throws SQLException {
+    connection = DBUtil.getConnection();
     List<Doctor> doctorList = new ArrayList<Doctor>();
     try {
       PreparedStatement stmt = connection
@@ -71,6 +80,9 @@ public class JdbcDoctorRepository implements DoctorRepository {
             rs.getString(6));
         doctorList.add(doctor);
       }
+      rs.close();
+      stmt.close();
+      connection.close();
     } catch (SQLException e) {
 
       e.printStackTrace();
@@ -79,7 +91,8 @@ public class JdbcDoctorRepository implements DoctorRepository {
   }
 
   @Override
-  public Doctor getDoctorById(UUID doctorid) {
+  public Doctor getDoctorById(UUID doctorid) throws SQLException {
+    connection = DBUtil.getConnection();
     Doctor doctor = null;
     try {
       PreparedStatement stmt = connection.prepareStatement("SELECT * FROM doctors WHERE doctorid = '" + doctorid + "'");
@@ -88,6 +101,9 @@ public class JdbcDoctorRepository implements DoctorRepository {
         doctor = new Doctor(rs.getString(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getString(5),
             rs.getString(6));
       }
+      rs.close();
+      stmt.close();
+      connection.close();
 
     } catch (SQLException e) {
 
@@ -98,6 +114,7 @@ public class JdbcDoctorRepository implements DoctorRepository {
 
   @Override
   public List<List<String>> displayAppointments(String firstName, String lastName) throws SQLException {
+    connection = DBUtil.getConnection();
     List<List<String>> appointments = new ArrayList<>();
     DateFormat df = new SimpleDateFormat("EEEE d MMM yyyy");
     DateFormat tf = new SimpleDateFormat("HH:mm");
@@ -115,11 +132,15 @@ public class JdbcDoctorRepository implements DoctorRepository {
       l.add(tf.format(rs.getTime(4)).toString());
       appointments.add(l);
     }
+    rs.close();
+    stmt.close();
+    connection.close();
     return appointments;
   }
 
   @Override
   public List<List<String>> getAllAppointmentsDoctor(String mail) throws SQLException {
+    connection = DBUtil.getConnection();
     List<List<String>> appointments = new ArrayList<List<String>>();
     Statement stmt = connection.createStatement();
     String sql = "SELECT appointments.appointmentid, appointments.StartTime, appointments.endtime, patients.firstname, patients.lastname FROM patients JOIN appointments ON patients.patientid = appointments.patientid WHERE appointments.doctorid= (SELECT doctorid FROM Doctors WHERE mail= "
@@ -135,10 +156,14 @@ public class JdbcDoctorRepository implements DoctorRepository {
       l.add(rs.getString(5));
       appointments.add(l);
     }
+    rs.close();
+    stmt.close();
+    connection.close();
     return appointments;
   }
 
   public List<List<String>> getPatientsByDoctor(String mail) throws SQLException {
+    connection = DBUtil.getConnection();
     List<List<String>> patients = new ArrayList<List<String>>();
     Statement stmt = connection.createStatement();
     String sql = "SELECT * FROM Patients JOIN MedicalFile on (MedicalFile.patientid = Patients.patientid) where doctorid = '"
@@ -153,19 +178,25 @@ public class JdbcDoctorRepository implements DoctorRepository {
       l.add(rs.getString(8));
       patients.add(l);
     }
+    rs.close();
+    stmt.close();
+    connection.close();
     return patients;
   }
 
   @Override
   public UUID getDoctorIdByMail(String mail) throws SQLException {
-    UUID doctorId = null;
     connection = DBUtil.getConnection();
+    UUID doctorId = null;
     Statement stmt = connection.createStatement();
     String request = "SELECT doctorId FROM Doctors WHERE mail =" + "'" + mail + "'";
     ResultSet rs = stmt.executeQuery(request);
     if (rs.next()) {
       doctorId = UUID.fromString(rs.getString(1));
     }
+    rs.close();
+    stmt.close();
+    connection.close();
     return doctorId;
   }
 
@@ -180,6 +211,8 @@ public class JdbcDoctorRepository implements DoctorRepository {
     String request = "INSERT INTO Prescriptions (prescriptionsId, Description) VALUES (" + "'"
         + medicinePrescription.getID() + "', '" + stringBuilder.toString() + "')";
     stmt.executeUpdate(request);
+    stmt.close();
+    connection.close();
     return medicinePrescription.getID();
   }
 
@@ -196,6 +229,8 @@ public class JdbcDoctorRepository implements DoctorRepository {
         + new java.sql.Date(date.getTime()) + "'" + "," + "'"
         + addPrescription(medicList) + "')";
     stmt.executeUpdate(request);
+    stmt.close();
+    connection.close();
   }
 
   @Override
@@ -240,6 +275,9 @@ public class JdbcDoctorRepository implements DoctorRepository {
       informations.add(rs.getString(14));
       informations.add(rs.getString(17));
     }
+    rs.close();
+    stmt.close();
+    connection.close();
     return informations;
   }
 

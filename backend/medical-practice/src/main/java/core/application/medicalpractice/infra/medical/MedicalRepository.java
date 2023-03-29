@@ -41,6 +41,7 @@ public class MedicalRepository {
         + new java.sql.Timestamp(consultation.getAppointment().getTimeSlot().getEndDate().getTime()) + "," + "'"
         + consultation.getDoctor().getId() + "'" + ")";
     stmt.executeUpdate(request);
+    stmt.close();
     closeConnection(conn);
   }
 
@@ -50,7 +51,11 @@ public class MedicalRepository {
     Statement stmt = conn.createStatement();
     String request = "SELECT * FROM medicalfile where patientid = '" + patientRep.getPatientIdByMail(mail) + "' and doctorid = '" + doctorId + "'";
     ResultSet rs = stmt.executeQuery(request);
-    return rs.next();
+    Boolean exist = rs.next();
+    rs.close();
+    stmt.close();
+    closeConnection(conn);
+    return exist;
   }
 
   public void createMedicalFile(UUID patientId, UUID doctorId) throws SQLException{
@@ -59,6 +64,8 @@ public class MedicalRepository {
     String request = "INSERT INTO MedicalFile(doctorId, patientId,consultationId) VALUES ('"
         + doctorId + "','" + patientId + "', '{}')";
     stmt.executeUpdate(request);
+    stmt.close();
+    closeConnection(conn);
   }
 
   public void addConsultationToMedicalFile(UUID patientId, UUID doctorId, UUID consultationId) throws SQLException{
@@ -67,6 +74,9 @@ public class MedicalRepository {
     String request = "UPDATE MedicalFile SET consultationid = array_append(consultationid,'" + consultationId +
         "') where patientid = '" + patientId + "' and doctorid = '" + doctorId + "'";
     stmt.executeUpdate(request);
+    stmt.close();
+    closeConnection(conn);
   }
+  
 
 }

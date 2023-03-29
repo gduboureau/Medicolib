@@ -12,10 +12,10 @@ import core.application.medicalpractice.domain.entity.Doctor;
 @Repository
 public interface DoctorRepository{
 
-    public List<Doctor> getAllDoctors();
-    public List<String> getAllSpecialities();
-    public Doctor getDoctorById(UUID doctorid);
-    public List<Doctor> getDoctorsBySpeciality(String speciality);
+    public List<Doctor> getAllDoctors() throws SQLException;
+    public List<String> getAllSpecialities() throws SQLException;
+    public Doctor getDoctorById(UUID doctorid) throws SQLException;
+    public List<Doctor> getDoctorsBySpeciality(String speciality) throws SQLException;
     public List<List<String>>  displayAppointments(String firstName, String lastName) throws SQLException;
     public List<List<String>> getAllAppointmentsDoctor(String mail) throws SQLException;
     public List<List<String>> getPatientsByDoctor(String mail) throws SQLException;
