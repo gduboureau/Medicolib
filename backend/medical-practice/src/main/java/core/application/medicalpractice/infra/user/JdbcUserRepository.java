@@ -12,11 +12,9 @@ import core.application.DButils.DBUtil;
 @Service
 public class JdbcUserRepository implements UserRepository {
 
-    Connection connection;
-
     public boolean saveUser(String mail, String password) {
         try {
-            connection = DBUtil.getConnection();
+            Connection connection = DBUtil.getConnection();
             Statement stmt = connection.createStatement();
             String request = "INSERT INTO Users(mail, password) VALUES (" + "'" + mail + "'" + "," + "'" + password
                     + "'" + ")";
@@ -30,7 +28,7 @@ public class JdbcUserRepository implements UserRepository {
     }
 
     public void resetPassword(String mail, String password) throws SQLException {
-        connection = DBUtil.getConnection();
+        Connection connection = DBUtil.getConnection();
         Statement stmt = connection.createStatement();
         String request = "UPDATE Users SET password=" + "'" + password + "'" + "WHERE mail=" + "'" + mail + "'";
         stmt.executeUpdate(request);
@@ -39,7 +37,7 @@ public class JdbcUserRepository implements UserRepository {
     }
 
     public boolean checkLoginExist(String mail, String password) throws SQLException {
-        connection = DBUtil.getConnection();
+        Connection connection = DBUtil.getConnection();
         Statement stmt = connection.createStatement();
         String request = "SELECT * FROM Users WHERE mail=" + "'" + mail + "' AND " + "password=" + "'" + password + "'";
         ResultSet rs = stmt.executeQuery(request);
@@ -51,7 +49,7 @@ public class JdbcUserRepository implements UserRepository {
     }
 
     public boolean checkUserExist(String mail) throws SQLException {
-        connection = DBUtil.getConnection();
+        Connection connection = DBUtil.getConnection();
         Statement stmt = connection.createStatement();
         String request = "SELECT * FROM Users WHERE mail=" + "'" + mail + "'";
         ResultSet rs = stmt.executeQuery(request);
@@ -65,7 +63,7 @@ public class JdbcUserRepository implements UserRepository {
     @Override
     public String getUserType(String mail) throws SQLException {
         String userType = null;
-        connection = DBUtil.getConnection();
+        Connection connection = DBUtil.getConnection();
         Statement stmt = connection.createStatement();
         String request = "SELECT userType FROM Users WHERE mail=" + "'" + mail + "'";
         ResultSet rs = stmt.executeQuery(request);

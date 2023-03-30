@@ -26,7 +26,7 @@ function ConfirmationModal(props) {
 
 const Appointments = () => {
     const [selectedAppointment, setSelectedAppointment] = useState(null);
-    const [setShowModal] = useState(false);
+    const [showModal,setShowModal] = useState(false);
     let mail = { mail: accountService.getEmail() };
 
     const [AppointmentList, setAppointments] = useState([]);

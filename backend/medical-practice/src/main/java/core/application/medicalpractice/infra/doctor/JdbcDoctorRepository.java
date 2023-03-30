@@ -16,15 +16,9 @@ import core.application.medicalpractice.infra.patient.JdbcPatientRepository;
 @Service
 public class JdbcDoctorRepository implements DoctorRepository {
 
-  Connection connection;
-
-  public JdbcDoctorRepository() throws SQLException {
-    connection = DBUtil.getConnection();
-  }
-
   @Override
   public List<Doctor> getAllDoctors() throws SQLException {
-    connection = DBUtil.getConnection();
+    Connection connection = DBUtil.getConnection();
     List<Doctor> doctorList = new ArrayList<Doctor>();
     try {
       PreparedStatement stmt = connection.prepareStatement("SELECT * FROM doctors");
@@ -49,7 +43,7 @@ public class JdbcDoctorRepository implements DoctorRepository {
 
   @Override
   public List<String> getAllSpecialities() throws SQLException {
-    connection = DBUtil.getConnection();
+    Connection connection = DBUtil.getConnection();
     List<String> specialityList = new ArrayList<String>();
     try {
       PreparedStatement stmt = connection.prepareStatement("SELECT DISTINCT speciality FROM doctors");
@@ -72,7 +66,7 @@ public class JdbcDoctorRepository implements DoctorRepository {
 
   @Override
   public List<Doctor> getDoctorsBySpeciality(String speciality) throws SQLException {
-    connection = DBUtil.getConnection();
+    Connection connection = DBUtil.getConnection();
     List<Doctor> doctorList = new ArrayList<Doctor>();
     try {
       PreparedStatement stmt = connection
@@ -98,7 +92,7 @@ public class JdbcDoctorRepository implements DoctorRepository {
 
   @Override
   public Doctor getDoctorById(UUID doctorid) throws SQLException {
-    connection = DBUtil.getConnection();
+    Connection connection = DBUtil.getConnection();
     Doctor doctor = null;
     try {
       PreparedStatement stmt = connection.prepareStatement("SELECT * FROM doctors WHERE doctorid = '" + doctorid + "'");
@@ -121,7 +115,7 @@ public class JdbcDoctorRepository implements DoctorRepository {
 
   @Override
   public List<List<String>> displayAppointments(String firstName, String lastName) throws SQLException {
-    connection = DBUtil.getConnection();
+    Connection connection = DBUtil.getConnection();
     List<List<String>> appointments = new ArrayList<>();
     DateFormat df = new SimpleDateFormat("EEEE d MMM yyyy");
     DateFormat tf = new SimpleDateFormat("HH:mm");
@@ -149,7 +143,7 @@ public class JdbcDoctorRepository implements DoctorRepository {
 
   @Override
   public List<List<String>> getAllAppointmentsDoctor(String mail) throws SQLException {
-    connection = DBUtil.getConnection();
+    Connection connection = DBUtil.getConnection();
     List<List<String>> appointments = new ArrayList<List<String>>();
     Statement stmt = connection.createStatement();
     String sql = "SELECT appointments.appointmentid, appointments.StartTime, appointments.endtime, patients.firstname, patients.lastname FROM patients JOIN appointments ON patients.patientid = appointments.patientid WHERE appointments.doctorid= (SELECT doctorid FROM Doctors WHERE mail= "
@@ -175,7 +169,7 @@ public class JdbcDoctorRepository implements DoctorRepository {
 
   @Override
   public List<List<String>> getPatientsByDoctor(String mail) throws SQLException {
-    connection = DBUtil.getConnection();
+    Connection connection = DBUtil.getConnection();
     List<List<String>> patients = new ArrayList<List<String>>();
     Statement stmt = connection.createStatement();
     String sql = "SELECT * FROM Patients JOIN MedicalFile on (MedicalFile.patientid = Patients.patientid) where doctorid = '"
@@ -200,7 +194,7 @@ public class JdbcDoctorRepository implements DoctorRepository {
 
   @Override
   public UUID getDoctorIdByMail(String mail) throws SQLException {
-    connection = DBUtil.getConnection();
+    Connection connection = DBUtil.getConnection();
     UUID doctorId = null;
     Statement stmt = connection.createStatement();
     String request = "SELECT doctorId FROM Doctors WHERE mail =" + "'" + mail + "'";
@@ -218,7 +212,7 @@ public class JdbcDoctorRepository implements DoctorRepository {
 
   @Override
   public UUID addPrescription(List<String> medicList) throws SQLException {
-    connection = DBUtil.getConnection();
+    Connection connection = DBUtil.getConnection();
     Statement stmt = connection.createStatement();
     MedicinePrescription medicinePrescription = new MedicinePrescription(medicList);
     StringBuilder stringBuilder = new StringBuilder();
@@ -241,7 +235,7 @@ public class JdbcDoctorRepository implements DoctorRepository {
     JdbcPatientRepository patientRepository = new JdbcPatientRepository();
     UUID patientid = patientRepository.getPatientIdByName(firstname, lastname);
     UUID doctorId = getDoctorIdByMail(mail);
-    connection = DBUtil.getConnection();
+    Connection connection = DBUtil.getConnection();
     Statement stmt = connection.createStatement();
     String request = "INSERT INTO Consultations(PatientId , DoctorId , Day , PrescriptionsId ) VALUES (" + "'"
         + patientid + "'" + "," + "'" + doctorId + "'" + "," + "'"
@@ -261,7 +255,7 @@ public class JdbcDoctorRepository implements DoctorRepository {
     UUID doctorId = getDoctorIdByMail(mail);
     List<List<String>> informations = new ArrayList<>();
     SimpleDateFormat df = new SimpleDateFormat("dd/MM/yyyy");
-    connection = DBUtil.getConnection();
+    Connection connection = DBUtil.getConnection();
     Statement stmt = connection.createStatement();
     String request = "SELECT * FROM Consultations JOIN Prescriptions ON Consultations.prescriptionsid = Prescriptions.prescriptionsid WHERE consultations.patientid ="
         + "'" + patientid + "'" + " AND consultations.doctorid=" + "'" + doctorId + "'";
