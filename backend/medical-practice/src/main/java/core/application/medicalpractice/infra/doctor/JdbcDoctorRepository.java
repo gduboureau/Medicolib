@@ -264,7 +264,7 @@ public class JdbcDoctorRepository implements DoctorRepository {
       List<String> l = new ArrayList<>();
       l.add(df.format(rs.getDate(4)).toString());
       if (rs.getString(7).equals(" ")) {
-        l.add("Pas de prescriptions");
+        l.add("Aucune");
       } else {
         l.add(rs.getString(7));
       }

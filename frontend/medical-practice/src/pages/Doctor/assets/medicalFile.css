@@ -1,6 +1,7 @@
 .doctor-card {
     border: 1px solid #ccc;
     padding: 10px;
+    width: 42%;
     margin-bottom: 20px;
     background-color: #f7f7f7;
   }

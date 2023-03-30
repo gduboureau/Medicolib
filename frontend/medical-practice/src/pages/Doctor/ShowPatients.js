@@ -13,6 +13,14 @@ const ShowPatients = () => {
     const [currentPage, setCurrentPage] = useState(1);
     const [patientsPerPage] = useState(2);
 
+    const formatDate = (dateString) => {
+        const dateParts = dateString.split('-');
+        const day = dateParts[2];
+        const month = dateParts[1];
+        const year = dateParts[0];
+        return `${day}/${month}/${year}`;
+    };
+
     const indexOfLastPatient = currentPage * patientsPerPage;
     const indexOfFirstPatient = indexOfLastPatient - patientsPerPage;
     const currentPatients = patientsList.slice(indexOfFirstPatient, indexOfLastPatient);
@@ -63,7 +71,7 @@ const ShowPatients = () => {
                         <tr key={index}>
                             <td>{patient[0]}</td>
                             <td>{patient[1]}</td>
-                            <td>{patient[3]}</td>
+                            <td>{formatDate(patient[3])}</td>
                             <td>{patient[2]}</td>
                             <td>{patient[4]}</td>
                             <td>

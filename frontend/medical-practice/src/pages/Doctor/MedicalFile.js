@@ -55,7 +55,7 @@ const MedicalFile = () => {
         const month = dateParts[1];
         const year = dateParts[0];
         return `${day}/${month}/${year}`;
-      };
+    };
 
     return (
         <div>
@@ -77,8 +77,8 @@ const MedicalFile = () => {
                 <h3>Consultations</h3>
                 {data.map((data, index) => (
                     <div className="doctor-card" key={index}>
-                        <p>{data[0]}</p>
-                        <p>{data[1]}</p>
+                        <p>Date : {data[0]}</p>
+                        <p>Prescription(s) : {data[1]}</p>
                     </div>
                 ))}
             </div>
