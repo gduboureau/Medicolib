@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import axios from 'axios';
 import { accountService } from "../users/Authentification/Sessionstorage";
 
-import './appointments.css';
+import './assets/appointments.css';
 
 function ConfirmationModal(props) {
     const handleClose = () => {

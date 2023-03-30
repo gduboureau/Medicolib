@@ -1,5 +1,4 @@
 import React from 'react';
-import '../../../assets/HomePage.css';
 import Register from './Register';
 
 

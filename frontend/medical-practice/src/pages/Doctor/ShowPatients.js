@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { accountService } from "../users/Authentification/Sessionstorage";
 import React, { useEffect, useState } from 'react';
-import './patient.css';
+import './assets/patient.css';
 import { useNavigate } from "react-router-dom";
 
 const ShowPatients = () => {

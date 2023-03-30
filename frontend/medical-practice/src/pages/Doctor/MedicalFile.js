@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { accountService } from "../users/Authentification/Sessionstorage";
 
-import './medicalFile.css'
+import './assets/medicalFile.css'
 
 const MedicalFile = () => {
     let url = window.location.pathname

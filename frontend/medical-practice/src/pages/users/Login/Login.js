@@ -32,11 +32,9 @@ const Login = () => {
     }
 
     const sendNewPassword = (e) => {
-        console.log(mailConfirmation.mail)
         e.preventDefault();
         axios.post("/new-password", mailConfirmation)
             .then(res => {
-                console.log(res)
             })
             .catch(error => console.log(error))
     }
@@ -46,7 +44,6 @@ const Login = () => {
         e.preventDefault();
         axios.post("/login", credentials)
             .then(res => {
-                console.log(res)
                 accountService.saveToken(res.data[0])
                 accountService.saveEmail(credentials.login)
                 accountService.saveUserType(res.data[1])
