@@ -26,7 +26,7 @@ const Booking = () => {
     axios
       .post("/makeappointment", { id, mail })
       .then((response) => {
-        navigate("/admin/appointments");
+        navigate("/patient/appointments");
       })
       .catch((error) => {
         console.log(error);

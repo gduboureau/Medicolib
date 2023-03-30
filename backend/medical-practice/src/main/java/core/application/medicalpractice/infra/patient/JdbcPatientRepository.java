@@ -258,4 +258,30 @@ public class JdbcPatientRepository implements PatientRepository {
     DBUtil.closeConnection(connection);
     return patientId;
   }
+
+  @Override
+  public List<List<String>> getConsultationsPatient(String mail) throws SQLException {
+    UUID patientid = getPatientIdByMail(mail);
+    List<List<String>> informations = new ArrayList<>();
+    SimpleDateFormat df = new SimpleDateFormat("dd/MM/yyyy");
+    Connection connection = DBUtil.getConnection();
+    Statement stmt = connection.createStatement();
+    String request = "SELECT * FROM Consultations JOIN Prescriptions ON Consultations.prescriptionsid = Prescriptions.prescriptionsid WHERE consultations.patientid ="
+        + "'" + patientid + "' ORDER BY Consultations.day";
+    ResultSet rs = stmt.executeQuery(request);
+    while (rs.next()) {
+      List<String> l = new ArrayList<>();
+      l.add(df.format(rs.getDate(4)).toString());
+      if (rs.getString(7).equals(" ")) {
+        l.add("Aucune");
+      } else {
+        l.add(rs.getString(7));
+      }
+      informations.add(l);
+    }
+    rs.close();
+    stmt.close();
+    connection.close();
+    return informations;
+  }
 }

@@ -70,7 +70,7 @@ public class MedicalPractice {
     public List<List<String>> getMedicalFile(String mail, String firstname, String lastname) throws SQLException {
         List<String> informations = patientRepository
                 .getInformationsPatient(patientRepository.getMailByName(firstname, lastname));
-        List<List<String>> consultations = doctorRepository.getConsultations(mail, firstname, lastname);
+        List<List<String>> consultations = doctorRepository.getConsultationsDoctor(mail, firstname, lastname);
         consultations.add(informations);
         return consultations;
     }
@@ -108,6 +108,10 @@ public class MedicalPractice {
 
     public void cancelAppointment(String id) throws SQLException {
         patientRepository.cancelAppointment(id);
+    }
+
+    public List<List<String>> getConsultationsPatient(String mail) throws SQLException {
+        return patientRepository.getConsultationsPatient(mail);
     }
 
     // requests for user

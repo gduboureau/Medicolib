@@ -110,4 +110,10 @@ public class PatientController {
 		medicalPractice.cancelAppointment(id);
 	}
 
+	@PostMapping(value = "/getconsultations")
+	public List<List<String>> getConsultationsPatient(@RequestBody HashMap<String, String> map) throws SQLException {
+		String mail = map.get("mail");
+		return medicalPractice.getConsultationsPatient(mail);
+	}
+
 }

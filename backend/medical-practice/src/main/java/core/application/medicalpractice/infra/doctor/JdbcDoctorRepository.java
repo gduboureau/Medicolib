@@ -249,7 +249,7 @@ public class JdbcDoctorRepository implements DoctorRepository {
   }
 
   @Override
-  public List<List<String>> getConsultations(String mail, String firstname, String lastname) throws SQLException {
+  public List<List<String>> getConsultationsDoctor(String mail, String firstname, String lastname) throws SQLException {
     JdbcPatientRepository patientRepository = new JdbcPatientRepository();
     UUID patientid = patientRepository.getPatientIdByName(firstname, lastname);
     UUID doctorId = getDoctorIdByMail(mail);
@@ -258,7 +258,7 @@ public class JdbcDoctorRepository implements DoctorRepository {
     Connection connection = DBUtil.getConnection();
     Statement stmt = connection.createStatement();
     String request = "SELECT * FROM Consultations JOIN Prescriptions ON Consultations.prescriptionsid = Prescriptions.prescriptionsid WHERE consultations.patientid ="
-        + "'" + patientid + "'" + " AND consultations.doctorid=" + "'" + doctorId + "'";
+        + "'" + patientid + "'" + " AND consultations.doctorid=" + "'" + doctorId + "' ORDER BY Consultations.day";
     ResultSet rs = stmt.executeQuery(request);
     while (rs.next()) {
       List<String> l = new ArrayList<>();

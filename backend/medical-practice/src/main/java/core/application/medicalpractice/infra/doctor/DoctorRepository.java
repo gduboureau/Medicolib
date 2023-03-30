@@ -33,5 +33,5 @@ public interface DoctorRepository {
 
     public UUID addPrescription(List<String> medicList) throws SQLException;
 
-    public List<List<String>> getConsultations(String mail, String firstname, String lastname) throws SQLException;
+    public List<List<String>> getConsultationsDoctor(String mail, String firstname, String lastname) throws SQLException;
 }

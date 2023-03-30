@@ -36,4 +36,6 @@ public interface PatientRepository {
 
     public UUID getPatientIdByName(String firstname, String lastname) throws SQLException;
 
+    public List<List<String>> getConsultationsPatient(String mail) throws SQLException;
+
 }

@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import { accountService } from '../users/Authentification/Sessionstorage';
+import { PDFDownloadLink } from '@react-pdf/renderer';
+import PDF from './PDFPrescription';
 
 const Consultation = () => {
 
@@ -11,13 +13,16 @@ const Consultation = () => {
   let url = window.location.pathname
 
   const [infoConsultation, setInfoConsultation] = useState({
-    date : '',
-    motif : '',
-    mail : accountService.getEmail(),
-    firstname : url.split("/")[2].split("-")[0],
-    lastname : url.split("/")[2].split("-")[1],
-    medicList : {}
+    date: '',
+    motif: '',
+    mail: accountService.getEmail(),
+    firstname: url.split("/")[2].split("-")[0],
+    lastname: url.split("/")[2].split("-")[1],
+    medicList: {}
   })
+
+  const ordonnanceName = "ordonnance-" + infoConsultation.firstname + "-" + infoConsultation.lastname + ".pdf"
+
 
   const handleAddMedicament = () => {
     setMedicaments([...medicaments, '']); // ajouter un nouveau champ vide
@@ -39,7 +44,7 @@ const Consultation = () => {
     event.preventDefault();
     Object.keys(medicaments).map(
       (key) => medicaments[key]
-   );
+    );
     infoConsultation.medicList = medicaments;
     axios.post("/prescriptions", infoConsultation).then(res => {
       const newData = res.data;
@@ -58,16 +63,16 @@ const Consultation = () => {
 
   const onChange = (e) => {
     setInfoConsultation({ ...infoConsultation, [e.target.name]: e.target.value });
-}
+  }
 
   return (
     <div>
       <div>
         <label htmlFor="date">Date</label>
-        <input type="date" name="date" onChange={onChange}/>
+        <input id="daterdv" type="date" name="date" onChange={onChange} />
       </div>
       <label htmlFor='motif'> Motif de la consultation</label>
-      <input type="text" name="motif" onChange={onChange}>
+      <input type="text" id="motif" name="motif" onChange={onChange}>
       </input>
       <div>
         <label htmlFor="prescription">Ajouter une ordonnance</label>
@@ -100,6 +105,14 @@ const Consultation = () => {
       )}
       <div>
         <button onClick={handleSubmit}>Enregistrer</button>
+      </div>
+      <div>
+        <PDFDownloadLink document={<PDF infoConsultation={infoConsultation} medicaments={medicaments} />
+        } fileName={ordonnanceName}>
+          {({ blob, url, loading, error }) =>
+            loading ? 'Chargement...' : 'Télécharger le PDF'
+          }
+        </PDFDownloadLink>
       </div>
     </div>
   );

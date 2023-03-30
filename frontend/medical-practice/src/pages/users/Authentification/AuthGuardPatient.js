@@ -4,7 +4,7 @@ import { accountService } from "./Sessionstorage";
 
 const AuthGuardPatient = ({children}) => {
     if(!accountService.isDoctor()){
-        return <Navigate to="/admin/appointments"/>
+        return <Navigate to="/patient/appointments"/>
     }
     return children;
 }
