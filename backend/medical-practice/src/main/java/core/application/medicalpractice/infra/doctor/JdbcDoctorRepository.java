@@ -114,6 +114,25 @@ public class JdbcDoctorRepository implements DoctorRepository {
   }
 
   @Override
+  public List<String> getInformationsDoctorByMail(String mail) throws SQLException {
+    Connection connection = DBUtil.getConnection();
+    Statement stmt = connection.createStatement();
+    String request = "SELECT * FROM Doctors WHERE mail=" + "'" + mail + "'";
+    ResultSet rs = stmt.executeQuery(request);
+    ResultSetMetaData rsmd = rs.getMetaData();
+    List<String> informations = new ArrayList<>();
+    if (rs.next()) {
+      for (int i = 1; i < rsmd.getColumnCount() + 1; i++) {
+        informations.add(rs.getString(i));
+      }
+    }
+    rs.close();
+    stmt.close();
+    DBUtil.closeConnection(connection);
+    return informations;
+  }
+
+  @Override
   public List<List<String>> displayAppointments(String firstName, String lastName) throws SQLException {
     Connection connection = DBUtil.getConnection();
     List<List<String>> appointments = new ArrayList<>();

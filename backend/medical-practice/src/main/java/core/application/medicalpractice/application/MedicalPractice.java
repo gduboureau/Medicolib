@@ -50,6 +50,10 @@ public class MedicalPractice {
         return doctorRepository.getDoctorById(doctorid);
     }
 
+    public List<String> getInformationsDoctorByMail(String mail) throws SQLException {
+        return doctorRepository.getInformationsDoctorByMail(mail);
+    }
+
     public List<List<String>> displayAppointments(String firstname, String lastname) throws SQLException {
         return doctorRepository.displayAppointments(firstname, lastname);
     }

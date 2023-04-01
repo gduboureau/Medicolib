@@ -41,9 +41,14 @@ public class DoctorController {
 		return this.medicalPractice.getDoctorsBySpeciality(speciality);
 	}
 
-	@PostMapping(value = "/doctors/id={doctorid}")
+	@RequestMapping(value = "/doctors/id={doctorid}", method = RequestMethod.GET, produces = "application/json")
 	public Doctor getDoctorById(@PathVariable("doctorid") UUID doctorid) throws SQLException {
 		return this.medicalPractice.getDoctorById(doctorid);
+	}
+
+	@PostMapping(value = "/informations-doctor")
+	public List<String> getInformationsDoctorByMail(@RequestBody Map<String, String> map) throws SQLException {
+		return this.medicalPractice.getInformationsDoctorByMail(map.get("mail"));
 	}
 
 	@RequestMapping(value = "/{firstname}-{lastname}/booking", method = RequestMethod.GET, produces = "application/json")

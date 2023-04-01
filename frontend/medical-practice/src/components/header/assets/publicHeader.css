@@ -1,0 +1,45 @@
+*{
+    margin: 0;
+    padding: 0;
+}
+
+
+.public-nav {
+    background: #284360;
+    padding: 10px 15px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    position: relative;
+    min-width: 430px;
+}
+
+.logo-public{
+    height: 60px;
+}
+
+nav ul{
+    text-align: right;
+    margin: 0 40px;
+}
+
+nav ul li{
+    display: inline-block;
+    list-style: none;
+    margin: 10px 40px;
+}
+
+.Login{
+    transition: color .4s ease-in-out, box-shadow .4s ease-in-out;
+    padding: 8px;
+    border-radius: 10px;
+    color: #FEFEFE;
+    text-decoration: none;
+}
+
+.Login:hover{
+    box-shadow: inset 140px 0 0 0 #FEFEFE;
+    color: #284360;
+    padding: 8px;
+    border-radius: 10px;
+}

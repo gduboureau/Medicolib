@@ -49,6 +49,7 @@ const Login = () => {
                 accountService.saveUserType(res.data[1])
                 if (res.data[1] === 'patient') {
                     navigate(state?.prev);
+                    window.location.reload();
                 }
                 else {
                     navigate('/doctor/appointments')

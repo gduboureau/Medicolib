@@ -1,6 +1,6 @@
 import React from 'react';
 import { Routes, Route } from 'react-router-dom';
-import DoctorLayout from './DoctorLayout';
+import Layout from '../../components/Layout';
 import DoctorAppointments from './DoctorAppointements'
 import Error from '../../utils/Error';
 import Consultation from './Consultation';
@@ -10,7 +10,7 @@ import MedicalFile from './MedicalFile';
 const DoctorRouter = () => {
   return (
     <Routes>
-    <Route element={<DoctorLayout />}>
+    <Route element={<Layout />}>
         <Route path="/appointments" element={<DoctorAppointments />} />
         <Route path="/:name/consultation" element={<Consultation />} />
         <Route path="/:name/dossier-medical" element={<MedicalFile />} />

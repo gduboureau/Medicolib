@@ -27,7 +27,8 @@ function ArrayDoctors(){
 
     const SelectedDoctor = (id, firstName, lastName, speciality) => {
         const name = firstName+"-"+lastName;
-        navigate(`/${speciality}/${name}`, { state: { selectedDoctorId: id } });
+        sessionStorage.setItem('selectedDoctorId', id);
+        navigate(`/${speciality}/${name}`);
     }
 
     return(

@@ -1,15 +1,10 @@
 import React from 'react';
-import { useLocation } from 'react-router-dom';
-import Header from './Header';
+import InfoDoctor from './InfoDoctor';
 
 function DoctorPage() {
-
-  const location = useLocation();
-  const selectedDoctorId = location?.state?.selectedDoctorId;
-
   return (
     <div>
-      <Header selectedDoctorId={selectedDoctorId} />
+      <InfoDoctor />
     </div>
   );
 }
