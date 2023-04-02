@@ -4,6 +4,7 @@ import { useParams, useNavigate } from "react-router";
 import { accountService } from "../users/Authentification/Sessionstorage";
 import moment from 'moment';
 import 'moment/locale/fr';
+import Error from "../../utils/Error";
 
 const Booking = () => {
 
@@ -13,14 +14,26 @@ const Booking = () => {
 
   const [appointmentList, setAppointmentList] = useState([]);
   const [selectedWeek, setSelectedWeek] = useState(new Date());
+  const [hasError, setHasError] = useState(false);
+
   const navigate = useNavigate();
 
   useEffect(() => {
-    axios.get(`/${name}/booking`).then((res) => {
-      const newData = res.data;
-      setAppointmentList(newData);
-    });
+    if (name) {
+      axios.get(`/${name}/booking`).then((res) => {
+        const newData = res.data;
+        setAppointmentList(newData);
+      })
+        .catch((error) => {
+          console.log(error)
+          setHasError(true);
+        });
+    }
   }, [name]);
+
+  if (hasError) {
+    return <Error />;
+  }
 
   const onClick = (id) => {
     axios
@@ -60,12 +73,14 @@ const Booking = () => {
     <div>
       <p>Choisissez la date de la consultation</p>
       <div>
-        <button onClick={() => 
-          {const date = new Date();
-           if (selectedWeek.getTime() - 7 >= date.getTime()){
-            setSelectedWeek(new Date(selectedWeek.getFullYear(), selectedWeek.getMonth(), selectedWeek.getDate() - 7))}}
-           }
-          >Semaine précédente</button>
+        <button onClick={() => {
+          const date = new Date();
+          if (selectedWeek.getTime() - 7 >= date.getTime()) {
+            setSelectedWeek(new Date(selectedWeek.getFullYear(), selectedWeek.getMonth(), selectedWeek.getDate() - 7))
+          }
+        }
+        }
+        >Semaine précédente</button>
         <button onClick={() => setSelectedWeek(new Date(selectedWeek.getFullYear(), selectedWeek.getMonth(), selectedWeek.getDate() + 7))}>Semaine suivante</button>
       </div>
       <table>
@@ -78,10 +93,10 @@ const Booking = () => {
         </thead>
         <tbody>
           <tr>
-            {weekDays.map((day,indexD) => (
+            {weekDays.map((day, indexD) => (
               <td key={indexD}>
-                {groupedAppointments[`${day.getFullYear()}-${day.getMonth()}-${day.getDate()}`]?.map((appointment,index) => (
-                  <button style={{cursor: 'pointer'}} className="doctor-card" key={index} onClick={() => onClick(appointment[0])}>
+                {groupedAppointments[`${day.getFullYear()}-${day.getMonth()}-${day.getDate()}`]?.map((appointment, index) => (
+                  <button style={{ cursor: 'pointer' }} className="doctor-card" key={index} onClick={() => onClick(appointment[0])}>
                     <p>{appointment[3]}</p>
                   </button>
                 ))}

@@ -3,6 +3,8 @@ import axios from 'axios';
 import { accountService } from '../Authentification/Sessionstorage';
 import { Link, useNavigate, useLocation } from "react-router-dom";
 
+import './assets/login.css'
+
 const Login = () => {
     const navigate = useNavigate();
 
@@ -74,7 +76,7 @@ const Login = () => {
     return (
         <div className="login-wrapper">
             <p>Connecter-vous à votre compte</p>
-            <form className='form-profile'>
+            <form className='form-profile login-form'>
                 <label>
                     <p>Email</p>
                     <input name="login" type="text" placeholder="Email" onChange={onChange} />
@@ -104,7 +106,6 @@ const Login = () => {
                     </>
                 )}
                 <div>
-                    <Link to="/register">Enregistrez-vous </Link>
                 </div>
             </form>
         </div>

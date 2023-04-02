@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { accountService } from "../users/Authentification/Sessionstorage";
+import Error from "../../utils/Error";
 
 import './assets/medicalFile.css'
 
@@ -11,6 +12,8 @@ const MedicalFile = () => {
 
     let firstname = url.split("/")[2].split("-")[0];
     let lastname = url.split("/")[2].split("-")[1];
+
+    const [hasError, setHasError] = useState(false);
 
     const [informations, setInformations] = useState({
         id: "",
@@ -46,8 +49,17 @@ const MedicalFile = () => {
                 address: lastElement[8] === "1   1  " ? "Non renseigné" : lastElement[8],
                 numSS: lastElement[9] || "Non renseigné"
             });
-        });
+        })
+        .catch((error) => {
+            console.log(error)
+            setHasError(true);
+          });
+        
     }, []); // eslint-disable-line react-hooks/exhaustive-deps
+
+    if (hasError) {
+        return <Error />;
+      }
 
     const formatDate = (dateString) => {
         const dateParts = dateString.split('-');

@@ -16,12 +16,18 @@ function ArrayDoctors(){
             axios.get(`/doctors/speciality=${speciality}`).then(res => {
                 const newData = res.data;
                 setDoctorList(newData);
-            });
+            })
+            .catch((error) => {
+                console.log(error)
+            })
         }else{
             axios.get(`/doctors`).then(res => {
                 const newData = res.data;
                 setDoctorList(newData);
-            });
+            })
+            .catch((error) => {
+                console.log(error)
+            })
         }
     }, [speciality]);
 
