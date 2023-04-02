@@ -76,7 +76,7 @@ const Login = () => {
     return (
         <div className="login-wrapper">
             <p>Connecter-vous à votre compte</p>
-            <form className='form-profile login-form'>
+            <form className="form-profile">
                 <label>
                     <p>Email</p>
                     <input name="login" type="text" placeholder="Email" onChange={onChange} />
@@ -106,6 +106,7 @@ const Login = () => {
                     </>
                 )}
                 <div>
+                    <Link to="/register">Nouveau sur Medicolib ? Enregistrez-vous </Link>
                 </div>
             </form>
         </div>
