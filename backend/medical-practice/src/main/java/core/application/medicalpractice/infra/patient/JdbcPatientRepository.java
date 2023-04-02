@@ -1,8 +1,10 @@
 package core.application.medicalpractice.infra.patient;
 
+import java.io.IOException;
 import java.sql.*;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
 import java.util.*;
 
 import org.springframework.stereotype.Service;
@@ -58,14 +60,21 @@ public class JdbcPatientRepository implements PatientRepository {
         + "'" + mail + "'" + ") ORDER BY appointments.starttime";
     ResultSet rs = stmt.executeQuery(sql);
     while (rs.next()) {
-      List<String> l = new ArrayList<>();
-      l.add(rs.getString(1));
-      l.add(rs.getString(2));
-      l.add(rs.getString(3));
-      l.add(rs.getString(4));
-      l.add(df.format(rs.getDate(5)).toString());
-      l.add(rs.getTime(5).toString());
-      appointments.add(l);
+      if (LocalDateTime.now().isAfter(rs.getTimestamp(5).toLocalDateTime())){
+        Statement stmt2 = connection.createStatement();
+        String request2 = "DELETE FROM Appointments WHERE PatientId = '" + getPatientIdByMail(mail) + "' AND StartTime = '" + rs.getDate(5) + "'";
+        stmt2.executeUpdate(request2);
+        stmt2.close();
+      }else{
+        List<String> l = new ArrayList<>();
+        l.add(rs.getString(1));
+        l.add(rs.getString(2));
+        l.add(rs.getString(3));
+        l.add(rs.getString(4));
+        l.add(df.format(rs.getDate(5)).toString());
+        l.add(rs.getTime(5).toString());
+        appointments.add(l);
+      }
     }
     rs.close();
     stmt.close();
@@ -283,5 +292,51 @@ public class JdbcPatientRepository implements PatientRepository {
     stmt.close();
     connection.close();
     return informations;
+  }
+
+  @Override
+  public void saveDocument(String fileName, byte[] fileContent, String mail, String apptId) throws SQLException{
+    UUID patientId = getPatientIdByMail(mail);
+    UUID appointmentId = UUID.fromString(apptId);
+    Connection connection = DBUtil.getConnection();
+    PreparedStatement pstmt = connection.prepareStatement(
+      "INSERT INTO documents (patientid, documentname, documentcontent, appointmentid) VALUES (?, ?, ?, ?)"
+    );
+    pstmt.setObject(1, patientId);
+    pstmt.setString(2, fileName);
+    pstmt.setBytes(3, fileContent);
+    pstmt.setObject(4, appointmentId);
+    pstmt.executeUpdate();
+    pstmt.close();
+    DBUtil.closeConnection(connection);
+  }
+
+  @Override
+  public List<List<Object>> getDocument(String mail) throws SQLException, IOException {
+    List<List<Object>> documentsByApptId = new ArrayList<>();
+    Connection connection = DBUtil.getConnection();
+    Statement stmt = connection.createStatement();
+    String request = "SELECT documentname,documentcontent,appointmentid from documents where patientid = '" + getPatientIdByMail(mail) + "'";
+    ResultSet rs = stmt.executeQuery(request);
+    while (rs.next()){
+      List<Object> doc = new ArrayList<>();
+      doc.add(rs.getString(1));
+      doc.add(rs.getBytes(2));
+      doc.add(rs.getString(3));
+      documentsByApptId.add(doc);
+    }
+    rs.close();
+    stmt.close();
+    DBUtil.closeConnection(connection);
+    return documentsByApptId;
+  }
+
+  public void deleteDocument(String idAppt, String docName) throws SQLException {
+    Connection connection = DBUtil.getConnection();
+    Statement stmt = connection.createStatement();
+    String request = "DELETE FROM documents WHERE appointmentId =" + "'" + idAppt + "' and documentname = '" + docName + "'";
+    stmt.executeUpdate(request);
+    stmt.close();
+    DBUtil.closeConnection(connection);
   }
 }

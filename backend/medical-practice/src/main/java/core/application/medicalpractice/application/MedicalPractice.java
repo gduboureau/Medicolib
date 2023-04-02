@@ -1,5 +1,6 @@
 package core.application.medicalpractice.application;
 
+import java.io.IOException;
 import java.sql.SQLException;
 import java.util.Date;
 import java.util.HashMap;
@@ -118,6 +119,18 @@ public class MedicalPractice {
         return patientRepository.getConsultationsPatient(mail);
     }
 
+    public void saveDocument(String fileName, byte[] fileContent, String mail, String apptId) throws SQLException{
+        patientRepository.saveDocument(fileName, fileContent, mail, apptId);
+    }
+
+    public List<List<Object>> getDocument(String mail) throws SQLException, IOException{
+        return patientRepository.getDocument(mail);
+    }
+
+    public void deleteDocument(String idAppt, String docName) throws SQLException {
+        patientRepository.deleteDocument(idAppt, docName);
+    }
+
     // requests for user
 
     public void saveUser(String email, String password) {
@@ -154,6 +167,10 @@ public class MedicalPractice {
 
     public MedicalFile getMedicalFile(UUID medicalId) {
         return null;
+    }
+
+    public Date getAppointmentDateById(String apptId) throws SQLException {
+        return medicalDatas.getAppointmentDateById(apptId);
     }
 
 }

@@ -1,5 +1,6 @@
 package core.application.medicalpractice.UI.controller;
 
+import java.io.IOException;
 import java.sql.SQLException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -14,7 +15,10 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
+
 
 import core.application.medicalpractice.application.MedicalPractice;
 import core.application.medicalpractice.domain.entity.Address;
@@ -114,6 +118,46 @@ public class PatientController {
 	public List<List<String>> getConsultationsPatient(@RequestBody HashMap<String, String> map) throws SQLException {
 		String mail = map.get("mail");
 		return medicalPractice.getConsultationsPatient(mail);
+	}
+	
+	@PostMapping("/addDocument")
+	public ResponseEntity<String> uploadFile(@RequestParam("file") MultipartFile file, @RequestParam("mail") String mail, @RequestParam("apptid") String id) throws SQLException {
+		try {
+			String fileName = file.getOriginalFilename();
+			byte[] fileContent = file.getBytes();
+			medicalPractice.saveDocument(fileName, fileContent, mail, id);
+			return ResponseEntity.ok("File uploaded successfully");
+		} catch (IOException e) {
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Failed to upload file");
+		}
+	}
+
+	
+	@PostMapping("/getDocuments")
+	public ResponseEntity<List<List<Object>>> getDocument(@RequestBody HashMap<String, String> map) throws SQLException, IOException {
+		try{
+			String mail = map.get("mail");
+			List<List<Object>> documents =  medicalPractice.getDocument(mail);
+			return ResponseEntity.ok(documents);
+		}catch(IOException e){
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
+		}
+
+	}
+
+	@PostMapping("/getTimeAppt")
+	public ResponseEntity<Date> getAppointmentDateById(@RequestBody HashMap<String, String> map) throws SQLException{
+		String idAppt = map.get("id");
+		Date date =  medicalPractice.getAppointmentDateById(idAppt);
+		return ResponseEntity.ok().body(date);
+	}
+
+	@PostMapping("/deleteDocuments")
+	public ResponseEntity<String> deleteDocument(@RequestBody HashMap<String, String> map) throws SQLException, IOException{
+		String idAppt = map.get("id");
+		String docName = map.get("name");
+		medicalPractice.deleteDocument(idAppt,docName);
+		return ResponseEntity.ok("File deleted successfully");
 	}
 
 }

@@ -55,6 +55,21 @@ public class MedicalRepository {
     stmt.close();
     DBUtil.closeConnection(connection);
   }
+
+  public Date getAppointmentDateById(String apptId) throws SQLException {
+    Connection connection = DBUtil.getConnection();
+    Statement stmt = connection.createStatement();
+    String request = "SELECT starttime FROM appointments where appointmentid = '" + apptId + "'";
+    ResultSet rs = stmt.executeQuery(request);
+    Date date = null;
+    if (rs.next()){
+      date = rs.getDate(1);
+    }
+    rs.close();
+    stmt.close();
+    DBUtil.closeConnection(connection);
+    return date;
+  }
   
 
 }

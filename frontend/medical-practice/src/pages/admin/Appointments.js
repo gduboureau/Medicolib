@@ -26,8 +26,10 @@ function ConfirmationModal(props) {
 
 const Appointments = () => {
     const [selectedAppointment, setSelectedAppointment] = useState(null);
-    const [showModal,setShowModal] = useState(false);
+    const [showModal, setShowModal] = useState(false);
     let mail = { mail: accountService.getEmail() };
+
+    const [file, setSelectedFile] = useState(null);
 
     const [AppointmentList, setAppointments] = useState([]);
 
@@ -61,6 +63,33 @@ const Appointments = () => {
         setShowModal(false);
     };
 
+    const handleFileSelect = (event) => {
+        setSelectedFile(event.target.files[0]);
+    };
+
+    const handleSubmit = (id) => {
+        let document = new FormData();
+        if (file !== null) {
+            document.append("file", file);
+            const params = new URLSearchParams();
+            params.append('mail', accountService.getEmail());
+            params.append('apptid', id[0]);
+            axios.post('/addDocument', document, {
+                params,
+                headers: {
+                    "Content-Type": "multipart/form-data",
+                },
+            }).then((response) => {
+                console.log(response);
+            })
+                .catch((error) => {
+                    console.log(error);
+                }, []);
+        }
+
+    };
+      
+
     return (
         <div>
             {AppointmentList.map((appointment, index) => (
@@ -71,9 +100,16 @@ const Appointments = () => {
                     <p>{appointment[3]}</p>
                     <p>{appointment[4]}</p>
                     <p>{appointment[5]}</p>
+                    <p>Documents pour le rendez-vous:</p>
                     <button onClick={() => handleCancelAppointment(appointment[0])}>
                         Annuler le rendez-vous
                     </button>
+                    <div>
+                        <form id="download-file">
+                            <input type="file" onChange={handleFileSelect} />
+                            <button className="buttonFile" onClick={() => handleSubmit(appointment)}>Upload</button>
+                        </form>
+                    </div>
                 </div>
             ))}
             {selectedAppointment !== null && (

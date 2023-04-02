@@ -81,3 +81,12 @@ CREATE TABLE MedicalFile(
     PatientId varchar(80) CONSTRAINT PatientId_null NOT NULL,
     ConsultationId uuid[] CONSTRAINT DoctorId_null NOT NULL
 );
+
+DROP TABLE IF EXISTS Documents;
+CREATE TABLE Documents (
+  documentId uuid DEFAULT uuid_generate_v4() CONSTRAINT documentId_key PRIMARY KEY,
+  PatientId uuid CONSTRAINT PatientId_null NOT NULL,
+  documentName VARCHAR(255) NOT NULL,
+  documentContent BYTEA NOT NULL,
+  appointmentId uuid CONSTRAINT appointmentId_null NOT NULL
+);

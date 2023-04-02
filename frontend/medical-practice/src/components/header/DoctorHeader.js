@@ -55,8 +55,8 @@ const DoctorHeader = () => {
                 <img src={Logo} alt="Logo" className="logo-doctor"/> {/*https://www.freepik.com/free-vector/hospital-logo-design-vector-medical-cross_18246203.htm#query=medical%20logo&position=7&from_view=keyword&track=ais%22%3EImage */}
             </Link>
             <ul>
-                <li><a href="/appointments">Planning</a></li>
-                <li><a href="/patients">Mes patients</a></li>
+                <li><a href="/doctor/appointments">Planning</a></li>
+                <li><a href="/doctor/patients">Mes patients</a></li>
                 <li>
                     <a className="account" onClick={toggleMenu}>
                         <span className="name">{data.firstName} {data.lastName}</span>
@@ -69,7 +69,7 @@ const DoctorHeader = () => {
             </ul>
             <div className="accountmenu-wrap-doctor" id="accountMenu">
                 <div className="accountmenu">
-                    <a href="/admin/edit" className="accountmenu-component">
+                    <a href="/patient/edit" className="accountmenu-component">
                         <img src={Profil} alt="Profil"/>
                         <p>Mon compte</p>
                     </a>

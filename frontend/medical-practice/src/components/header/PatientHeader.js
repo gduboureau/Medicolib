@@ -53,7 +53,8 @@ const PatientHeader = () => {
                 <img src={Logo} alt="Logo" className="logo-patient"/> {/*https://www.freepik.com/free-vector/hospital-logo-design-vector-medical-cross_18246203.htm#query=medical%20logo&position=7&from_view=keyword&track=ais%22%3EImage */}
             </Link>
             <ul>
-                <li><a href="/admin/appointments">Mes rendez-vous</a></li>
+                <li><a href="/patient/appointments">Mes rendez-vous</a></li>
+                <li><a href="/patient/documents">Mes documents</a></li>
                 <li>
                     <a className="account" onClick={toggleMenu}>
                         {data.firstName} {data.lastName}
@@ -63,7 +64,7 @@ const PatientHeader = () => {
             </ul>
             <div className="accountmenu-wrap" id="accountMenu">
                 <div className="accountmenu">
-                    <a href="/admin/edit" className="accountmenu-component">
+                    <a href="/patient/edit" className="accountmenu-component">
                         <img src={Profil} alt="Profil"/>
                         <p>Mon compte</p>
                     </a>
