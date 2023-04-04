@@ -31,10 +31,13 @@ nav ul li{
     margin: 10px 40px;
 }
 
-nav ul li a{
+nav ul li button{
     color: #FEFEFE;
-    text-decoration: none;
+    font-size: inherit;
+    font-family: inherit;
     cursor: pointer;
+    background-color: transparent;
+    border: none;
 }
 
 .speciality{
@@ -52,7 +55,7 @@ nav ul li a{
     transition: transform 0.6s;
 }
 
-nav ul li a img.openmenu{
+nav ul li button img.openmenu{
     transform: rotate(180deg);
 }
 

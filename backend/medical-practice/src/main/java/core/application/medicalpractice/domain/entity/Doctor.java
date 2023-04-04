@@ -1,13 +1,15 @@
 package core.application.medicalpractice.domain.entity;
 
+import java.util.UUID;
+
 public class Doctor {
 
-    private String id;
+    private UUID id;
     private String firstName, lastName, gender;
     private String speciality;
     private String mail;
     
-    public Doctor(String id, String firstName, String lastName, String gender, String speciality, String mail) {
+    public Doctor(UUID id, String firstName, String lastName, String gender, String speciality, String mail) {
         this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
@@ -16,7 +18,7 @@ public class Doctor {
         this.mail = mail;
     }
 
-    public String getId() {
+    public UUID getId() {
         return id;
     }
 

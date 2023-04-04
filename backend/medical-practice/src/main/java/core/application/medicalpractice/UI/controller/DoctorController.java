@@ -6,6 +6,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
@@ -68,7 +69,7 @@ public class DoctorController {
 	}
 
 	@PostMapping(value = "/getPatients")
-	public List<List<String>> getAllPatientByDoctor(@RequestBody Map<String, String> map) throws SQLException {
+	public List<HashMap<String, String>> getAllPatientByDoctor(@RequestBody Map<String, String> map) throws SQLException {
 		return medicalPractice.getPatientsByDoctor(map.get("mail"));
 	}
 

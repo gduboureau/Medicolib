@@ -26,7 +26,6 @@ function ConfirmationModal(props) {
 
 const Appointments = () => {
     const [selectedAppointment, setSelectedAppointment] = useState(null);
-    const [showModal, setShowModal] = useState(false);
     let mail = { mail: accountService.getEmail() };
 
     const [file, setSelectedFile] = useState(null);
@@ -42,7 +41,6 @@ const Appointments = () => {
 
     const handleCancelAppointment = (id) => {
         setSelectedAppointment(id);
-        setShowModal(true);
     };
 
     const handleConfirmCancelAppointment = () => {
@@ -60,7 +58,6 @@ const Appointments = () => {
 
     const handleCloseModal = () => {
         setSelectedAppointment(null);
-        setShowModal(false);
     };
 
     const handleFileSelect = (event) => {

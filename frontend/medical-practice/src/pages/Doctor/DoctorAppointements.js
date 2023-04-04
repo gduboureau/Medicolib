@@ -18,7 +18,6 @@ const DoctorAppointments = () => {
                 start: appointment[1] + 'T' + appointment[2],
                 end: appointment[1] + 'T' + appointment[3]
             }));
-            console.log(newData)
             setAppointments(newData);
         });
     }, []); // eslint-disable-line react-hooks/exhaustive-deps

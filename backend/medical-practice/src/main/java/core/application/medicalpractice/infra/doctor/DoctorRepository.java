@@ -3,6 +3,7 @@ package core.application.medicalpractice.infra.doctor;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.UUID;
 
@@ -27,7 +28,7 @@ public interface DoctorRepository {
 
         public List<List<String>> getAllAppointmentsDoctor(String mail) throws SQLException;
 
-        public List<List<String>> getPatientsByDoctor(String mail) throws SQLException;
+        public List<HashMap<String, String>> getPatientsByDoctor(String mail) throws SQLException;
 
         public UUID getDoctorIdByMail(String mail) throws SQLException;
 

@@ -4,6 +4,7 @@ import { accountService } from '../users/Authentification/Sessionstorage';
 import { PDFDownloadLink, pdf } from '@react-pdf/renderer';
 import PDF from './PDFPrescription';
 import formatDate from '../../utils/DateFormat';
+import { useMemo } from 'react';
 
 const Consultation = () => {
   const [medicaments, setMedicaments] = useState(['']);
@@ -11,7 +12,7 @@ const Consultation = () => {
   const [pdfOutput, setPdfOutput] = useState(null);
   const [isSubmitted, setIsSubmitted] = useState(false);
 
-  let mail = { mail: accountService.getEmail() };
+  const mail = useMemo(() => ({mail: accountService.getEmail()}), []); // Crée une référence unique à mail
 
   const [data, setData] = useState({
     firstName: "",
@@ -34,7 +35,7 @@ const Consultation = () => {
       .catch((error) => {
         console.log(error);
       });
-  }, []);
+  }, [mail]);
 
   let url = window.location.pathname
 
@@ -164,7 +165,7 @@ const Consultation = () => {
         <button onClick={handleSubmit}>Enregistrer</button>
       </div>
       <div>
-        {isSubmitted && medicaments[0] != "" && medicaments[0] != undefined && (
+        {isSubmitted && medicaments[0] !== "" && medicaments[0] !== undefined && (
           <div>
             <PDFDownloadLink document={<PDF data={data} infoConsultation={infoConsultation} medicaments={medicaments} />} fileName={ordonnanceName}>
               {({ blob, url, loading, error }) =>

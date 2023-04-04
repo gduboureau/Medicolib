@@ -3,6 +3,7 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { accountService } from "../../pages/users/Authentification/Sessionstorage";
+import { useMemo } from "react";
 
 import './assets/patientHeader.css';
 import Logo from './assets/logo.png';
@@ -12,7 +13,7 @@ import Arrow from './assets/arrow.png';
 
 const PatientHeader = () => {
 
-    let mail = {mail : accountService.getEmail()};
+    const mail = useMemo(() => ({mail: accountService.getEmail()}), []); // Crée une référence unique à mail
     
     const [data, setData] = useState({
         firstName:"",
@@ -31,7 +32,7 @@ const PatientHeader = () => {
             .catch((error) => {
             console.log(error);
             });
-    });
+    }, [mail]);
     
 
     const logout = () => {
@@ -53,13 +54,13 @@ const PatientHeader = () => {
                 <img src={Logo} alt="Logo" className="logo-patient"/> {/*https://www.freepik.com/free-vector/hospital-logo-design-vector-medical-cross_18246203.htm#query=medical%20logo&position=7&from_view=keyword&track=ais%22%3EImage */}
             </Link>
             <ul>
-                <li><a href="/patient/appointments">Mes rendez-vous</a></li>
-                <li><a href="/patient/documents">Mes documents</a></li>
+                <li><button href="/patient/appointments">Mes rendez-vous</button></li>
+                <li><button href="/patient/documents">Mes documents</button></li>
                 <li>
-                    <a className="account" onClick={toggleMenu}>
+                    <button className="account" onClick={toggleMenu}>
                         {data.firstName} {data.lastName}
                         <img id="arrowMenu" src={Arrow} alt="Arrow"/>
-                    </a>
+                    </button>
                 </li>
             </ul>
             <div className="accountmenu-wrap" id="accountMenu">

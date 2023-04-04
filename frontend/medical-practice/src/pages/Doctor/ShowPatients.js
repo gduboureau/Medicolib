@@ -43,14 +43,14 @@ const ShowPatients = () => {
         setCurrentPage(Number(event.target.id));
     };
 
-    const handleConsultation = (firstname, lastname) => {
+    const handleConsultation = (id, firstname, lastname) => {
         let name = firstname + "-" + lastname
-        navigate(`/doctor/${name}/consultation`);
+        navigate(`/doctor/${name}/consultation?id=${id}`);
     }
 
-    const handleMedicalFile = (firstname, lastname) => {
+    const handleMedicalFile = (id, firstname, lastname) => {
         let name = firstname + "-" + lastname
-        navigate(`/doctor/${name}/dossier-medical`);
+        navigate(`/doctor/${name}/dossier-medical?id=${id}`);
     }
 
     console.log(patientsList)
@@ -71,14 +71,14 @@ const ShowPatients = () => {
                 <tbody>
                     {currentPatients.map((patient, index) => (
                         <tr key={index}>
-                            <td>{patient[0]}</td>
-                            <td>{patient[1]}</td>
-                            <td>{formatDate(patient[3])}</td>
-                            <td>{patient[2]}</td>
-                            <td>{patient[4]}</td>
+                            <td>{patient["lastName"]}</td>
+                            <td>{patient["firstName"]}</td>
+                            <td>{formatDate(patient["birthday"])}</td>
+                            <td>{patient["gender"]}</td>
+                            <td>{patient["mail"]}</td>
                             <td>
-                                <button className="btn edit-btn" onClick={() => handleConsultation(patient[0], patient[1])}>Consultation</button>
-                                <button className="btn delete-btn" onClick={() => handleMedicalFile(patient[0], patient[1])}>Dossier médical</button>
+                                <button className="btn edit-btn" onClick={() => handleConsultation(patient["id"], patient["firstName"], patient["lastName"])}>Consultation</button>
+                                <button className="btn delete-btn" onClick={() => handleMedicalFile(patient["id"], patient["firstName"], patient["lastName"])}>Dossier médical</button>
                             </td>
                         </tr>
                     ))}

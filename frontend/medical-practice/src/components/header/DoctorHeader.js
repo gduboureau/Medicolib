@@ -3,6 +3,7 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { accountService } from "../../pages/users/Authentification/Sessionstorage";
+import { useMemo } from "react";
 
 import './assets/doctorHeader.css';
 import Logo from './assets/logo.png';
@@ -12,7 +13,7 @@ import Arrow from './assets/arrow.png';
 
 const DoctorHeader = () => {
 
-    let mail = {mail : accountService.getEmail()};
+    const mail = useMemo(() => ({mail: accountService.getEmail()}), []); // Crée une référence unique à mail
     
     const [data, setData] = useState({
         firstName:"",
@@ -33,7 +34,7 @@ const DoctorHeader = () => {
             .catch((error) => {
             console.log(error);
             });
-    }, []);
+    }, [mail]);
     
 
     const logout = () => {
@@ -55,16 +56,16 @@ const DoctorHeader = () => {
                 <img src={Logo} alt="Logo" className="logo-doctor"/> {/*https://www.freepik.com/free-vector/hospital-logo-design-vector-medical-cross_18246203.htm#query=medical%20logo&position=7&from_view=keyword&track=ais%22%3EImage */}
             </Link>
             <ul>
-                <li><a href="/doctor/appointments">Planning</a></li>
-                <li><a href="/doctor/patients">Mes patients</a></li>
+                <li><button href="/doctor/appointments">Planning</button></li>
+                <li><button href="/doctor/patients">Mes patients</button></li>
                 <li>
-                    <a className="account" onClick={toggleMenu}>
+                    <button className="account" onClick={toggleMenu}>
                         <span className="name">{data.firstName} {data.lastName}</span>
                         <img id="arrowMenu" src={Arrow} alt="Arrow"/> 
                         <br></br>
                         <span className="speciality">({data.speciality})</span>
                                                
-                    </a>
+                    </button>
                 </li>
             </ul>
             <div className="accountmenu-wrap-doctor" id="accountMenu">

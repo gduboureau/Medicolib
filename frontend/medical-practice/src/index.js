@@ -15,7 +15,11 @@ function Router() {
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="/*" element={<AuthGuardDoctor><PublicRouter /></AuthGuardDoctor>} />
+        <Route path="/*" element={
+          <AuthGuardDoctor>
+              <PublicRouter />
+          </AuthGuardDoctor>} 
+        />
         <Route path="/patient/*" element={
           <AuthGuard>
             <AuthGuardDoctor>

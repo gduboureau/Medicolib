@@ -95,7 +95,7 @@ const MedicalFile = () => {
                         <p>Date : {data[0]}</p>
                         <p>Motif : {data[1]}</p>
                         {data[2] && data[3] &&
-                            <p>Ordonnace : <a href="#" onClick={() => downloadDocument(data[2], data[3])}>{data[2]}</a></p>
+                            <p>Ordonnace : <span onClick={() => downloadDocument(data[2], data[3])} style={{ cursor: 'pointer', textDecoration: 'underline' }}>{data[2]}</span></p> /*style a mettre dans CSS par la suite*/
                         }
                     </div>
                 ))}

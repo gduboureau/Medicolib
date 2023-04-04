@@ -61,7 +61,7 @@ const Documents = () => {
             <h3>Mes ordonnances : </h3>
             {PrescriptionsList.map((consultation, index) => (
                 <div className="patient-consultation" key={index}>
-                    <p><a href="#" onClick={() => downloadDocument(consultation)}>{consultation[0]}</a></p>
+                    <span onClick={() => downloadDocument(consultation)} style={{ cursor: 'pointer', textDecoration: 'underline' }}>{consultation[0]}</span> {/*style a mettre dans CSS par la suite*/}
                 </div>
             ))}
             </div>
@@ -70,7 +70,7 @@ const Documents = () => {
                 {documentList.map((document, index) => (
                     <div className="patient-document" key={index}>
                         <p>Date de consultation : {date[document[2]]}</p>
-                        <p>Titre : <a href="#" onClick={() => downloadDocument(document)}>{document[0]}</a></p>
+                        <p>Titre : <span onClick={() => downloadDocument(document)} style={{ cursor: 'pointer', textDecoration: 'underline' }}>{document[0]}</span></p> {/*style a mettre dans CSS par la suite*/}
                         <button onClick={() => removeDocument(document)}>Retirer</button>
                     </div>
                 ))}

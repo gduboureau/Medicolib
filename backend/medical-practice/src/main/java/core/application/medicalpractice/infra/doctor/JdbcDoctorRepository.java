@@ -26,7 +26,7 @@ public class JdbcDoctorRepository implements DoctorRepository {
       ResultSet rs = stmt.executeQuery();
 
       while (rs.next()) {
-        Doctor doctor = new Doctor(rs.getString(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getString(5),
+        Doctor doctor = new Doctor(UUID.fromString(rs.getString(1)), rs.getString(2), rs.getString(3), rs.getString(4), rs.getString(5),
             rs.getString(6));
         doctorList.add(doctor);
       }
@@ -75,7 +75,7 @@ public class JdbcDoctorRepository implements DoctorRepository {
       ResultSet rs = stmt.executeQuery();
 
       while (rs.next()) {
-        Doctor doctor = new Doctor(rs.getString(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getString(5),
+        Doctor doctor = new Doctor(UUID.fromString(rs.getString(1)), rs.getString(2), rs.getString(3), rs.getString(4), rs.getString(5),
             rs.getString(6));
         doctorList.add(doctor);
       }
@@ -99,7 +99,7 @@ public class JdbcDoctorRepository implements DoctorRepository {
       PreparedStatement stmt = connection.prepareStatement("SELECT * FROM doctors WHERE doctorid = '" + doctorid + "'");
       ResultSet rs = stmt.executeQuery();
       while (rs.next()) {
-        doctor = new Doctor(rs.getString(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getString(5),
+        doctor = new Doctor(UUID.fromString(rs.getString(1)), rs.getString(2), rs.getString(3), rs.getString(4), rs.getString(5),
             rs.getString(6));
       }
 
@@ -187,20 +187,25 @@ public class JdbcDoctorRepository implements DoctorRepository {
   }
 
   @Override
-  public List<List<String>> getPatientsByDoctor(String mail) throws SQLException {
+  public List<HashMap<String, String>> getPatientsByDoctor(String mail) throws SQLException {
     Connection connection = DBUtil.getConnection();
-    List<List<String>> patients = new ArrayList<List<String>>();
+    List<HashMap<String, String>> patients = new ArrayList<HashMap<String, String>>();
     Statement stmt = connection.createStatement();
     String sql = "SELECT * FROM Patients JOIN MedicalFile on (MedicalFile.patientid = Patients.patientid) where doctorid = '"
         + getDoctorIdByMail(mail) + "'";
     ResultSet rs = stmt.executeQuery(sql);
     while (rs.next()) {
-      List<String> l = new ArrayList<>();
-      l.add(rs.getString(2));
-      l.add(rs.getString(3));
-      l.add(rs.getString(4));
-      l.add(rs.getDate(5).toString());
-      l.add(rs.getString(8));
+      HashMap<String, String> l = new HashMap<>();
+      l.put("id",rs.getString(1));
+      l.put("firstName",rs.getString(2));
+      l.put("lastName",rs.getString(3));
+      l.put("gender",rs.getString(4));
+      l.put("birthday",rs.getDate(5).toString());
+      l.put("weight",String.valueOf(rs.getDouble(6)));
+      l.put("heigth",String.valueOf(rs.getDouble(7)));
+      l.put("mail",rs.getString(8));
+      l.put("adress",rs.getString(9));
+      l.put("numsocial",rs.getString(10));
       patients.add(l);
     }
 
