@@ -56,8 +56,8 @@ const DoctorHeader = () => {
                 <img src={Logo} alt="Logo" className="logo-doctor"/> {/*https://www.freepik.com/free-vector/hospital-logo-design-vector-medical-cross_18246203.htm#query=medical%20logo&position=7&from_view=keyword&track=ais%22%3EImage */}
             </Link>
             <ul>
-                <li><button href="/doctor/appointments">Planning</button></li>
-                <li><button href="/doctor/patients">Mes patients</button></li>
+                <li><a href="/doctor/appointments">Planning</a></li>
+                <li><a href="/doctor/patients">Mes patients</a></li>
                 <li>
                     <button className="account" onClick={toggleMenu}>
                         <span className="name">{data.firstName} {data.lastName}</span>

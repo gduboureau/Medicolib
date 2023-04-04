@@ -54,8 +54,8 @@ const PatientHeader = () => {
                 <img src={Logo} alt="Logo" className="logo-patient"/> {/*https://www.freepik.com/free-vector/hospital-logo-design-vector-medical-cross_18246203.htm#query=medical%20logo&position=7&from_view=keyword&track=ais%22%3EImage */}
             </Link>
             <ul>
-                <li><button href="/patient/appointments">Mes rendez-vous</button></li>
-                <li><button href="/patient/documents">Mes documents</button></li>
+                <li><a href="/patient/appointments">Mes rendez-vous</a></li>
+                <li><a href="/patient/documents">Mes documents</a></li>
                 <li>
                     <button className="account" onClick={toggleMenu}>
                         {data.firstName} {data.lastName}
