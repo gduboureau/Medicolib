@@ -2,41 +2,10 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { Document, Page, Text } from '@react-pdf/renderer';
 import { View, StyleSheet } from "@react-pdf/renderer";
-import { accountService } from "../users/Authentification/Sessionstorage";
+import formatDate from "../../utils/DateFormat";
 
 
-const PDF = ({ infoConsultation, medicaments }) => {
-    let mail = { mail: accountService.getEmail() };
-
-    const formatDate = (dateString) => {
-        const dateParts = dateString.split('-');
-        const day = dateParts[2];
-        const month = dateParts[1];
-        const year = dateParts[0];
-        return `${day}/${month}/${year}`;
-    };
-
-    const [data, setData] = useState({
-        firstName: "",
-        lastName: "",
-        speciality: ""
-    });
-
-    useEffect(() => {
-        axios.post("/informations-doctor", mail)
-            .then((response) => {
-                const newData = response.data;
-                setData({
-                    firstName: newData[1],
-                    lastName: newData[2],
-                    speciality: newData[4]
-                });
-            })
-            .catch((error) => {
-                console.log(error);
-            });
-    }, []);
-
+const PDF = ({ data, infoConsultation, medicaments }) => {
     const styles = StyleSheet.create({
         page: {
             flexDirection: "column",
@@ -96,13 +65,13 @@ const PDF = ({ infoConsultation, medicaments }) => {
                     <Text style={styles.address}>351 Cours de la Libération - 33400 Talence</Text>
                 </View>
                 <View>
-                    <Text style={styles.speciality}>{mail.mail}</Text>
+                    <Text style={styles.speciality}>{data.mail}</Text>
                 </View>
                 <View>
                     <Text style={styles.patient}>{infoConsultation.firstname}  {infoConsultation.lastname}</Text>
                 </View>
                 <View>
-                    <Text style={styles.date}>Bordeaux, le {formatDate(infoConsultation.date)}</Text>
+                    <Text style={styles.date}>Talence, le {formatDate(infoConsultation.date)}</Text>
                 </View>
                 <View>
                     {medicaments.map((medicament, index) => (

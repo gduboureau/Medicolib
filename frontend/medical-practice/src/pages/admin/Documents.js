@@ -5,7 +5,7 @@ import { accountService } from "../users/Authentification/Sessionstorage";
 const Documents = () => {
     let mail = { mail: accountService.getEmail() };
 
-    const [ConsultationsList, setConsultations] = useState([]);
+    const [PrescriptionsList, setPrescriptions] = useState([]);
     const [documentList, setDocumentList] = useState([]);
     const [date, setDate] = useState([]);
 
@@ -14,9 +14,9 @@ const Documents = () => {
             const newData = res.data;
             setDocumentList(newData);
         });
-        axios.post("/getconsultations", mail).then(res => {
+        axios.post("/getPrescriptions", mail).then(res => {
             const newData = res.data;
-            setConsultations(newData);
+            setPrescriptions(newData);
         });
     }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
@@ -59,10 +59,9 @@ const Documents = () => {
         <div>
             <div className="doctor-card">
             <h3>Mes ordonnances : </h3>
-            {ConsultationsList.map((consultation, index) => (
+            {PrescriptionsList.map((consultation, index) => (
                 <div className="patient-consultation" key={index}>
-                    <p>Date : {consultation[0]}</p>
-                    <p>Prescription(s) : {consultation[1]}</p>
+                    <p><a href="#" onClick={() => downloadDocument(consultation)}>{consultation[0]}</a></p>
                 </div>
             ))}
             </div>

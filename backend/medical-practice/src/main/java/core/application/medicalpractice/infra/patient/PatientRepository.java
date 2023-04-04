@@ -37,12 +37,11 @@ public interface PatientRepository {
 
     public UUID getPatientIdByName(String firstname, String lastname) throws SQLException;
 
-    public List<List<String>> getConsultationsPatient(String mail) throws SQLException;
-
     public void saveDocument(String fileName, byte[] fileContent, String mail,String apptId) throws SQLException;
 
     public List<List<Object>> getDocument(String mail) throws SQLException, IOException;
 
     public void deleteDocument(String idAppt, String docName) throws SQLException;
 
+    public List<List<Object>> getPrescriptionsByPatient(String mail) throws SQLException, IOException;
 }

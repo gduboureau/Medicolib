@@ -27,13 +27,15 @@ CREATE TABLE Consultations (
     PatientId varchar(80) CONSTRAINT PatientId_null NOT NULL,
     DoctorId varchar(80) CONSTRAINT DoctorId_null NOT NULL,
     Day date CONSTRAINT day_null NOT NULL,
+    Motif varchar(100) motif_null NOT_NULL,
     PrescriptionsId uuid
 );
 
 DROP TABLE IF EXISTS Prescriptions;
 CREATE TABLE Prescriptions (
     PrescriptionsId uuid CONSTRAINT PrescriptionsId_key PRIMARY KEY,
-    Description Text CONSTRAINT Description_null NOT NULL
+    documentName VARCHAR(255) NOT NULL,
+    documentContent BYTEA NOT NULL
 );
 
 

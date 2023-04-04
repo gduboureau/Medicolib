@@ -1,14 +1,40 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { accountService } from '../users/Authentification/Sessionstorage';
-import { PDFDownloadLink } from '@react-pdf/renderer';
+import { PDFDownloadLink, pdf } from '@react-pdf/renderer';
 import PDF from './PDFPrescription';
+import formatDate from '../../utils/DateFormat';
 
 const Consultation = () => {
-
   const [medicaments, setMedicaments] = useState(['']);
-
   const [showInputs, setShowInputs] = useState(false);
+  const [pdfOutput, setPdfOutput] = useState(null);
+  const [isSubmitted, setIsSubmitted] = useState(false);
+
+  let mail = { mail: accountService.getEmail() };
+
+  const [data, setData] = useState({
+    firstName: "",
+    lastName: "",
+    speciality: "",
+    mail: ""
+  });
+
+  useEffect(() => {
+    axios.post("/informations-doctor", mail)
+      .then((response) => {
+        const newData = response.data;
+        setData({
+          firstName: newData[1],
+          lastName: newData[2],
+          speciality: newData[4],
+          mail: mail.mail
+        });
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }, []);
 
   let url = window.location.pathname
 
@@ -18,10 +44,9 @@ const Consultation = () => {
     mail: accountService.getEmail(),
     firstname: url.split("/")[2].split("-")[0],
     lastname: url.split("/")[2].split("-")[1],
-    medicList: {}
   })
 
-  const ordonnanceName = "ordonnance-" + infoConsultation.firstname + "-" + infoConsultation.lastname + ".pdf"
+  const ordonnanceName = infoConsultation.motif + "-" + formatDate(infoConsultation.date) + ".pdf"
 
 
   const handleAddMedicament = () => {
@@ -30,7 +55,7 @@ const Consultation = () => {
 
   const handleRemoveMedicament = (index) => {
     const newMedicaments = [...medicaments];
-    newMedicaments.splice(index, 1); // supprimer le champ correspondant à l'index
+    newMedicaments.splice(index, 1);
     setMedicaments(newMedicaments);
   };
 
@@ -40,16 +65,48 @@ const Consultation = () => {
     setMedicaments(newMedicaments);
   };
 
+  const generatePdf = async () => {
+    const blob = await pdf(<PDF data={data} infoConsultation={infoConsultation} medicaments={medicaments} />).toBlob();
+    const file = new Blob([blob], { type: 'application/pdf' });
+    setPdfOutput(file);
+  };
+
   const handleSubmit = (event) => {
     event.preventDefault();
-    Object.keys(medicaments).map(
-      (key) => medicaments[key]
-    );
-    infoConsultation.medicList = medicaments;
-    axios.post("/prescriptions", infoConsultation).then(res => {
-      const newData = res.data;
-      console.log(newData);
-    });
+    setIsSubmitted(true)
+    if (medicaments[0] === "") {
+      const params = new URLSearchParams();
+      params.append('mail', accountService.getEmail());
+      params.append('firstname', infoConsultation.firstname);
+      params.append('lastname', infoConsultation.lastname);
+      params.append('date', infoConsultation.date);
+      params.append('motif', infoConsultation.motif);
+      axios.post('/prescriptions', params)
+        .catch((error) => console.log(error))
+    } else {
+      generatePdf();
+      let document = new FormData();
+      if (pdfOutput !== null) {
+        document.append("file", pdfOutput, ordonnanceName);
+        const params = new URLSearchParams();
+        params.append('mail', accountService.getEmail());
+        params.append('firstname', infoConsultation.firstname);
+        params.append('lastname', infoConsultation.lastname);
+        params.append('date', infoConsultation.date);
+        params.append('motif', infoConsultation.motif);
+        axios.post('/prescriptions', document, {
+          params,
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        }).then((response) => {
+          console.log(response);
+        })
+          .catch((error) => {
+            console.log(error);
+          }, []);
+      }
+    }
 
   };
 
@@ -88,7 +145,7 @@ const Consultation = () => {
           <div>
             {medicaments.map((medicament, index) => (
               <div key={index}>
-                <label htmlFor={`medicament-${index}`}>Préscription {index + 1} :</label>
+                <label htmlFor={`medicament-${index}`}>Prescription {index + 1} : </label>
                 <input
                   id={`medicament-${index}`}
                   type="text"
@@ -96,10 +153,10 @@ const Consultation = () => {
                   onChange={(event) => handleMedicamentChange(index, event)}
                   required
                 />
+                <button type="button" onClick={handleAddMedicament}>+</button>
                 <button type="button" onClick={() => handleRemoveMedicament(index)}>-</button>
               </div>
             ))}
-            <button type="button" onClick={handleAddMedicament}>+</button>
           </div>
         </>
       )}
@@ -107,12 +164,15 @@ const Consultation = () => {
         <button onClick={handleSubmit}>Enregistrer</button>
       </div>
       <div>
-        <PDFDownloadLink document={<PDF infoConsultation={infoConsultation} medicaments={medicaments} />
-        } fileName={ordonnanceName}>
-          {({ blob, url, loading, error }) =>
-            loading ? 'Chargement...' : 'Télécharger le PDF'
-          }
-        </PDFDownloadLink>
+        {isSubmitted && medicaments[0] != "" && medicaments[0] != undefined && (
+          <div>
+            <PDFDownloadLink document={<PDF data={data} infoConsultation={infoConsultation} medicaments={medicaments} />} fileName={ordonnanceName}>
+              {({ blob, url, loading, error }) =>
+                loading ? 'Chargement...' : 'Télécharger le PDF'
+              }
+            </PDFDownloadLink>
+          </div>
+        )}
       </div>
     </div>
   );

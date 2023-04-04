@@ -60,12 +60,13 @@ public class JdbcPatientRepository implements PatientRepository {
         + "'" + mail + "'" + ") ORDER BY appointments.starttime";
     ResultSet rs = stmt.executeQuery(sql);
     while (rs.next()) {
-      if (LocalDateTime.now().isAfter(rs.getTimestamp(5).toLocalDateTime())){
+      if (LocalDateTime.now().isAfter(rs.getTimestamp(5).toLocalDateTime().plusYears(1))) {
         Statement stmt2 = connection.createStatement();
-        String request2 = "DELETE FROM Appointments WHERE PatientId = '" + getPatientIdByMail(mail) + "' AND StartTime = '" + rs.getDate(5) + "'";
+        String request2 = "DELETE FROM Appointments WHERE PatientId = '" + getPatientIdByMail(mail)
+            + "' AND StartTime = '" + rs.getDate(5) + "'";
         stmt2.executeUpdate(request2);
         stmt2.close();
-      }else{
+      } else {
         List<String> l = new ArrayList<>();
         l.add(rs.getString(1));
         l.add(rs.getString(2));
@@ -114,8 +115,8 @@ public class JdbcPatientRepository implements PatientRepository {
   public boolean checkPatientExist(String mail, String firstname, String lastname) throws SQLException {
     Connection connection = DBUtil.getConnection();
     Statement stmt = connection.createStatement();
-    String request = "SELECT * FROM Patients WHERE mail=" + "'" + mail + "'" + " OR firstname=" + "'" + firstname + "'"
-        + " OR lastname=" + "'" + lastname + "'";
+    String request = "SELECT * FROM Patients WHERE mail=" + "'" + mail + "'" + " AND firstname=" + "'" + firstname + "'"
+        + " AND lastname=" + "'" + lastname + "'";
     ResultSet rs = stmt.executeQuery(request);
     Boolean exist = rs.next();
     rs.close();
@@ -269,39 +270,12 @@ public class JdbcPatientRepository implements PatientRepository {
   }
 
   @Override
-  public List<List<String>> getConsultationsPatient(String mail) throws SQLException {
-    UUID patientid = getPatientIdByMail(mail);
-    List<List<String>> informations = new ArrayList<>();
-    SimpleDateFormat df = new SimpleDateFormat("dd/MM/yyyy");
-    Connection connection = DBUtil.getConnection();
-    Statement stmt = connection.createStatement();
-    String request = "SELECT * FROM Consultations JOIN Prescriptions ON Consultations.prescriptionsid = Prescriptions.prescriptionsid WHERE consultations.patientid ="
-        + "'" + patientid + "' ORDER BY Consultations.day";
-    ResultSet rs = stmt.executeQuery(request);
-    while (rs.next()) {
-      List<String> l = new ArrayList<>();
-      l.add(df.format(rs.getDate(4)).toString());
-      if (rs.getString(7).equals(" ")) {
-        l.add("Aucune");
-      } else {
-        l.add(rs.getString(7));
-      }
-      informations.add(l);
-    }
-    rs.close();
-    stmt.close();
-    connection.close();
-    return informations;
-  }
-
-  @Override
-  public void saveDocument(String fileName, byte[] fileContent, String mail, String apptId) throws SQLException{
+  public void saveDocument(String fileName, byte[] fileContent, String mail, String apptId) throws SQLException {
     UUID patientId = getPatientIdByMail(mail);
     UUID appointmentId = UUID.fromString(apptId);
     Connection connection = DBUtil.getConnection();
     PreparedStatement pstmt = connection.prepareStatement(
-      "INSERT INTO documents (patientid, documentname, documentcontent, appointmentid) VALUES (?, ?, ?, ?)"
-    );
+        "INSERT INTO documents (patientid, documentname, documentcontent, appointmentid) VALUES (?, ?, ?, ?)");
     pstmt.setObject(1, patientId);
     pstmt.setString(2, fileName);
     pstmt.setBytes(3, fileContent);
@@ -316,9 +290,10 @@ public class JdbcPatientRepository implements PatientRepository {
     List<List<Object>> documentsByApptId = new ArrayList<>();
     Connection connection = DBUtil.getConnection();
     Statement stmt = connection.createStatement();
-    String request = "SELECT documentname,documentcontent,appointmentid from documents where patientid = '" + getPatientIdByMail(mail) + "'";
+    String request = "SELECT documentname,documentcontent,appointmentid from documents where patientid = '"
+        + getPatientIdByMail(mail) + "'";
     ResultSet rs = stmt.executeQuery(request);
-    while (rs.next()){
+    while (rs.next()) {
       List<Object> doc = new ArrayList<>();
       doc.add(rs.getString(1));
       doc.add(rs.getBytes(2));
@@ -334,9 +309,31 @@ public class JdbcPatientRepository implements PatientRepository {
   public void deleteDocument(String idAppt, String docName) throws SQLException {
     Connection connection = DBUtil.getConnection();
     Statement stmt = connection.createStatement();
-    String request = "DELETE FROM documents WHERE appointmentId =" + "'" + idAppt + "' and documentname = '" + docName + "'";
+    String request = "DELETE FROM documents WHERE appointmentId =" + "'" + idAppt + "' and documentname = '" + docName
+        + "'";
     stmt.executeUpdate(request);
     stmt.close();
     DBUtil.closeConnection(connection);
+  }
+
+  @Override
+  public List<List<Object>> getPrescriptionsByPatient(String mail) throws SQLException, IOException {
+    JdbcPatientRepository patientRepository = new JdbcPatientRepository();
+    List<List<Object>> prescriptions = new ArrayList<>();
+    Connection connection = DBUtil.getConnection();
+    Statement stmt = connection.createStatement();
+    String request = "SELECT documentname,documentcontent from prescriptions JOIN Consultations ON Consultations.prescriptionsId = Prescriptions.prescriptionsId where Consultations.patientid = '"
+        + patientRepository.getPatientIdByMail(mail) + "'";
+    ResultSet rs = stmt.executeQuery(request);
+    while (rs.next()) {
+      List<Object> doc = new ArrayList<>();
+      doc.add(rs.getString(1));
+      doc.add(rs.getBytes(2));
+      prescriptions.add(doc);
+    }
+    rs.close();
+    stmt.close();
+    DBUtil.closeConnection(connection);
+    return prescriptions;
   }
 }

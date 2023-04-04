@@ -2,6 +2,7 @@ package core.application.medicalpractice.application;
 
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -68,15 +69,16 @@ public class MedicalPractice {
     }
 
     public void addConsultation(String mail, String lastname, String firstname, Date date, String motif,
-            List<String> medicList) throws SQLException {
-        doctorRepository.addConsultation(mail, lastname, firstname, date, motif, medicList);
+            String fileName, byte[] fileContent) throws SQLException {
+        doctorRepository.addConsultation(mail, lastname, firstname, date, motif, fileName, fileContent);
     }
 
-    public List<List<String>> getMedicalFile(String mail, String firstname, String lastname) throws SQLException {
+    public List<List<Object>> getMedicalFile(String mail, String firstname, String lastname) throws SQLException {
         List<String> informations = patientRepository
                 .getInformationsPatient(patientRepository.getMailByName(firstname, lastname));
-        List<List<String>> consultations = doctorRepository.getConsultationsDoctor(mail, firstname, lastname);
-        consultations.add(informations);
+        List<Object> objectList = new ArrayList<Object>(informations);
+        List<List<Object>> consultations = doctorRepository.getConsultationsDoctor(mail, firstname, lastname);
+        consultations.add(objectList);
         return consultations;
     }
 
@@ -115,20 +117,20 @@ public class MedicalPractice {
         patientRepository.cancelAppointment(id);
     }
 
-    public List<List<String>> getConsultationsPatient(String mail) throws SQLException {
-        return patientRepository.getConsultationsPatient(mail);
-    }
-
-    public void saveDocument(String fileName, byte[] fileContent, String mail, String apptId) throws SQLException{
+    public void saveDocument(String fileName, byte[] fileContent, String mail, String apptId) throws SQLException {
         patientRepository.saveDocument(fileName, fileContent, mail, apptId);
     }
 
-    public List<List<Object>> getDocument(String mail) throws SQLException, IOException{
+    public List<List<Object>> getDocument(String mail) throws SQLException, IOException {
         return patientRepository.getDocument(mail);
     }
 
     public void deleteDocument(String idAppt, String docName) throws SQLException {
         patientRepository.deleteDocument(idAppt, docName);
+    }
+
+    public List<List<Object>> getPrescriptionsByPatient(String mail) throws SQLException, IOException {
+        return patientRepository.getPrescriptionsByPatient(mail);
     }
 
     // requests for user

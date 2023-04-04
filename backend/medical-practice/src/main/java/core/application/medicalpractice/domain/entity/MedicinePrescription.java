@@ -1,38 +1,49 @@
 package core.application.medicalpractice.domain.entity;
 
-import java.util.List;
+import java.util.Arrays;
 import java.util.UUID;
 
 
 public class MedicinePrescription{
-    
     private final UUID id;
-    private final List<String> medications;
+    private String fileName;
+    byte[] fileContent;
     
 
-    public MedicinePrescription(List<String> medications){
-        this.medications = medications;
+    public MedicinePrescription(String fileName, byte[] fileContent){
+        this.fileName = fileName;
+        this.fileContent = fileContent;
         id = UUID.randomUUID();
     }
 
-    public void addMedicine(String medicine){
-        medications.add(medicine);
-    }
-
-    public List<String> getMedications(){
-        return medications;
-    }
-
-    public UUID getID(){
+    public UUID getId(){
         return this.id; 
     }
 
+    public String getFileName() {
+        return fileName;
+    }
+
+    public void setFileName(String fileName) {
+        this.fileName = fileName;
+    }
+
+    public byte[] getFileContent() {
+        return fileContent;
+    }
+
+    public void setFileContent(byte[] fileContent) {
+        this.fileContent = fileContent;
+    }
+
+        
     @Override
     public int hashCode() {
         final int prime = 31;
-        int result = super.hashCode();
+        int result = 1;
         result = prime * result + ((id == null) ? 0 : id.hashCode());
-        result = prime * result + ((medications == null) ? 0 : medications.hashCode());
+        result = prime * result + ((fileName == null) ? 0 : fileName.hashCode());
+        result = prime * result + Arrays.hashCode(fileContent);
         return result;
     }
 
@@ -40,7 +51,7 @@ public class MedicinePrescription{
     public boolean equals(Object obj) {
         if (this == obj)
             return true;
-        if (!super.equals(obj))
+        if (obj == null)
             return false;
         if (getClass() != obj.getClass())
             return false;
@@ -50,10 +61,12 @@ public class MedicinePrescription{
                 return false;
         } else if (!id.equals(other.id))
             return false;
-        if (medications == null) {
-            if (other.medications != null)
+        if (fileName == null) {
+            if (other.fileName != null)
                 return false;
-        } else if (!medications.equals(other.medications))
+        } else if (!fileName.equals(other.fileName))
+            return false;
+        if (!Arrays.equals(fileContent, other.fileContent))
             return false;
         return true;
     }

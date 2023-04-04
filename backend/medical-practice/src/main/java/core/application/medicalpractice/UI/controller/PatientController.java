@@ -113,12 +113,6 @@ public class PatientController {
 		String id = map.get("id");
 		medicalPractice.cancelAppointment(id);
 	}
-
-	@PostMapping(value = "/getconsultations")
-	public List<List<String>> getConsultationsPatient(@RequestBody HashMap<String, String> map) throws SQLException {
-		String mail = map.get("mail");
-		return medicalPractice.getConsultationsPatient(mail);
-	}
 	
 	@PostMapping("/addDocument")
 	public ResponseEntity<String> uploadFile(@RequestParam("file") MultipartFile file, @RequestParam("mail") String mail, @RequestParam("apptid") String id) throws SQLException {
@@ -158,6 +152,18 @@ public class PatientController {
 		String docName = map.get("name");
 		medicalPractice.deleteDocument(idAppt,docName);
 		return ResponseEntity.ok("File deleted successfully");
+	}
+
+	@PostMapping("/getPrescriptions")
+	public ResponseEntity<List<List<Object>>> getPrescriptionsByPatient(@RequestBody HashMap<String, String> map) throws SQLException, IOException {
+		try{
+			String mail = map.get("mail");
+			List<List<Object>> documents =  medicalPractice.getPrescriptionsByPatient(mail);
+			return ResponseEntity.ok(documents);
+		}catch(IOException e){
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
+		}
+
 	}
 
 }

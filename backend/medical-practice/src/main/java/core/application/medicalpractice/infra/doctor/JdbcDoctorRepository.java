@@ -1,5 +1,6 @@
 package core.application.medicalpractice.infra.doctor;
 
+import java.io.IOException;
 import java.sql.*;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -136,7 +137,6 @@ public class JdbcDoctorRepository implements DoctorRepository {
   public List<List<String>> displayAppointments(String firstName, String lastName) throws SQLException {
     Connection connection = DBUtil.getConnection();
     List<List<String>> appointments = new ArrayList<>();
-    DateFormat df = new SimpleDateFormat("EEEE d MMM yyyy");
     DateFormat tf = new SimpleDateFormat("HH:mm");
     PreparedStatement stmt = connection
         .prepareStatement(
@@ -147,7 +147,7 @@ public class JdbcDoctorRepository implements DoctorRepository {
       List<String> l = new ArrayList<>();
       l.add(rs.getString(1));
       l.add(rs.getString(2));
-      l.add(df.format(rs.getDate(3)).toString());
+      l.add(rs.getDate(3).toString());
       l.add(tf.format(rs.getTime(3)).toString());
       l.add(tf.format(rs.getTime(4)).toString());
       appointments.add(l);
@@ -230,36 +230,41 @@ public class JdbcDoctorRepository implements DoctorRepository {
   }
 
   @Override
-  public UUID addPrescription(List<String> medicList) throws SQLException {
+  public UUID addPrescription(String fileName, byte[] fileContent) throws SQLException {
+    Connection connection = DBUtil.getConnection();
+    MedicinePrescription prescription = new MedicinePrescription(fileName, fileContent);
+    PreparedStatement pstmt = connection.prepareStatement(
+        "INSERT INTO prescriptions (prescriptionsid, documentname, documentcontent) VALUES (?, ?, ?)");
+    pstmt.setObject(1, prescription.getId());
+    pstmt.setString(2, fileName);
+    pstmt.setBytes(3, fileContent);
+    pstmt.executeUpdate();
+    pstmt.close();
+    DBUtil.closeConnection(connection);
+    return prescription.getId();
+  }
+
+  @Override
+  public void addConsultation(String mail, String lastname, String firstname, Date date, String motif, String fileName,
+      byte[] fileContent) throws SQLException {
+    JdbcPatientRepository patientRepository = new JdbcPatientRepository();
+    UUID patientid = patientRepository.getPatientIdByName(firstname, lastname);
+    String request = null;
+    UUID doctorId = getDoctorIdByMail(mail);
     Connection connection = DBUtil.getConnection();
     Statement stmt = connection.createStatement();
-    MedicinePrescription medicinePrescription = new MedicinePrescription(medicList);
-    StringBuilder stringBuilder = new StringBuilder();
-    for (String medic : medicList) {
-      stringBuilder.append(medic + " ");
+    if (fileName == null && fileContent == null) {
+      request = "INSERT INTO Consultations(PatientId , DoctorId , Day , motif) VALUES (" + "'"
+          + patientid + "'" + "," + "'" + doctorId + "'" + "," + "'"
+          + new java.sql.Date(date.getTime()) + "'" + "," + "'"
+          + motif + "')";
+    } else {
+      request = "INSERT INTO Consultations(PatientId , DoctorId , Day , motif, PrescriptionsId ) VALUES (" + "'"
+          + patientid + "'" + "," + "'" + doctorId + "'" + "," + "'"
+          + new java.sql.Date(date.getTime()) + "'" + "," + "'"
+          + motif + "'" + "," + "'"
+          + addPrescription(fileName, fileContent) + "')";
     }
-    String request = "INSERT INTO Prescriptions (prescriptionsId, Description) VALUES (" + "'"
-        + medicinePrescription.getID() + "', '" + stringBuilder.toString() + "')";
-    stmt.executeUpdate(request);
-
-    stmt.close();
-    connection.close();
-
-    return medicinePrescription.getID();
-  }
-
-  @Override
-  public void addConsultation(String mail, String lastname, String firstname, Date date, String motif,
-      List<String> medicList) throws SQLException {
-    JdbcPatientRepository patientRepository = new JdbcPatientRepository();
-    UUID patientid = patientRepository.getPatientIdByName(firstname, lastname);
-    UUID doctorId = getDoctorIdByMail(mail);
-    Connection connection = DBUtil.getConnection();
-    Statement stmt = connection.createStatement();
-    String request = "INSERT INTO Consultations(PatientId , DoctorId , Day , PrescriptionsId ) VALUES (" + "'"
-        + patientid + "'" + "," + "'" + doctorId + "'" + "," + "'"
-        + new java.sql.Date(date.getTime()) + "'" + "," + "'"
-        + addPrescription(medicList) + "')";
     stmt.executeUpdate(request);
 
     stmt.close();
@@ -268,28 +273,37 @@ public class JdbcDoctorRepository implements DoctorRepository {
   }
 
   @Override
-  public List<List<String>> getConsultationsDoctor(String mail, String firstname, String lastname) throws SQLException {
+  public List<List<Object>> getConsultationsDoctor(String mail, String firstname, String lastname) throws SQLException {
     JdbcPatientRepository patientRepository = new JdbcPatientRepository();
     UUID patientid = patientRepository.getPatientIdByName(firstname, lastname);
     UUID doctorId = getDoctorIdByMail(mail);
-    List<List<String>> informations = new ArrayList<>();
+    List<List<Object>> informations = new ArrayList<>();
     SimpleDateFormat df = new SimpleDateFormat("dd/MM/yyyy");
     Connection connection = DBUtil.getConnection();
     Statement stmt = connection.createStatement();
-    String request = "SELECT * FROM Consultations JOIN Prescriptions ON Consultations.prescriptionsid = Prescriptions.prescriptionsid WHERE consultations.patientid ="
-        + "'" + patientid + "'" + " AND consultations.doctorid=" + "'" + doctorId + "' ORDER BY Consultations.day";
+    String request = "SELECT * FROM Consultations WHERE patientid ="
+        + "'" + patientid + "'" + " AND doctorid=" + "'" + doctorId + "' ORDER BY Consultations.day";
     ResultSet rs = stmt.executeQuery(request);
     while (rs.next()) {
-      List<String> l = new ArrayList<>();
+      List<Object> l = new ArrayList<>();
       l.add(df.format(rs.getDate(4)).toString());
-      if (rs.getString(7).equals(" ")) {
-        l.add("Aucune");
-      } else {
-        l.add(rs.getString(7));
+      l.add(rs.getString(5));
+      String value = rs.getString(6);
+      if (!rs.wasNull()) {
+        Connection connection2 = DBUtil.getConnection();
+        Statement stmt2 = connection2.createStatement();
+        String request2 = "SELECT * from Prescriptions WHERE prescriptionsid = '" + value + "'";
+        ResultSet rs2 = stmt2.executeQuery(request2);
+        if(rs2.next()){
+          l.add(rs2.getString(2));
+          l.add(rs2.getBytes(3));
+        }
+        rs2.close();
+        stmt2.close();
+        connection2.close();
       }
       informations.add(l);
     }
-
     rs.close();
     stmt.close();
     connection.close();

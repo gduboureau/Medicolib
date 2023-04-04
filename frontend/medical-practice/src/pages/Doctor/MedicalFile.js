@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { accountService } from "../users/Authentification/Sessionstorage";
 import Error from "../../utils/Error";
+import formatDate from "../../utils/DateFormat";
 
 import './assets/medicalFile.css'
 
@@ -50,24 +51,26 @@ const MedicalFile = () => {
                 numSS: lastElement[9] || "Non renseigné"
             });
         })
-        .catch((error) => {
-            console.log(error)
-            setHasError(true);
-          });
-        
+            .catch((error) => {
+                console.log(error)
+                setHasError(true);
+            });
+
     }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
     if (hasError) {
         return <Error />;
-      }
+    }
 
-    const formatDate = (dateString) => {
-        const dateParts = dateString.split('-');
-        const day = dateParts[2];
-        const month = dateParts[1];
-        const year = dateParts[0];
-        return `${day}/${month}/${year}`;
-    };
+    const downloadDocument = (name, content) => {
+        var data = Uint8Array.from(atob(content), c => c.charCodeAt(0));
+        //const linkSource = `data:application/pdf;base64,${doc[1]}`;
+        var blob = new Blob([data], { type: "octet/stream" });
+        var link = document.createElement("a");
+        link.href = window.URL.createObjectURL(blob);
+        link.download = name;
+        link.click();
+    }
 
     return (
         <div>
@@ -90,7 +93,10 @@ const MedicalFile = () => {
                 {data.map((data, index) => (
                     <div className="doctor-card" key={index}>
                         <p>Date : {data[0]}</p>
-                        <p>Prescription(s) : {data[1]}</p>
+                        <p>Motif : {data[1]}</p>
+                        {data[2] && data[3] &&
+                            <p>Ordonnace : <a href="#" onClick={() => downloadDocument(data[2], data[3])}>{data[2]}</a></p>
+                        }
                     </div>
                 ))}
             </div>
