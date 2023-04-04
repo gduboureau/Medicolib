@@ -1,9 +1,9 @@
 package core.application.medicalpractice.infra.doctor;
 
-import java.io.IOException;
 import java.sql.*;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
 import java.util.*;
 import java.util.Date;
 
@@ -144,13 +144,21 @@ public class JdbcDoctorRepository implements DoctorRepository {
                 + firstName + "'" + " AND lastname=" + "'" + lastName + "') ORDER BY starttime");
     ResultSet rs = stmt.executeQuery();
     while (rs.next()) {
-      List<String> l = new ArrayList<>();
-      l.add(rs.getString(1));
-      l.add(rs.getString(2));
-      l.add(rs.getDate(3).toString());
-      l.add(tf.format(rs.getTime(3)).toString());
-      l.add(tf.format(rs.getTime(4)).toString());
-      appointments.add(l);
+      if (LocalDateTime.now().isAfter(rs.getTimestamp(3).toLocalDateTime())) {
+        Statement stmt2 = connection.createStatement();
+        String request2 = "DELETE FROM AvailableTimeSlots WHERE doctorid = (SELECT doctorid FROM Doctors WHERE firstname=" + "'"
+        + firstName + "'" + " AND lastname=" + "'" + lastName + "') and  StartTime = '" + rs.getDate(3) + "'";
+        stmt2.executeUpdate(request2);
+        stmt2.close();
+      } else {
+        List<String> l = new ArrayList<>();
+        l.add(rs.getString(1));
+        l.add(rs.getString(2));
+        l.add(rs.getDate(3).toString());
+        l.add(tf.format(rs.getTime(3)).toString());
+        l.add(tf.format(rs.getTime(4)).toString());
+        appointments.add(l);
+      }
     }
 
     rs.close();

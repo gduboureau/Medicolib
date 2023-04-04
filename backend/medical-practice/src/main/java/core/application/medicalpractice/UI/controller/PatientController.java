@@ -19,7 +19,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
-
 import core.application.medicalpractice.application.MedicalPractice;
 import core.application.medicalpractice.domain.entity.Address;
 import core.application.medicalpractice.domain.entity.Patient;
@@ -41,7 +40,8 @@ public class PatientController {
 		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
 		Date parsed = format.parse(date);
 		if (medicalPractice.checkPatientExist(mail, firstName, lastName)) {
-			return ResponseEntity.status(HttpStatus.FORBIDDEN).body("Vous avez déjà un compte, veuillez vous connecter.");
+			return ResponseEntity.status(HttpStatus.FORBIDDEN)
+					.body("Vous avez déjà un compte, veuillez vous connecter.");
 		}
 		if (!medicalPractice.checkPatientExist(mail, firstName, lastName)) {
 			Patient patient = new Patient(firstName, lastName, gender, parsed, "", mail, new Address(1, " ", " ", 1), 0,
@@ -56,66 +56,105 @@ public class PatientController {
 	}
 
 	@PostMapping(value = "/informations-patient")
-	public List<String> getInformationsPatient(@RequestBody Map<String, String> map) throws SQLException {
-		return medicalPractice.getInformationsPatient(map.get("mail"));
+	public ResponseEntity<List<String>> getInformationsPatient(@RequestBody Map<String, String> map)
+			throws SQLException {
+		if (map.get("mail") == null) {
+			return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
+		}
+		try {
+			return ResponseEntity.ok(medicalPractice.getInformationsPatient(map.get("mail")));
+		} catch (Exception e) {
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+		}
+
 	}
 
 	@PostMapping(value = "/modify-informations")
-	public void modifyInformationPatient(@RequestBody Map<String, String> map) throws SQLException, ParseException {
-		String mail = map.get("email");
-		String firstName = map.get("firstName");
-		String lastName = map.get("lastName");
-		String gender = map.get("gender");
-		String date = map.get("date");
-		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
-		Date parsed = format.parse(date);
-		String newPassword = map.get("password");
-		float height = Float.parseFloat(map.get("height"));
-		float weight = Float.parseFloat(map.get("weight"));
-		String NumSocial = map.get("numSocial");
-		Address addr = null;
+	public ResponseEntity<String> modifyInformationPatient(@RequestBody Map<String, String> map)
+			throws SQLException, ParseException {
 		try {
-			int NumRue = Integer.parseInt(map.get("NumRue"));
-			int postalCode = Integer.parseInt(map.get("PostalCode"));
-			String NomRue = map.get("NomRue");
-			String city = map.get("City");
-			addr = new Address(NumRue, NomRue, city, postalCode);
+			String mail = map.get("email");
+			String firstName = map.get("firstName");
+			String lastName = map.get("lastName");
+			String gender = map.get("gender");
+			String date = map.get("date");
+			SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+			Date parsed = format.parse(date);
+			String newPassword = map.get("password");
+			float height = Float.parseFloat(map.get("height"));
+			float weight = Float.parseFloat(map.get("weight"));
+			String NumSocial = map.get("numSocial");
+			Address addr = null;
+			try {
+				int NumRue = Integer.parseInt(map.get("NumRue"));
+				int postalCode = Integer.parseInt(map.get("PostalCode"));
+				String NomRue = map.get("NomRue");
+				String city = map.get("City");
+				addr = new Address(NumRue, NomRue, city, postalCode);
+			} catch (Exception e) {
+				addr = medicalPractice.getAddress(mail);
+			}
+
+			UUID idPatient = UUID.fromString(medicalPractice.getInformationsPatient(mail).get(0));
+
+			Patient patient = new Patient(idPatient, firstName, lastName, gender, parsed, NumSocial, mail, addr, weight,
+					height);
+			medicalPractice.saveAddress(patient);
+			medicalPractice.savePatient(patient);
+			if (newPassword != null) {
+				medicalPractice.resetPassword(mail, newPassword);
+			}
+			return ResponseEntity.ok("Informations modified");
 		} catch (Exception e) {
-			addr = medicalPractice.getAddress(mail);
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
 		}
 
-		UUID idPatient = UUID.fromString(medicalPractice.getInformationsPatient(mail).get(0));
-
-		Patient patient = new Patient(idPatient, firstName, lastName, gender, parsed, NumSocial, mail, addr, weight,
-				height);
-		medicalPractice.saveAddress(patient);
-		medicalPractice.savePatient(patient);
-		if (newPassword != null) {
-			medicalPractice.resetPassword(mail, newPassword);
-		}
 	}
 
 	@PostMapping(value = "/appointments")
-	public List<List<String>> AllAppointmentByPatient(@RequestBody Map<String, String> map)
+	public ResponseEntity<List<List<String>>> AllAppointmentByPatient(@RequestBody Map<String, String> map)
 			throws SQLException, ParseException {
-		return medicalPractice.getAppointmentByPatient(map.get("mail"));
+		try {
+			return ResponseEntity.ok(medicalPractice.getAppointmentByPatient(map.get("mail")));
+		} catch (Exception e) {
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+		}
 	}
 
 	@PostMapping(value = "/makeappointment")
-	public void makeAnAppointment(@RequestBody HashMap<String, String> map) throws SQLException {
-		String id = map.get("id");
-		String mail = map.get("mail");
-		medicalPractice.makeAnAppointment(id, mail);
+	public ResponseEntity<String> makeAnAppointment(@RequestBody HashMap<String, String> map) throws SQLException {
+		try {
+			String id = map.get("id");
+			String mail = map.get("mail");
+			medicalPractice.makeAnAppointment(id, mail);
+			if (mail == null || id == null) {
+				return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
+			}
+			return ResponseEntity.ok("Appointment added");
+		} catch (Exception e) {
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+		}
 	}
 
 	@PostMapping(value = "/cancelappointment")
-	public void cancelAppointment(@RequestBody HashMap<String, String> map) throws SQLException {
-		String id = map.get("id");
-		medicalPractice.cancelAppointment(id);
+	public ResponseEntity<String> cancelAppointment(@RequestBody HashMap<String, String> map) throws SQLException {
+		try {
+			String id = map.get("id");
+			if (id == null) {
+				return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+			} else {
+				medicalPractice.cancelAppointment(id);
+				return ResponseEntity.ok("Appointment cancelled");
+			}
+		} catch (Exception e) {
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+		}
+
 	}
-	
+
 	@PostMapping("/addDocument")
-	public ResponseEntity<String> uploadFile(@RequestParam("file") MultipartFile file, @RequestParam("mail") String mail, @RequestParam("apptid") String id) throws SQLException {
+	public ResponseEntity<String> uploadFile(@RequestParam("file") MultipartFile file,
+			@RequestParam("mail") String mail, @RequestParam("apptid") String id) throws SQLException {
 		try {
 			String fileName = file.getOriginalFilename();
 			byte[] fileContent = file.getBytes();
@@ -126,41 +165,61 @@ public class PatientController {
 		}
 	}
 
-	
 	@PostMapping("/getDocuments")
-	public ResponseEntity<List<List<Object>>> getDocument(@RequestBody HashMap<String, String> map) throws SQLException, IOException {
-		try{
+	public ResponseEntity<List<List<Object>>> getDocument(@RequestBody HashMap<String, String> map)
+			throws SQLException, IOException {
+		try {
 			String mail = map.get("mail");
-			List<List<Object>> documents =  medicalPractice.getDocument(mail);
+			if (mail == null) {
+				return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+			}
+			List<List<Object>> documents = medicalPractice.getDocument(mail);
 			return ResponseEntity.ok(documents);
-		}catch(IOException e){
+		} catch (IOException e) {
 			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
 		}
 
 	}
 
 	@PostMapping("/getTimeAppt")
-	public ResponseEntity<Date> getAppointmentDateById(@RequestBody HashMap<String, String> map) throws SQLException{
-		String idAppt = map.get("id");
-		Date date =  medicalPractice.getAppointmentDateById(idAppt);
-		return ResponseEntity.ok().body(date);
+	public ResponseEntity<Date> getAppointmentDateById(@RequestBody HashMap<String, String> map) throws SQLException {
+		try {
+			String idAppt = map.get("id");
+			if (idAppt == null) {
+				return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+			}
+			Date date = medicalPractice.getAppointmentDateById(idAppt);
+			return ResponseEntity.ok().body(date);
+		} catch (Exception e) {
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+		}
 	}
 
 	@PostMapping("/deleteDocuments")
-	public ResponseEntity<String> deleteDocument(@RequestBody HashMap<String, String> map) throws SQLException, IOException{
-		String idAppt = map.get("id");
-		String docName = map.get("name");
-		medicalPractice.deleteDocument(idAppt,docName);
-		return ResponseEntity.ok("File deleted successfully");
+	public ResponseEntity<String> deleteDocument(@RequestBody HashMap<String, String> map)
+			throws SQLException, IOException {
+		try {
+			String idAppt = map.get("id");
+			String docName = map.get("name");
+			if (docName == null || idAppt == null){
+				return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+			}
+			medicalPractice.deleteDocument(idAppt, docName);
+			return ResponseEntity.ok("File deleted successfully");
+		} catch (Exception e) {
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+		}
+
 	}
 
 	@PostMapping("/getPrescriptions")
-	public ResponseEntity<List<List<Object>>> getPrescriptionsByPatient(@RequestBody HashMap<String, String> map) throws SQLException, IOException {
-		try{
+	public ResponseEntity<List<List<Object>>> getPrescriptionsByPatient(@RequestBody HashMap<String, String> map)
+			throws SQLException, IOException {
+		try {
 			String mail = map.get("mail");
-			List<List<Object>> documents =  medicalPractice.getPrescriptionsByPatient(mail);
+			List<List<Object>> documents = medicalPractice.getPrescriptionsByPatient(mail);
 			return ResponseEntity.ok(documents);
-		}catch(IOException e){
+		} catch (IOException e) {
 			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
 		}
 

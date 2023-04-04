@@ -1,6 +1,5 @@
 package core.application.medicalpractice.infra.doctor;
 
-import java.io.IOException;
 import java.sql.SQLException;
 import java.util.Date;
 import java.util.HashMap;

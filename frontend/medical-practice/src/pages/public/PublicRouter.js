@@ -12,7 +12,7 @@ import AuthGuard from '../users/Authentification/AuthGuard';
 import { useParams } from 'react-router-dom';
 import SpecialityGuard from '../../utils/Speciality/SpecialityGuard';
 import DoctorGuard from '../../utils/Doctor/DoctorGuard';
-
+import AuthGuardLogin from './AuthGuardLogin';
 
 const PublicRouter = () => {
   return (
@@ -46,8 +46,8 @@ const PublicRouter = () => {
             </DoctorGuard>
             } 
           />
-        <Route path="/register" element={<RegisterPage />} />
-        <Route path="/login" element={<LoginPage />} />
+        <Route path="/register" element={<AuthGuardLogin><RegisterPage /></AuthGuardLogin>} />
+        <Route path="/login" element={<AuthGuardLogin><LoginPage /></AuthGuardLogin>} />
         <Route path="*" element={<Error />} />
       </Route>
     </Routes>

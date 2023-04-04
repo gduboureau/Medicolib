@@ -7,6 +7,7 @@ import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
@@ -21,15 +22,15 @@ import core.application.medicalpractice.application.MedicalPractice;
 public class UserController {
 
     @Autowired
-    private MedicalPractice medicalPractice;
+    public MedicalPractice medicalPractice;
 
     @Autowired
-    private JWTToken jwtToken;
+    public JWTToken jwtToken;
 
     @Autowired
-    private JavaMailSender javaMailSender;
+    public JavaMailSender javaMailSender;
 
-    @PostMapping(value = "/login")
+    @PostMapping(value = "/login",  produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> checkLogin(@RequestBody Map<String, String> map) throws SQLException {
         String email = map.get("login");
         String password = map.get("password");
@@ -46,7 +47,7 @@ public class UserController {
                 .body("Adresse mail ou mot de passe incorrect");
     }
 
-    @PostMapping(value = "/new-password")
+    @PostMapping(value = "/new-password", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> resetPassword(@RequestBody Map<String, String> map) throws SQLException {
         String mail = map.get("mail");
         if (medicalPractice.checkUserExist(mail)) {

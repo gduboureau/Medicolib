@@ -10,7 +10,6 @@ import java.util.UUID;
 
 import org.springframework.stereotype.Service;
 
-import core.application.medicalpractice.domain.aggregate.*;
 import core.application.medicalpractice.domain.entity.*;
 import core.application.medicalpractice.infra.doctor.JdbcDoctorRepository;
 import core.application.medicalpractice.infra.medical.MedicalRepository;
@@ -24,14 +23,12 @@ public class MedicalPractice {
     private JdbcDoctorRepository doctorRepository;
     private JdbcPatientRepository patientRepository;
     private JdbcUserRepository userRepository;
-    private HashMap<Integer, MedicalFile> medicalFiles;
 
     public MedicalPractice() throws SQLException {
         this.medicalDatas = new MedicalRepository();
         this.doctorRepository = new JdbcDoctorRepository();
         this.patientRepository = new JdbcPatientRepository();
         this.userRepository = new JdbcUserRepository();
-        this.medicalFiles = new HashMap<>();
     }
 
     // requests for doctors
@@ -156,20 +153,6 @@ public class MedicalPractice {
     }
 
     // requests for medical files
-
-    public int createMedicalFile() {
-        // Patient patient = new Patient();
-        MedicalFile medicalFile = new MedicalFile(null);
-        return 1;
-    }
-
-    public void saveMedicalFile(MedicalFile file) {
-
-    }
-
-    public MedicalFile getMedicalFile(UUID medicalId) {
-        return null;
-    }
 
     public Date getAppointmentDateById(String apptId) throws SQLException {
         return medicalDatas.getAppointmentDateById(apptId);
