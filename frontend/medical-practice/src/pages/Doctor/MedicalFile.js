@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { accountService } from "../users/Authentification/Sessionstorage";
 import Error from "../../utils/Error";
-import formatDate from "../../utils/DateFormat";
+import { format } from "../../utils/DateFormat";
 
 import './assets/medicalFile.css'
 
@@ -43,7 +43,7 @@ const MedicalFile = () => {
                 firstName: lastElement[1],
                 lastName: lastElement[2],
                 gender: lastElement[3] === 'F' ? "Femme" : "Homme",
-                date: formatDate(lastElement[4]),
+                date: format.formatDate(lastElement[4]),
                 weight: lastElement[5] === "0" ? "Non renseigné" : lastElement[5],
                 height: lastElement[6] === "0" ? "Non renseigné" : lastElement[6],
                 mail: lastElement[7],

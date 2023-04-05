@@ -2,8 +2,6 @@ package core.application.medicalpractice.infra.patient;
 
 import java.io.IOException;
 import java.sql.*;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.util.*;
 
@@ -54,7 +52,6 @@ public class JdbcPatientRepository implements PatientRepository {
   public List<List<String>> getAllAppointmentsByPatient(String mail) throws SQLException {
     Connection connection = DBUtil.getConnection();
     List<List<String>> appointments = new ArrayList<List<String>>();
-    DateFormat df = new SimpleDateFormat("EEEE d MMM yyyy");
     Statement stmt = connection.createStatement();
     String sql = "SELECT appointments.appointmentid, doctors.firstname, doctors.lastname, doctors.speciality, appointments.StartTime FROM doctors JOIN appointments ON doctors.doctorid = appointments.doctorid WHERE appointments.patientid= (SELECT patientid FROM Patients WHERE mail= "
         + "'" + mail + "'" + ") ORDER BY appointments.starttime";
@@ -72,7 +69,7 @@ public class JdbcPatientRepository implements PatientRepository {
         l.add(rs.getString(2));
         l.add(rs.getString(3));
         l.add(rs.getString(4));
-        l.add(df.format(rs.getDate(5)).toString());
+        l.add(rs.getDate(5).toString());
         l.add(rs.getTime(5).toString());
         appointments.add(l);
       }

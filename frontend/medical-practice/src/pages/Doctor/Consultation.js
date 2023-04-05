@@ -3,7 +3,7 @@ import axios from 'axios';
 import { accountService } from '../users/Authentification/Sessionstorage';
 import { PDFDownloadLink, pdf } from '@react-pdf/renderer';
 import PDF from './PDFPrescription';
-import formatDate from '../../utils/DateFormat';
+import { format } from '../../utils/DateFormat';
 import { useMemo } from 'react';
 
 const Consultation = () => {
@@ -47,7 +47,7 @@ const Consultation = () => {
     lastname: url.split("/")[2].split("-")[1],
   })
 
-  const ordonnanceName = infoConsultation.motif + "-" + formatDate(infoConsultation.date) + ".pdf"
+  const ordonnanceName = infoConsultation.motif + "-" + format.formatDate(infoConsultation.date) + ".pdf"
 
 
   const handleAddMedicament = () => {

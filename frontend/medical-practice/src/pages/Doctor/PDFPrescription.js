@@ -1,7 +1,7 @@
 import React from "react";
 import { Document, Page, Text } from '@react-pdf/renderer';
 import { View, StyleSheet } from "@react-pdf/renderer";
-import formatDate from "../../utils/DateFormat";
+import { format } from "../../utils/DateFormat";
 
 
 const PDF = ({ data, infoConsultation, medicaments }) => {
@@ -70,7 +70,7 @@ const PDF = ({ data, infoConsultation, medicaments }) => {
                     <Text style={styles.patient}>{infoConsultation.firstname}  {infoConsultation.lastname}</Text>
                 </View>
                 <View>
-                    <Text style={styles.date}>Talence, le {formatDate(infoConsultation.date)}</Text>
+                    <Text style={styles.date}>Talence, le {format.formatDate(infoConsultation.date)}</Text>
                 </View>
                 <View>
                     {medicaments.map((medicament, index) => (

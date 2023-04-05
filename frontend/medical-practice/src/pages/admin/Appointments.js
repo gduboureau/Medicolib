@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from 'axios';
 import { accountService } from "../users/Authentification/Sessionstorage";
+import { format } from "../../utils/DateFormat";
 
 import './assets/appointments.css';
 
@@ -30,12 +31,28 @@ const Appointments = () => {
 
     const [file, setSelectedFile] = useState(null);
 
-    const [AppointmentList, setAppointments] = useState([]);
+    const [upcomingAppointments, setUpcomingAppointments] = useState([]);
+    const [pastAppointments, setPastAppointments] = useState([]);
+
+    const formatDate = (dateString) => {
+        const date = new Date(dateString);
+        const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+        return date.toLocaleDateString('fr-FR', options);
+    };
 
     useEffect(() => {
         axios.post("/appointments", mail).then(res => {
             const newData = res.data;
-            setAppointments(newData);
+            console.log(newData)
+            const now = new Date().getTime();
+            const upcoming = newData.filter(
+                (appointment) => new Date(appointment[4] + ' ' + appointment[5]).getTime() > now
+            );
+            const past = newData.filter(
+                (appointment) => new Date(appointment[4] + ' ' + appointment[5]).getTime() <= now
+            );
+            setUpcomingAppointments(upcoming);
+            setPastAppointments(past);
         });
     }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
@@ -85,18 +102,18 @@ const Appointments = () => {
         }
 
     };
-      
 
     return (
         <div>
-            {AppointmentList.map((appointment, index) => (
+            <h2>Rendez-vous à venir</h2>
+            {upcomingAppointments.map((appointment, index) => (
                 <div className="doctor-card" key={index}>
                     <p>
                         {appointment[1]} {appointment[2]}
                     </p>
                     <p>{appointment[3]}</p>
-                    <p>{appointment[4]}</p>
-                    <p>{appointment[5]}</p>
+                    <p>{formatDate(appointment[4])}</p>
+                    <p>{format.formatTime(appointment[5])}</p>
                     <p>Documents pour le rendez-vous:</p>
                     <button onClick={() => handleCancelAppointment(appointment[0])}>
                         Annuler le rendez-vous
@@ -117,8 +134,19 @@ const Appointments = () => {
                     onConfirm={handleConfirmCancelAppointment}
                 />
             )}
+            <h2>Rendez-vous passés</h2>
+            {pastAppointments.map((appointment, index) => (
+                <div className="doctor-card" key={index}>
+                    <p>
+                        {appointment[1]} {appointment[2]}
+                    </p>
+                    <p>{appointment[3]}</p>
+                    <p>{formatDate(appointment[4])}</p>
+                    <p>{format.formatTime(appointment[5])}</p>
+                </div>
+            ))}
         </div>
-    );
+    )
 };
 
 export default Appointments;
