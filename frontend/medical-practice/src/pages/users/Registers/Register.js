@@ -1,7 +1,9 @@
 import React, { useState } from "react";
 import axios from 'axios';
-import { useNavigate, Link} from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import { accountService } from "../Authentification/Sessionstorage";
+
+import './assets/register.css'
 
 const Register = () => {
 
@@ -41,7 +43,7 @@ const Register = () => {
         })
         .catch((error) => {
           console.log(error.response.data)
-                setErrorMessage(error.response.data);
+          setErrorMessage(error.response.data);
 
         })
     } else {
@@ -54,51 +56,68 @@ const Register = () => {
 
   return (
     <div className="register">
-      <form onSubmit={handleSubmit}>
+      <p>Enregistrez-vous</p>
+      <form onSubmit={handleSubmit} className="form-register">
         <div>
-          <label htmlFor="gender">Sexe :</label>
-          <input type="radio" id="h" name="gender" value="M" onChange={handleChange} required /> Homme
-          <input type="radio" id="f" name="gender" value="F" onChange={handleChange} /> Femme
+          <p style={{marginBottom : "5px", fontSize: "16px"}}>Sexe</p>
+          <label className="register-sexe">
+
+            <input type="radio" id="h" name="gender" value="M" onChange={handleChange} required /> Homme
+            <input type="radio" id="f" name="gender" value="F" onChange={handleChange} /> Femme
+          </label>
         </div>
         <div>
-          <label htmlFor="lastname">Nom :</label>
-          <input type="text" name="lastName" onChange={handleChange} required />
+          <label>
+            <p>Nom</p>
+            <input type="text" name="lastName" placeholder="Votre nom" onChange={handleChange} required />
+          </label>
         </div>
         <div>
-          <label htmlFor="firstname">Prenom :</label>
-          <input type="text" name="firstName" onChange={handleChange} required />
+          <label>
+            <p>Prenom</p>
+            <input type="text" name="firstName" placeholder="Votre prénom" onChange={handleChange} required />
+          </label>
         </div>
         <div>
-          <label htmlFor="date">Date de naissance</label>
-          <input type="date" name="date" onChange={handleChange} required />
+          <label>
+            <p>Date de naissance</p>
+            <input type="date" name="date" max={new Date().toISOString().split("T")[0]} onChange={handleChange} required />
+          </label>
         </div>
         <div>
-          <label htmlFor="email">Email :</label>
-          <input type="email" name="mail" placeholder="mail@mail.fr" onChange={handleChange} required />
+          <label>
+            <p>Email</p>
+            <input type="email" name="mail" placeholder="Votre adresse email" onChange={handleChange} required />
+          </label>
         </div>
-        {errorMessage && <p>{errorMessage}</p>}
+        { errorMessage && <p>{errorMessage}</p> }
         <div id="error-message">
           <div>
-            <label htmlFor="password">Mot de passe :</label>
-            <input type="password" name="password" placeholder="Password" onChange={handleChange} required />
+            <label>
+              <p>Mot de passe</p>
+              <input type="password" name="password" placeholder="Votre mot de passe" onChange={handleChange} required />
+            </label>
           </div>
           <div className="form-group">
-            <label htmlFor="password">Confirmation :</label>
-            <input type="password" value={confirmPassword} name="confirmPassword" placeholder="Password" onChange={(event) => setConfirmPassword(event.target.value)} required />
+            <label>
+              <p>Confirmation</p>
+              <input type="password" value={confirmPassword} name="confirmPassword" placeholder="Confirmez votre mot de passe" onChange={(event) => setConfirmPassword(event.target.value)} required />
+            </label>
           </div>
         </div>
-        <div>
-          <input type="radio" id="cond" name="cond" required />
-          <label htmlFor="cond">J'accepte les conditions générales d'utilisation</label>
+        <div className="conditions">
+        <input type="checkbox" id="cond" name="cond" required />
+        <label htmlFor="cond">
+    J'accepte les conditions générales d'utilisation</label>
         </div>
         <button type="submit" className="btn btn-outline-primary">
           Se connecter
         </button>
-      </form>
-      <div>
-        <Link to="/login">Vous avez déjà un compte ? Connectez-vous en cliquant ici.</Link>
-      </div>
-    </div>
+      </form >
+  <div>
+    <Link to="/login">Vous avez déjà un compte ? Connectez-vous en cliquant ici.</Link>
+  </div>
+    </div >
   );
 };
 

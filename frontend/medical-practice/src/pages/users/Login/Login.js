@@ -75,7 +75,7 @@ const Login = () => {
 
     return (
         <div className="login-wrapper">
-            <p>Connecter-vous à votre compte</p>
+            <p>Connectez-vous à votre compte</p>
             <form className="form-profile">
                 <label>
                     <p>Email</p>
