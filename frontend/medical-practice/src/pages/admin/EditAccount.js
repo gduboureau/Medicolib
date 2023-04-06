@@ -3,6 +3,7 @@ import axios from 'axios';
 import {useState, useEffect} from "react";
 
 import { accountService } from "../users/Authentification/Sessionstorage";
+import {  } from "./assets/editAccount.css";
 
 const Edit = () => {
 
@@ -78,31 +79,40 @@ const Edit = () => {
 
     return (
         <div className="InfoPatient">
-            <form onSubmit={handleSubmit}>
+            <h3>Mes Coordonnées</h3>
+            <form onSubmit={handleSubmit} className="form-editAccount">
                 <div>
-                    Prénom <input type="text" name="firstName" defaultValue={data.firstName} onChange={handleChange} />
+                    <p>Prénom</p>
+                    <input type="text" name="firstName" defaultValue={data.firstName} onChange={handleChange} />
                 </div>
                 <div>
-                    Nom <input type="text" name="lastName" defaultValue={data.lastName} onChange={handleChange} />
+                    <p>Nom</p>
+                    <input type="text" name="lastName" defaultValue={data.lastName} onChange={handleChange} />
                 </div>
                 <div>
-                    Numéro de sécurité sociale <input type="text" name="numSocial" defaultValue={data.numSocial} onChange={handleChange} />
+                   <p>Numéro de sécurité sociale</p>
+                    <input type="text" name="numSocial" defaultValue={data.numSocial} onChange={handleChange} />
                 </div>
                 <div>
-                    Sexe <input type="radio" id="h" name="gender" value="M" checked={data.gender === "M"}  onChange={handleChange} /> Homme
-                         <input type="radio" id="f" name="gender" value="F" checked={data.gender === "F"}  onChange={handleChange} /> Femme
+                    <p>Sexe</p>
+                    <input type="radio" id="h" name="gender" value="M" checked={data.gender === "M"}  onChange={handleChange} /> Homme
+                    <input type="radio" id="f" name="gender" value="F" checked={data.gender === "F"}  onChange={handleChange} /> Femme
                 </div>
                 <div>
-                    Date de naissance<input type="date" name="date" defaultValue={data.date} onChange={handleChange} />
+                    <p>Date de naissance</p>
+                    <input type="date" name="date" defaultValue={data.date} onChange={handleChange} />
                 </div>
                 <div>
-                    Poids (en kg)<input type="number" name="weight" defaultValue={data.weight} onChange={handleChange} />
+                    <p>Poids (en kg)</p>
+                    <input type="number" name="weight" defaultValue={data.weight} onChange={handleChange} />
                 </div>
                 <div>
-                    Taille (en cm) <input type="number" name="height" defaultValue={data.height} onChange={handleChange} />
+                    <p>Taille (en cm)</p>
+                    <input type="number" name="height" defaultValue={data.height} onChange={handleChange} />
                 </div>
                 <div>
-                    Email <input type="email" name="mail" defaultValue={data.email} onChange={handleChange} />
+                    <p>Email</p>
+                    <input type="email" name="mail" defaultValue={data.email} onChange={handleChange} />
                 </div>
                 <div>
                     <label>
@@ -116,16 +126,20 @@ const Edit = () => {
                     {showInputs ?(
                     <>
                     <div>
-                        N°Rue <input type="number" name="NumRue" defaultValue={data.NumRue} onChange={handleChange} required/>
+                        N°Rue
+                        <input type="number" name="NumRue" defaultValue={data.NumRue} onChange={handleChange} required/>
                     </div>
                     <div>
-                        Nom de la rue <input type="text" name="NomRue" defaultValue={data.NomRue} onChange={handleChange} required/>
+                        Nom de la rue
+                        <input type="text" name="NomRue" defaultValue={data.NomRue} onChange={handleChange} required/>
                     </div>
                     <div>
-                        Code postal <input type="number" name="PostalCode" defaultValue={data.PostalCode} onChange={handleChange} required/>
+                        Code postal
+                        <input type="number" name="PostalCode" defaultValue={data.PostalCode} onChange={handleChange} required/>
                     </div>
                     <div>
-                        Ville <input type="text" name="City" defaultValue={data.City} onChange={handleChange} required/>
+                        Ville
+                        <input type="text" name="City" defaultValue={data.City} onChange={handleChange} required/>
                     </div>
                     </>
                     ) : (
@@ -137,7 +151,8 @@ const Edit = () => {
                     )}
                 </div>
                 <div>
-                    Nouveau mot de passe <input type="password" name="password" defaultValue={data.password} onChange={handleChange} />
+                    <p>Nouveau mot de passe</p>
+                    <input type="password" name="password" defaultValue={data.password} onChange={handleChange} />
                 </div>
                 <button type="submit" className="btn modif-info">
                     Enregistrer les modifications
