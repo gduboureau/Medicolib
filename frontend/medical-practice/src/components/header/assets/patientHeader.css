@@ -1,103 +1,135 @@
 @import url('https://fonts.googleapis.com/css2?family=Poppins&display=swap');
 
-*{
-    margin: 0;
-    padding: 0;
-}
-
+/* HEADER */
 
 .patient-nav {
-    background: #284360;
-    padding: 10px 15px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    position: relative;
-    min-width: 1000px;
+  background: #284360;
+  padding: 10px 15px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  position: relative;
 }
 
-.logo-patient{
-    height: 60px;
+.patient-nav .logo-patient{
+  height: 60px;
 }
 
-nav ul{
+@media screen and (min-width: 1000px) {
+  .patient-nav ul{
     text-align: right;
     margin: 0 40px;
-}
+  }
 
-nav ul li{
+  .patient-nav ul li{
     display: inline-block;
     list-style: none;
     margin: 10px 40px;
-}
+  }
 
-nav ul li a{
-    color: #FEFEFE;
-    text-decoration: none;
-    cursor: pointer;
-}
-
-nav ul li button{
-    color: #FEFEFE;
-    font-size: inherit;
-    font-family: inherit;
-    cursor: pointer;
-    background-color: transparent;
-    border: none;
-}
-
-#arrowMenu{
-    width: 12px;
-    margin: 0 12px;
-    color: #FEFEFE;
-    transition: transform 0.6s;
-}
-
-nav ul li button img.openmenu{
-    transform: rotate(180deg);
-}
-
-.accountmenu-wrap{
-    position: absolute;
-    top: 60px;
+  .patient-nav .accountmenu-wrap{
     right: 80px;
-    width: 210px;
-    max-height: 0px;
-    overflow: hidden;
-    transition: max-height 0.9s;
+  }
 }
 
-.accountmenu-wrap.openmenu{
-    max-height: 200px;
+.patient-nav ul li a{
+  color: #FEFEFE;
+  text-decoration: none;
+  cursor: pointer;
 }
 
-.accountmenu{
-    background: #F7FAFF;
-    border-radius: 10px;
-    padding: 1px;
-    margin: 10px;
-    font-size: 14px;
-    font-family: 'Poppins', sans-serif;
+.patient-nav ul li .account{
+  color: #FEFEFE;
+  font-size: inherit;
+  font-family: inherit;
+  cursor: pointer;
+  background-color: transparent;
+  border: none;
+  display: flex;
+  align-items: center;
 }
 
-.accountmenu-component{
-    display: flex;
-    align-items: center;
-    text-decoration: none;
-    color: #525252;
-    margin: 8px;
+.patient-nav #arrowMenu{
+  width: 12px;
+  margin: 0 12px;
+  color: #FEFEFE;
+  transition: transform 0.6s;
 }
 
-.accountmenu-component img{
-    width: 20px;
-    padding: 7px;
-    margin-right: 10px;
+.patient-nav ul li .account img.openmenu{
+  transform: rotate(180deg);
 }
 
-.accountmenu p{
-    transition: transform 0.3s;
+.patient-nav .accountmenu-wrap{
+  position: absolute;
+  top: 60px;
+  width: 210px;
+  max-height: 0px;
+  overflow: hidden;
+  transition: max-height 0.9s;
 }
 
-.accountmenu-component:hover p{
-    transform: translateX(5px);
+.patient-nav .accountmenu-wrap.openmenu{
+  max-height: 250px;
+}
+
+/* ACCOUNT MENU */
+
+.patient-nav .accountmenu{
+  background: #F7FAFF;
+  border-radius: 10px;
+  padding: 1px;
+  margin: 10px;
+  font-size: 14px;
+  font-family: 'Poppins', sans-serif;
+}
+
+.patient-nav .header-reported-li-largescale{
+  display: none;
+}
+
+.patient-nav .accountmenu-component{
+  display: flex;
+  align-items: center;
+  text-decoration: none;
+  color: #525252;
+  margin: 8px;
+}
+
+.patient-nav .accountmenu-component img{
+  width: 20px;
+  padding: 7px;
+  margin-right: 10px;
+}
+
+.patient-nav .accountmenu p{
+  transition: transform 0.3s;
+}
+
+.patient-nav .accountmenu-component:hover p{
+  transform: translateX(5px);
+}
+
+@media screen and (max-width: 1000px) {
+  .patient-nav .header-reported-li-largescale {
+    display: block;
+  }
+    
+  .patient-nav .header-li-largescale{
+    display: none;
+  }
+
+  .patient-nav ul{
+    text-align: right;
+    margin: 0px;
+  }
+
+  .patient-nav ul li{
+    margin-right: 0px;
+    list-style: none;
+  }
+
+  .patient-nav .accountmenu-wrap{
+    right: 0px;
+  }
 }

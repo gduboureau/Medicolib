@@ -1,10 +1,20 @@
 @import url('https://fonts.googleapis.com/css2?family=Montserrat&display=swap');
 
-body{
-    background-color : #E5F1FF;
-    font-family: 'Montserrat', sans-serif;
+/* Main style */
+*{
+    margin: 0;
+    padding: 0;
 }
 
-h1{
-    
+body{
+    background-color: #E5F1FF;
+    font-family: 'Montserrat', sans-serif;
 }
+/**/
+
+
+.HomePage {
+    
+    background-color: #284360;
+    color: #E5F1FF;
+  }

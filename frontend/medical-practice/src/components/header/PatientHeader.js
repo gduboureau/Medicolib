@@ -8,8 +8,11 @@ import { useMemo } from "react";
 import './assets/patientHeader.css';
 import Logo from './assets/logo.png';
 import Profil from './assets/profil.png';
+import Appointment from './assets/appointment.png';
+import Documents from './assets/documents.png';
 import Logout from './assets/logout.png';
 import Arrow from './assets/arrow.png';
+
 
 const PatientHeader = () => {
 
@@ -48,37 +51,49 @@ const PatientHeader = () => {
 
     return (
         <header>
-        {data.firstName && data.lastName ? (
-        <nav className="patient-nav">
-            <Link to="/">
-                <img src={Logo} alt="Logo" className="logo-patient"/> {/*https://www.freepik.com/free-vector/hospital-logo-design-vector-medical-cross_18246203.htm#query=medical%20logo&position=7&from_view=keyword&track=ais%22%3EImage */}
-            </Link>
-            <ul>
-                <li><a href="/patient/appointments">Mes rendez-vous</a></li>
-                <li><a href="/patient/documents">Mes documents</a></li>
-                <li>
-                    <button className="account" onClick={toggleMenu}>
-                        {data.firstName} {data.lastName}
-                        <img id="arrowMenu" src={Arrow} alt="Arrow"/>
-                    </button>
-                </li>
-            </ul>
-            <div className="accountmenu-wrap" id="accountMenu">
-                <div className="accountmenu">
-                    <a href="/patient/edit" className="accountmenu-component">
-                        <img src={Profil} alt="Profil"/>
-                        <p>Mon compte</p>
-                    </a>
-                    <hr></hr>
-                    <a href="/" className="accountmenu-component" onClick={logout}>
-                        <img src={Logout} alt="Logout"/>
-                        <p>Déconnexion</p>
-                    </a>
-                </div>
-            </div>
-        </nav>
-        ): null}
-    </header>
+            {data.firstName && data.lastName ? (
+                <nav class="patient-nav">
+                    <Link to="/">
+                        <img src={Logo} alt="Logo" class="logo-patient" />
+                    </Link>
+                    <ul>
+                        <li class="header-li-largescale"><a href="/patient/appointments">Mes rendez-vous</a></li>
+                        <li class="header-li-largescale"><a href="/patient/documents">Mes documents</a></li>
+                        <li>
+                            <button class="account" onClick={toggleMenu}>
+                                {data.firstName} {data.lastName}
+                                <img id="arrowMenu" src={Arrow} alt="Arrow" />
+                            </button>
+                        </li>
+                    </ul>
+                    <div class="accountmenu-wrap" id="accountMenu">
+                        <div class="accountmenu">
+                            <a href="/patient/edit" class="accountmenu-component">
+                                <img src={Profil} alt="Profil" />
+                                <p>Mon compte</p>
+                            </a>
+                            <hr />
+                            <div class="header-reported-li-largescale">
+                                <a href="/patient/appointments" class="accountmenu-component">
+                                    <img src={Appointment} alt="Appointment" />
+                                    <p>Mes rendez-vous</p>
+                                </a>
+                                <hr />
+                                <a href="/patient/documents" class="accountmenu-component">
+                                    <img src={Documents} alt="Documents" />
+                                    <p>Mes documents</p>
+                                </a>
+                                <hr />
+                            </div>
+                            <a href="/" class="accountmenu-component" onClick={logout}>
+                                <img src={Logout} alt="Logout" />
+                                <p>Déconnexion</p>
+                            </a>
+                        </div>
+                    </div>
+                </nav>
+            ) : null}
+        </header>
     );
 }
 

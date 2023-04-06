@@ -5,7 +5,7 @@ import SearchButton from './SearchButton';
 
 function HomePage() {
   return (
-    <div>
+    <div className='HomePage'>
       <h1>
         Trouvez le rendez-vous qu'il vous faut
       </h1>
