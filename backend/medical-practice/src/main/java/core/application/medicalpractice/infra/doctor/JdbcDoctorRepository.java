@@ -3,7 +3,6 @@ package core.application.medicalpractice.infra.doctor;
 import java.sql.*;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.time.LocalDateTime;
 import java.util.*;
 import java.util.Date;
 
@@ -138,27 +137,24 @@ public class JdbcDoctorRepository implements DoctorRepository {
     Connection connection = DBUtil.getConnection();
     List<List<String>> appointments = new ArrayList<>();
     DateFormat tf = new SimpleDateFormat("HH:mm");
+    Statement stmt2 = connection.createStatement();
+    String request2 = "DELETE FROM AvailableTimeSlots WHERE doctorid = (SELECT doctorid FROM Doctors WHERE firstname=" + "'"
+        + firstName + "'" + " AND lastname=" + "'" + lastName + "') and  StartTime < NOW()";
+    stmt2.executeUpdate(request2);
+    stmt2.close();
     PreparedStatement stmt = connection
         .prepareStatement(
             "SELECT * FROM AvailableTimeSlots WHERE doctorid=(SELECT doctorid FROM Doctors WHERE firstname=" + "'"
                 + firstName + "'" + " AND lastname=" + "'" + lastName + "') ORDER BY starttime");
     ResultSet rs = stmt.executeQuery();
     while (rs.next()) {
-      if (LocalDateTime.now().isAfter(rs.getTimestamp(3).toLocalDateTime())) {
-        Statement stmt2 = connection.createStatement();
-        String request2 = "DELETE FROM AvailableTimeSlots WHERE doctorid = (SELECT doctorid FROM Doctors WHERE firstname=" + "'"
-        + firstName + "'" + " AND lastname=" + "'" + lastName + "') and  StartTime = '" + rs.getDate(3) + "'";
-        stmt2.executeUpdate(request2);
-        stmt2.close();
-      } else {
-        List<String> l = new ArrayList<>();
-        l.add(rs.getString(1));
-        l.add(rs.getString(2));
-        l.add(rs.getDate(3).toString());
-        l.add(tf.format(rs.getTime(3)).toString());
-        l.add(tf.format(rs.getTime(4)).toString());
-        appointments.add(l);
-      }
+      List<String> l = new ArrayList<>();
+      l.add(rs.getString(1));
+      l.add(rs.getString(2));
+      l.add(rs.getDate(3).toString());
+      l.add(tf.format(rs.getTime(3)).toString());
+      l.add(tf.format(rs.getTime(4)).toString());
+      appointments.add(l);
     }
 
     rs.close();
@@ -321,6 +317,24 @@ public class JdbcDoctorRepository implements DoctorRepository {
     stmt.close();
     connection.close();
     return informations;
+  }
+
+  public List<List<Object>> getDocumentPatient(String idAppt) throws SQLException {
+    List<List<Object>> documentsByApptId = new ArrayList<>();
+    Connection connection = DBUtil.getConnection();
+    Statement stmt = connection.createStatement();
+    String request = "SELECT documentname,documentcontent from documents where appointmentid = '" + idAppt + "'";
+    ResultSet rs = stmt.executeQuery(request);
+    while (rs.next()) {
+      List<Object> doc = new ArrayList<>();
+      doc.add(rs.getString(1));
+      doc.add(rs.getBytes(2));
+      documentsByApptId.add(doc);
+    }
+    rs.close();
+    stmt.close();
+    DBUtil.closeConnection(connection);
+    return documentsByApptId;
   }
 
 }

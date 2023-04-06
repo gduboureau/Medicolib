@@ -43,5 +43,7 @@ public interface PatientRepository {
 
     public void deleteDocument(String idAppt, String docName) throws SQLException;
 
+    public void deleteAllDocumentOfAppt(String idAppt) throws SQLException;
+
     public List<List<Object>> getPrescriptionsByPatient(String mail) throws SQLException, IOException;
 }

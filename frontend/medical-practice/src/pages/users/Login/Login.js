@@ -8,7 +8,7 @@ import './assets/login.css'
 const Login = () => {
     const navigate = useNavigate();
 
-    const { state } = useLocation();
+    const location = useLocation();
 
     const [errorMessage, setErrorMessage] = useState("");
 
@@ -50,7 +50,7 @@ const Login = () => {
                 accountService.saveEmail(credentials.login)
                 accountService.saveUserType(res.data[1])
                 if (res.data[1] === 'patient') {
-                    navigate(state?.prev);
+                    navigate(location.state?.prevS + location.state?.prevA);
                     window.location.reload();
                 }
                 else {

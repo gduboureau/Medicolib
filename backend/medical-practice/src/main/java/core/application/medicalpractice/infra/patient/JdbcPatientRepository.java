@@ -247,6 +247,7 @@ public class JdbcPatientRepository implements PatientRepository {
     rs.close();
     stmt.close();
     DBUtil.closeConnection(connection);
+    deleteAllDocumentOfAppt(id);
   }
 
   @Override
@@ -332,5 +333,14 @@ public class JdbcPatientRepository implements PatientRepository {
     stmt.close();
     DBUtil.closeConnection(connection);
     return prescriptions;
+  }
+
+  public void deleteAllDocumentOfAppt(String idAppt) throws SQLException{
+    Connection connection = DBUtil.getConnection();
+    Statement stmt = connection.createStatement();
+    String request = "DELETE FROM documents WHERE appointmentId =" + "'" + idAppt + "'";
+    stmt.executeUpdate(request);
+    stmt.close();
+    DBUtil.closeConnection(connection);
   }
 }

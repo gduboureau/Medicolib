@@ -38,4 +38,6 @@ public interface DoctorRepository {
 
         public List<List<Object>> getConsultationsDoctor(String mail, String firstname, String lastname)
                         throws SQLException;
+
+        public List<List<Object>> getDocumentPatient(String idAppt) throws SQLException;
 }

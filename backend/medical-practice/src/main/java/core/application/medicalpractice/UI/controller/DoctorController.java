@@ -156,4 +156,16 @@ public class DoctorController {
 			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
 		}
 	}
+
+	@PostMapping(value = "/getDocumentPatient")
+	public ResponseEntity<List<List<Object>>> getDocumentPatient(@RequestBody Map<String, String> map) throws SQLException, ParseException {
+		try {
+			String idAppt = map.get("id");
+			List<List<Object>> medicalFile = medicalPractice.getDocumentPatient(idAppt);
+			return ResponseEntity.ok(medicalFile);
+		} catch (Exception e) {
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+		}
+	}
+
 }

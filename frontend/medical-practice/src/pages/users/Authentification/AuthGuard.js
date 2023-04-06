@@ -6,7 +6,7 @@ import { useLocation } from "react-router-dom";
 const AuthGuard = ({children}) => {
     const location = useLocation();
     if(!accountService.isLogged()){
-        return <Navigate to="/login" state={{ prev: location.pathname }}/>
+        return <Navigate to="/login" state={{ prevS: location.pathname, prevA: location.search }}/>
     }
     return children;
 }
