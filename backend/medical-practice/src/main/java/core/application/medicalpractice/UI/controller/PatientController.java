@@ -39,11 +39,11 @@ public class PatientController {
 		String password = map.get("password");
 		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
 		Date parsed = format.parse(date);
-		if (medicalPractice.checkPatientExist(mail, firstName, lastName)) {
+		if (medicalPractice.checkPatientExist(mail)) {
 			return ResponseEntity.status(HttpStatus.FORBIDDEN)
 					.body("Vous avez déjà un compte, veuillez vous connecter.");
 		}
-		if (!medicalPractice.checkPatientExist(mail, firstName, lastName)) {
+		if (!medicalPractice.checkPatientExist(mail)) {
 			Patient patient = new Patient(firstName, lastName, gender, parsed, "", mail, new Address(1, " ", " ", 1), 0,
 					0);
 			medicalPractice.saveAddress(patient);
@@ -201,7 +201,7 @@ public class PatientController {
 		try {
 			String idAppt = map.get("id");
 			String docName = map.get("name");
-			if (docName == null || idAppt == null){
+			if (docName == null || idAppt == null) {
 				return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
 			}
 			medicalPractice.deleteDocument(idAppt, docName);

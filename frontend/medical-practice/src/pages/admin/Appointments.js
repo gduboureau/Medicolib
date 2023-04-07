@@ -2,6 +2,11 @@ import React, { useState, useEffect } from "react";
 import axios from 'axios';
 import { accountService } from "../users/Authentification/Sessionstorage";
 import { format } from "../../utils/DateFormat";
+import { useNavigate } from "react-router";
+import Document from './assets/document.png';
+import Rdv from './assets/rdv.png';
+import Time from './assets/time.png';
+import SupprRdv from './assets/suppr-rdv.png'
 
 import './assets/appointments.css';
 
@@ -24,15 +29,63 @@ function ConfirmationModal(props) {
     );
 }
 
+function AddDocumentModal(props) {
+    const [file, setFile] = useState(null);
+    const handleClose = () => {
+        props.onClose();
+    };
+
+    const handleFileSelect = (event) => {
+        setFile(event.target.files[0]);
+    };
+
+    const handleSubmit = (event) => {
+        event.preventDefault();
+
+        let formData = new FormData();
+        formData.append('file', file);
+        formData.append('mail', accountService.getEmail());
+        formData.append('apptid', props.appointment);
+
+        axios.post('/addDocument', formData, {
+            headers: {
+                'Content-Type': 'multipart/form-data'
+            }
+        }).then(response => {
+            console.log(response);
+            handleClose()
+        }).catch(error => {
+            console.log(error);
+        });
+    };
+
+    return (
+        <div className="modal-overlay">
+            <div className="modal">
+                <h2>{props.title}</h2>
+                <form onSubmit={handleSubmit}>
+                    <input type="file" onChange={handleFileSelect} />
+                    <button type="submit">Télécharger</button>
+                </form>
+                <button onClick={handleClose}>Annuler</button>
+            </div>
+        </div>
+
+    );
+}
 
 const Appointments = () => {
     const [selectedAppointment, setSelectedAppointment] = useState(null);
-    let mail = { mail: accountService.getEmail() };
+    const [selectedDocument, setSelectedDocument] = useState(null);
 
-    const [file, setSelectedFile] = useState(null);
+    let mail = { mail: accountService.getEmail() };
 
     const [upcomingAppointments, setUpcomingAppointments] = useState([]);
     const [pastAppointments, setPastAppointments] = useState([]);
+
+    const [showButton, setShowButton] = useState(true);
+
+    const navigate = useNavigate();
 
     const formatDate = (dateString) => {
         const date = new Date(dateString);
@@ -43,13 +96,12 @@ const Appointments = () => {
     useEffect(() => {
         axios.post("/appointments", mail).then(res => {
             const newData = res.data;
-            console.log(newData)
             const now = new Date().getTime();
             const upcoming = newData.filter(
-                (appointment) => new Date(appointment[4] + ' ' + appointment[5]).getTime() > now
+                (appointment) => new Date(appointment[5] + ' ' + appointment[6]).getTime() > now
             );
             const past = newData.filter(
-                (appointment) => new Date(appointment[4] + ' ' + appointment[5]).getTime() <= now
+                (appointment) => new Date(appointment[5] + ' ' + appointment[6]).getTime() <= now
             );
             setUpcomingAppointments(upcoming);
             setPastAppointments(past);
@@ -77,55 +129,53 @@ const Appointments = () => {
         setSelectedAppointment(null);
     };
 
-    const handleFileSelect = (event) => {
-        setSelectedFile(event.target.files[0]);
-    };
+    const handleCloseDocumentModal = () => {
+        setSelectedDocument(null);
+    }
 
-    const handleSubmit = (id) => {
-        let document = new FormData();
-        if (file !== null) {
-            document.append("file", file);
-            const params = new URLSearchParams();
-            params.append('mail', accountService.getEmail());
-            params.append('apptid', id[0]);
-            axios.post('/addDocument', document, {
-                params,
-                headers: {
-                    "Content-Type": "multipart/form-data",
-                },
-            }).then((response) => {
-                console.log(response);
-            })
-                .catch((error) => {
-                    console.log(error);
-                }, []);
-        }
-
-    };
+    function toggle() {
+        setShowButton((prevShowButton) => !prevShowButton);
+      }
 
     return (
-        <div>
-            <h2>Rendez-vous à venir</h2>
-            {upcomingAppointments.map((appointment, index) => (
-                <div className="doctor-card" key={index}>
-                    <p>
-                        {appointment[1]} {appointment[2]}
-                    </p>
-                    <p>{appointment[3]}</p>
-                    <p>{formatDate(appointment[4])}</p>
-                    <p>{format.formatTime(appointment[5])}</p>
-                    <p>Documents pour le rendez-vous:</p>
-                    <button onClick={() => handleCancelAppointment(appointment[0])}>
-                        Annuler le rendez-vous
-                    </button>
-                    <div>
-                        <form id="download-file">
-                            <input type="file" onChange={handleFileSelect} />
-                            <button className="buttonFile" onClick={() => handleSubmit(appointment)}>Upload</button>
-                        </form>
+        <div className="appointments">
+            <h2 style={{marginTop: "20px"}}>Rendez-vous à venir</h2>
+            <div className="upcoming-appointments">
+                {upcomingAppointments.map((appointment, index) => (
+                    <div className="appointment-card" key={index}>
+                        <div className="app-card-header">
+                            <div className="date">
+                                <img src={Rdv} alt='rdv' className="img-white" />
+                                <p>{formatDate(appointment[5])}</p>
+                            </div>
+                            <div className="time">
+                                <img src={Time} alt='time' className="img-white" />
+                                <p>{format.formatTime(appointment[6])}</p>
+                            </div>
+                        </div>
+                        <div className="app-card-content" onClick={() => navigate(`/${appointment[4]}/${appointment[2]}-${appointment[3]}?id=${appointment[1]}`)}>
+                            <p className="doctor-name">
+                                Dr {appointment[2]} {appointment[3]}
+                            </p>
+                            <p className="doctor-speciality">{appointment[4]}</p>
+                        </div>
+                        <div className="document-list">
+                            <button onClick={() => setSelectedDocument(appointment[0])} style={{
+                                marginBottom: "5px"
+                            }}>
+                                <img src={Document} alt='document' style={{ marginBottom: "10px", marginTop: "10px" }} />
+                                Ajouter des documents</button>
+                        </div>
+                        <div className="remove-rdv">
+                            <button onClick={() => handleCancelAppointment(appointment[0])}>
+                                <img src={SupprRdv} alt='remove-rdv' />
+                                Annuler le rendez-vous
+                            </button>
+                        </div>
                     </div>
-                </div>
-            ))}
+                ))}
+                {upcomingAppointments.length % 2 !== 0 && <div className="appointment-card empty-card"></div>}
+            </div>
             {selectedAppointment !== null && (
                 <ConfirmationModal
                     title="Annuler le rendez-vous"
@@ -134,17 +184,41 @@ const Appointments = () => {
                     onConfirm={handleConfirmCancelAppointment}
                 />
             )}
-            <h2>Rendez-vous passés</h2>
-            {pastAppointments.map((appointment, index) => (
-                <div className="doctor-card" key={index}>
-                    <p>
-                        {appointment[1]} {appointment[2]}
-                    </p>
-                    <p>{appointment[3]}</p>
-                    <p>{formatDate(appointment[4])}</p>
-                    <p>{format.formatTime(appointment[5])}</p>
+            {selectedDocument !== null && (
+                <AddDocumentModal
+                    title="Ajouter un document"
+                    appointment={selectedDocument}
+                    onClose={handleCloseDocumentModal}
+                />
+            )}
+            {showButton && <button className="hidden-appointments-button" onClick={toggle}>Voir mes rendez-vous passés</button>}
+            {!showButton && (
+                <div id="hidden-appointments">
+                    <h2>Rendez-vous passés</h2>
+                    <div className="upcoming-appointments">
+                        {pastAppointments.map((appointment, index) => (
+                            <div className="appointment-card" key={index}>
+                                <div className="app-card-header">
+                                    <div className="date">
+                                        <img src={Rdv} alt='rdv' className="img-white" />
+                                        <p>{formatDate(appointment[5])}</p>
+                                    </div>
+                                    <div className="time">
+                                        <img src={Time} alt='time' className="img-white" />
+                                        <p>{format.formatTime(appointment[6])}</p>
+                                    </div>
+                                </div>
+                                <div className="app-card-content" onClick={() => navigate(`/${appointment[4]}/${appointment[2]}-${appointment[3]}?id=${appointment[1]}`)}>
+                                    <p className="doctor-name">
+                                        Dr {appointment[2]} {appointment[3]}
+                                    </p>
+                                    <p className="doctor-speciality">{appointment[4]}</p>
+                                </div>
+                            </div>
+                        ))}
+                    </div>
                 </div>
-            ))}
+            )}
         </div>
     )
 };

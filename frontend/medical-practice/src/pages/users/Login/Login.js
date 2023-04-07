@@ -79,13 +79,13 @@ const Login = () => {
             <form className="form-profile">
                 <label>
                     <p>Email</p>
-                    <input name="login" type="text" placeholder="Email" onChange={onChange} />
+                    <input name="login" type="text" placeholder="Votre adresse email" onChange={onChange} />
                 </label>
                 <label>
                     <p>Mot de passe</p>
-                    <input name="password" type="password" placeholder="Password" onChange={onChange} />
+                    <input name="password" type="password" placeholder="Votre mot de passe" onChange={onChange} />
                 </label>
-                {errorMessage && <p>{errorMessage}</p>}
+                    {errorMessage && <p style={{fontSize: "14px", color: "red", marginBottom: "5px"}}>{errorMessage}</p>}
                 <div>
                     <button onClick={handleSubmit} className="btn btn-outline-primary" >Se connecter</button>
                 </div>
@@ -95,7 +95,8 @@ const Login = () => {
                 {showForgotPassword ? (
                     <>
                         <div>
-                            Adresse du mot de passe oublié<input name="mail" type="text" onChange={newPassword} required />
+                            <label> Adresse du mot de passe oublié</label>
+                            <input name="mail" type="mail" onChange={newPassword} required />
                         </div>
                         <div>
                             <button onClick={sendNewPassword} className="btn modif-info">Envoyer le nouveau mot de passe</button>

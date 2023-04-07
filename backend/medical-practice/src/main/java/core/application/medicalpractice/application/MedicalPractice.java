@@ -79,7 +79,7 @@ public class MedicalPractice {
         return consultations;
     }
 
-    public List<List<Object>> getDocumentPatient(String idAppt) throws SQLException{
+    public List<List<Object>> getDocumentPatient(String idAppt) throws SQLException {
         return doctorRepository.getDocumentPatient(idAppt);
     }
 
@@ -94,8 +94,8 @@ public class MedicalPractice {
 
     }
 
-    public boolean checkPatientExist(String mail, String firstname, String lastname) throws SQLException {
-        return patientRepository.checkPatientExist(mail, firstname, lastname);
+    public boolean checkPatientExist(String mail) throws SQLException {
+        return patientRepository.checkPatientExist(mail);
     }
 
     public List<String> getInformationsPatient(String mail) throws SQLException {

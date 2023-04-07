@@ -11,7 +11,9 @@ const Register = () => {
 
   const [confirmPassword, setConfirmPassword] = useState('');
 
-  const [errorMessage, setErrorMessage] = useState("");
+  const [errorMail, setErrorMail] = useState("");
+
+  const [errorPassword, setErrorPassword] = useState("");
 
   const [data, setData] = useState({
     firstName: "",
@@ -43,13 +45,10 @@ const Register = () => {
         })
         .catch((error) => {
           console.log(error.response.data)
-          setErrorMessage(error.response.data);
-
+          setErrorMail(error.response.data);
         })
     } else {
-      const errorMessage = document.createElement("p");
-      errorMessage.innerHTML = "Les deux mots de passe ne correspondent pas";
-      document.getElementById("error-message").appendChild(errorMessage);
+      setErrorPassword("Les deux mots de passe ne correspondent pas");
     }
 
   }
@@ -59,7 +58,7 @@ const Register = () => {
       <p>Enregistrez-vous</p>
       <form onSubmit={handleSubmit} className="form-register">
         <div>
-          <p style={{marginBottom : "5px", fontSize: "16px"}}>Sexe</p>
+          <p style={{ marginBottom: "5px", fontSize: "16px" }}>Sexe</p>
           <label className="register-sexe">
 
             <input type="radio" id="h" name="gender" value="M" onChange={handleChange} required /> Homme
@@ -90,33 +89,33 @@ const Register = () => {
             <input type="email" name="mail" placeholder="Votre adresse email" onChange={handleChange} required />
           </label>
         </div>
-        { errorMessage && <p>{errorMessage}</p> }
-        <div id="error-message">
-          <div>
-            <label>
-              <p>Mot de passe</p>
-              <input type="password" name="password" placeholder="Votre mot de passe" onChange={handleChange} required />
-            </label>
-          </div>
-          <div className="form-group">
-            <label>
-              <p>Confirmation</p>
-              <input type="password" value={confirmPassword} name="confirmPassword" placeholder="Confirmez votre mot de passe" onChange={(event) => setConfirmPassword(event.target.value)} required />
-            </label>
-          </div>
+        {errorMail && <p style={{ fontSize: "14px", color: "red" }}>{errorMail}</p>}
+        <div>
+          <label>
+            <p>Mot de passe</p>
+            <input type="password" name="password" placeholder="Votre mot de passe" onChange={handleChange} required />
+          </label>
+        </div>
+        <div className="form-group">
+          <label>
+            <p>Confirmation</p>
+            <input type="password" value={confirmPassword} name="confirmPassword" placeholder="Confirmez votre mot de passe" onChange={(event) => setConfirmPassword(event.target.value)} required />
+          </label>
+        </div>
+        <div>
+          {errorPassword && <p style={{ fontSize: "14px", color: "red" }}>{errorPassword}</p>}
         </div>
         <div className="conditions">
-        <input type="checkbox" id="cond" name="cond" required />
-        <label htmlFor="cond">
-    J'accepte les conditions générales d'utilisation</label>
+          <input type="checkbox" id="cond" name="cond" required />
+          <label htmlFor="cond">J'accepte les conditions générales d'utilisation</label>
         </div>
         <button type="submit" className="btn btn-outline-primary">
           Se connecter
         </button>
       </form >
-  <div>
-    <Link to="/login">Vous avez déjà un compte ? Connectez-vous en cliquant ici.</Link>
-  </div>
+      <div className="link">
+        <Link to="/login">Vous avez déjà un compte ? Connectez-vous en cliquant ici.</Link>
+      </div>
     </div >
   );
 };

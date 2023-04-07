@@ -53,7 +53,6 @@ const ShowPatients = () => {
         navigate(`/doctor/${name}/dossier-medical?id=${id}`);
     }
 
-    console.log(patientsList)
 
     return (
         <div className="container">

@@ -4,26 +4,194 @@
     left: 0;
     width: 100%;
     height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
     display: flex;
     align-items: center;
     justify-content: center;
-    z-index: 9999;
-    background-color: rgba(0, 0, 0, 0.5);
 }
 
 .modal {
-    position: relative;
     width: 80%;
-    max-width: 600px;
+    max-width: 500px;
     background-color: #fff;
+    border-radius: 10px;
     padding: 20px;
-    border-radius: 5px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
-    z-index: 10000;
+    box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.1);
+    text-align: center;
 }
 
-/* Positionnement de la fenêtre modale au-dessus du contenu */
-.modal+* {
-    position: relative;
-    z-index: 1;
+.modal h2 {
+    margin: 0 0 10px;
+    font-size: 24px;
+    font-weight: 600;
+}
+
+.modal p {
+    margin: 10px 0;
+    font-size: 16px;
+    font-weight: 500;
+}
+
+.modal-buttons {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+}
+
+.modal-buttons button {
+    background-color: #284360;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    padding: 10px 20px;
+    margin: 10px;
+    font-size: 16px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.modal-buttons button:hover {
+    background-color: #1b2c3f;
+}
+
+.appointments h2 {
+    margin-top: 10px;
+    margin-bottom: 10px;
+    margin-left: 20px;
+}
+
+.upcoming-appointments {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.appointment-card {
+    width: 35%;
+    display: inline-block;
+    background-color: #fff;
+    border-radius: 20px;
+    margin: 20px
+}
+
+.upcoming-appointments .empty-card {
+    width: 35%;
+    visibility: hidden;
+}
+
+.appointment-card img {
+    width: 30px;
+    height: 30px;
+    margin-left: 10px;
+    margin-right: 10px;
+}
+
+.appointment-card .app-card-header {
+    border-top-right-radius: 20px;
+    border-top-left-radius: 20px;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    border-bottom: 1px solid #6b6868cc;
+    background-color: #284360;
+}
+
+.appointment-card .app-card-header .date,
+.appointment-card .app-card-header .time {
+    display: flex;
+    align-items: center;
+    width: 50%;
+    margin-bottom: 10px;
+    margin-top: 10px;
+}
+
+.appointment-card .app-card-header .date p,
+.appointment-card .app-card-header .time p {
+    color: white;
+}
+
+.appointment-card .app-card-content {
+    margin-bottom: 5px;
+    cursor: pointer;
+}
+
+.appointment-card .app-card-content .doctor-name {
+    font-weight: bold;
+    margin-top: 10px;
+    margin-bottom: 5px;
+    margin-left: 10px;
+}
+
+.appointment-card .app-card-content .doctor-speciality {
+    font-size: 15px;
+    margin-bottom: 10px;
+    margin-left: 10px;
+}
+
+.img-white {
+    filter: invert(100%);
+}
+
+.appointment-card .document-list {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    border-top: 1px solid #6b6868cc;
+    border-bottom: 1px solid #6b6868cc;
+}
+
+.appointment-card .document-list button {
+    background-color: white;
+    border: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    width: 100%;
+}
+
+.appointment-card .document-list img {
+    width: 25px;
+    height: 25px;
+    margin-right: 5px;
+    margin-left: 12px;
+}
+
+.appointment-card .remove-rdv button {
+    background-color: white;
+    color: red;
+    border: none;
+    border-radius: 4px;
+    padding: 10px;
+    margin-right: 10px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    border-bottom-left-radius: 20px;
+    border-bottom-right-radius: 20px;
+    width: 100%;
+}
+
+.appointment-card .remove-rdv button:hover {
+    color: rgb(199, 2, 2);
+}
+
+.appointment-card .remove-rdv button img {
+    margin-left: 0px;
+    width: 25px;
+    height: 25px;
+    margin-right: 5px;
+
+}
+
+.appointments .hidden-appointments-button {
+    background-color: #E5F1FF;
+    color: #284360;
+    border: none;
+    margin-left: 20px;
+    margin-bottom: 50px;
+    margin-top: 20px;
+    font-size: 22px;
+    text-transform: uppercase;
+    font-weight: bold;
+    cursor: pointer;
 }

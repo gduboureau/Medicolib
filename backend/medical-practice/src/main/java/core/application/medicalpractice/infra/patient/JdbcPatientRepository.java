@@ -53,11 +53,11 @@ public class JdbcPatientRepository implements PatientRepository {
     Connection connection = DBUtil.getConnection();
     List<List<String>> appointments = new ArrayList<List<String>>();
     Statement stmt = connection.createStatement();
-    String sql = "SELECT appointments.appointmentid, doctors.firstname, doctors.lastname, doctors.speciality, appointments.StartTime FROM doctors JOIN appointments ON doctors.doctorid = appointments.doctorid WHERE appointments.patientid= (SELECT patientid FROM Patients WHERE mail= "
+    String sql = "SELECT appointments.appointmentid, doctors.doctorid, doctors.firstname, doctors.lastname, doctors.speciality, appointments.StartTime FROM doctors JOIN appointments ON doctors.doctorid = appointments.doctorid WHERE appointments.patientid= (SELECT patientid FROM Patients WHERE mail= "
         + "'" + mail + "'" + ") ORDER BY appointments.starttime";
     ResultSet rs = stmt.executeQuery(sql);
     while (rs.next()) {
-      if (LocalDateTime.now().isAfter(rs.getTimestamp(5).toLocalDateTime().plusYears(1))) {
+      if (LocalDateTime.now().isAfter(rs.getTimestamp(6).toLocalDateTime().plusYears(1))) {
         Statement stmt2 = connection.createStatement();
         String request2 = "DELETE FROM Appointments WHERE PatientId = '" + getPatientIdByMail(mail)
             + "' AND StartTime = '" + rs.getDate(5) + "'";
@@ -69,8 +69,9 @@ public class JdbcPatientRepository implements PatientRepository {
         l.add(rs.getString(2));
         l.add(rs.getString(3));
         l.add(rs.getString(4));
-        l.add(rs.getDate(5).toString());
-        l.add(rs.getTime(5).toString());
+        l.add(rs.getString(5));
+        l.add(rs.getDate(6).toString());
+        l.add(rs.getTime(6).toString());
         appointments.add(l);
       }
     }
@@ -85,7 +86,7 @@ public class JdbcPatientRepository implements PatientRepository {
     Connection connection = DBUtil.getConnection();
     Statement stmt = connection.createStatement();
 
-    if (checkPatientExist(patient.getMail(), patient.getFirstName(), patient.getLastName())) {
+    if (checkPatientExist(patient.getMail())) {
       String request = "UPDATE Patients SET firstname = '" + patient.getFirstName() + "',lastname = '"
           + patient.getLastName()
           + "', gender = '" + patient.getGender() + "', birthday = '" + patient.getBirthday() + "', weight = '"
@@ -109,11 +110,10 @@ public class JdbcPatientRepository implements PatientRepository {
   }
 
   @Override
-  public boolean checkPatientExist(String mail, String firstname, String lastname) throws SQLException {
+  public boolean checkPatientExist(String mail) throws SQLException {
     Connection connection = DBUtil.getConnection();
     Statement stmt = connection.createStatement();
-    String request = "SELECT * FROM Patients WHERE mail=" + "'" + mail + "'" + " AND firstname=" + "'" + firstname + "'"
-        + " AND lastname=" + "'" + lastname + "'";
+    String request = "SELECT * FROM Patients WHERE mail=" + "'" + mail + "'";
     ResultSet rs = stmt.executeQuery(request);
     Boolean exist = rs.next();
     rs.close();
@@ -335,7 +335,7 @@ public class JdbcPatientRepository implements PatientRepository {
     return prescriptions;
   }
 
-  public void deleteAllDocumentOfAppt(String idAppt) throws SQLException{
+  public void deleteAllDocumentOfAppt(String idAppt) throws SQLException {
     Connection connection = DBUtil.getConnection();
     Statement stmt = connection.createStatement();
     String request = "DELETE FROM documents WHERE appointmentId =" + "'" + idAppt + "'";

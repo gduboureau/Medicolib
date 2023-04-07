@@ -11,7 +11,7 @@
     font-size: 20px;
     font-weight: bold;
     text-align: center;
-    margin-bottom: 20px;
+    margin-bottom: 40px;
 }
 
 .form-register {
@@ -23,7 +23,7 @@
 .form-register label {
     display: flex;
     flex-direction: column;
-    margin-bottom: 10px;
+    margin-bottom: 20px;
 }
 
 .form-register .register-sexe {
@@ -37,26 +37,26 @@
 }
 
 .form-register label p {
-    margin-bottom: 10px;
-    font-size: 14px;
+    margin-bottom: 20px;
+    font-size: 16px;
 }
 
 .form-register input {
     padding: 10px;
     border-radius: 5px;
     border: 1px solid #ccc;
-    font-size: 14px;
+    font-size: 16px;
     width: 100%;
 }
 
 .register .conditions {
-    margin-top: 10px;
-    margin-bottom: 10px;
+    margin-top: 20px;
+    margin-bottom: 20px;
 }
 
 .register .conditions label {
     display: inline-block;
-    font-size: 14px;
+    font-size: 16px;
     width: 80%;
 }
 
@@ -84,7 +84,11 @@
     background-color: #1b2c3f;
 }
 
+.register .link {
+    display: flex;
+    justify-content: center;
+}
+
 .register div a {
-    align-self: center;
     color: #284360;
 }

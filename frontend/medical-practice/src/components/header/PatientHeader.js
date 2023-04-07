@@ -52,40 +52,40 @@ const PatientHeader = () => {
     return (
         <header>
             {data.firstName && data.lastName ? (
-                <nav class="patient-nav">
+                <nav className="patient-nav">
                     <Link to="/">
-                        <img src={Logo} alt="Logo" class="logo-patient" />
+                        <img src={Logo} alt="Logo" className="logo-patient" />
                     </Link>
                     <ul>
-                        <li class="header-li-largescale"><a href="/patient/appointments">Mes rendez-vous</a></li>
-                        <li class="header-li-largescale"><a href="/patient/documents">Mes documents</a></li>
+                        <li className="header-li-largescale"><a href="/patient/appointments">Mes rendez-vous</a></li>
+                        <li className="header-li-largescale"><a href="/patient/documents">Mes documents</a></li>
                         <li>
-                            <button class="account" onClick={toggleMenu}>
+                            <button className="account" onClick={toggleMenu}>
                                 {data.firstName} {data.lastName}
                                 <img id="arrowMenu" src={Arrow} alt="Arrow" />
                             </button>
                         </li>
                     </ul>
-                    <div class="accountmenu-wrap" id="accountMenu">
-                        <div class="accountmenu">
-                            <a href="/patient/edit" class="accountmenu-component">
+                    <div className="accountmenu-wrap" id="accountMenu">
+                        <div className="accountmenu">
+                            <a href="/patient/edit" className="accountmenu-component">
                                 <img src={Profil} alt="Profil" />
                                 <p>Mon compte</p>
                             </a>
                             <hr />
-                            <div class="header-reported-li-largescale">
-                                <a href="/patient/appointments" class="accountmenu-component">
+                            <div className="header-reported-li-largescale">
+                                <a href="/patient/appointments" className="accountmenu-component">
                                     <img src={Appointment} alt="Appointment" />
                                     <p>Mes rendez-vous</p>
                                 </a>
                                 <hr />
-                                <a href="/patient/documents" class="accountmenu-component">
+                                <a href="/patient/documents" className="accountmenu-component">
                                     <img src={Documents} alt="Documents" />
                                     <p>Mes documents</p>
                                 </a>
                                 <hr />
                             </div>
-                            <a href="/" class="accountmenu-component" onClick={logout}>
+                            <a href="/" className="accountmenu-component" onClick={logout}>
                                 <img src={Logout} alt="Logout" />
                                 <p>Déconnexion</p>
                             </a>
