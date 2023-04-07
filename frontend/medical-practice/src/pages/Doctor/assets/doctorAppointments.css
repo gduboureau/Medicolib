@@ -15,11 +15,15 @@
     position: relative;
     width: 80%;
     max-width: 600px;
-    background-color: #fff;
+    background-color: #ffffff;
     padding: 20px;
     border-radius: 5px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
     z-index: 10000;
+}
+
+.modalAppt p{
+    padding: 8px;
 }
 
 .modalAppt+* {
@@ -44,4 +48,34 @@
 .downloadDoc:hover {
     color: #0056b3;
     text-decoration: none;
+}
+
+.goToMedicalFile {
+    display: inline-block;
+    margin-top: 10px;
+    padding: 8px 16px;
+    border-radius: 4px;
+    background-color: #3582d4;
+    color: #fff;
+    font-size: 16px;
+    font-weight: 600;
+    line-height: 1.2;
+    text-align: center;
+    text-decoration: none;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.goToMedicalFile:hover {
+    background-color: #003d6b;
+}
+
+.closeInfoPatient {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+}
+
+.addedDocument{
+    text-decoration: underline;
 }

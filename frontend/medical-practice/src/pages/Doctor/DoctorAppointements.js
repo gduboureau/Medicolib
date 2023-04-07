@@ -9,26 +9,32 @@ import { accountService } from "../users/Authentification/Sessionstorage";
 import { Modal, Button } from 'react-bootstrap';
 import './assets/fullcalendar.css'
 import './assets/doctorAppointments.css';
+import {useNavigate} from "react-router";
 
 
 function ConfirmationModal(props) {
+    const navigate = useNavigate();
     const handleClose = () => {
         props.onClose();
     };
     return (
         <div className="showInfoAppt">
             <div className="modalAppt">
-                <Modal.Header closeButton>
+                <Modal.Header>
                             <Modal.Title>Rendez-vous avec {props.appointment}</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
-                    <p>Date : {props.date}</p>
-                    <p>Heure de début : {props.start}</p>
-                    <p>Heure de fin : {props.end}</p>
-                    <div>Document(s) ajouté(s) : {props.documents}</div>
+                    <p>- Date : {props.date}</p>
+                    <p>- Heure de début : {props.start}</p>
+                    <p>- Heure de fin : {props.end}</p>
+                    <div>
+                        <a className="addedDocument">Document(s) ajouté(s) : </a>
+                        {props.documents}
+                    </div>
+                    <a className="goToMedicalFile" onClick={() => {navigate(props.medicalFile)}}>Accéder à son dossier médical</a>
                 </Modal.Body>
                 <Modal.Footer>
-                    <Button onClick={handleClose}>
+                    <Button className="closeInfoPatient" onClick={handleClose}>
                         Fermer
                     </Button>
                 </Modal.Footer>
@@ -47,9 +53,11 @@ const DoctorAppointments = () => {
         axios.post("/doctors/appointments", mail).then(res => {
             const newData = res.data.map((appointment) => ({
                 title: appointment[4] + ' ' + appointment[5],
+                name: appointment[4] + '-' + appointment[5],
                 start: appointment[1] + 'T' + appointment[2],
                 end: appointment[1] + 'T' + appointment[3],
-                id: appointment[0]
+                id: appointment[0],
+                idPatient: appointment[6]
             }));
             setAppointments(newData);
         });
@@ -88,13 +96,13 @@ const DoctorAppointments = () => {
                     nowIndicator={true}
                     slotEventOverlap={false}
                     headerToolbar={{
-                        start: 'title',
-                        center: '',
-                        end: 'prev,next today',
+                        start: '',
+                        center: 'prev title next today',
+                        end: '',
                     }}
-                    eventTextColor='#ffffff'
+                    eventTextColor='black'
                     eventClassNames="fc-pointer-cursor"
-                    eventBackgroundColor='black'
+                    eventBackgroundColor='#dd8b5580'
                     locale={frLocale}
                     slotMinTime="08:00:00"
                     slotMaxTime="18:00:00"
@@ -139,6 +147,7 @@ const DoctorAppointments = () => {
                             )):
                             <p>Aucun document ajouté.</p>
                         }
+                        medicalFile={`/doctor/${selectedAppointment.extendedProps.name}/dossier-medical?id=${selectedAppointment.extendedProps.idPatient}`}
                         onClose={handleCloseModal}
                     />
                 )}
