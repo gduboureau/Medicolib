@@ -1,0 +1,81 @@
+.documents h2 {
+    margin: 20px;
+}
+
+.documents table {
+    background-color: white;
+    border-collapse: collapse;
+    margin: 20px;
+    width: 75%;
+    border-radius: 20px;
+}
+
+.documents table span {
+    display: flex;
+    align-items: center;
+}
+
+
+.documents table thead th:nth-child(3) {
+    border-top-right-radius: 20px;
+    background-color: #284360;
+    color: #fff;
+}
+
+.documents table thead th:nth-child(1) {
+    background-color: #284360;
+    color: #fff;
+}
+
+.documents table thead th:nth-child(2) {
+    background-color: #284360;
+    color: #fff;
+}
+
+.documents table th :nth-child(2) {
+    background-color: #284360;
+}
+
+.documents table th:nth-child(1),
+.documents table td:nth-child(1) {
+    width: 30%;
+    border-top-left-radius: 20px;
+}
+
+.documents table th:nth-child(2),
+.documents table td:nth-child(2) {
+    width: 40%;
+}
+
+
+
+.documents table tbody tr {
+    background-color: transparent;
+
+}
+
+.documents table tbody tr:not(:last-child) td {
+    border-bottom: 1px solid #6b6868cc;
+}
+
+
+
+.documents table tbody tr td button {
+    background-color: #284360;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    padding: 10px 20px;
+    margin: 10px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+
+.documents table tbody tr td img {
+    width: 25px;
+    height: 25px;
+    vertical-align: middle;
+    margin-right: 15px;
+}

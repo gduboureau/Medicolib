@@ -1,3 +1,4 @@
+import React from 'react';
 import PublicHeader from './PublicHeader';
 import PatientHeader from './PatientHeader';
 import DoctorHeader from './DoctorHeader';

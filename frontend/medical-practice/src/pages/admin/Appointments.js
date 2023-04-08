@@ -3,7 +3,7 @@ import axios from 'axios';
 import { accountService } from "../users/Authentification/Sessionstorage";
 import { format } from "../../utils/DateFormat";
 import { useNavigate } from "react-router";
-import Document from './assets/document.png';
+import AddDocument from './assets/addDocument.png';
 import Rdv from './assets/rdv.png';
 import Time from './assets/time.png';
 import SupprRdv from './assets/suppr-rdv.png'
@@ -63,14 +63,15 @@ function AddDocumentModal(props) {
         <div className="modal-overlay">
             <div className="modal">
                 <h2>{props.title}</h2>
-                <form onSubmit={handleSubmit}>
-                    <input type="file" onChange={handleFileSelect} />
-                    <button type="submit">Télécharger</button>
-                </form>
-                <button onClick={handleClose}>Annuler</button>
+                <div className="modal-document-buttons">
+                    <form onSubmit={handleSubmit}>
+                        <input type="file" onChange={handleFileSelect} />
+                        <button type="submit">Télécharger</button>
+                    </form>
+                    <button className="cancel-button" onClick={handleClose}>Annuler</button>
+                </div>
             </div>
         </div>
-
     );
 }
 
@@ -135,11 +136,11 @@ const Appointments = () => {
 
     function toggle() {
         setShowButton((prevShowButton) => !prevShowButton);
-      }
+    }
 
     return (
         <div className="appointments">
-            <h2 style={{marginTop: "20px"}}>Rendez-vous à venir</h2>
+            <h2 style={{ marginTop: "20px" }}>Rendez-vous à venir</h2>
             <div className="upcoming-appointments">
                 {upcomingAppointments.map((appointment, index) => (
                     <div className="appointment-card" key={index}>
@@ -163,7 +164,7 @@ const Appointments = () => {
                             <button onClick={() => setSelectedDocument(appointment[0])} style={{
                                 marginBottom: "5px"
                             }}>
-                                <img src={Document} alt='document' style={{ marginBottom: "10px", marginTop: "10px" }} />
+                                <img src={AddDocument} alt='document' style={{ marginBottom: "10px", marginTop: "10px" }} />
                                 Ajouter des documents</button>
                         </div>
                         <div className="remove-rdv">

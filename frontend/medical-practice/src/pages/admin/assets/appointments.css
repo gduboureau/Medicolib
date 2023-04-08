@@ -55,6 +55,60 @@
     background-color: #1b2c3f;
 }
 
+.modal-document-buttons form {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    border-radius: 5px;
+    margin-bottom: 15px;
+}
+
+.modal-document-buttons form input[type="file"] {
+    display: inline-block;
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    margin-bottom: 2px;
+    width: 70%;
+}
+
+.modal-document-buttons form input[type="file"]::-webkit-file-upload-button {
+    background-color: #284360;
+    color: #FEFEFE;
+    border: none;
+    border-radius: 5px;
+    padding: 10px;
+    cursor: pointer;
+}
+
+.modal-document-buttons form input[type="file"]::-webkit-file-upload-button:hover {
+    background-color: #1b2c3f;
+}
+
+.modal-document-buttons form button[type="submit"] {
+    display: inline-block;
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    color: #FEFEFE;
+    background-color: #284360;
+    cursor: pointer;
+    transition: background-color 0.3s ease-in-out;
+}
+
+.modal-document-buttons form button[type="submit"]:hover {
+    background-color: #1e2d3d;
+}
+
+.modal-document-buttons .cancel-button{
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    color: #FEFEFE;
+    background-color: #284360;
+    cursor: pointer;
+}
+
 .appointments h2 {
     margin-top: 10px;
     margin-bottom: 10px;
