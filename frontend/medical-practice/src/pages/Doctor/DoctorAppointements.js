@@ -9,7 +9,7 @@ import { accountService } from "../users/Authentification/Sessionstorage";
 import { Modal, Button } from 'react-bootstrap';
 import './assets/fullcalendar.css'
 import './assets/doctorAppointments.css';
-import {useNavigate} from "react-router";
+import { useNavigate } from "react-router";
 
 
 function ConfirmationModal(props) {
@@ -21,17 +21,20 @@ function ConfirmationModal(props) {
         <div className="showInfoAppt">
             <div className="modalAppt">
                 <Modal.Header>
-                            <Modal.Title>Rendez-vous avec {props.appointment}</Modal.Title>
+                    <Modal.Title style={{ marginBottom: "10px", marginTop: "10px" }}>Rendez-vous avec {props.appointment}</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
                     <p>- Date : {props.date}</p>
                     <p>- Heure de début : {props.start}</p>
                     <p>- Heure de fin : {props.end}</p>
-                    <div>
-                        <a className="addedDocument">Document(s) ajouté(s) : </a>
+                    <div style={{ marginTop: "10px" }}>
+                        <a className="addedDocument" >Document(s) ajouté(s) : </a>
                         {props.documents}
                     </div>
-                    <a className="goToMedicalFile" onClick={() => {navigate(props.medicalFile)}}>Accéder à son dossier médical</a>
+                    <div className="redirect-buttons">
+                        <a className="goToMedicalFile" onClick={() => { navigate(props.medicalFile) }}>Accéder à son dossier médical</a>
+                        <a className="goToConsultation" onClick={() => { navigate(props.consultation) }}>Ajouter une consultation</a>
+                    </div>
                 </Modal.Body>
                 <Modal.Footer>
                     <Button className="closeInfoPatient" onClick={handleClose}>
@@ -102,7 +105,7 @@ const DoctorAppointments = () => {
                     }}
                     eventTextColor='black'
                     eventClassNames="fc-pointer-cursor"
-                    eventBackgroundColor='#dd8b5580'
+                    eventBackgroundColor='#bcbcbc'
                     locale={frLocale}
                     slotMinTime="08:00:00"
                     slotMaxTime="18:00:00"
@@ -139,15 +142,16 @@ const DoctorAppointments = () => {
                             hour: '2-digit',
                             minute: '2-digit'
                         })}
-                        documents={documentList.length > 0 ? 
+                        documents={documentList.length > 0 ?
                             documentList.map((document, index) => (
                                 <div className="patient-document" key={index}>
                                     <p><span className="downloadDoc" onClick={() => downloadDocument(document)}>- {document[0]}</span></p>
                                 </div>
-                            )):
+                            )) :
                             <p>Aucun document ajouté.</p>
                         }
                         medicalFile={`/doctor/${selectedAppointment.extendedProps.name}/dossier-medical?id=${selectedAppointment.extendedProps.idPatient}`}
+                        consultation={`/doctor/${selectedAppointment.extendedProps.name}/consultation?id=${selectedAppointment.extendedProps.idPatient}`}
                         onClose={handleCloseModal}
                     />
                 )}

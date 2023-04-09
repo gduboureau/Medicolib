@@ -82,51 +82,58 @@ const Documents = () => {
         return dateA - dateB;
     });
 
-    return (
-        <div className='documents'>
-            <h2>Mes documents</h2>
-            <div>
-                <table>
-                    <thead>
-                        <tr>
-                            <th>Date de consultation</th>
-                            <th>Documents</th>
-                            <th>Actions</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {sortedList.map((item, index) => (
-                            <tr key={`${item[0]}_${index}`}>
-                                <td className='document-cell'>{item[2] ? documentDate(date[item[3]]) : prescriptionDate(item[0])}</td>
-                                <td>
-                                    <span>
-                                        {item[2] ?
-                                            <div>
-                                                {item[1].split(".")[1] === "png" || item[1].split(".")[1] === "jpeg" || item[1].split(".")[1] === "jpeg" ?
-                                                    <img src={Image} alt='img-png' />
-                                                    : <img src={Document} alt='img-doc' />
-                                                }
-                                                {item[1]}
-                                            </div>
-                                            : <div>
-                                                <img src={Document} alt='img-doc' />{"Ordonnance"}
-                                            </div>
-                                        }
-                                    </span>
-                                </td>
-                                <td><button onClick={() => downloadDocument(item)}>Télécharger</button>
-                                    {documentList.includes(item) && (
-                                        <button onClick={() => removeDocument(item)}>Retirer</button>
-                                    )}
-                                </td>
-
+    if (combinedList.length !== 0) {
+        return (
+            <div className='documents'>
+                <h2>Mes documents</h2>
+                <div>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Date de consultation</th>
+                                <th>Documents</th>
+                                <th>Actions</th>
                             </tr>
-                        ))}
-                    </tbody>
-                </table>
+                        </thead>
+                        <tbody>
+                            {sortedList.map((item, index) => (
+                                <tr key={`${item[0]}_${index}`}>
+                                    <td className='document-cell'>{item[2] ? documentDate(date[item[3]]) : prescriptionDate(item[0])}</td>
+                                    <td>
+                                        <span>
+                                            {item[2] ?
+                                                <div>
+                                                    {item[1].split(".")[1] === "png" || item[1].split(".")[1] === "jpeg" || item[1].split(".")[1] === "jpeg" ?
+                                                        <img src={Image} alt='img-png' />
+                                                        : <img src={Document} alt='img-doc' />
+                                                    }
+                                                    {item[1]}
+                                                </div>
+                                                : <div>
+                                                    <img src={Document} alt='img-doc' />{"Ordonnance"}
+                                                </div>
+                                            }
+                                        </span>
+                                    </td>
+                                    <td><button onClick={() => downloadDocument(item)}>Télécharger</button>
+                                        {documentList.includes(item) && (
+                                            <button onClick={() => removeDocument(item)}>Retirer</button>
+                                        )}
+                                    </td>
+
+                                </tr>
+                            ))}
+                        </tbody>
+                    </table>
+                </div>
             </div>
-        </div>
-    )
+        )
+    } else {
+        return (
+            <div>
+            </div>
+        )
+    }
 }
 
 export default Documents; 

@@ -32,10 +32,6 @@
     color: #fff;
 }
 
-.documents table th :nth-child(2) {
-    background-color: #284360;
-}
-
 .documents table th:nth-child(1),
 .documents table td:nth-child(1) {
     width: 30%;
@@ -70,6 +66,10 @@
     font-weight: 500;
     cursor: pointer;
     transition: all 0.3s ease;
+}
+
+.documents table tbody tr td button:hover {
+    background-color: #1b2c3f;
 }
 
 
