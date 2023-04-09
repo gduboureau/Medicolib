@@ -27,7 +27,7 @@ const Documents = () => {
     }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
     useEffect(() => {
-        documentList.forEach(doc => getTimeAppointment(doc[2]));
+        documentList.forEach(doc => getTimeAppointment(doc[3]));
     }, [documentList]);
 
     const getTimeAppointment = (id) => {
@@ -48,14 +48,14 @@ const Documents = () => {
     }
 
     const removeDocument = (document) => {
-        const updatedDocs = documentList.filter(doc => doc[2] !== document[2] && doc[0] !== document[0]);
+        const updatedDocs = documentList.filter(doc => doc[0] !== document[0]);
         setDocumentList(updatedDocs);
         const updatedDates = { ...date };
-        delete updatedDates[document[2]];
+        delete updatedDates[document[3]];
         setDate(updatedDates);
         axios.post("/deleteDocuments", {
-            id: document[2],
-            name: document[0]
+            id: document[3],
+            name: document[1]
         }).then(res => {
             console.log(res.data);
         });
@@ -82,11 +82,9 @@ const Documents = () => {
         return dateA - dateB;
     });
 
-    console.log(sortedList)
-
     return (
         <div className='documents'>
-            <h2>Mes documents : </h2>
+            <h2>Mes documents</h2>
             <div>
                 <table>
                     <thead>
@@ -98,17 +96,17 @@ const Documents = () => {
                     </thead>
                     <tbody>
                         {sortedList.map((item, index) => (
-                            <tr key={index}>
-                                <td className='document-cell'>{item[2] ? documentDate(date[item[2]]) : prescriptionDate(item[0])}</td>
+                            <tr key={`${item[0]}_${index}`}>
+                                <td className='document-cell'>{item[2] ? documentDate(date[item[3]]) : prescriptionDate(item[0])}</td>
                                 <td>
                                     <span>
                                         {item[2] ?
                                             <div>
-                                                {item[0].split(".")[1] === "png" || item[0].split(".")[1] === "jpeg" || item[0].split(".")[1] === "jpeg" ?
+                                                {item[1].split(".")[1] === "png" || item[1].split(".")[1] === "jpeg" || item[1].split(".")[1] === "jpeg" ?
                                                     <img src={Image} alt='img-png' />
                                                     : <img src={Document} alt='img-doc' />
                                                 }
-                                                {item[0]}
+                                                {item[1]}
                                             </div>
                                             : <div>
                                                 <img src={Document} alt='img-doc' />{"Ordonnance"}

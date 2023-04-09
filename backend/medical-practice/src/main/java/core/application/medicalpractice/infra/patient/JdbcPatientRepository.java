@@ -288,14 +288,15 @@ public class JdbcPatientRepository implements PatientRepository {
     List<List<Object>> documentsByApptId = new ArrayList<>();
     Connection connection = DBUtil.getConnection();
     Statement stmt = connection.createStatement();
-    String request = "SELECT documentname,documentcontent,appointmentid from documents where patientid = '"
+    String request = "SELECT documentid, documentname,documentcontent,appointmentid from documents where patientid = '"
         + getPatientIdByMail(mail) + "'";
     ResultSet rs = stmt.executeQuery(request);
     while (rs.next()) {
       List<Object> doc = new ArrayList<>();
       doc.add(rs.getString(1));
-      doc.add(rs.getBytes(2));
-      doc.add(rs.getString(3));
+      doc.add(rs.getString(2));
+      doc.add(rs.getBytes(3));
+      doc.add(rs.getString(4));
       documentsByApptId.add(doc);
     }
     rs.close();

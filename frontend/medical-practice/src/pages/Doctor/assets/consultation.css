@@ -1,0 +1,134 @@
+.consultation {
+    max-width: 500px;
+    margin: auto;
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.consultation p {
+    font-size: 20px;
+    font-weight: bold;
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.consultation .consultation-form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 500px;
+}
+
+.consultation .consultation-form label {
+    display: flex;
+    flex-direction: column;
+    margin: 10px;
+    align-items: center;
+
+}
+
+.consultation .consultation-form label p {
+    font-size: 16px;
+    margin: 5px;
+    align-self: center;
+}
+
+.consultation .consultation-form input {
+    padding: 10px;
+    margin: auto;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    font-size: 16px;
+    width: 90%;
+}
+
+.consultation div {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 70%;
+}
+
+.consultation .consultation-form .prescription {
+    direction: flex;
+    flex-direction: row;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.consultation .consultation-form .prescription input[type="radio"] {
+    margin-left: 20px;
+    margin-right: 10px;
+}
+
+.consultation .consultation-form .prescription-text {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.consultation .consultation-form .prescription-text textarea {
+    width: 226px;
+    padding: 10px;
+    box-sizing: border-box;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    font-size: 16px;
+}
+
+.consultation .consultation-form .prescription-buttons {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    width: 100%;
+}
+
+.consultation .consultation-form .prescription-buttons button {
+    margin: 20px;
+    font-size: 16px;
+    padding: 5px;
+    width: 50%
+}
+
+.consultation button {
+    display: inline-block;
+    padding: 10px;
+    border-radius: 5px;
+    font-size: 16px;
+    font-weight: bold;
+    color: #fff;
+    text-align: center;
+    text-decoration: none;
+    background-color: #284360;
+    border: none;
+    cursor: pointer;
+}
+
+.consultation button:hover {
+    background-color: #1b2c3f;
+}
+
+
+.consultation .download-pdf {
+    display: flex;
+    align-items: center;
+    text-align: center;
+    margin: 20px;
+}
+
+.consultation .download-pdf .link-pdf {
+    color: #284360;
+    text-align: center;
+}
+
+.consultation label img {
+    width: 25px;
+    height: 25px;
+    vertical-align: middle;
+    margin-right: 10px;
+}

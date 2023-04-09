@@ -5,14 +5,23 @@ import { PDFDownloadLink, pdf } from '@react-pdf/renderer';
 import PDF from './PDFPrescription';
 import { format } from '../../utils/DateFormat';
 import { useMemo } from 'react';
+import moment from 'moment';
+
+import Validation from './assets/validation.png'
+
+import "./assets/consultation.css"
 
 const Consultation = () => {
+
+  const today = moment().format('YYYY-MM-DD');
+
+  const message = document.querySelector('#message');
+
   const [medicaments, setMedicaments] = useState(['']);
   const [showInputs, setShowInputs] = useState(false);
-  const [pdfOutput, setPdfOutput] = useState(null);
   const [isSubmitted, setIsSubmitted] = useState(false);
 
-  const mail = useMemo(() => ({mail: accountService.getEmail()}), []); // Crée une référence unique à mail
+  const mail = useMemo(() => ({ mail: accountService.getEmail() }), []); // Crée une référence unique à mail
 
   const [data, setData] = useState({
     firstName: "",
@@ -40,18 +49,15 @@ const Consultation = () => {
   let url = window.location.pathname
 
   const [infoConsultation, setInfoConsultation] = useState({
-    date: '',
+    date: today,
     motif: '',
     mail: accountService.getEmail(),
     firstname: url.split("/")[2].split("-")[0],
     lastname: url.split("/")[2].split("-")[1],
   })
 
-  const ordonnanceName = infoConsultation.motif + "-" + format.formatDate(infoConsultation.date) + ".pdf"
-
-
   const handleAddMedicament = () => {
-    setMedicaments([...medicaments, '']); // ajouter un nouveau champ vide
+    setMedicaments([...medicaments, '']);
   };
 
   const handleRemoveMedicament = (index) => {
@@ -66,15 +72,18 @@ const Consultation = () => {
     setMedicaments(newMedicaments);
   };
 
+  const ordonnanceName = infoConsultation.motif + "-" + format.formatDate(infoConsultation.date) + ".pdf"
+
   const generatePdf = async () => {
     const blob = await pdf(<PDF data={data} infoConsultation={infoConsultation} medicaments={medicaments} />).toBlob();
     const file = new Blob([blob], { type: 'application/pdf' });
-    setPdfOutput(file);
+    return file
   };
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
     setIsSubmitted(true)
+
     if (medicaments[0] === "") {
       const params = new URLSearchParams();
       params.append('mail', accountService.getEmail());
@@ -82,13 +91,17 @@ const Consultation = () => {
       params.append('lastname', infoConsultation.lastname);
       params.append('date', infoConsultation.date);
       params.append('motif', infoConsultation.motif);
-      axios.post('/prescriptions', params)
-        .catch((error) => console.log(error))
+      try {
+        await axios.post('/prescriptions', params);
+        console.log('Prescription submitted');
+      } catch (error) {
+        console.log(error);
+      }
     } else {
-      generatePdf();
+      let pdf = await generatePdf();
       let document = new FormData();
-      if (pdfOutput !== null) {
-        document.append("file", pdfOutput, ordonnanceName);
+      if (pdf !== null) {
+        document.append("file", pdf, ordonnanceName);
         const params = new URLSearchParams();
         params.append('mail', accountService.getEmail());
         params.append('firstname', infoConsultation.firstname);
@@ -108,7 +121,10 @@ const Consultation = () => {
           }, []);
       }
     }
-
+    message.style.display = 'block';
+    setTimeout(() => {
+      message.style.display = 'none';
+    }, 5000);
   };
 
   const handleRadioChange = (e) => {
@@ -124,56 +140,73 @@ const Consultation = () => {
   }
 
   return (
-    <div>
-      <div>
-        <label htmlFor="date">Date</label>
-        <input id="daterdv" type="date" name="date" onChange={onChange} />
-      </div>
-      <label htmlFor='motif'> Motif de la consultation</label>
-      <input type="text" id="motif" name="motif" onChange={onChange}>
-      </input>
-      <div>
-        <label htmlFor="prescription">Ajouter une ordonnance</label>
-      </div>
-      <label>
-        <input type="radio" name="option" value="showInputs" onChange={handleRadioChange} /> Oui
-      </label>
-      <label>
-        <input type="radio" name="option" defaultChecked onChange={handleRadioChange} /> Non
-      </label>
-      {showInputs && (
-        <>
+    <div className='consultation'>
+      <p>Entrez la consultation ici</p>
+      <div className='sub-consultation'>
+        <form className='consultation-form' onSubmit={handleSubmit}>
           <div>
-            {medicaments.map((medicament, index) => (
-              <div key={index}>
-                <label htmlFor={`medicament-${index}`}>Prescription {index + 1} : </label>
-                <input
-                  id={`medicament-${index}`}
-                  type="text"
-                  value={medicament}
-                  onChange={(event) => handleMedicamentChange(index, event)}
-                  required
-                />
-                <button type="button" onClick={handleAddMedicament}>+</button>
-                <button type="button" onClick={() => handleRemoveMedicament(index)}>-</button>
+            <label htmlFor='date'>
+              <p>Date</p>
+              <input type="date" id="date" name="date" value={today} onChange={onChange} required></input>
+            </label>
+          </div>
+          <div>
+            <label htmlFor='motif'>
+              <p>Motif de la consultation</p>
+              <input type="text" id="motif" name="motif" onChange={onChange} required></input>
+            </label>
+          </div>
+          <div>
+            <label htmlFor="prescription">
+              <p>Ajouter une ordonnance</p>
+            </label>
+            <label className='prescription'>
+              <input type="radio" name="option" value="showInputs" onChange={handleRadioChange} required /> Oui
+              <input type="radio" name="option" defaultChecked onChange={handleRadioChange} /> Non
+            </label>
+          </div>
+          {showInputs && (
+            <>
+              <div className='prescription-text'>
+                {medicaments.map((medicament, index) => (
+                  <div key={index}>
+                    <label htmlFor={`medicament-${index}`}>Prescription {index + 1} : </label>
+                    <textarea
+                      id={`medicament-${index}`}
+                      rows="2"
+                      value={medicament}
+                      onChange={(event) => handleMedicamentChange(index, event)}
+                      required
+                    />
+                    <div className='prescription-buttons'>
+                      <button type="button" onClick={handleAddMedicament}>+</button>
+                      <button type="button" onClick={() => handleRemoveMedicament(index)}>-</button>
+                    </div>
+                  </div>
+                ))}
               </div>
-            ))}
-          </div>
-        </>
-      )}
-      <div>
-        <button onClick={handleSubmit}>Enregistrer</button>
-      </div>
-      <div>
-        {isSubmitted && medicaments[0] !== "" && medicaments[0] !== undefined && (
+            </>
+          )}
+
           <div>
-            <PDFDownloadLink document={<PDF data={data} infoConsultation={infoConsultation} medicaments={medicaments} />} fileName={ordonnanceName}>
-              {({ blob, url, loading, error }) =>
-                loading ? 'Chargement...' : 'Télécharger le PDF'
-              }
-            </PDFDownloadLink>
+            <button type='submit'>Enregistrer</button>
+            <label id="message" style={{ display: "none", marginTop: "30px", color: "green" }}>
+              <img src={Validation} alt='validation' />
+              Consultation ajoutée
+            </label>
           </div>
-        )}
+        </form>
+        <div>
+          {showInputs && isSubmitted && medicaments[0] !== "" && medicaments[0] !== undefined && (
+            <div className='download-pdf'>
+              <PDFDownloadLink document={<PDF data={data} infoConsultation={infoConsultation} medicaments={medicaments} />} fileName={ordonnanceName} className="link-pdf">
+                {({ blob, url, loading, error }) =>
+                  loading ? 'Chargement...' : 'Télécharger le PDF'
+                }
+              </PDFDownloadLink>
+            </div>
+          )}
+        </div>
       </div>
     </div>
   );

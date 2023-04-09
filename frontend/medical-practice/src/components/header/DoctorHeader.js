@@ -58,10 +58,10 @@ const DoctorHeader = () => {
                         <img src={Logo} alt="Logo" className="logo-doctor" />
                     </Link>
                     <ul>
-                        <li class="header-li-largescale">
+                        <li className="header-li-largescale">
                             <a href="/doctor/appointments">Planning</a>
                         </li>
-                        <li class="header-li-largescale">
+                        <li className="header-li-largescale">
                             <a href="/doctor/patients">Mes patients</a>
                         </li>
                         <li>
@@ -80,13 +80,13 @@ const DoctorHeader = () => {
                                 <p>Mon compte</p>
                             </a>
                             <hr />
-                            <div class="header-reported-li-largescale">
-                                <a href="/doctor/appointments" class="accountmenu-component">
+                            <div className="header-reported-li-largescale">
+                                <a href="/doctor/appointments" className="accountmenu-component">
                                     <img src={Planning} alt="Planning" />
                                     <p>Planning</p>
                                 </a>
                                 <hr />
-                                <a href="/doctor/patients" class="accountmenu-component">
+                                <a href="/doctor/patients" className="accountmenu-component">
                                     <img src={Patients} alt="Patients" />
                                     <p>Mes patients</p>
                                 </a>
