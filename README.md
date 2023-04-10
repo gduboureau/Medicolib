@@ -48,7 +48,7 @@ https://moodle1.u-bordeaux.fr/pluginfile.php/1865092/mod_folder/content/0/Farah%
 ## Compatibilité du serveur
 
 * Testé avec Ubuntu 22.04.2 LTS :
- - Compatible : Windows 11, Linux, Debian Buster
+  - Compatible : Windows 11, Linux, Debian Buster
 
 ## Compatibilité du client
 
@@ -57,15 +57,15 @@ https://moodle1.u-bordeaux.fr/pluginfile.php/1865092/mod_folder/content/0/Farah%
 
 ## Execution 
 
-1. Ouvrir un premier terminal à partir de la racine du projet :
-2. Se placer dans le repertoire /backend/medical-practice
-3. mvn clean install
-4. mvn package
-5. mvn springboot:run
+* Ouvrir un premier terminal à partir de la racine du projet :
+  - Se placer dans le repertoire /backend/medical-practice
+  - mvn clean install
+  - mvn package
+  - mvn springboot:run
 
-6. Ouvrir un deuxième terminal à partir de la racine du projet (ne pas fermer le premier terminal) :
-7. Se placer dans le repertoire /frontend/medical-practice
-8. npm install
-9. npm start
+* Ouvrir un deuxième terminal à partir de la racine du projet (ne pas fermer le premier terminal) :
+  - Se placer dans le repertoire /frontend/medical-practice
+  - npm install
+  - npm start
 
-10. Se rendre à l'adresse http://localhost:3000 depuis un navigateur Web
+* Se rendre à l'adresse http://localhost:3000 depuis un navigateur Web
