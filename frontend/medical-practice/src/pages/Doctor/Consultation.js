@@ -141,13 +141,13 @@ const Consultation = () => {
 
   return (
     <div className='consultation'>
-      <p>Entrez la consultation ici</p>
+      <p>Ajouter une consultation</p>
       <div className='sub-consultation'>
         <form className='consultation-form' onSubmit={handleSubmit}>
           <div>
             <label htmlFor='date'>
               <p>Date</p>
-              <input type="date" id="date" name="date" value={today} onChange={onChange} required></input>
+              <input type="date" id="date" name="date"  defaultValue={today} onChange={onChange} required></input>
             </label>
           </div>
           <div>

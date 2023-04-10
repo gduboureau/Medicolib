@@ -59,10 +59,6 @@ const ShowPatients = () => {
         pageNumbers.splice(pageNumbers.length - 1, 1, '...');
     }
 
-    console.log(pageNumbers)
-    console.log(currentPage)
-
-
     if (patientsList.length === 0) {
         return (
             <div></div>

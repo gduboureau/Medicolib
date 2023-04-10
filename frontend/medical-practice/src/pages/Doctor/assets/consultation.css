@@ -73,7 +73,9 @@
 }
 
 .consultation .consultation-form .prescription-text textarea {
-    width: 226px;
+    max-width: fit-content;
+    min-width: fit-content;
+    min-height: 60px;
     padding: 10px;
     box-sizing: border-box;
     border-radius: 5px;
