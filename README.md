@@ -17,33 +17,33 @@ https://moodle1.u-bordeaux.fr/pluginfile.php/1865092/mod_folder/content/0/Farah%
 ## Dépendances
 
 * Spring Boot 3.0.4 :
-  ├──org.springframework.boot 3.0.4
-  ├──org.postgresql 42.5.4
-  ├──io.jsonwebtoken 0.9.1
-  ├──javax.xml.bind 2.3.0
-  └──com.jayway.jsonpath 2.2.0
+  - org.springframework.boot 3.0.4
+  - org.postgresql 42.5.4
+  - io.jsonwebtoken 0.9.1
+  - javax.xml.bind 2.3.0
+  - com.jayway.jsonpath 2.2.0
   
 * React 18.2.0 :
-  ├── @fullcalendar/core 6.1.5
-  ├── @fullcalendar/daygrid 6.1.5
-  ├── @fullcalendar/interaction 6.1.5
-  ├── @fullcalendar/react 6.1.5
-  ├── @fullcalendar/timegrid 6.1.5
-  ├── @react-pdf/renderer 3.1.9
-  ├── @testing-library/jest-dom 5.16.5
-  ├── @testing-library/react 13.4.0
-  ├── @testing-library/user-event 13.5.0
-  ├── axios 1.3.4
-  ├── cors 2.8.5
-  ├── jwt-decode 3.1.2
-  ├── moment 2.29.4
-  ├── querystring-es3 0.2.1
-  ├── react-bootstrap 2.7.2
-  ├── react-dom 18.2.0
-  ├── react-render 4.0.0
-  ├── react-router-dom 6.10.0
-  ├── react-scripts 5.0.1
-  └── web-vitals 2.1.4
+  - @fullcalendar/core 6.1.5
+  - @fullcalendar/daygrid 6.1.5
+  - @fullcalendar/interaction 6.1.5
+  - @fullcalendar/react 6.1.5
+  - @fullcalendar/timegrid 6.1.5
+  - @react-pdf/renderer 3.1.9
+  - @testing-library/jest-dom 5.16.5
+  - @testing-library/react 13.4.0
+  - @testing-library/user-event 13.5.0
+  - axios 1.3.4
+  - cors 2.8.5
+  - jwt-decode 3.1.2
+  - moment 2.29.4
+  - querystring-es3 0.2.1
+  - react-bootstrap 2.7.2
+  - react-dom 18.2.0
+  - react-render 4.0.0
+  - react-router-dom 6.10.0
+  - react-scripts 5.0.1
+  - web-vitals 2.1.4
 
 ## Compatibilité du serveur
 
