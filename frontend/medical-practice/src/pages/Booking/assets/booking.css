@@ -1,0 +1,92 @@
+.BookingAppt th {
+    min-width: 50px;
+    width: 10%;
+    text-align: center;
+  }
+  
+.BookingAppt th,td {
+      padding: 10px;
+}
+
+.BookingAppt .booked{
+    height: 30px;
+    width: 100px;
+    margin: 4px 0;
+    border-radius:4px;
+    border-color: transparent;
+    background-color: #f7f7f7;
+    color: rgb(0, 0, 0);
+    margin-bottom: 5px;
+    cursor: not-allowed;
+    user-select: none;
+    color: rgb(108, 108, 108);
+    text-decoration: line-through;
+}
+
+.BookingAppt .not-booked{
+    height: 30px;
+    width: 100px;
+    margin: 4px 0;
+    border-radius:4px;
+    border-color: transparent;
+    background-color: #f7f7f7;
+    color: rgb(0, 0, 0);
+    margin-bottom: 5px;
+    cursor: pointer;
+}
+
+
+.BookingAppt .not-booked:hover{
+    background-color: #e7e7e7;
+}
+
+.BookingAppt tr:hover {
+    transition: none;
+}
+
+.BookingAppt th {
+    background-color: transparent;
+    color: #000000;
+    font-size: 13px;
+}
+
+
+.BookingAppt .table-booking tr:hover {
+    background-color: transparent;
+}
+
+.BookingAppt .table-booking{
+    background-color: rgb(255, 255, 255);
+    border: 1px solid rgb(255, 255, 255);
+    padding: 10px;
+    margin-top: 30px;
+    margin-left: 30px;
+    border-radius: 10px;
+    min-height: 632px;
+    width: 50%;
+    box-sizing: border-box;
+}
+
+.BookingAppt  .table-booking .cell-day {
+    text-align: center;
+}
+
+
+
+.BookingAppt .button-week-left,
+.BookingAppt .button-week-right {
+  cursor: pointer;
+  background-color: transparent;
+  border: none;
+  color:  #3d638b;
+  font-size: 20px;
+  cursor: pointer;
+  border-top: 1.2vmin solid white;
+  border-right: 1.2vmin solid white;
+}
+
+
+
+
+
+

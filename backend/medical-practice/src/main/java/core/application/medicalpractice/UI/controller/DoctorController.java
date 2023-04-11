@@ -168,4 +168,15 @@ public class DoctorController {
 		}
 	}
 
+	@PostMapping(value = "/getPriceConsultations")
+	public ResponseEntity<List<Object>> getPriceConsultations(@RequestBody Map<String, String> map) throws SQLException, ParseException {
+		try {
+			String idDoctor = map.get("id");
+			List<Object> price = medicalPractice.getPriceConsultations(idDoctor);
+			return ResponseEntity.ok(price);
+		} catch (Exception e) {
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+		}
+	}
+
 }

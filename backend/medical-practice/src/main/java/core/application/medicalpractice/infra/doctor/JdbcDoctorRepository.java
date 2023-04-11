@@ -26,7 +26,7 @@ public class JdbcDoctorRepository implements DoctorRepository {
 
       while (rs.next()) {
         Doctor doctor = new Doctor(UUID.fromString(rs.getString(1)), rs.getString(2), rs.getString(3), rs.getString(4), rs.getString(5),
-            rs.getString(6));
+            rs.getString(6),rs.getString(7));
         doctorList.add(doctor);
       }
 
@@ -75,7 +75,7 @@ public class JdbcDoctorRepository implements DoctorRepository {
 
       while (rs.next()) {
         Doctor doctor = new Doctor(UUID.fromString(rs.getString(1)), rs.getString(2), rs.getString(3), rs.getString(4), rs.getString(5),
-            rs.getString(6));
+            rs.getString(6), rs.getString(7));
         doctorList.add(doctor);
       }
 
@@ -99,7 +99,7 @@ public class JdbcDoctorRepository implements DoctorRepository {
       ResultSet rs = stmt.executeQuery();
       while (rs.next()) {
         doctor = new Doctor(UUID.fromString(rs.getString(1)), rs.getString(2), rs.getString(3), rs.getString(4), rs.getString(5),
-            rs.getString(6));
+            rs.getString(6), rs.getString(7));
       }
 
       rs.close();
@@ -139,9 +139,14 @@ public class JdbcDoctorRepository implements DoctorRepository {
     DateFormat tf = new SimpleDateFormat("HH:mm");
     Statement stmt2 = connection.createStatement();
     String request2 = "DELETE FROM AvailableTimeSlots WHERE doctorid = (SELECT doctorid FROM Doctors WHERE firstname=" + "'"
-        + firstName + "'" + " AND lastname=" + "'" + lastName + "') and  StartTime < NOW()";
+        + firstName + "'" + " AND lastname=" + "'" + lastName + "') and StartTime < NOW() - INTERVAL '1 week'";
     stmt2.executeUpdate(request2);
     stmt2.close();
+    Statement stmt3 = connection.createStatement();
+    String request3 = "UPDATE AvailableTimeSlots SET Booked = true WHERE doctorid = (SELECT doctorid FROM Doctors WHERE firstname=" + "'"
+        + firstName + "'" + " AND lastname=" + "'" + lastName + "') and StartTime < NOW()";
+    stmt3.executeUpdate(request3);
+    stmt3.close();
     PreparedStatement stmt = connection
         .prepareStatement(
             "SELECT * FROM AvailableTimeSlots WHERE doctorid=(SELECT doctorid FROM Doctors WHERE firstname=" + "'"
@@ -154,6 +159,7 @@ public class JdbcDoctorRepository implements DoctorRepository {
       l.add(rs.getDate(3).toString());
       l.add(tf.format(rs.getTime(3)).toString());
       l.add(tf.format(rs.getTime(4)).toString());
+      l.add(String.valueOf(rs.getBoolean(5)));
       appointments.add(l);
     }
 
@@ -336,6 +342,23 @@ public class JdbcDoctorRepository implements DoctorRepository {
     stmt.close();
     DBUtil.closeConnection(connection);
     return documentsByApptId;
+  }
+
+  @Override
+  public List<Object> getPriceConsultations(String idDoctor) throws SQLException{
+    List<Object> price = new ArrayList<>();
+    Connection connection = DBUtil.getConnection();
+    Statement stmt = connection.createStatement();
+    String request = "SELECT pricename,price from price where doctorid = '" + idDoctor + "'";
+    ResultSet rs = stmt.executeQuery(request);
+    while (rs.next()) {
+      price.add(rs.getString(1));
+      price.add(rs.getInt(2));
+    }
+    rs.close();
+    stmt.close();
+    DBUtil.closeConnection(connection);
+    return price;
   }
 
 }

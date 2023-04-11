@@ -1,7 +1,7 @@
 import React from "react";
 import { Document, Page, Text } from '@react-pdf/renderer';
 import { View, StyleSheet } from "@react-pdf/renderer";
-import { format } from "../../utils/DateFormat";
+import { format } from "../../../utils/DateFormat";
 
 
 const PDF = ({ data, infoConsultation, medicaments }) => {

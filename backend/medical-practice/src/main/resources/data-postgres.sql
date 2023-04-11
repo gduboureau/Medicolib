@@ -56,23 +56,155 @@ VALUES ('isadora.marques@gmail.com','isadora.marques', 'doctor');
 INSERT INTO Users (Mail, password, userType)
 VALUES ('george.simple@gmail.com','george.simple', 'doctor');
 
+
+--Ajout des tarifs par docteurs 
+
+-- Laetitia Morel (Dermatologue)
+
+INSERT INTO Price (doctorid, priceName, price)
+Values ('d0e817a3-056a-43c4-849d-3d89a395aad7','Consultation de base',50);
+
+INSERT INTO Price (doctorid, priceName, price)
+Values ('d0e817a3-056a-43c4-849d-3d89a395aad7','Consultation spécialisée',80);
+
+INSERT INTO Price (doctorid, priceName, price)
+Values ('d0e817a3-056a-43c4-849d-3d89a395aad7','Traitement au laser',150);
+
+INSERT INTO Price (doctorid, priceName, price)
+Values ('d0e817a3-056a-43c4-849d-3d89a395aad7','Biopsie de la peau',120);
+
+-- Isadora Marques (Dermatologue)
+
+INSERT INTO Price (doctorid, priceName, price)
+Values ('adf50cc8-b0cf-49c1-a64f-6dea910a0a88','Consultation de base',40);
+
+INSERT INTO Price (doctorid, priceName, price)
+Values ('adf50cc8-b0cf-49c1-a64f-6dea910a0a88','Consultation spécialisée',90);
+
+INSERT INTO Price (doctorid, priceName, price)
+Values ('adf50cc8-b0cf-49c1-a64f-6dea910a0a88','Traitement au laser',150);
+
+INSERT INTO Price (doctorid, priceName, price)
+Values ('adf50cc8-b0cf-49c1-a64f-6dea910a0a88','Traitement acnée',90);
+
+
+-- Sanaa Abadi (Neurologue)
+
+INSERT INTO Price (doctorid, priceName, price)
+Values ('dccf9cfd-f2cc-4e44-8357-dd4140e17b73','Consultation de base',70);
+
+INSERT INTO Price (doctorid, priceName, price)
+Values ('dccf9cfd-f2cc-4e44-8357-dd4140e17b73','IRM du cerveau',200);
+
+INSERT INTO Price (doctorid, priceName, price)
+Values ('dccf9cfd-f2cc-4e44-8357-dd4140e17b73','Électroencéphalogramme (EEG)',100);
+
+INSERT INTO Price (doctorid, priceName, price)
+Values ('dccf9cfd-f2cc-4e44-8357-dd4140e17b73','Examen des troubles du sommeil',110);
+
+
+-- Quentin Attias (Neurologue)
+
+INSERT INTO Price (doctorid, priceName, price)
+Values ('ea87dc1c-3a00-47de-b089-20e2d35ad741','Consultation de base',60);
+
+INSERT INTO Price (doctorid, priceName, price)
+Values ('ea87dc1c-3a00-47de-b089-20e2d35ad741','IRM du cerveau',200);
+
+INSERT INTO Price (doctorid, priceName, price)
+Values ('ea87dc1c-3a00-47de-b089-20e2d35ad741','Électroencéphalogramme (EEG)',100);
+
+INSERT INTO Price (doctorid, priceName, price)
+Values ('ea87dc1c-3a00-47de-b089-20e2d35ad741','Consultation spécialisée',120);
+
+
+-- Céline Dubé (Ophtalmologue)
+
+INSERT INTO Price (doctorid, priceName, price)
+Values ('97ec89ab-d2fd-4030-ad1e-d79f79a2fb0d','Consultation de base',50);
+
+INSERT INTO Price (doctorid, priceName, price)
+Values ('97ec89ab-d2fd-4030-ad1e-d79f79a2fb0d','Consultation pour la cataracte',150);
+
+INSERT INTO Price (doctorid, priceName, price)
+Values ('97ec89ab-d2fd-4030-ad1e-d79f79a2fb0d','Consultation spécialisée',100);
+
+
+-- Maxime Bélanger (Pédiatre)
+
+INSERT INTO Price (doctorid, priceName, price)
+Values ('d552ecc4-43fc-4d57-8a23-91f1d6351796','Consultation de base',50);
+
+INSERT INTO Price (doctorid, priceName, price)
+Values ('d552ecc4-43fc-4d57-8a23-91f1d6351796','Problème de croissance',85);
+
+INSERT INTO Price (doctorid, priceName, price)
+Values ('d552ecc4-43fc-4d57-8a23-91f1d6351796','Examens précis et suivis du développement',150);
+
+
+-- Yannick Rousseau (Généraliste)
+
+INSERT INTO Price (doctorid, priceName, price)
+Values ('a538a18d-8203-4a23-b57f-87bbc5707751','Consultation de base',25);
+
+INSERT INTO Price (doctorid, priceName, price)
+Values ('a538a18d-8203-4a23-b57f-87bbc5707751','Check-up complet',50);
+
+INSERT INTO Price (doctorid, priceName, price)
+Values ('a538a18d-8203-4a23-b57f-87bbc5707751','Vaccins',40);
+
+
+-- Maeva Bernardin (Dentiste)
+
+INSERT INTO Price (doctorid, priceName, price)
+Values ('ff44fbb7-3d49-4f77-9fa8-d5baf593dd3e','Examen dentaire',60);
+
+INSERT INTO Price (doctorid, priceName, price)
+Values ('ff44fbb7-3d49-4f77-9fa8-d5baf593dd3e','Détartrage',80);
+
+INSERT INTO Price (doctorid, priceName, price)
+Values ('ff44fbb7-3d49-4f77-9fa8-d5baf593dd3e','Extraction dentaire',100);
+
+INSERT INTO Price (doctorid, priceName, price)
+Values ('ff44fbb7-3d49-4f77-9fa8-d5baf593dd3e','Traitement de canal',200);
+
+INSERT INTO Price (doctorid, priceName, price)
+Values ('ff44fbb7-3d49-4f77-9fa8-d5baf593dd3e','Radiographie des dents',120);
+
+
+-- George Simple (Cardiologue)
+
+INSERT INTO Price (doctorid, priceName, price)
+Values ('17527388-fc21-4681-bd9b-2deee96164ae','Consultation de base pour un examen cardiaque',100);
+
+INSERT INTO Price (doctorid, priceName, price)
+Values ('17527388-fc21-4681-bd9b-2deee96164ae','Echographie cardiaque',200);
+
+INSERT INTO Price (doctorid, priceName, price)
+Values ('17527388-fc21-4681-bd9b-2deee96164ae','Electrocardiographie (ECG)',150);
+
+INSERT INTO Price (doctorid, priceName, price)
+Values ('17527388-fc21-4681-bd9b-2deee96164ae','Traitement hypertension artérielle',120);
+
+
 --Ajout de la liste de RDV par Docteur
 
 -- Yannick Rousseau (Généraliste)
 
 DO $$
 DECLARE
-    DoctorId uuid := '3a7fb51b-e691-4158-964d-a346fbacc8cc';
+    DoctorId uuid := 'a538a18d-8203-4a23-b57f-87bbc5707751';
     StartTime timestamp := '2023-04-10 09:00';
     EndTime timestamp := StartTime + INTERVAL '5 months';
+    Booked boolean := false;
 BEGIN
     WHILE StartTime < EndTime LOOP
         IF EXTRACT(DOW FROM StartTime) BETWEEN 1 AND 5 AND (EXTRACT(HOUR FROM StartTime) BETWEEN 9 AND 11 OR EXTRACT(HOUR FROM StartTime) BETWEEN 14 AND 17) THEN
-            INSERT INTO AvailableTimeSlots(DoctorId, StartTime, EndTime)
-            VALUES (DoctorId, StartTime, StartTime + INTERVAL '15 minutes');
+            INSERT INTO AvailableTimeSlots(DoctorId, StartTime, EndTime, Booked)
+            VALUES (DoctorId, StartTime, StartTime + INTERVAL '30 minutes',Booked);
         END IF;
         
-        StartTime := StartTime + INTERVAL '15 minutes';
+        StartTime := StartTime + INTERVAL '30 minutes';
     END LOOP;
 END $$;
 
@@ -80,14 +212,15 @@ END $$;
 
 DO $$
 DECLARE
-    DoctorId uuid := '896dea6b-f514-4c59-8386-12a946ae4fcc';
+    DoctorId uuid := 'ff44fbb7-3d49-4f77-9fa8-d5baf593dd3e';
     StartTime timestamp := '2023-04-10 09:00';
     EndTime timestamp := StartTime + INTERVAL '5 months';
+    Booked boolean := false;
 BEGIN
     WHILE StartTime < EndTime LOOP
         IF EXTRACT(DOW FROM StartTime) BETWEEN 1 AND 5 AND (EXTRACT(HOUR FROM StartTime) BETWEEN 9 AND 11 OR EXTRACT(HOUR FROM StartTime) BETWEEN 14 AND 17) THEN
-            INSERT INTO AvailableTimeSlots(DoctorId, StartTime, EndTime)
-            VALUES (DoctorId, StartTime, StartTime + INTERVAL '30 minutes');
+            INSERT INTO AvailableTimeSlots(DoctorId, StartTime, EndTime, Booked)
+            VALUES (DoctorId, StartTime, StartTime + INTERVAL '30 minutes', Booked);
         END IF;
         
         StartTime := StartTime + INTERVAL '30 minutes';
@@ -98,17 +231,18 @@ END $$;
 
 DO $$
 DECLARE
-    DoctorId uuid := 'f25a532d-a642-479c-853c-1cc7816e829a';
+    DoctorId uuid := 'adf50cc8-b0cf-49c1-a64f-6dea910a0a88';
     StartTime timestamp := '2023-04-10 09:00';
     EndTime timestamp := StartTime + INTERVAL '5 months';
+    Booked boolean := false;
 BEGIN
     WHILE StartTime < EndTime LOOP
         IF EXTRACT(DOW FROM StartTime) BETWEEN 1 AND 5 AND (EXTRACT(HOUR FROM StartTime) BETWEEN 9 AND 11 OR EXTRACT(HOUR FROM StartTime) BETWEEN 14 AND 17) THEN
-            INSERT INTO AvailableTimeSlots(DoctorId, StartTime, EndTime)
-            VALUES (DoctorId, StartTime, StartTime + INTERVAL '15 minutes');
+            INSERT INTO AvailableTimeSlots(DoctorId, StartTime, EndTime, Booked)
+            VALUES (DoctorId, StartTime, StartTime + INTERVAL '30 minutes', Booked);
         END IF;
         
-        StartTime := StartTime + INTERVAL '15 minutes';
+        StartTime := StartTime + INTERVAL '30 minutes';
     END LOOP;
 END $$;
 
@@ -116,17 +250,18 @@ END $$;
 
 DO $$
 DECLARE
-    DoctorId uuid := 'e2e648d2-4a58-4369-aa4f-398dc8e3da4b';
+    DoctorId uuid := 'd0e817a3-056a-43c4-849d-3d89a395aad7';
     StartTime timestamp := '2023-04-10 09:00';
     EndTime timestamp := StartTime + INTERVAL '5 months';
+    Booked boolean := false;
 BEGIN
     WHILE StartTime < EndTime LOOP
         IF EXTRACT(DOW FROM StartTime) BETWEEN 1 AND 5 AND (EXTRACT(HOUR FROM StartTime) BETWEEN 9 AND 11 OR EXTRACT(HOUR FROM StartTime) BETWEEN 14 AND 17) THEN
-            INSERT INTO AvailableTimeSlots(DoctorId, StartTime, EndTime)
-            VALUES (DoctorId, StartTime, StartTime + INTERVAL '15 minutes');
+            INSERT INTO AvailableTimeSlots(DoctorId, StartTime, EndTime, Booked)
+            VALUES (DoctorId, StartTime, StartTime + INTERVAL '30 minutes', Booked);
         END IF;
         
-        StartTime := StartTime + INTERVAL '15 minutes';
+        StartTime := StartTime + INTERVAL '30 minutes';
     END LOOP;
 END $$;
 
@@ -134,17 +269,18 @@ END $$;
 
 DO $$
 DECLARE
-    DoctorId uuid := '1cc96527-15b2-4d9e-b89b-5fcda66f04e4';
+    DoctorId uuid := '97ec89ab-d2fd-4030-ad1e-d79f79a2fb0d';
     StartTime timestamp := '2023-04-10 09:00';
     EndTime timestamp := StartTime + INTERVAL '5 months';
+    Booked boolean := false;
 BEGIN
     WHILE StartTime < EndTime LOOP
         IF EXTRACT(DOW FROM StartTime) BETWEEN 1 AND 5 AND (EXTRACT(HOUR FROM StartTime) BETWEEN 9 AND 11 OR EXTRACT(HOUR FROM StartTime) BETWEEN 14 AND 17) THEN
-            INSERT INTO AvailableTimeSlots(DoctorId, StartTime, EndTime)
-            VALUES (DoctorId, StartTime, StartTime + INTERVAL '15 minutes');
+            INSERT INTO AvailableTimeSlots(DoctorId, StartTime, EndTime, Booked)
+            VALUES (DoctorId, StartTime, StartTime + INTERVAL '30 minutes', Booked);
         END IF;
         
-        StartTime := StartTime + INTERVAL '15 minutes';
+        StartTime := StartTime + INTERVAL '30 minutes';
     END LOOP;
 END $$;
 
@@ -152,14 +288,15 @@ END $$;
 
 DO $$
 DECLARE
-    DoctorId uuid := '985dc899-4046-44b9-832f-3be49b4ac48a';
+    DoctorId uuid := 'dccf9cfd-f2cc-4e44-8357-dd4140e17b73';
     StartTime timestamp := '2023-04-10 09:00';
     EndTime timestamp := StartTime + INTERVAL '5 months';
+    Booked boolean := false;
 BEGIN
     WHILE StartTime < EndTime LOOP
         IF EXTRACT(DOW FROM StartTime) BETWEEN 1 AND 5 AND (EXTRACT(HOUR FROM StartTime) BETWEEN 9 AND 11 OR EXTRACT(HOUR FROM StartTime) BETWEEN 14 AND 17) THEN
-            INSERT INTO AvailableTimeSlots(DoctorId, StartTime, EndTime)
-            VALUES (DoctorId, StartTime, StartTime + INTERVAL '30 minutes');
+            INSERT INTO AvailableTimeSlots(DoctorId, StartTime, EndTime, Booked)
+            VALUES (DoctorId, StartTime, StartTime + INTERVAL '30 minutes', Booked);
         END IF;
         
         StartTime := StartTime + INTERVAL '30 minutes';
@@ -170,14 +307,15 @@ END $$;
 
 DO $$
 DECLARE
-    DoctorId uuid := 'd5daf4cd-bd35-4f47-b99f-6adfa1e2583c';
+    DoctorId uuid := 'ea87dc1c-3a00-47de-b089-20e2d35ad741';
     StartTime timestamp := '2023-04-10 09:00';
     EndTime timestamp := StartTime + INTERVAL '5 months';
+    Booked boolean := false;
 BEGIN
     WHILE StartTime < EndTime LOOP
         IF EXTRACT(DOW FROM StartTime) BETWEEN 1 AND 5 AND (EXTRACT(HOUR FROM StartTime) BETWEEN 9 AND 11 OR EXTRACT(HOUR FROM StartTime) BETWEEN 14 AND 17) THEN
-            INSERT INTO AvailableTimeSlots(DoctorId, StartTime, EndTime)
-            VALUES (DoctorId, StartTime, StartTime + INTERVAL '30 minutes');
+            INSERT INTO AvailableTimeSlots(DoctorId, StartTime, EndTime, Booked)
+            VALUES (DoctorId, StartTime, StartTime + INTERVAL '30 minutes', Booked);
         END IF;
         
         StartTime := StartTime + INTERVAL '30 minutes';
@@ -188,14 +326,15 @@ END $$;
 
 DO $$
 DECLARE
-    DoctorId uuid := '2ac637b3-0eb2-449e-b86d-3dfaaba6c00c';
+    DoctorId uuid := 'd552ecc4-43fc-4d57-8a23-91f1d6351796';
     StartTime timestamp := '2023-04-10 09:00';
     EndTime timestamp := StartTime + INTERVAL '5 months';
+    Booked boolean := false;
 BEGIN
     WHILE StartTime < EndTime LOOP
         IF EXTRACT(DOW FROM StartTime) BETWEEN 1 AND 5 AND (EXTRACT(HOUR FROM StartTime) BETWEEN 9 AND 11 OR EXTRACT(HOUR FROM StartTime) BETWEEN 14 AND 17) THEN
-            INSERT INTO AvailableTimeSlots(DoctorId, StartTime, EndTime)
-            VALUES (DoctorId, StartTime, StartTime + INTERVAL '30 minutes');
+            INSERT INTO AvailableTimeSlots(DoctorId, StartTime, EndTime, Booked)
+            VALUES (DoctorId, StartTime, StartTime + INTERVAL '30 minutes', Booked);
         END IF;
         
         StartTime := StartTime + INTERVAL '30 minutes';
@@ -206,14 +345,15 @@ END $$;
 
 DO $$
 DECLARE
-    DoctorId uuid := '85a5d19b-1087-4b35-97fa-6c068b7cb205';
+    DoctorId uuid := '17527388-fc21-4681-bd9b-2deee96164ae';
     StartTime timestamp := '2023-04-10 09:00';
     EndTime timestamp := StartTime + INTERVAL '5 months';
+    Booked boolean := false;
 BEGIN
     WHILE StartTime < EndTime LOOP
         IF EXTRACT(DOW FROM StartTime) BETWEEN 1 AND 5 AND (EXTRACT(HOUR FROM StartTime) BETWEEN 9 AND 11 OR EXTRACT(HOUR FROM StartTime) BETWEEN 14 AND 17) THEN
-            INSERT INTO AvailableTimeSlots(DoctorId, StartTime, EndTime)
-            VALUES (DoctorId, StartTime, StartTime + INTERVAL '30 minutes');
+            INSERT INTO AvailableTimeSlots(DoctorId, StartTime, EndTime, Booked)
+            VALUES (DoctorId, StartTime, StartTime + INTERVAL '30 minutes', Booked);
         END IF;
         
         StartTime := StartTime + INTERVAL '30 minutes';

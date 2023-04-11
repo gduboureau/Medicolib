@@ -130,7 +130,10 @@ const Documents = () => {
         )
     } else {
         return (
-            <div>
+            <div className="noDocuments">
+                <p>Désolé, aucun document n'est actuellement disponible à la consultation. 
+                    Cela peut être dû au fait qu'aucun rendez-vous n'a été pris ou qu'aucun document n'a été transmis. 
+                </p>
             </div>
         )
     }

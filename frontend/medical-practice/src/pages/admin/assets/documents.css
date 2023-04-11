@@ -79,3 +79,13 @@
     vertical-align: middle;
     margin-right: 15px;
 }
+
+.noDocuments p {
+    text-align: center; /* centre le contenu */
+    max-width: 1000px; /* limite la largeur */
+    margin: 0 auto; /* centre l'élément horizontalement */
+    margin-top: 12%;
+    font-size: 20px;
+    line-height: 2;
+    font-weight : bold;
+}

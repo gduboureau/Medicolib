@@ -46,7 +46,8 @@ CREATE TABLE Doctors (
     Lastname varchar(25) CONSTRAINT Lastname_null NOT NULL,
     Gender varchar(5) CONSTRAINT Gender_null NOT NULL,
     Speciality varchar(25) CONSTRAINT Speciality_null NOT NULL,
-    Mail varchar(320) CONSTRAINT Mail_null NOT NULL
+    Mail varchar(320) CONSTRAINT Mail_null NOT NULL,
+    Informations text
 );
 
 DROP TABLE IF EXISTS Address;
@@ -73,7 +74,8 @@ CREATE TABLE AvailableTimeSlots(
     DoctorId uuid CONSTRAINT DoctorId_null NOT NULL,
     StartTime timestamp CONSTRAINT start_null NOT NULL,
     PRIMARY KEY (TimeSlotId, DoctorId, StartTime),
-    EndTime timestamp CONSTRAINT end_null NOT NULL
+    EndTime timestamp CONSTRAINT end_null NOT NULL,
+    Booked boolean
 );
 
 DROP TABLE IF EXISTS MedicalFile;

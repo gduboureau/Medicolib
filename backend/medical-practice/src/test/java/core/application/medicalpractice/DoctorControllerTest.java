@@ -118,7 +118,7 @@ public class DoctorControllerTest {
     @Test
     void testGetAllDoctors() throws Exception {
         List<Doctor> doctors = new ArrayList<>();
-        doctors.add(new Doctor(UUID.randomUUID(), "John", "Doe", "M", "Neurologue", "johndoe@gmail.com"));
+        doctors.add(new Doctor(UUID.randomUUID(), "John", "Doe", "M", "Neurologue", "johndoe@gmail.com",null));
         when(medicalPractice.getAllDoctors()).thenReturn(doctors);
         mockMvc.perform(get("/doctors")
         .contentType(MediaType.APPLICATION_JSON_VALUE))
@@ -171,7 +171,7 @@ public class DoctorControllerTest {
     @Test
     void testGetDoctorById() throws SQLException {
         UUID doctorid = UUID.randomUUID();
-        Doctor doctor = new Doctor(doctorid, "John", "Doe", "M", "Neurologue", "johndoe@gmail.com");
+        Doctor doctor = new Doctor(doctorid, "John", "Doe", "M", "Neurologue", "johndoe@gmail.com",null);
         when(medicalPractice.getDoctorById(doctorid)).thenReturn(doctor);
         ResponseEntity<Doctor> response = doctorController.getDoctorById(doctorid);
         assertEquals(HttpStatus.OK, response.getStatusCode());
@@ -190,7 +190,7 @@ public class DoctorControllerTest {
     @Test
     void testGetDoctorsBySpeciality() throws SQLException {
 		List<Doctor> doctors = new ArrayList<>();
-        doctors.add(new Doctor(UUID.randomUUID(), "John", "Doe", "M", "Neurologue", "johndoe@gmail.com"));
+        doctors.add(new Doctor(UUID.randomUUID(), "John", "Doe", "M", "Neurologue", "johndoe@gmail.com",null));
         when(medicalPractice.getDoctorsBySpeciality("Neurologue")).thenReturn(doctors);
         ResponseEntity<List<Doctor>> response = doctorController.getDoctorsBySpeciality("Neurologue");
         assertEquals(HttpStatus.OK, response.getStatusCode());

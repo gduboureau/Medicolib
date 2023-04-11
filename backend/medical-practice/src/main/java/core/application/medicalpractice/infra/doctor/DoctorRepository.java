@@ -40,4 +40,6 @@ public interface DoctorRepository {
                         throws SQLException;
 
         public List<List<Object>> getDocumentPatient(String idAppt) throws SQLException;
+
+        public List<Object> getPriceConsultations(String idDoctor) throws SQLException;
 }

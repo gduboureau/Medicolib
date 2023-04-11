@@ -8,14 +8,24 @@ public class Doctor {
     private String firstName, lastName, gender;
     private String speciality;
     private String mail;
+    private String informations;
     
-    public Doctor(UUID id, String firstName, String lastName, String gender, String speciality, String mail) {
+    public String getInformations() {
+        return informations;
+    }
+
+    public void setInformations(String informations) {
+        this.informations = informations;
+    }
+
+    public Doctor(UUID id, String firstName, String lastName, String gender, String speciality, String mail,String informations) {
         this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
         this.gender = gender;
         this.speciality = speciality;
         this.mail = mail;
+        this.informations = informations;
     }
 
     public UUID getId() {

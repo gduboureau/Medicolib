@@ -1,13 +1,14 @@
 import React from 'react';
 import { Routes, Route } from 'react-router-dom';
 import Layout from '../../components/Layout';
-import DoctorAppointments from './DoctorAppointements'
+import DoctorAppointments from './Planning/DoctorAppointements'
 import Error from '../../utils/Error';
-import Consultation from './Consultation';
-import ShowPatients from './ShowPatients';
-import MedicalFile from './MedicalFile';
+import Consultation from './Consultation/Consultation';
+import ShowPatients from './Patients/ShowPatients';
+import MedicalFile from './Medicfile/MedicalFile';
 import { accountService } from '../users/Authentification/Sessionstorage';
 import PatientGuard from '../../utils/Patient/PatientGuard';
+import Account from './Account/Account'
 import { useParams } from 'react-router-dom';
 
 const DoctorRouter = () => {
@@ -34,6 +35,7 @@ const DoctorRouter = () => {
               } 
             />
         <Route path="/patients" element={<ShowPatients/>} />
+        <Route path="/edit" element={<Account/>} />
         <Route path="*" element={<Error />} />
     </Route>
 </Routes>

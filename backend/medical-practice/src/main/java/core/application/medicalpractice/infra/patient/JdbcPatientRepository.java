@@ -198,7 +198,7 @@ public class JdbcPatientRepository implements PatientRepository {
   public void removeTimeSlot(UUID id) throws SQLException {
     Connection connection = DBUtil.getConnection();
     Statement stmt = connection.createStatement();
-    String request = "DELETE FROM AvailableTimeSlots WHERE TimeSlotId =" + "'" + id + "'";
+    String request = "UPDATE AvailableTimeSlots SET Booked = true WHERE TimeSlotId =" + "'" + id + "'";
     stmt.executeUpdate(request);
     stmt.close();
     DBUtil.closeConnection(connection);
@@ -234,8 +234,8 @@ public class JdbcPatientRepository implements PatientRepository {
     ResultSet rs = stmt.executeQuery(request);
     if (rs.next()) {
       Statement stmt2 = connection.createStatement();
-      String request2 = "INSERT INTO AvailableTimeSlots(doctorId, startTime, endTime) VALUES (" + "'" + rs.getString(2)
-          + "'" + "," + "'" + rs.getTimestamp(4) + "'" + "," + "'" + rs.getTimestamp(5) + "'" + ")";
+      String request2 = "INSERT INTO AvailableTimeSlots(doctorId, startTime, endTime, Booked) VALUES (" + "'" + rs.getString(2)
+          + "'" + "," + "'" + rs.getTimestamp(4) + "'" + "," + "'" + rs.getTimestamp(5) + "'" + ", false)";
       stmt2.executeUpdate(request2);
       stmt2.close();
     }

@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import { accountService } from "../users/Authentification/Sessionstorage";
-import Error from "../../utils/Error";
-import { format } from "../../utils/DateFormat";
+import { accountService } from "../../users/Authentification/Sessionstorage";
+import Error from "../../../utils/Error";
+import { format } from "../../../utils/DateFormat";
 import IdCard from "./assets/id-card.png"
 import Consultation from "./assets/consultation.png"
 

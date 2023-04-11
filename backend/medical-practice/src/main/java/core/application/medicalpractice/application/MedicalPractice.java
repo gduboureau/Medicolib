@@ -83,6 +83,10 @@ public class MedicalPractice {
         return doctorRepository.getDocumentPatient(idAppt);
     }
 
+    public List<Object> getPriceConsultations(String idDoctor) throws SQLException {
+        return doctorRepository.getPriceConsultations(idDoctor);
+    }
+
     // requests for patients
 
     public List<List<String>> getAppointmentByPatient(String mail) throws SQLException {

@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { accountService } from '../users/Authentification/Sessionstorage';
+import { accountService } from '../../users/Authentification/Sessionstorage';
 import { PDFDownloadLink, pdf } from '@react-pdf/renderer';
 import PDF from './PDFPrescription';
-import { format } from '../../utils/DateFormat';
+import { format } from '../../../utils/DateFormat';
 import { useMemo } from 'react';
 import moment from 'moment';
 

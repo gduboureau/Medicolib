@@ -5,7 +5,7 @@ import timeGridPlugin from '@fullcalendar/timegrid';
 import interactionPlugin from '@fullcalendar/interaction';
 import frLocale from '@fullcalendar/core/locales/fr';
 import axios from 'axios';
-import { accountService } from "../users/Authentification/Sessionstorage";
+import { accountService } from "../../users/Authentification/Sessionstorage";
 import { Modal, Button } from 'react-bootstrap';
 import './assets/fullcalendar.css'
 import './assets/doctorAppointments.css';
@@ -51,7 +51,7 @@ const DoctorAppointments = () => {
     const [AppointmentList, setAppointments] = useState([]);
     const [selectedAppointment, setSelectedAppointment] = useState(null);
     const [documentList, setDocumentList] = useState([]);
-    const mail = useMemo(() => ({mail: accountService.getEmail()}), []); // Crée une référence unique à mail
+    const mail = useMemo(() => ({mail: accountService.getEmail()}), []);
 
     useEffect(() => {
         axios.post("/doctors/appointments", mail).then(res => {

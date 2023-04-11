@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { accountService } from "../users/Authentification/Sessionstorage";
+import { accountService } from "../../users/Authentification/Sessionstorage";
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from "react-router-dom";
 
