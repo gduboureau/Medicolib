@@ -12,7 +12,7 @@
 }
 
 .doctor-nav .logo-doctor {
-    height: 60px;
+    height: 65px;
 }
 
 .doctor-nav ul {
@@ -67,7 +67,7 @@
     width: 210px;
     max-height: 0px;
     overflow: hidden;
-    transition: max-height 0.9s;
+    transition: max-height 1s;
 }
 
 .doctor-nav .accountmenu-wrap.openmenu {
@@ -111,7 +111,7 @@
     transform: translateX(5px);
 }
 
-@media screen and (min-width: 950px) {
+@media screen and (min-width: 1200px) {
     .doctor-nav ul {
         text-align: right;
         margin: 0 40px;
@@ -128,7 +128,7 @@
     }
 }
 
-@media screen and (max-width: 950px) {
+@media screen and (max-width: 1200px) {
     .doctor-nav .header-reported-li-largescale {
         display: block;
     }

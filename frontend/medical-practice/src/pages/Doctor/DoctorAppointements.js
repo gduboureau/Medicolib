@@ -10,6 +10,7 @@ import { Modal, Button } from 'react-bootstrap';
 import './assets/fullcalendar.css'
 import './assets/doctorAppointments.css';
 import { useNavigate } from "react-router";
+import { useMemo } from "react";
 
 
 function ConfirmationModal(props) {
@@ -28,12 +29,12 @@ function ConfirmationModal(props) {
                     <p>- Heure de début : {props.start}</p>
                     <p>- Heure de fin : {props.end}</p>
                     <div style={{ marginTop: "10px" }}>
-                        <a className="addedDocument" >Document(s) ajouté(s) : </a>
+                        <span className="addedDocument" >Document(s) ajouté(s) : </span>
                         {props.documents}
                     </div>
                     <div className="redirect-buttons">
-                        <a className="goToMedicalFile" onClick={() => { navigate(props.medicalFile) }}>Accéder à son dossier médical</a>
-                        <a className="goToConsultation" onClick={() => { navigate(props.consultation) }}>Ajouter une consultation</a>
+                        <span className="goToMedicalFile" onClick={() => { navigate(props.medicalFile) }}>Accéder à son dossier médical</span>
+                        <span className="goToConsultation" onClick={() => { navigate(props.consultation) }}>Ajouter une consultation</span>
                     </div>
                 </Modal.Body>
                 <Modal.Footer>
@@ -50,7 +51,7 @@ const DoctorAppointments = () => {
     const [AppointmentList, setAppointments] = useState([]);
     const [selectedAppointment, setSelectedAppointment] = useState(null);
     const [documentList, setDocumentList] = useState([]);
-    let mail = { mail: accountService.getEmail() };
+    const mail = useMemo(() => ({mail: accountService.getEmail()}), []); // Crée une référence unique à mail
 
     useEffect(() => {
         axios.post("/doctors/appointments", mail).then(res => {
@@ -64,7 +65,7 @@ const DoctorAppointments = () => {
             }));
             setAppointments(newData);
         });
-    }, []); // eslint-disable-line react-hooks/exhaustive-deps
+    }, [mail]);
 
     const handleEventClick = (info) => {
         setSelectedAppointment(info.event);

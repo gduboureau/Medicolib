@@ -1,0 +1,21 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins&display=swap');
+
+.SearchButton .btn-specialityList{
+    text-decoration: none;
+    border: none;
+    background-color: rgb(185, 221, 253);
+    border-radius: 7px;
+    padding: 10px;
+    padding-left: 15px;
+    padding-right: 15px;
+    color: #253e56;
+    font-size: 17px;
+    font-family: 'Poppins', sans-serif;
+    transition: box-shadow 0.1s ease-in-out;
+    box-shadow: 0px 0px 0px #2f5174;
+}
+
+.SearchButton .btn-specialityList:hover{
+    cursor: pointer;
+    box-shadow: 0px 0px 4px #2f5274a0;
+}

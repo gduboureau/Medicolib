@@ -1,0 +1,63 @@
+
+.SpecialityList{
+    color: black;
+}
+
+.SpecialityList .select-btn{
+    width: 370px;
+    font-size: 20px;
+    padding-left: 20px;
+    padding-top: 14px;
+    padding-bottom: 13px;
+    border-radius: 10px;
+    cursor: pointer;
+    
+}
+
+.SpecialityList .select-btn:hover{
+    background-color: rgb(208, 233, 255);
+}
+
+.SpecialityList .options{
+    height: 355px;
+    overflow-y: auto;
+    width: 330px;
+    padding: 5px;
+    margin-top: 15px;
+    margin-left: 15px;
+    border-radius: 10px;
+    background: aliceblue;
+    font-size: 17px;
+    list-style: none;
+    display: none;
+}
+
+.SpecialityList .options::-webkit-scrollbar {
+    width: 7px;
+  }
+  
+  .SpecialityList .options::-webkit-scrollbar-thumb {
+    background-color: rgb(170, 190, 208);
+    border-top-left-radius: 0px;
+    border-bottom-left-radius: 0px;
+    border-top-right-radius: 10px;
+    border-bottom-right-radius: 10px;
+  }
+  
+  .SpecialityList .options::-webkit-scrollbar-thumb:hover {
+    background-color: rgb(154, 177, 193);
+  }
+
+.SpecialityList .option{
+    padding: 15px;
+}
+
+.SpecialityList .option:hover{
+    background-color: rgb(208, 233, 255);
+    border-radius: 10px;
+    cursor: pointer;
+}
+
+.SpecialityList.activate .options{
+    display: block;
+}

@@ -1,9 +1,9 @@
 import React, {useState, useEffect} from "react";
 import axios from "axios";
+import './assets/specialityList.css';
 
 function SpecialityList(){
 
-    const [speciality, setSpeciality] = useState("");
     const [specialityList, setSpecialityList] = useState([]);
    
     useEffect(() =>{
@@ -13,21 +13,40 @@ function SpecialityList(){
         });
     }, []);
 
-    const handleChange = (event) => {
-        setSpeciality(event.target.value);
+    const toggleMenu = () => {
+        let optionMenu = document.querySelector(".SpecialityList");
+        optionMenu.classList.toggle("activate");
     }
 
-    return(
-        <div>
-        <select id="dropdown-specialityList" value={speciality} onChange={handleChange}>
-            <option value ="">Que cherchez vous ?</option>
-            {specialityList.map(speciality => (
-                <option key={speciality}>{speciality}</option>
-            ))
-            }
-        </select>
+    const options = document.querySelectorAll(".option");
+    const sBtn_text = document.querySelector(".sBtn-text");
+    
+    options.forEach(option => {
+        option.addEventListener("click", () => {
+            let selectedOption = option.querySelector(".option-text").innerText;
+            sBtn_text.innerText = selectedOption;
+            document.querySelector(".SpecialityList").classList.remove("activate");
+        });
+    });
+ 
 
-    </div>
+    return(
+        <div className="SpecialityList">
+            <div className="select-btn" onClick={toggleMenu}>
+                <span className="sBtn-text">Que cherchez vous ?</span>
+            </div>
+
+            <ul className="options">
+                <li className="option">
+                    <span className="option-text">Que cherchez vous ?</span>
+                </li>
+                {specialityList.map(speciality => (
+                <li className="option" key={speciality}>
+                    <span className="option-text">{speciality}</span>
+                </li>
+                ))}
+            </ul>
+        </div>
     );
 }
 

@@ -9,7 +9,7 @@
 }
 
 .public-nav .logo-public{
-    height: 60px;
+    height: 65px;
 }
 
 .public-nav ul{
@@ -24,6 +24,7 @@
 }
 
 .public-nav .Login{
+    font-size: 18px;
     transition: color .4s ease-in-out, box-shadow .4s ease-in-out;
     padding: 8px;
     border-radius: 10px;
@@ -32,7 +33,7 @@
 }
 
 .public-nav .Login:hover{
-    box-shadow: inset 140px 0 0 0 #FEFEFE;
+    box-shadow: inset 150px 0 0 0 aliceblue;
     color: #284360;
     padding: 8px;
     border-radius: 10px;

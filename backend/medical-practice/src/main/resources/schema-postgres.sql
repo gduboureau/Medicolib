@@ -27,7 +27,7 @@ CREATE TABLE Consultations (
     PatientId varchar(80) CONSTRAINT PatientId_null NOT NULL,
     DoctorId varchar(80) CONSTRAINT DoctorId_null NOT NULL,
     Day date CONSTRAINT day_null NOT NULL,
-    Motif varchar(100) motif_null NOT_NULL,
+    Motif varchar(100) CONSTRAINT motif_null NOT NULL,
     PrescriptionsId uuid
 );
 
@@ -45,7 +45,7 @@ CREATE TABLE Doctors (
     Firstname varchar(25) CONSTRAINT Firstname_null NOT NULL,
     Lastname varchar(25) CONSTRAINT Lastname_null NOT NULL,
     Gender varchar(5) CONSTRAINT Gender_null NOT NULL,
-    Speciality varchar(25) CONSTRAINT Speciality_check CHECK (Speciality in ('Neurologue','Generaliste', 'Dermatologue', 'Dentiste', 'Ophtalmologue', 'Pediatre')),
+    Speciality varchar(25) CONSTRAINT Speciality_null NOT NULL,
     Mail varchar(320) CONSTRAINT Mail_null NOT NULL
 );
 

@@ -1,5 +1,6 @@
 import React from 'react'
 import { useNavigate } from 'react-router-dom';
+import './assets/searchButton.css';
 
 
 function SearchButton(){
@@ -8,10 +9,10 @@ function SearchButton(){
 
     const searchBtn = () => {
 
-        var select = document.getElementById('dropdown-specialityList');
-        var speciality = select.options[select.selectedIndex].value;
+        var select = document.querySelector(".sBtn-text");
+        var speciality = select.innerText
 
-        if (speciality !== ""){
+        if (speciality !== "Que cherchez vous ?"){
             navigate(`docteurs/${speciality}`);
         }else{
             navigate(`/docteurs`);
@@ -19,8 +20,8 @@ function SearchButton(){
     }
 
     return(
-        <div>
-            <button className="btn btn-specialityList" onClick={searchBtn}>Rechercher</button>
+        <div className='SearchButton'>
+            <button className="btn-specialityList" onClick={searchBtn}>Rechercher</button>
         </div>
     );
 
