@@ -2,7 +2,7 @@ import React, {useState, useEffect} from "react";
 import axios from "axios";
 import './assets/specialityList.css';
 
-function SpecialityList(){
+function SpecialityList(props){
 
     const [specialityList, setSpecialityList] = useState([]);
    
@@ -10,8 +10,9 @@ function SpecialityList(){
         axios.get(`/doctors/specialities`).then(res => {
             const newData = res.data;
             setSpecialityList(newData);
+            props.setSpecialityList(newData);
         });
-    }, []);
+    }, [props]);
 
     const toggleMenu = () => {
         let optionMenu = document.querySelector(".SpecialityList");
