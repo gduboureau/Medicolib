@@ -79,47 +79,63 @@ const Edit = () => {
 
     return (
         <div className="InfoPatient">
-            <h3>Mes Coordonnées</h3>
+            <p>Mes Coordonnées</p>
             <form onSubmit={handleSubmit} className="form-editAccount">
                 <div>
-                    <p>Prénom</p>
-                    <input type="text" name="firstName" defaultValue={data.firstName} onChange={handleChange} />
-                </div>
-                <div>
-                    <p>Nom</p>
-                    <input type="text" name="lastName" defaultValue={data.lastName} onChange={handleChange} />
-                </div>
-                <div>
-                   <p>Numéro de sécurité sociale</p>
-                    <input type="text" name="numSocial" defaultValue={data.numSocial} onChange={handleChange} />
-                </div>
-                <div>
                     <p>Sexe</p>
-                    <input type="radio" id="h" name="gender" value="M" checked={data.gender === "M"}  onChange={handleChange} /> Homme
-                    <input type="radio" id="f" name="gender" value="F" checked={data.gender === "F"}  onChange={handleChange} /> Femme
-                </div>
-                <div>
-                    <p>Date de naissance</p>
-                    <input type="date" name="date" defaultValue={data.date} onChange={handleChange} />
-                </div>
-                <div>
-                    <p>Poids (en kg)</p>
-                    <input type="number" name="weight" defaultValue={data.weight} onChange={handleChange} />
-                </div>
-                <div>
-                    <p>Taille (en cm)</p>
-                    <input type="number" name="height" defaultValue={data.height} onChange={handleChange} />
-                </div>
-                <div>
-                    <p>Email</p>
-                    <input type="email" name="mail" defaultValue={data.email} onChange={handleChange} />
+                    <label className="InfoPatient-sexe">
+                        <input type="radio" id="h" name="gender" value="M" checked={data.gender === "M"}  onChange={handleChange} /> Homme
+                        <input type="radio" id="f" name="gender" value="F" checked={data.gender === "F"}  onChange={handleChange} /> Femme
+                    </label>
                 </div>
                 <div>
                     <label>
+                        <p>Prénom</p>
+                        <input type="text" name="firstName" defaultValue={data.firstName} onChange={handleChange} />
+                    </label>
+                </div>
+                <div>
+                    <label>
+                        <p>Nom</p>
+                        <input type="text" name="lastName" defaultValue={data.lastName} onChange={handleChange} />
+                    </label>
+                </div>
+                <div>
+                    <label>
+                        <p>Date de naissance</p>
+                        <input type="date" name="date" defaultValue={data.date} onChange={handleChange} />
+                    </label>
+                </div>
+                <div>
+                    <label>
+                        <p>Email</p>
+                        <input type="email" name="mail" defaultValue={data.email} onChange={handleChange} />
+                    </label>
+                </div>
+                <div>
+                    <label>
+                        <p>Numéro de sécurité sociale</p>
+                        <input type="text" name="numSocial" defaultValue={data.numSocial} onChange={handleChange} />
+                    </label>
+                </div>
+                <div>
+                    <label>
+                        <p>Poids (en kg)</p>
+                        <input type="number" name="weight" defaultValue={data.weight} onChange={handleChange} />
+                    </label>
+                </div>
+                <div>
+                    <label>
+                        <p>Taille (en cm)</p>
+                        <input type="number" name="height" defaultValue={data.height} onChange={handleChange} />
+                    </label>
+                </div>
+                <div className="InfoPatient-adress">
+                    <label className="adress-connue">
                         <input type="radio" name="option" value="noInputs" defaultChecked onChange={handleRadioChange} />
                         Adresse connue  
                     </label>
-                    <label>
+                    <label className="nouvelle-adress">
                         <input type="radio" name="option" value="showInputs" onChange={handleRadioChange} />
                         Nouvelle adresse 
                     </label>
@@ -151,8 +167,10 @@ const Edit = () => {
                     )}
                 </div>
                 <div>
-                    <p>Nouveau mot de passe</p>
-                    <input type="password" name="password" defaultValue={data.password} onChange={handleChange} />
+                    <label>
+                        <p>Nouveau mot de passe</p>
+                        <input type="password" name="password" defaultValue={data.password} onChange={handleChange} />
+                    </label>
                 </div>
                 <button type="submit" className="btn modif-info">
                     Enregistrer les modifications
