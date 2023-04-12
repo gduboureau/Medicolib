@@ -21,7 +21,7 @@ const Consultation = () => {
   const [showInputs, setShowInputs] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
 
-  const mail = useMemo(() => ({ mail: accountService.getEmail() }), []); // Crée une référence unique à mail
+  const mail = useMemo(() => ({ mail: accountService.getEmail() }), []);
 
   const [data, setData] = useState({
     firstName: "",
@@ -128,7 +128,7 @@ const Consultation = () => {
   };
 
   const handleRadioChange = (e) => {
-    if (window.event.target.value === "showInputs") {
+    if (e.target.value === "showInputs") {
       setShowInputs(true);
     } else {
       setShowInputs(false);

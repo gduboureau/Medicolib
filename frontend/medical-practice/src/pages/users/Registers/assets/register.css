@@ -1,5 +1,6 @@
 .register {
     max-width: 500px;
+    height: 100vh;
     margin: auto;
     padding: 20px;
     background-color: #fff;
@@ -11,7 +12,13 @@
     font-size: 20px;
     font-weight: bold;
     text-align: center;
-    margin-bottom: 40px;
+    margin-bottom: 30px;
+}
+
+.register div {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
 }
 
 .form-register {
@@ -24,6 +31,7 @@
     display: flex;
     flex-direction: column;
     margin-bottom: 20px;
+    width: 300px
 }
 
 .form-register .register-sexe {
@@ -32,37 +40,65 @@
 }
 
 .form-register .register-sexe input[type="radio"] {
-    margin-left: 30px;
-    margin-right: 10px;
+    margin-right: 1px;
 }
 
 .form-register label p {
     margin-bottom: 20px;
     font-size: 16px;
+    width: 100%;
+}
+
+.form-register label span {
+    display: flex;
+    flex-direction: row;
+    border-radius: 4px;
+    border: 2px solid #ccc;
+    width: 100%;
+}
+
+.form-register label span:focus {
+    border: 2px solid black;
+}
+
+.form-register label span input {
+    display: flex;
+    flex-direction: row;
+    border: 0;
+    padding: 10px;
+    border-radius: 0;
+    background-color: #fff;
+    transition: background-color .2s;
+}
+
+.form-register label span input:focus {
+    outline: none;
 }
 
 .form-register input {
     padding: 10px;
-    border-radius: 5px;
-    border: 1px solid #ccc;
     font-size: 16px;
     width: 100%;
 }
 
 .register .conditions {
-    margin-top: 20px;
-    margin-bottom: 20px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    display: flex;
+    align-items: center;
 }
 
 .register .conditions label {
-    display: inline-block;
     font-size: 16px;
-    width: 80%;
+    width: 100%;
+    display: flex;
+    flex-direction: row;
 }
 
 .register .conditions input[type="checkbox"] {
     float: left;
-    width: 20%;
+    width: 15px;
+    margin-right: 10px;
 }
 
 .register .btn {
@@ -89,6 +125,22 @@
     justify-content: center;
 }
 
+.register .link p {
+    margin-top: 10px;
+    margin-bottom: 20px;
+    font-size: 16px;
+    font-weight: normal;
+
+}
+
 .register div a {
     color: #284360;
+}
+
+.register .form-register img {
+    width: 25px;
+    height: 25px;
+    cursor: pointer;
+    vertical-align: center;
+    margin: 15px
 }

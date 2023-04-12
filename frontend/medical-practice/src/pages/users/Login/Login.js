@@ -3,6 +3,10 @@ import axios from 'axios';
 import { accountService } from '../Authentification/Sessionstorage';
 import { Link, useNavigate, useLocation } from "react-router-dom";
 
+import Show from "../Registers/assets/show.png"
+import Hide from "../Registers/assets/hide.png"
+
+
 import './assets/login.css'
 
 const Login = () => {
@@ -17,6 +21,14 @@ const Login = () => {
     const [mailConfirmation, setMailConfirmation] = useState({
         mail: "",
     })
+
+    const [showPassword, setShowPassword] = useState(false);
+    const [eyeIcon, setEyeIcon] = useState(Hide);
+
+    function togglePassword() {
+        setShowPassword(!showPassword);
+        setEyeIcon(showPassword ? Hide : Show);
+    }
 
 
     const [credentials, setCredentials] = useState({
@@ -79,13 +91,24 @@ const Login = () => {
             <form className="form-profile">
                 <label>
                     <p>Email</p>
-                    <input name="login" type="text" placeholder="Votre adresse email" onChange={onChange} />
+                    <span>
+                        <input name="login" type="text" placeholder="Votre adresse email" onChange={onChange} />
+                    </span>
                 </label>
                 <label>
                     <p>Mot de passe</p>
-                    <input name="password" type="password" placeholder="Votre mot de passe" onChange={onChange} />
+                    <span>
+                        <input
+                            type={showPassword ? "text" : "password"}
+                            id="password"
+                            name="password"
+                            placeholder="Votre mot de passe"
+                            onChange={onChange}
+                        />
+                        <img src={eyeIcon} alt="eye-icon" onClick={togglePassword} />
+                    </span>
                 </label>
-                    {errorMessage && <p style={{fontSize: "14px", color: "red", marginBottom: "5px"}}>{errorMessage}</p>}
+                {errorMessage && <p style={{ fontSize: "14px", color: "red", marginBottom: "20px" }}>{errorMessage}</p>}
                 <div>
                     <button onClick={handleSubmit} className="btn btn-outline-primary" >Se connecter</button>
                 </div>
@@ -94,20 +117,21 @@ const Login = () => {
                 </div>
                 {showForgotPassword ? (
                     <>
+                        <label> <p style={{ marginTop: "20px" }}>Adresse du mot de passe oublié</p>
+                            <span>
+                                <input name="mail" type="mail" placeholder="Votre adresse email" onChange={newPassword} required />
+                            </span>
+                        </label>
                         <div>
-                            <label> Adresse du mot de passe oublié</label>
-                            <input name="mail" type="mail" onChange={newPassword} required />
-                        </div>
-                        <div>
-                            <button onClick={sendNewPassword} className="btn modif-info">Envoyer le nouveau mot de passe</button>
+                            <button onClick={sendNewPassword} className="btn modif-info" style={{ marginBottom: "20px" }}>Envoyer le nouveau mot de passe</button>
                         </div>
                     </>
                 ) : (
                     <>
                     </>
                 )}
-                <div>
-                    <Link to="/register">Nouveau sur Medicolib ? Enregistrez-vous </Link>
+                <div className='link'>
+                    <p>Nouveau sur Medicolib ? <Link to="/register">Enregistrez-vous </Link></p>
                 </div>
             </form>
         </div>

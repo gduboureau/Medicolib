@@ -23,7 +23,9 @@
 .form-profile label {
   display: flex;
   flex-direction: column;
+  align-items: center;
   margin-bottom: 20px;
+  width: 100%;
 }
 
 .form-profile label p {
@@ -36,8 +38,7 @@
   border-radius: 5px;
   border: 1px solid #ccc;
   font-size: 16px;
-  width: 100%;
-  margin-top: 5px;
+  margin: 10px;
 }
 
 .forget-password {
@@ -45,12 +46,25 @@
   border: none;
   color: #007bff;
   font-size: 14px;
-  margin-top: 20px;
+  margin-top: 10px;
+  margin-bottom: 10px;
   cursor: pointer;
 }
 
 .forget-password:hover {
   text-decoration: underline;
+}
+
+.form-profile .address-forget-password label{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+}
+
+.form-profile .address-forget-password label p {
+  margin-bottom: 5px;
+  font-size: 16px;
 }
 
 .login-wrapper .btn {
@@ -72,10 +86,55 @@
 }
 
 .login-wrapper form div {
-  text-align: center;
-  margin-top: 20px;
+  display: flex;
+  justify-content: center;
+  margin-top: 10px;
 }
 
 .login-wrapper form div a {
   color: #284360;
+}
+
+.login-wrapper .link p {
+  margin-top: 10px;
+  margin-bottom: 20px;
+  font-size: 16px;
+  font-weight:normal;
+
+}
+
+.form-profile label span {
+  display: flex;
+  flex-direction: row;
+  border-radius: 4px;
+  border: 2px solid #ccc;
+  width: 70%;
+  margin: 15px;
+}
+
+.form-profile label span:focus {
+  border: 2px solid black;
+}
+
+.form-profile label span input {
+  display: flex;
+  flex-direction: row;
+  border: 0;
+  padding: 5px;
+  border-radius: 0;
+  background-color: #fff;
+  transition: background-color .2s;
+  width: 100%;
+}
+
+.form-profile label span input:focus {
+  outline: none;
+}
+
+.form-profile img {
+  width: 25px;
+  height: 25px;
+  cursor: pointer;
+  vertical-align: center;
+  margin: 15px
 }

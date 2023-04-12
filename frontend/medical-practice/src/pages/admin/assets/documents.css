@@ -1,12 +1,12 @@
 .documents h2 {
-    margin: 20px;
+    margin: 30px;
 }
 
 .documents table {
     background-color: white;
     border-collapse: collapse;
-    margin: 20px;
-    width: 75%;
+    margin: 30px;
+    width: 95%;
     border-radius: 20px;
 }
 
@@ -20,30 +20,39 @@
     border-top-right-radius: 20px;
     background-color: #284360;
     color: #fff;
+    text-align: left;
 }
 
 .documents table thead th:nth-child(1) {
     background-color: #284360;
     color: #fff;
+    text-align: left;
 }
 
 .documents table thead th:nth-child(2) {
     background-color: #284360;
     color: #fff;
+    text-align: left;
 }
 
 .documents table th:nth-child(1),
 .documents table td:nth-child(1) {
     width: 30%;
     border-top-left-radius: 20px;
+    padding: 15px;
 }
 
-.documents table th:nth-child(2),
-.documents table td:nth-child(2) {
-    width: 40%;
+.documents table th:nth-child(3),
+.documents table td:nth-child(3) {
+    width: 25%;
+    padding: 15px;
 }
 
-
+.documents table th:nth-child(3),
+.documents table td:nth-child(3) {
+    width: 25%;
+    padding: 15px;
+}
 
 .documents table tbody tr {
     background-color: transparent;
@@ -53,8 +62,6 @@
 .documents table tbody tr:not(:last-child) td {
     border-bottom: 1px solid #6b6868cc;
 }
-
-
 
 .documents table tbody tr td button {
     background-color: #284360;
@@ -71,7 +78,6 @@
 .documents table tbody tr td button:hover {
     background-color: #1b2c3f;
 }
-
 
 .documents table tbody tr td img {
     width: 25px;

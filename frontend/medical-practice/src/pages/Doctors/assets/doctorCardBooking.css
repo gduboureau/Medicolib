@@ -1,0 +1,60 @@
+.doctor-card-booking {
+    display: flex;
+    flex-direction: column;
+}
+
+.doctor-card-booking .rdv-button {
+    padding: 10px;
+    border-radius: 5px;
+    font-weight: bold;
+    color: #284360;
+    text-align: center;
+    text-transform: uppercase;
+    text-decoration: none;
+    background-color: #fff;
+    border: none;
+    cursor: pointer;
+}
+
+.doctor-card-booking .rdv:hover {
+    background-color: #1b2c3f;
+}
+
+
+.doctor-card-booking .card-booking-table th p{
+    font-size: 14px;
+    line-height: 0%;
+}
+
+.doctor-card-booking .card-booking-table th .day-month{
+    font-weight: normal;
+
+}
+
+
+.doctor-card-booking .card-booking-table .cell-day {
+    text-align: center;
+}
+
+.doctor-card-booking .card-booking-table tbody tr button {
+    margin: 4px 0;
+    padding: 5px;
+    border-radius: 4px;
+    border-color: transparent;
+    background-color: #E5F1FF;
+    color: rgb(0, 0, 0);
+    margin-bottom: 5px;
+    cursor: pointer;
+}
+
+.doctor-card-booking .card-booking-table .button-week-left,
+.doctor-card-booking .card-booking-table .button-week-right {
+    cursor: pointer;
+    background-color: transparent;
+    border: none;
+    color: #284360;
+    font-size: 16px;
+    cursor: pointer;
+    border-top: 1.2vmin solid white;
+    border-right: 1.2vmin solid white;
+}

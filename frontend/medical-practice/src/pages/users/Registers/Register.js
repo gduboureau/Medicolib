@@ -3,6 +3,9 @@ import axios from 'axios';
 import { useNavigate, Link } from 'react-router-dom';
 import { accountService } from "../Authentification/Sessionstorage";
 
+import Show from "./assets/show.png"
+import Hide from "./assets/hide.png"
+
 import './assets/register.css'
 
 const Register = () => {
@@ -10,10 +13,15 @@ const Register = () => {
   const navigate = useNavigate();
 
   const [confirmPassword, setConfirmPassword] = useState('');
-
   const [errorMail, setErrorMail] = useState("");
-
   const [errorPassword, setErrorPassword] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
+  const [eyeIcon, setEyeIcon] = useState(Hide);
+
+  function togglePassword() {
+    setShowPassword(!showPassword);
+    setEyeIcon(showPassword ? Hide : Show);
+  }
 
   const [data, setData] = useState({
     firstName: "",
@@ -54,69 +62,86 @@ const Register = () => {
   }
 
   return (
-    <div className="register">
-      <p>Enregistrez-vous</p>
-      <form onSubmit={handleSubmit} className="form-register">
-        <div>
-          <p style={{ marginBottom: "5px", fontSize: "16px" }}>Sexe</p>
-          <label className="register-sexe">
+      <div className="register">
+        <p>Enregistrez-vous</p>
+        <form onSubmit={handleSubmit} className="form-register">
+          <div>
+            <label className="register-sexe">
+              <input type="radio" id="h" name="gender" value="M" onChange={handleChange} required /> Homme
+              <input type="radio" id="f" name="gender" value="F" onChange={handleChange} /> Femme
+            </label>
+          </div>
+          <div>
+            <label>
 
-            <input type="radio" id="h" name="gender" value="M" onChange={handleChange} required /> Homme
-            <input type="radio" id="f" name="gender" value="F" onChange={handleChange} /> Femme
-          </label>
+              <span>
+                <input type="text" name="lastName" placeholder="Votre nom" onChange={handleChange} required />
+              </span>
+            </label>
+          </div>
+          <div>
+            <label>
+
+              <span>
+                <input type="text" name="firstName" placeholder="Votre prénom" onChange={handleChange} required />
+              </span>
+            </label>
+          </div>
+          <div>
+            <label>
+
+              <span>
+                <input type="date" name="date" max={new Date().toISOString().split("T")[0]} onChange={handleChange} required />
+              </span>
+            </label>
+          </div>
+          <div>
+            <label>
+
+              <span>
+                <input type="email" name="mail" placeholder="Votre adresse email" onChange={handleChange} required />
+              </span>
+            </label>
+          </div>
+          {errorMail && <p style={{ fontSize: "14px", color: "red" }}>{errorMail}</p>}
+          <div>
+            <label>
+
+              <span>
+                <input
+                  type={showPassword ? "text" : "password"}
+                  id="password"
+                  name="password"
+                  placeholder="Entrez votre mot de passe"
+                />
+                <img src={eyeIcon} alt="eye-icon" onClick={togglePassword} />
+
+              </span>
+            </label>
+          </div>
+          <div className="form-group">
+            <label>
+
+              <span>
+                <input type="password" value={confirmPassword} name="confirmPassword" placeholder="Confirmez votre mot de passe" onChange={(event) => setConfirmPassword(event.target.value)} required />
+              </span>
+            </label>
+          </div>
+          <div>
+            {errorPassword && <p style={{ fontSize: "14px", color: "red" }}>{errorPassword}</p>}
+          </div>
+          <div className="conditions">
+
+            <label htmlFor="cond"><input type="checkbox" id="cond" name="cond" required />J'accepte les conditions générales d'utilisation</label>
+          </div>
+          <button type="submit" className="btn btn-outline-primary">
+            Se connecter
+          </button>
+        </form >
+        <div className="link">
+          <p>Vous avez déjà un compte ? <Link to="/login">Connectez-vous</Link></p>
         </div>
-        <div>
-          <label>
-            <p>Nom</p>
-            <input type="text" name="lastName" placeholder="Votre nom" onChange={handleChange} required />
-          </label>
-        </div>
-        <div>
-          <label>
-            <p>Prenom</p>
-            <input type="text" name="firstName" placeholder="Votre prénom" onChange={handleChange} required />
-          </label>
-        </div>
-        <div>
-          <label>
-            <p>Date de naissance</p>
-            <input type="date" name="date" max={new Date().toISOString().split("T")[0]} onChange={handleChange} required />
-          </label>
-        </div>
-        <div>
-          <label>
-            <p>Email</p>
-            <input type="email" name="mail" placeholder="Votre adresse email" onChange={handleChange} required />
-          </label>
-        </div>
-        {errorMail && <p style={{ fontSize: "14px", color: "red" }}>{errorMail}</p>}
-        <div>
-          <label>
-            <p>Mot de passe</p>
-            <input type="password" name="password" placeholder="Votre mot de passe" onChange={handleChange} required />
-          </label>
-        </div>
-        <div className="form-group">
-          <label>
-            <p>Confirmation</p>
-            <input type="password" value={confirmPassword} name="confirmPassword" placeholder="Confirmez votre mot de passe" onChange={(event) => setConfirmPassword(event.target.value)} required />
-          </label>
-        </div>
-        <div>
-          {errorPassword && <p style={{ fontSize: "14px", color: "red" }}>{errorPassword}</p>}
-        </div>
-        <div className="conditions">
-          <input type="checkbox" id="cond" name="cond" required />
-          <label htmlFor="cond">J'accepte les conditions générales d'utilisation</label>
-        </div>
-        <button type="submit" className="btn btn-outline-primary">
-          Se connecter
-        </button>
-      </form >
-      <div className="link">
-        <Link to="/login">Vous avez déjà un compte ? Connectez-vous en cliquant ici.</Link>
-      </div>
-    </div >
+      </div >
   );
 };
 
