@@ -120,8 +120,28 @@
     flex-wrap: wrap;
 }
 
+.upcoming-appointments .noAppointment{
+    text-align: center; /* centre le contenu */
+    max-width: 600px; /* limite la largeur */
+    margin-top: 1%;
+    margin-bottom: 5%;
+    margin-left: 100px;
+    font-size: 18px;
+    line-height: 2;
+    font-weight : bold;
+    transition: ease-in-out;
+    transition: margin-left 0.5s ease-out, margin-bottom 0.5s ease-out;
+}
+
+@media screen and (max-width: 870px) {
+    .upcoming-appointments .noAppointment{
+        margin-left: 0px;
+        margin-bottom: 10%;
+    }
+}
+
 .appointment-card {
-    width: 35%;
+    width: 400px;
     display: inline-block;
     background-color: #fff;
     border-radius: 20px;
@@ -129,7 +149,7 @@
 }
 
 .upcoming-appointments .empty-card {
-    width: 35%;
+    width: 400px;
     visibility: hidden;
 }
 
@@ -154,9 +174,16 @@
 .appointment-card .app-card-header .time {
     display: flex;
     align-items: center;
-    width: 50%;
     margin-bottom: 10px;
     margin-top: 10px;
+}
+
+.appointment-card .app-card-header .date{
+    width: 65%;
+}
+
+.appointment-card .app-card-header .time{
+    width: 35%;
 }
 
 .appointment-card .app-card-header .date p,

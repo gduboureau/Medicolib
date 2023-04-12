@@ -7,6 +7,7 @@ import AddDocument from './assets/addDocument.png';
 import Rdv from './assets/rdv.png';
 import Time from './assets/time.png';
 import SupprRdv from './assets/suppr-rdv.png'
+import { useMemo } from "react";
 
 import './assets/appointments.css';
 
@@ -79,12 +80,17 @@ const Appointments = () => {
     const [selectedAppointment, setSelectedAppointment] = useState(null);
     const [selectedDocument, setSelectedDocument] = useState(null);
 
-    let mail = { mail: accountService.getEmail() };
+    const mail = useMemo(() => ({mail: accountService.getEmail()}), []); // Crée une référence unique à mail
 
     const [upcomingAppointments, setUpcomingAppointments] = useState([]);
+    const [upcomingAppointmentsStat, setUpcomingAppointmentsStat] = useState(true);
+
     const [pastAppointments, setPastAppointments] = useState([]);
+    const [pastAppointmentsStat, setPastAppointmentsStat] = useState(true);
 
     const [showButton, setShowButton] = useState(true);
+
+
 
     const navigate = useNavigate();
 
@@ -105,9 +111,15 @@ const Appointments = () => {
                 (appointment) => new Date(appointment[5] + ' ' + appointment[6]).getTime() <= now
             );
             setUpcomingAppointments(upcoming);
+            if (upcoming.length === 0){
+                setUpcomingAppointmentsStat(false)
+            }
             setPastAppointments(past);
+            if (past.length === 0){
+                setPastAppointmentsStat(false)
+            }
         });
-    }, []); // eslint-disable-line react-hooks/exhaustive-deps
+    }, [mail]);
 
     const handleCancelAppointment = (id) => {
         setSelectedAppointment(id);
@@ -142,7 +154,10 @@ const Appointments = () => {
         <div className="appointments">
             <h2 style={{ marginTop: "20px" }}>Rendez-vous à venir</h2>
             <div className="upcoming-appointments">
-                {upcomingAppointments.map((appointment, index) => (
+                {upcomingAppointmentsStat === false ? (
+                    <p className="noAppointment">Vous n'avez aucun rendez-vous à venir pour le moment. Veuillez revenir ultérieurement ou prendre rendez-vous avec un professionnel.</p>
+                ) : (
+                upcomingAppointments.map((appointment, index) => (
                     <div className="appointment-card" key={index}>
                         <div className="app-card-header">
                             <div className="date">
@@ -174,7 +189,8 @@ const Appointments = () => {
                             </button>
                         </div>
                     </div>
-                ))}
+                    ))
+                )}
                 {upcomingAppointments.length % 2 !== 0 && <div className="appointment-card empty-card"></div>}
             </div>
             {selectedAppointment !== null && (
@@ -197,7 +213,10 @@ const Appointments = () => {
                 <div id="hidden-appointments">
                     <h2>Rendez-vous passés</h2>
                     <div className="upcoming-appointments">
-                        {pastAppointments.map((appointment, index) => (
+                        {pastAppointmentsStat === false ? (
+                            <p className="noAppointment">Aucun rendez-vous passé n'est disponible pour le moment. Vos rendez-vous passés s'afficheront ici une fois qu'ils auront eu lieu.</p>
+                        ) : (
+                        pastAppointments.map((appointment, index) => (
                             <div className="appointment-card" key={index}>
                                 <div className="app-card-header">
                                     <div className="date">
@@ -216,7 +235,8 @@ const Appointments = () => {
                                     <p className="doctor-speciality">{appointment[4]}</p>
                                 </div>
                             </div>
-                        ))}
+                            ))
+                        )}
                     </div>
                 </div>
             )}
