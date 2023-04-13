@@ -42,4 +42,10 @@ public interface DoctorRepository {
         public List<List<Object>> getDocumentPatient(String idAppt) throws SQLException;
 
         public List<Object> getPriceConsultations(String idDoctor) throws SQLException;
+
+        public void modifyInfoPersoDoctor(String idDoctor, String firstName, String lastName, String gender) throws SQLException;
+
+        public void modifyCredentialsDoctor(String idDoctor, String prevMail, String newMail, String password) throws SQLException;
+
+        public void modifyProInfoDoctor(String idDoctor, String infos, List<List<String>> priceList, List<List<String>> prevPriceList, List<String> deletedPrice) throws SQLException;
 }

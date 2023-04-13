@@ -87,6 +87,18 @@ public class MedicalPractice {
         return doctorRepository.getPriceConsultations(idDoctor);
     }
 
+    public void modifyInfoPersoDoctor(String idDoctor, String firstName, String lastName, String gender) throws SQLException{
+        doctorRepository.modifyInfoPersoDoctor(idDoctor, firstName, lastName, gender);
+    }
+
+    public void modifyCredentialsDoctor(String idDoctor, String prevMail, String newMail, String password) throws SQLException {
+        doctorRepository.modifyCredentialsDoctor(idDoctor, prevMail, newMail, password);
+    }
+
+    public void modifyProInfoDoctor(String idDoctor, String infos, List<List<String>> priceList, List<List<String>> prevPriceList, List<String> deletedPrice) throws SQLException{
+        doctorRepository.modifyProInfoDoctor(idDoctor, infos, priceList,prevPriceList, deletedPrice);
+    }
+
     // requests for patients
 
     public List<List<String>> getAppointmentByPatient(String mail) throws SQLException {

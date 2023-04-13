@@ -179,4 +179,49 @@ public class DoctorController {
 		}
 	}
 
+	@PostMapping(value = "/modifyInfoPersoDoctor")
+	public ResponseEntity<String> modifyInfoPersoDoctor(@RequestBody Map<String, String> map) throws SQLException, ParseException {
+		try {
+			String idDoctor = map.get("id");
+			String firstName = map.get("firstName");
+			String lastName = map.get("lastName");
+			String gender = map.get("gender");
+			medicalPractice.modifyInfoPersoDoctor(idDoctor, firstName, lastName, gender);
+			return ResponseEntity.ok("Informations modified");
+		} catch (Exception e) {
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+		}
+	}
+
+	@PostMapping(value = "/modifyCredentialsDoctor")
+	public ResponseEntity<String> modifyCredentialsDoctor(@RequestBody Map<String, String> map) throws SQLException, ParseException {
+		try {
+			String idDoctor = map.get("id");
+			String newMail = map.get("mail");
+			String prevMail = map.get("prevMail");
+			String password = map.get("password");
+			medicalPractice.modifyCredentialsDoctor(idDoctor, newMail,prevMail, password);
+			return ResponseEntity.ok("Informations modified");
+		} catch (Exception e) {
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+		}
+	}
+
+	@SuppressWarnings("unchecked")
+	@PostMapping(value = "/modifyProInfoDoctor")
+	public ResponseEntity<String> modifyProInfoDoctor(@RequestBody Map<String, Object> map) throws SQLException, ParseException {
+		try {
+			String idDoctor = (String) map.get("id");
+			String infos = (String) map.get("informations");
+			List<List<String>> priceList = (List<List<String>>) map.get("price");
+			List<List<String>> prevPriceList = (List<List<String>>) map.get("prevPrice");
+			List<String> deletedPrice = (List<String>) map.get("deletedPrice");
+			medicalPractice.modifyProInfoDoctor(idDoctor, infos, priceList, prevPriceList, deletedPrice);
+			return ResponseEntity.ok("Informations modified");
+		} catch (Exception e) {
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+		}
+	}
+	
+
 }

@@ -1,0 +1,265 @@
+.DoctorAccount {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+
+}
+
+.DoctorAccount .PersonalInfos {
+    background-color: #ffffff;
+    padding: 10px;
+    margin-top: 50px;
+    border-radius: 10px;
+    width: 600px;
+    height: 300px;
+}
+
+.DoctorAccount .userInformation {
+    background-color: #ffffff;
+    padding: 10px;
+    margin-top: 50px;
+    border-radius: 10px;
+    width: 600px;
+    height: 200px;
+    position: relative;
+}
+
+.DoctorAccount .PersonalInfos .title,
+.DoctorAccount .userInformation .title-info-perso,
+.DoctorAccount .PriceInfo .title-info-pro {
+    font-weight: bold;
+    font-size: 17px;
+    text-align: center;
+    margin-top: 15px;
+}
+
+.DoctorAccount .PriceInfo {
+    background-color: #ffffff;
+    padding: 10px;
+    margin-top: 50px;
+    border-radius: 10px;
+    width: 640px;
+    height: 570px;
+    position: relative;
+}
+
+.DoctorAccount .name {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 40px;
+    margin-right: 80px;
+    margin-left: 70px;
+}
+
+.DoctorAccount .gender-speciality {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 60px;
+    margin-right: 80px;
+    margin-left: 70px;
+}
+
+.DoctorAccount .gender-speciality .doctorSpeciality input{
+    cursor: not-allowed;
+}
+
+.DoctorAccount .name p,
+.DoctorAccount .gender-speciality p {
+    text-align: center;
+    margin-bottom: 5px;
+    font-size: 14px;
+    font-weight:bold;
+}
+
+.DoctorAccount .login  {
+    display: flex;
+    justify-content: space-between;
+    margin-left: 60px;
+    margin-right: 60px;
+    margin-top: 20px;
+}
+
+.DoctorAccount .login p {
+    margin-bottom: 5px;
+    font-size: 14px;
+    font-weight:bold;
+    text-align: center;
+}
+
+.DoctorAccount .PersonalInfos input {
+    padding: 10px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    font-size: 16px;
+}
+
+.DoctorAccount .userInformation input {
+    padding: 10px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    font-size: 16px;
+}
+
+.DoctorAccount .PersonalInfos .doctorGender {
+    display: flex;
+}
+
+.DoctorAccount .PersonalInfos .doctorGender p{
+    margin-right: -30px;
+}
+
+.DoctorAccount .gender-speciality .doctorGender input[type="radio"] {
+    margin-right: 30px;
+}
+
+.DoctorAccount .userInformation button {
+    font-size: 11px;
+    font-weight: bold;
+    color: #fff;
+    background-color: #284360;
+    border: none;
+    cursor: pointer;
+    display: inline-block;
+    padding: 10px 20px;
+    border-radius: 5px;
+    right:11px;
+    bottom: 15px;
+    position: absolute;
+}
+
+.DoctorAccount .userInformation button:hover {
+    background-color: #1b2c3f;
+}
+
+.DoctorAccount .PersonalInfos button:hover {
+    background-color: #1b2c3f;
+}
+
+.DoctorAccount .PersonalInfos button {
+    position: absolute;
+    display: inline-block;
+    padding: 10px 20px;
+    border-radius: 5px;
+    font-size: 11px;
+    font-weight: bold;
+    color: #fff;
+    background-color: #284360;
+    border: none;
+    cursor: pointer;
+    right:1px;
+    top: 1px;
+}
+
+.DoctorAccount .PriceInfo .div-modif-pro-doctor button {
+    position: absolute;
+    display: inline-block;
+    padding: 10px 20px;
+    border-radius: 5px;
+    font-size: 11px;
+    font-weight: bold;
+    color: #fff;
+    background-color: #284360;
+    border: none;
+    cursor: pointer;
+    bottom:15px;
+    right: 15px;
+}
+
+.DoctorAccount .PriceInfo .div-modif-pro-doctor button:hover {
+    background-color: #1b2c3f;
+}
+
+.DoctorAccount .div-modif-info-doctor {
+    position: relative;
+}
+
+.DoctorAccount .PriceInfo .title-tarif{
+    margin-top: 15px;
+    color: #64c9c3;
+    font-weight : bold;
+    margin-left: 23px;
+}
+
+.DoctorAccount table {
+    background-color: rgb(255, 255, 255);
+    border-collapse: collapse;
+    margin: 20px;
+    width: 580px;
+    box-shadow: 0 0 0 0.6px #bdc4cd;
+    border-top-left-radius: 14px;
+    border-top-right-radius: 14px;
+    border-bottom-left-radius: 14px;
+    border-bottom-right-radius: 14px;
+}
+
+.DoctorAccount table thead th:nth-child(2) {
+    border-top-right-radius: 14px;
+    background-color: #284360;
+    color: #fff;
+    padding: 8px;
+}
+
+.DoctorAccount table thead th:nth-child(1) {
+    border-top-left-radius: 14px ;
+    background-color: #284360;
+    color: #fff;
+    padding: 8px;
+}
+
+.DoctorAccount table tbody tr:not(:last-child) td {
+    border-bottom: 1px solid #6b6868cc;
+}
+
+
+.DoctorAccount table tbody tr td button {
+    background-color: #284360;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    padding: 5px 10px;
+    margin: 10px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.DoctorAccount .tableau-tarif input {
+    padding: 3px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    font-size: 16px;
+    width: 180px;
+    text-align: center;
+}
+
+
+.DoctorAccount .tableau-tarif {
+    max-height: 350px;
+    overflow-y: auto;
+}
+
+.DoctorAccount textarea {
+    max-height: 80px;
+    min-height: 20px;
+    min-width: 300px;
+    overflow-y: auto;
+    margin-top: 20px;
+    margin-left: 20px;
+    max-width: 450px;
+    border-radius: 5px;
+    border: 1px solid #f3f3f373;
+    padding: 10px;
+    background-color: #f3f3f337;
+}
+
+
+@media screen and (min-width:1270px){
+    .DoctorAccount .userInformation{
+        margin-right: max(5vw,60px);
+    }
+    .DoctorAccount .PersonalInfos{
+        margin-right: max(5vw,60px);
+    }
+    .DoctorAccount .PriceInfo{
+        margin-left: max(4vw,60px);
+    }
+}

@@ -234,8 +234,7 @@ public class JdbcPatientRepository implements PatientRepository {
     ResultSet rs = stmt.executeQuery(request);
     if (rs.next()) {
       Statement stmt2 = connection.createStatement();
-      String request2 = "INSERT INTO AvailableTimeSlots(doctorId, startTime, endTime, Booked) VALUES (" + "'" + rs.getString(2)
-          + "'" + "," + "'" + rs.getTimestamp(4) + "'" + "," + "'" + rs.getTimestamp(5) + "'" + ", false)";
+      String request2 = "UPDATE AvailableTimeSlots SET Booked = false WHERE TimeSlotId =" + "'" + id + "'";
       stmt2.executeUpdate(request2);
       stmt2.close();
     }

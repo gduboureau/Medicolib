@@ -25,8 +25,9 @@ public class JdbcDoctorRepository implements DoctorRepository {
       ResultSet rs = stmt.executeQuery();
 
       while (rs.next()) {
-        Doctor doctor = new Doctor(UUID.fromString(rs.getString(1)), rs.getString(2), rs.getString(3), rs.getString(4), rs.getString(5),
-            rs.getString(6),rs.getString(7));
+        Doctor doctor = new Doctor(UUID.fromString(rs.getString(1)), rs.getString(2), rs.getString(3), rs.getString(4),
+            rs.getString(5),
+            rs.getString(6), rs.getString(7));
         doctorList.add(doctor);
       }
 
@@ -74,7 +75,8 @@ public class JdbcDoctorRepository implements DoctorRepository {
       ResultSet rs = stmt.executeQuery();
 
       while (rs.next()) {
-        Doctor doctor = new Doctor(UUID.fromString(rs.getString(1)), rs.getString(2), rs.getString(3), rs.getString(4), rs.getString(5),
+        Doctor doctor = new Doctor(UUID.fromString(rs.getString(1)), rs.getString(2), rs.getString(3), rs.getString(4),
+            rs.getString(5),
             rs.getString(6), rs.getString(7));
         doctorList.add(doctor);
       }
@@ -98,7 +100,8 @@ public class JdbcDoctorRepository implements DoctorRepository {
       PreparedStatement stmt = connection.prepareStatement("SELECT * FROM doctors WHERE doctorid = '" + doctorid + "'");
       ResultSet rs = stmt.executeQuery();
       while (rs.next()) {
-        doctor = new Doctor(UUID.fromString(rs.getString(1)), rs.getString(2), rs.getString(3), rs.getString(4), rs.getString(5),
+        doctor = new Doctor(UUID.fromString(rs.getString(1)), rs.getString(2), rs.getString(3), rs.getString(4),
+            rs.getString(5),
             rs.getString(6), rs.getString(7));
       }
 
@@ -138,12 +141,14 @@ public class JdbcDoctorRepository implements DoctorRepository {
     List<List<String>> appointments = new ArrayList<>();
     DateFormat tf = new SimpleDateFormat("HH:mm");
     Statement stmt2 = connection.createStatement();
-    String request2 = "DELETE FROM AvailableTimeSlots WHERE doctorid = (SELECT doctorid FROM Doctors WHERE firstname=" + "'"
+    String request2 = "DELETE FROM AvailableTimeSlots WHERE doctorid = (SELECT doctorid FROM Doctors WHERE firstname="
+        + "'"
         + firstName + "'" + " AND lastname=" + "'" + lastName + "') and StartTime < NOW() - INTERVAL '1 week'";
     stmt2.executeUpdate(request2);
     stmt2.close();
     Statement stmt3 = connection.createStatement();
-    String request3 = "UPDATE AvailableTimeSlots SET Booked = true WHERE doctorid = (SELECT doctorid FROM Doctors WHERE firstname=" + "'"
+    String request3 = "UPDATE AvailableTimeSlots SET Booked = true WHERE doctorid = (SELECT doctorid FROM Doctors WHERE firstname="
+        + "'"
         + firstName + "'" + " AND lastname=" + "'" + lastName + "') and StartTime < NOW()";
     stmt3.executeUpdate(request3);
     stmt3.close();
@@ -207,16 +212,16 @@ public class JdbcDoctorRepository implements DoctorRepository {
     ResultSet rs = stmt.executeQuery(sql);
     while (rs.next()) {
       HashMap<String, String> l = new HashMap<>();
-      l.put("id",rs.getString(1));
-      l.put("firstName",rs.getString(2));
-      l.put("lastName",rs.getString(3));
-      l.put("gender",rs.getString(4));
-      l.put("birthday",rs.getDate(5).toString());
-      l.put("weight",String.valueOf(rs.getDouble(6)));
-      l.put("heigth",String.valueOf(rs.getDouble(7)));
-      l.put("mail",rs.getString(8));
-      l.put("adress",rs.getString(9));
-      l.put("numsocial",rs.getString(10));
+      l.put("id", rs.getString(1));
+      l.put("firstName", rs.getString(2));
+      l.put("lastName", rs.getString(3));
+      l.put("gender", rs.getString(4));
+      l.put("birthday", rs.getDate(5).toString());
+      l.put("weight", String.valueOf(rs.getDouble(6)));
+      l.put("heigth", String.valueOf(rs.getDouble(7)));
+      l.put("mail", rs.getString(8));
+      l.put("adress", rs.getString(9));
+      l.put("numsocial", rs.getString(10));
       patients.add(l);
     }
 
@@ -310,7 +315,7 @@ public class JdbcDoctorRepository implements DoctorRepository {
         Statement stmt2 = connection2.createStatement();
         String request2 = "SELECT * from Prescriptions WHERE prescriptionsid = '" + value + "'";
         ResultSet rs2 = stmt2.executeQuery(request2);
-        if(rs2.next()){
+        if (rs2.next()) {
           l.add(rs2.getString(2));
           l.add(rs2.getBytes(3));
         }
@@ -345,7 +350,7 @@ public class JdbcDoctorRepository implements DoctorRepository {
   }
 
   @Override
-  public List<Object> getPriceConsultations(String idDoctor) throws SQLException{
+  public List<Object> getPriceConsultations(String idDoctor) throws SQLException {
     List<Object> price = new ArrayList<>();
     Connection connection = DBUtil.getConnection();
     Statement stmt = connection.createStatement();
@@ -353,12 +358,77 @@ public class JdbcDoctorRepository implements DoctorRepository {
     ResultSet rs = stmt.executeQuery(request);
     while (rs.next()) {
       price.add(rs.getString(1));
-      price.add(rs.getInt(2));
+      price.add(rs.getString(2));
     }
     rs.close();
     stmt.close();
     DBUtil.closeConnection(connection);
     return price;
+  }
+
+  @Override
+  public void modifyInfoPersoDoctor(String idDoctor, String firstName, String lastName, String gender)
+      throws SQLException {
+    Connection connection = DBUtil.getConnection();
+    Statement stmt = connection.createStatement();
+    String request = "UPDATE doctors SET firstname = '" + firstName + "', lastname = '" + lastName + "', gender = '"
+        + gender + "' where doctorid = '" + idDoctor + "'";
+    stmt.executeUpdate(request);
+    stmt.close();
+    DBUtil.closeConnection(connection);
+  }
+
+  @Override
+  public void modifyCredentialsDoctor(String idDoctor, String newMail, String prevMail, String password)
+      throws SQLException {
+    Connection connection = DBUtil.getConnection();
+    Statement stmt = connection.createStatement();
+    String request = "UPDATE doctors SET mail = '" + newMail + "' where doctorid = '" + idDoctor + "'";
+    stmt.executeUpdate(request);
+    stmt.close();
+    Statement stmt1 = connection.createStatement();
+    String request1 = null;
+    if (password != null && password != "") {
+      request1 = "UPDATE users SET mail = '" + newMail + "',password = '" + password + "' where mail = '" + prevMail
+          + "'";
+    } else {
+      request1 = "UPDATE users SET mail = '" + newMail + "' where mail = '" + prevMail + "'";
+    }
+    stmt1.executeUpdate(request1);
+    stmt1.close();
+    DBUtil.closeConnection(connection);
+  }
+
+  public void modifyProInfoDoctor(String idDoctor, String infos, List<List<String>> priceList, List<List<String>> prevPriceList, List<String> deletedPrice)
+      throws SQLException {
+    Connection connection = DBUtil.getConnection();
+    Statement stmt = connection.createStatement();
+    String request = "UPDATE doctors SET informations = '" + infos + "' where doctorid = '" + idDoctor + "'";
+    stmt.executeUpdate(request);
+    stmt.close();
+    for (int i = 0; i < priceList.size(); ++i){
+      if (i >= prevPriceList.size()){
+        Statement stmt1 = connection.createStatement();
+        String request1 = "INSERT INTO price(doctorid , pricename , price ) VALUES (" + "'"
+        + idDoctor + "'" + "," + "'" + priceList.get(i).get(0) + "'" + ","
+        + priceList.get(i).get(1) + ")";
+        stmt1.executeUpdate(request1);
+        stmt1.close();
+      }else{
+        Statement stmt1 = connection.createStatement();
+        String request1 = "UPDATE price SET pricename = '" + priceList.get(i).get(0) + "',price = " + priceList.get(i).get(1) +
+          " where doctorid = '" + idDoctor + "' and pricename = '" + prevPriceList.get(i).get(0) + "'";
+        stmt1.executeUpdate(request1);
+        stmt1.close();
+      }
+    }
+    for (int i = 0; i < deletedPrice.size(); i += 2){
+      Statement stmt2 = connection.createStatement();
+      String request2 = "DELETE FROM price where doctorid = '" + idDoctor + "' and pricename = '" + deletedPrice.get(i) + "'";
+      stmt2.executeUpdate(request2);
+      stmt2.close();
+    }
+    DBUtil.closeConnection(connection);
   }
 
 }
