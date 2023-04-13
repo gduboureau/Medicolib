@@ -10,8 +10,23 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faAngleRight, faAngleLeft } from '@fortawesome/free-solid-svg-icons'
 import { useLocation } from "react-router-dom";
 
-
 const Booking = () => {
+  function NoRDVModal(props) {
+    const handleClose = () => {
+      props.onClose();
+    };
+
+    return (
+      <div className="modal-overlay">
+        <div className="modal">
+          <p>{props.title}</p>
+          <div className="modal-buttons">
+            <button onClick={handleClose}>Fermer</button>
+          </div>
+        </div>
+      </div>
+    );
+  }
 
   let mail = accountService.getEmail();
 
@@ -19,6 +34,7 @@ const Booking = () => {
 
   const [appointmentList, setAppointmentList] = useState([]);
   const [selectedWeek, setSelectedWeek] = useState(new Date());
+  const [selectedAppointment, setSelectedAppointment] = useState(false);
   const [hasError, setHasError] = useState(false);
 
   const navigate = useNavigate();
@@ -54,17 +70,18 @@ const Booking = () => {
   }
 
   const onClick = (id) => {
-    if (!accountService.isLogged()){
+    if (!accountService.isLogged()) {
       navigate("/login", { state: { prevS: location.pathname, prevA: location.search } });
-    }else{
+    } else {
       axios
-      .post("/makeappointment", { id, mail })
-      .then((response) => {
-        navigate("/patient/appointments");
-      })
-      .catch((error) => {
-        console.log(error);
-      });
+        .post("/makeappointment", { id, mail })
+        .then((response) => {
+          navigate("/patient/appointments");
+        })
+        .catch((error) => {
+          console.log(error);
+          setSelectedAppointment(true)
+        });
     }
   };
 
@@ -75,7 +92,7 @@ const Booking = () => {
   weekEnd.setDate(selectedWeek.getDate() - selectedWeek.getDay() + 6);
 
   const weekDays = [];
-  for (let i = 1; i < 7; i++) {
+  for (let i = 1; i < 6; i++) {
     const day = new Date(weekStart);
     day.setDate(weekStart.getDate() + i);
     weekDays.push(day);
@@ -91,6 +108,10 @@ const Booking = () => {
     groupedAppointments[dateKey].push(appointment);
   });
 
+  const handleCloseModal = () => {
+    setSelectedAppointment(null);
+  }
+
   return (
     <div className="BookingAppt">
       <div className="div-table-booking">
@@ -99,9 +120,11 @@ const Booking = () => {
             <tr>
               <td>
                 <button className="button-week-left" onClick={() => {
-                  const date = new Date();
-                  if (selectedWeek.getTime() - 7 >= date.getTime()) {
-                    setSelectedWeek(new Date(selectedWeek.getFullYear(), selectedWeek.getMonth(), selectedWeek.getDate() - 7))
+                  const today = new Date();
+                  const previousWeek = new Date(selectedWeek);
+                  previousWeek.setDate(selectedWeek.getDate() - 7);
+                  if (previousWeek >= today) {
+                    setSelectedWeek(previousWeek);
                   }
                 }}>
                   <FontAwesomeIcon icon={faAngleLeft} />
@@ -117,7 +140,7 @@ const Booking = () => {
                   <FontAwesomeIcon icon={faAngleRight} />
                 </button>
               </td>
-             
+
             </tr>
           </thead>
           <tbody>
@@ -144,6 +167,12 @@ const Booking = () => {
           </tbody>
         </table>
       </div>
+      {selectedAppointment && (
+        <NoRDVModal
+          title="Nous sommes désolés mais ce rendez-vous n'est plus disponible."
+          onClose={handleCloseModal}
+        />
+      )}
     </div>
   );
 };

@@ -11,11 +11,28 @@ import { useLocation } from "react-router-dom";
 import './assets/doctorCardBooking.css'
 
 const DoctorCardBooking = ({ firstname, lastname }) => {
+    function NoRDVModal(props) {
+        const handleClose = () => {
+            props.onClose();
+        };
+
+        return (
+            <div className="modal-overlay">
+                <div className="modal">
+                    <p>{props.title}</p>
+                    <div className="modal-buttons">
+                        <button onClick={handleClose}>Fermer</button>
+                    </div>
+                </div>
+            </div>
+        );
+    }
     let mail = accountService.getEmail();
 
     const [appointmentList, setAppointmentList] = useState([]);
     const [selectedWeek, setSelectedWeek] = useState(new Date());
     const [showElement, setShowElement] = useState(false);
+    const [selectedAppointment, setSelectedAppointment] = useState(false);
     const [showButton, setShowButton] = useState(true);
 
     const navigate = useNavigate();
@@ -58,6 +75,7 @@ const DoctorCardBooking = ({ firstname, lastname }) => {
                 })
                 .catch((error) => {
                     console.log(error);
+                    setSelectedAppointment(true);
                 });
         }
     };
@@ -91,6 +109,10 @@ const DoctorCardBooking = ({ firstname, lastname }) => {
         setShowElement(true);
         setShowButton(false);
     }
+
+    const handleCloseModal = () => {
+        setSelectedAppointment(null);
+    };
 
     return (
         <div className="doctor-card-booking">
@@ -162,6 +184,12 @@ const DoctorCardBooking = ({ firstname, lastname }) => {
                 </tbody>
             </table>
             {showButton && <button className="rdv-button" onClick={displayElement}>Voir plus d'horaires</button>}
+            {selectedAppointment && (
+                <NoRDVModal
+                    title="Nous sommes désolés mais ce rendez-vous n'est plus disponible."
+                    onClose={handleCloseModal}
+                />
+            )}
         </div>
     );
 };
