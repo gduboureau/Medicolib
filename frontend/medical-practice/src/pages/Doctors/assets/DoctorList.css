@@ -3,7 +3,7 @@
     align-items: flex-start;
     flex-wrap: wrap;
     justify-content: space-between;
-    width: 65%;
+    width: 60%;
     min-width: 410px;
     margin: 10px;
     padding: 10px;
@@ -21,7 +21,9 @@
 .doctorlist .doctor-card .doctor-card-infos img {
     width: 100px;
     height: 100px;
-    margin: 20px;
+    margin-right: 20px;
+    margin-left: 20px;
+    margin-top: 10px;
 }
 
 .doctorlist .doctor-card .doctor-card-details {
@@ -57,4 +59,8 @@
 
 .doctorlist .doctor-card .doctor-card-details button:hover {
     background-color: #1b2c3f;
+}
+
+.doctorlist .doctor-card .doctor-card-planning {
+    width: 63%
 }
