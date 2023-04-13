@@ -20,17 +20,19 @@
     background-color: #1b2c3f;
 }
 
-
-.doctor-card-booking .card-booking-table th p{
+.doctor-card-booking .card-booking-table th p {
     font-size: 14px;
     line-height: 0%;
 }
 
-.doctor-card-booking .card-booking-table th .day-month{
+.doctor-card-booking .card-booking-table th .day-month {
     font-weight: normal;
 
 }
 
+.doctor-card-booking .card-booking-table td {
+    vertical-align: top;
+}
 
 .doctor-card-booking .card-booking-table .cell-day {
     text-align: center;

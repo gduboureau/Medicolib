@@ -1,6 +1,5 @@
 .register {
     max-width: 500px;
-    height: 100vh;
     margin: auto;
     padding: 20px;
     background-color: #fff;
@@ -9,10 +8,10 @@
 }
 
 .register p {
-    font-size: 20px;
+    font-size: 18px;
     font-weight: bold;
     text-align: center;
-    margin-bottom: 30px;
+    margin-bottom: 20px;
 }
 
 .register div {
@@ -30,22 +29,27 @@
 .form-register label {
     display: flex;
     flex-direction: column;
-    margin-bottom: 20px;
+    margin-bottom: 15px;
     width: 300px
 }
 
 .form-register .register-sexe {
-    direction: flex;
+    display: flex;
     flex-direction: row;
+    width: 100%;
 }
 
-.form-register .register-sexe input[type="radio"] {
-    margin-right: 1px;
+.form-register .register-sexe input[type="radio"]{
+    margin-right: 10px;
+}
+
+.form-register .register-sexe input[type="radio"][name="gender"]:nth-child(2){
+    margin-left: 50px;
 }
 
 .form-register label p {
-    margin-bottom: 20px;
-    font-size: 16px;
+    margin-bottom: 15px;
+    font-size: 14px;
     width: 100%;
 }
 
@@ -64,6 +68,8 @@
 .form-register label span input {
     display: flex;
     flex-direction: row;
+    font-size: 14px;
+    width: 100%;
     border: 0;
     padding: 10px;
     border-radius: 0;
@@ -75,21 +81,15 @@
     outline: none;
 }
 
-.form-register input {
-    padding: 10px;
-    font-size: 16px;
-    width: 100%;
-}
-
 .register .conditions {
     margin-top: 10px;
-    margin-bottom: 10px;
+    margin-bottom: 5px;
     display: flex;
     align-items: center;
 }
 
 .register .conditions label {
-    font-size: 16px;
+    font-size: 14px;
     width: 100%;
     display: flex;
     flex-direction: row;
@@ -105,7 +105,7 @@
     display: inline-block;
     padding: 10px 20px;
     border-radius: 5px;
-    font-size: 16px;
+    font-size: 14px;
     font-weight: bold;
     color: #fff;
     text-align: center;
@@ -113,7 +113,7 @@
     background-color: #284360;
     border: none;
     cursor: pointer;
-    margin-bottom: 20px;
+    margin-bottom: 10px;
 }
 
 .register .btn:hover {
@@ -127,8 +127,8 @@
 
 .register .link p {
     margin-top: 10px;
-    margin-bottom: 20px;
-    font-size: 16px;
+    margin-bottom: 15px;
+    font-size: 14px;
     font-weight: normal;
 
 }
@@ -142,5 +142,5 @@
     height: 25px;
     cursor: pointer;
     vertical-align: center;
-    margin: 15px
+    margin: 10px
 }
