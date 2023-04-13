@@ -2,7 +2,9 @@ package core.application.medicalpractice.infra.patient;
 
 import java.io.IOException;
 import java.sql.*;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.*;
 
 import org.springframework.stereotype.Service;
@@ -247,6 +249,28 @@ public class JdbcPatientRepository implements PatientRepository {
     stmt.close();
     DBUtil.closeConnection(connection);
     deleteAllDocumentOfAppt(id);
+  }
+
+  public List<Object> getDateAndTimeAppt(String id) throws SQLException {
+    Connection connection = DBUtil.getConnection();
+    Statement stmt = connection.createStatement();
+    String request = "SELECT starttime FROM Appointments WHERE appointmentid =" + "'" + id + "'";
+    ResultSet rs = stmt.executeQuery(request);
+    LocalDateTime datetime = null;
+    LocalDate date = null;
+    LocalTime time = null;
+    List<Object> dateTime = new ArrayList<>();
+    if (rs.next()) {
+      datetime = rs.getTimestamp(1).toLocalDateTime();
+      date = datetime.toLocalDate();
+      time = datetime.toLocalTime();
+      dateTime.add(date);
+      dateTime.add(time);
+    }
+    rs.close();
+    stmt.close();
+    DBUtil.closeConnection(connection);
+    return dateTime;
   }
 
   @Override

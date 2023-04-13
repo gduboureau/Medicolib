@@ -13,6 +13,8 @@ import java.util.UUID;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.mail.SimpleMailMessage;
+import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -28,6 +30,9 @@ public class PatientController {
 
 	@Autowired
 	private MedicalPractice medicalPractice;
+
+	@Autowired
+    public JavaMailSender javaMailSender;
 
 	@PostMapping(value = "/register")
 	public ResponseEntity<?> savePatient(@RequestBody Map<String, String> map) throws SQLException, ParseException {
@@ -130,6 +135,22 @@ public class PatientController {
 			if (mail == null || id == null) {
 				return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
 			}
+
+			List<Object> timeDate = medicalPractice.getDateAndTimeAppt(id);
+
+			SimpleMailMessage message = new SimpleMailMessage();
+            message.setTo(mail);
+
+            String subject = "Confirmation de prise de rendez-vous du " + timeDate.get(0).toString();
+            message.setSubject(subject);
+
+			String body = "Nous vous confirmons le rendez-vous du " + timeDate.get(0).toString() + " à " + timeDate.get(1).toString() + 
+			". Nous vous remercions de bien vouloir annuler votre rendez-vous si vous ne pouvez pas l'assurer." + 
+			" Si vous avez des documents à transmettre à votre docteur, n'hésitez pas à les lui faire suivre depuis votre compte, dans la section mes rendez-vous. " +
+			"A très bientôt, votre cabinet médical Medicolib.";
+            message.setText(body);
+            javaMailSender.send(message);
+
 			return ResponseEntity.ok("Appointment added");
 		} catch (Exception e) {
 			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();

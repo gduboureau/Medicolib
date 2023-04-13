@@ -249,6 +249,8 @@
     border: 1px solid #f3f3f373;
     padding: 10px;
     background-color: #f3f3f337;
+    white-space: pre-wrap;
+    word-wrap: break-word;
 }
 
 

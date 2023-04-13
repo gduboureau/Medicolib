@@ -150,6 +150,10 @@ public class MedicalPractice {
         return patientRepository.getPrescriptionsByPatient(mail);
     }
 
+    public List<Object> getDateAndTimeAppt(String id) throws SQLException {
+        return patientRepository.getDateAndTimeAppt(id);
+    }
+
     // requests for user
 
     public void saveUser(String email, String password) {
