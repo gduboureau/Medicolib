@@ -4,7 +4,7 @@
     text-align: center;
   }
   
-.BookingAppt th,td {
+.BookingAppt th, .BookingAppt td {
       padding: 10px;
 }
 

@@ -10,6 +10,16 @@
     border-radius: 20px;
 }
 
+.showPatients table thead th {
+    text-align: left;
+    padding: 10px;
+}
+
+.showPatients table tbody td {
+    text-align: left;
+    padding: 10px;
+}
+
 .showPatients table thead th:nth-child(6) {
     border-top-right-radius: 20px;
     background-color: #284360;
@@ -30,11 +40,9 @@
     color: #fff;
 }
 
-.showPatients table tbody tr {
-    background-color: transparent;
-
+.showPatients table tbody tr:nth-child(4){
+    text-align: center;
 }
-
 
 .showPatients table tbody tr:not(:last-child) td {
     border-bottom: 1px solid #6b6868cc;
@@ -52,7 +60,7 @@
     transition: all 0.3s ease;
 }
 
-.showPatients table tbody tr td button:hover{
+.showPatients table tbody tr td button:hover {
     background-color: #1b2c3f;
 }
 

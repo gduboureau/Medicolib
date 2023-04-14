@@ -16,9 +16,20 @@
   position: relative;
 }
 
-.med-file-card table td,
-.med-file-card table th {
-  padding: 15px;
+.med-file-card table tr:nth-child(even), 
+.med-file-card .consultations-content table tr:nth-child(even) {
+  background-color: #f2f2f2;
+}
+
+.med-file-card table tr:nth-child(odd) 
+.med-file-card .consultations-content table tr:nth-child(odd) {
+  background-color: #ffffff; 
+}
+
+.med-file-card table tbody td,
+.med-file-card table thead th {
+  padding: 10px;
+  text-align: left;
 }
 
 .med-file-card .med-file-card-header {
@@ -54,10 +65,6 @@
 .med-file-card .med-file-card-content {
   display: flex;
   justify-content: center;
-}
-
-.med-file-card .consultations-content {
-  height: fit-content;
 }
 
 .medical-file-footer {
