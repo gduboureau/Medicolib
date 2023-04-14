@@ -270,7 +270,11 @@ public class JdbcPatientRepository implements PatientRepository {
     rs.close();
     stmt.close();
     DBUtil.closeConnection(connection);
-    return dateTime;
+    if (dateTime.size() == 2) {
+      return dateTime;
+  } else {
+      return Collections.emptyList();
+  }
   }
 
   @Override

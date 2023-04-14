@@ -4,9 +4,12 @@ import java.io.IOException;
 import java.sql.SQLException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.format.TextStyle;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.UUID;
 
@@ -32,7 +35,7 @@ public class PatientController {
 	private MedicalPractice medicalPractice;
 
 	@Autowired
-    public JavaMailSender javaMailSender;
+	public JavaMailSender javaMailSender;
 
 	@PostMapping(value = "/register")
 	public ResponseEntity<?> savePatient(@RequestBody Map<String, String> map) throws SQLException, ParseException {
@@ -138,18 +141,29 @@ public class PatientController {
 
 			List<Object> timeDate = medicalPractice.getDateAndTimeAppt(id);
 
-			SimpleMailMessage message = new SimpleMailMessage();
-            message.setTo(mail);
+			if (!timeDate.isEmpty()) {
+				SimpleMailMessage message = new SimpleMailMessage();
+				message.setTo(mail);
 
-            String subject = "Confirmation de prise de rendez-vous du " + timeDate.get(0).toString();
-            message.setSubject(subject);
+				LocalDate date = (LocalDate) timeDate.get(0);
 
-			String body = "Nous vous confirmons le rendez-vous du " + timeDate.get(0).toString() + " à " + timeDate.get(1).toString() + 
-			". Nous vous remercions de bien vouloir annuler votre rendez-vous si vous ne pouvez pas l'assurer." + 
-			" Si vous avez des documents à transmettre à votre docteur, n'hésitez pas à les lui faire suivre depuis votre compte, dans la section mes rendez-vous. " +
-			"A très bientôt, votre cabinet médical Medicolib.";
-            message.setText(body);
-            javaMailSender.send(message);
+				int day = date.getDayOfMonth();
+				String month = date.getMonth().getDisplayName(TextStyle.FULL, Locale.FRENCH);
+				int year = date.getYear();
+
+				String subject = "Confirmation de prise de rendez-vous du " + day + " " + month + " " + year;
+				message.setSubject(subject);
+
+				String body = "Nous vous confirmons le rendez-vous du " + day + " " + month + " " + year + " à "
+						+ timeDate.get(1).toString() +
+						". Nous vous remercions de bien vouloir annuler votre rendez-vous si vous ne pouvez pas l'assurer."
+						+
+						" Si vous avez des documents à transmettre à votre docteur, n'hésitez pas à les lui faire suivre depuis votre compte, dans la section mes rendez-vous. "
+						+
+						" A très bientôt, votre cabinet médical Medicolib.";
+				message.setText(body);
+				javaMailSender.send(message);
+			}
 
 			return ResponseEntity.ok("Appointment added");
 		} catch (Exception e) {
@@ -161,9 +175,34 @@ public class PatientController {
 	public ResponseEntity<String> cancelAppointment(@RequestBody HashMap<String, String> map) throws SQLException {
 		try {
 			String id = map.get("id");
+			String mail = map.get("mail");
 			if (id == null) {
 				return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
 			} else {
+				List<Object> timeDate = medicalPractice.getDateAndTimeAppt(id);
+
+				if (!timeDate.isEmpty()) {
+
+					LocalDate date = (LocalDate) timeDate.get(0);
+
+					int day = date.getDayOfMonth();
+					String month = date.getMonth().getDisplayName(TextStyle.FULL, Locale.FRENCH);
+					int year = date.getYear();
+
+					SimpleMailMessage message = new SimpleMailMessage();
+					message.setTo(mail);
+
+					String subject = "Annulation de votre rendez-vous du " + day + " " + month + " " + year;
+					message.setSubject(subject);
+
+					String body = "Votre rendez-vous du " + day + " " + month + " " + year + " à "
+							+ timeDate.get(1).toString() +
+							" a dû être annulé. Si vous n'êtes pas à l'origine de cette demande, cela vient alors de votre docteur. Dans ce cas, n'hésitez pas à nous contacter"
+							+ " pour plus d'informations. Vous pouvez également reprendre un rendez-vous directement sur le site."
+							+ " A très bientôt, votre cabinet médical Medicolib.";
+					message.setText(body);
+					javaMailSender.send(message);
+				}
 				medicalPractice.cancelAppointment(id);
 				return ResponseEntity.ok("Appointment cancelled");
 			}

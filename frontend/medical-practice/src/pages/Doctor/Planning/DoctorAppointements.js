@@ -33,8 +33,11 @@ function ConfirmationModal(props) {
                         {props.documents}
                     </div>
                     <div className="redirect-buttons">
-                        <span className="goToMedicalFile" onClick={() => { navigate(props.medicalFile) }}>Accéder à son dossier médical</span>
+                        <span className="goToMedicalFile"  onClick={() => { navigate(props.medicalFile) }}>Accéder à son dossier médical</span>
                         <span className="goToConsultation" onClick={() => { navigate(props.consultation) }}>Ajouter une consultation</span>
+                        <span>{props.cancelAppt}</span>
+                    </div>
+                    <div>
                     </div>
                 </Modal.Body>
                 <Modal.Footer>
@@ -61,7 +64,8 @@ const DoctorAppointments = () => {
                 start: appointment[1] + 'T' + appointment[2],
                 end: appointment[1] + 'T' + appointment[3],
                 id: appointment[0],
-                idPatient: appointment[6]
+                idPatient: appointment[6],
+                mailPatient : appointment[7]
             }));
             setAppointments(newData);
         });
@@ -88,6 +92,20 @@ const DoctorAppointments = () => {
         link.download = doc[0];
         link.click();
     }
+
+    const cancelappointment = () => {
+        axios.post('/cancelappointment', {   
+            id: selectedAppointment.id,
+            mail: selectedAppointment.extendedProps.mailPatient 
+        }).then((response) => {
+                console.log(response);
+                handleCloseModal()
+                window.location.reload();
+            })
+            .catch((error) => {
+                console.log(error);
+            });
+    };
 
     return (
         <div className="CalendarPatient">
@@ -153,6 +171,11 @@ const DoctorAppointments = () => {
                         }
                         medicalFile={`/doctor/${selectedAppointment.extendedProps.name}/dossier-medical?id=${selectedAppointment.extendedProps.idPatient}`}
                         consultation={`/doctor/${selectedAppointment.extendedProps.name}/consultation?id=${selectedAppointment.extendedProps.idPatient}`}
+                        cancelAppt={
+                            selectedAppointment.start > new Date() ? 
+                            <div><button className="cancelAppt" onClick={() => cancelappointment()}>Annuler le RDV</button></div> :
+                            <div></div>
+                        }
                         onClose={handleCloseModal}
                     />
                 )}

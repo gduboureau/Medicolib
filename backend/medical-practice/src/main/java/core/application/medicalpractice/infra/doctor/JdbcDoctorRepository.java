@@ -180,7 +180,7 @@ public class JdbcDoctorRepository implements DoctorRepository {
     Connection connection = DBUtil.getConnection();
     List<List<String>> appointments = new ArrayList<List<String>>();
     Statement stmt = connection.createStatement();
-    String sql = "SELECT appointments.appointmentid, appointments.StartTime, appointments.endtime, patients.firstname, patients.lastname, patients.patientid FROM patients JOIN appointments ON patients.patientid = appointments.patientid WHERE appointments.doctorid= (SELECT doctorid FROM Doctors WHERE mail= "
+    String sql = "SELECT appointments.appointmentid, appointments.StartTime, appointments.endtime, patients.firstname, patients.lastname, patients.patientid, patients.mail FROM patients JOIN appointments ON patients.patientid = appointments.patientid WHERE appointments.doctorid= (SELECT doctorid FROM Doctors WHERE mail= "
         + "'" + mail + "'" + ") ORDER BY appointments.starttime";
     ResultSet rs = stmt.executeQuery(sql);
     while (rs.next()) {
@@ -192,6 +192,7 @@ public class JdbcDoctorRepository implements DoctorRepository {
       l.add(rs.getString(4));
       l.add(rs.getString(5));
       l.add(rs.getString(6));
+      l.add(rs.getString(7));
       appointments.add(l);
     }
 

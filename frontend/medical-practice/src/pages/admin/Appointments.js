@@ -127,7 +127,7 @@ const Appointments = () => {
 
     const handleConfirmCancelAppointment = () => {
         axios
-            .post('/cancelappointment', { id: selectedAppointment })
+            .post('/cancelappointment', { id: selectedAppointment, mail: mail.mail })
             .then((response) => {
                 console.log(response);
                 handleCloseModal()
