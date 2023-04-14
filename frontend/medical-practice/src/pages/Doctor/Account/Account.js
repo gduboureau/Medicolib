@@ -194,10 +194,12 @@ const Account = () => {
                                 <input type="text" title="Veuillez voir avec l'administrateur pour changer la spécialité" name="speciality"  defaultValue={data.speciality} readOnly/>
                             </label>
                             <label className="doctorGender">
-                                <p>Homme</p>
-                                <input type="radio" id="h" name="gender" value="M" checked={data.gender === "M"} onChange={handleChangePersoInfo} />
-                                <p>Femme</p>
-                                <input type="radio" id="f" name="gender" value="F" checked={data.gender === "F"} onChange={handleChangePersoInfo} />
+                                <p>Homme
+                                    <input type="radio" id="h" name="gender" value="M" checked={data.gender === "M"} onChange={handleChangePersoInfo} />
+                                </p>
+                                <p>Femme
+                                    <input type="radio" id="f" name="gender" value="F" checked={data.gender === "F"} onChange={handleChangePersoInfo} />
+                                </p>
                             </label>
                         </div>
                         <div className="div-modif-info-doctor">
@@ -262,7 +264,7 @@ const Account = () => {
                                                     type="number"
                                                     name={price[0]}
                                                     value={price[1]}
-                                                    onChange={(e) => handleValueChange(e, index)} required/> euros
+                                                    onChange={(e) => handleValueChange(e, index)} required/> €
                                                 <button onClick={() => deleteRow(index)}>-</button>
                                             </td>
                                         </tr>
