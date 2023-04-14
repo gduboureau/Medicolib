@@ -151,12 +151,6 @@ public class JdbcDoctorRepository implements DoctorRepository {
     PreparedStatement stmt = connection
         .prepareStatement(
             "SELECT * FROM AvailableTimeSlots WHERE doctorid=(SELECT doctorid FROM Doctors WHERE doctorid='" + doctorid + "') ORDER BY starttime");
-    stmt3.executeUpdate(request3);
-    stmt3.close();
-    PreparedStatement stmt = connection
-        .prepareStatement(
-            "SELECT * FROM AvailableTimeSlots WHERE doctorid=(SELECT doctorid FROM Doctors WHERE firstname=" + "'"
-                + firstName + "'" + " AND lastname=" + "'" + lastName + "') ORDER BY starttime");
     ResultSet rs = stmt.executeQuery();
     while (rs.next()) {
       List<String> l = new ArrayList<>();
