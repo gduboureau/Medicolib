@@ -101,16 +101,15 @@ public class DoctorControllerTest {
 
     @Test
     void testDisplayAppointments() throws SQLException {
-        String firstName = "John";
-        String lastName = "Doe";
+        UUID doctorid = UUID.randomUUID();
         List<List<String>> appointments = new ArrayList<>();
         List<String> appt1 = new ArrayList<>();
         appt1.add("41e61a68-77e2-4f70-b37b-ca097d70ad29");
         appt1.add("985dc899-4046-44b9-832f-3be49b4ac48a");
         appt1.add("2023-03-29 15:30:00");
         appt1.add("2023-03-29 16:00:00");
-        when(medicalPractice.displayAppointments(firstName, lastName)).thenReturn(appointments);
-        ResponseEntity<List<List<String>>> response = doctorController.displayAppointments(firstName, lastName);
+        when(medicalPractice.displayAppointments(doctorid)).thenReturn(appointments);
+        ResponseEntity<List<List<String>>> response = doctorController.displayAppointments(doctorid);
         assertEquals(HttpStatus.OK, response.getStatusCode());
         assertEquals(appointments, response.getBody());
     }

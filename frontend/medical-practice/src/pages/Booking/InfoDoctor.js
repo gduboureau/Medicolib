@@ -3,7 +3,6 @@ import axios from "axios";
 import ProfilPictureF from './assets/ProfilPictureF.png';
 import ProfilPictureM from './assets/ProfilPictureM.png';
 import Error from "../../utils/Error";
-import Booking from "./Booking";
 import './assets/infoDoctor.css'
 import imagePrice from './assets/etiqueter.png'
 import imageinformation from './assets/information.png'
@@ -45,8 +44,8 @@ function InfoDoctor(selectedDoctorId) {
   }
 
   return (
-    <div className="DoctorPage">
-      <div className="infoDoctor">
+<div className="infoDoctor">
+      <div className="mainInformations">
         <div className="imgDoctor">
           {Doctor?.gender === 'F' ? (
             <img src={ProfilPictureF} alt="Profil Female" />
@@ -65,36 +64,29 @@ function InfoDoctor(selectedDoctorId) {
       </div>
       <div className="extraInformations">
         <div className="title-price">
-          <img className="img-price" src={imagePrice} alt='img-png' /> {/* https://www.flaticon.com/fr/icones-gratuites/euro" */}
+          <img className="img-title" src={imagePrice} alt='img-png' /> {/* https://www.flaticon.com/fr/icones-gratuites/euro" */}
           <div className="title">Tarifs</div>
         </div>
         {priceConsultations.map((price, index) => (
           <div className="priceAndName" key={index}>
-            <p>
-              {price[0]} :
-            </p>
-            <p className="price">
-              {price[1]} euros
-            </p>
+            <span className="name">{price[0]} : &nbsp;</span>
+            <span className="price">{price[1]} €</span>
           </div>
         ))}
         <div className="title-informations">
-          <img className="img-info" src={imageinformation} alt='img-png' /> {/*"https://www.flaticon.com/fr/icones-gratuites/info" */}
-          <div className="title-info">Informations</div>
+          <img className="img-title" src={imageinformation} alt='img-png' /> {/*"https://www.flaticon.com/fr/icones-gratuites/info" */}
+          <div className="title">Informations</div>
         </div>
         <p className="doctor-informations">
           {Doctor?.informations}
         </p>
         <div className="title-contact">
-          <img className="img-contact" src={imageContact} alt='img-png' /> {/* https://www.flaticon.com/fr/icones-gratuites/email" */}
-          <div className="title-cont">Contact</div>
+          <img className="img-title" src={imageContact} alt='img-png' /> {/* https://www.flaticon.com/fr/icones-gratuites/email" */}
+          <div className="title">Contact</div>
         </div>
-        <p>
+        <p className="doctor-contact">
           {Doctor?.mail}
         </p>
-      </div>
-      <div className="booking-container">
-        <Booking></Booking>
       </div>
     </div>
   );

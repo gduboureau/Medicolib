@@ -136,20 +136,21 @@ public class JdbcDoctorRepository implements DoctorRepository {
   }
 
   @Override
-  public List<List<String>> displayAppointments(String firstName, String lastName) throws SQLException {
+  public List<List<String>> displayAppointments(UUID doctorid) throws SQLException {
     Connection connection = DBUtil.getConnection();
     List<List<String>> appointments = new ArrayList<>();
     DateFormat tf = new SimpleDateFormat("HH:mm");
     Statement stmt2 = connection.createStatement();
-    String request2 = "DELETE FROM AvailableTimeSlots WHERE doctorid = (SELECT doctorid FROM Doctors WHERE firstname="
-        + "'"
-        + firstName + "'" + " AND lastname=" + "'" + lastName + "') and StartTime < NOW() - INTERVAL '1 week'";
+    String request2 = "DELETE FROM AvailableTimeSlots WHERE doctorid = (SELECT doctorid FROM Doctors WHERE doctorid='" + doctorid + "') and StartTime < NOW() - INTERVAL '1 week'";
     stmt2.executeUpdate(request2);
     stmt2.close();
     Statement stmt3 = connection.createStatement();
-    String request3 = "UPDATE AvailableTimeSlots SET Booked = true WHERE doctorid = (SELECT doctorid FROM Doctors WHERE firstname="
-        + "'"
-        + firstName + "'" + " AND lastname=" + "'" + lastName + "') and StartTime < NOW()";
+    String request3 = "UPDATE AvailableTimeSlots SET Booked = true WHERE doctorid = (SELECT doctorid FROM Doctors WHERE doctorid='" + doctorid + "') and StartTime < NOW()";
+    stmt3.executeUpdate(request3);
+    stmt3.close();
+    PreparedStatement stmt = connection
+        .prepareStatement(
+            "SELECT * FROM AvailableTimeSlots WHERE doctorid=(SELECT doctorid FROM Doctors WHERE doctorid='" + doctorid + "') ORDER BY starttime");
     stmt3.executeUpdate(request3);
     stmt3.close();
     PreparedStatement stmt = connection

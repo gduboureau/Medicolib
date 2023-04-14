@@ -23,7 +23,7 @@ public interface DoctorRepository {
 
         public List<String> getInformationsDoctorByMail(String mail) throws SQLException;
 
-        public List<List<String>> displayAppointments(String firstName, String lastName) throws SQLException;
+        public List<List<String>> displayAppointments(UUID doctorid) throws SQLException;
 
         public List<List<String>> getAllAppointmentsDoctor(String mail) throws SQLException;
 

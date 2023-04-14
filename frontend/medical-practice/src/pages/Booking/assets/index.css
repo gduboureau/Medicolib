@@ -1,0 +1,82 @@
+
+
+.BookingPage {
+    display: flex;
+    justify-content: center;
+}
+
+.BookingPage .booking-container{
+    transform: scale(1.1);
+}
+
+.BookingPage .bookingsmall-container{
+    display: none;
+}
+
+
+@media screen and (min-width:1541px){
+    .BookingPage{
+        margin-top: 120px;
+    }
+    .BookingPage .infodoctor-container{
+        transform: scale(1.1);
+        margin-left: 80px;
+        margin-right: max(4.5vw,60px);
+    }
+    .BookingPage .booking-container{
+        margin-left: max(4.5vw,60px);
+        margin-right: 90px;
+    }
+}
+
+@media screen and (max-width:1540px) and (min-width:1250px){
+    .BookingPage .infodoctor-container{
+        margin-top: 120px;
+        margin-left: 50px;
+        margin-right: 3vw;        
+    }
+    .BookingPage .booking-container{
+        margin-top: 120px;
+        margin-left: 3vw;
+        margin-right: 90px;
+    }
+}
+
+@media screen and (max-width:1250px) and (min-width:800px){
+    .BookingPage {
+        flex-wrap: wrap;
+        margin-top: 50px;
+    }
+    .BookingPage .infodoctor-container{
+        margin-left: 20px;
+        margin-right: 20px;
+        margin-bottom: 80px;
+    }
+    .BookingPage .booking-container{
+        padding-left: 80px;
+        padding-right: 80px;
+        margin-bottom: 100px;
+    }
+}
+
+@media screen and (max-width:800px){
+    .BookingPage {
+        flex-wrap: wrap;
+        margin-top: 50px;
+    }
+    .BookingPage .infodoctor-container{
+        margin-left: 20px;
+        margin-right: 20px;
+        margin-bottom: 50px;
+    }
+    .BookingPage .booking-container{
+        display: none;
+    }
+    .BookingPage .bookingsmall-container{
+        display: block;
+        margin-left: 100px;
+        margin-right: 100px;
+        margin-bottom: 80px;
+    }
+
+}

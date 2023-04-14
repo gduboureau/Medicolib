@@ -91,12 +91,11 @@ public class DoctorController {
 		}
 	}
 
-	@RequestMapping(value = "/{firstname}-{lastname}/booking", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<List<List<String>>> displayAppointments(@PathVariable("firstname") String firstName,
-			@PathVariable("lastname") String lastName) throws SQLException {
+	@RequestMapping(value = "/booking/id={doctorid}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<List<List<String>>> displayAppointments(@PathVariable UUID doctorid) throws SQLException {
 		
 		try {
-			List<List<String>> appointments = medicalPractice.displayAppointments(firstName, lastName);
+			List<List<String>> appointments = medicalPractice.displayAppointments(doctorid);
 			return ResponseEntity.ok(appointments);
 		} catch (Exception e) {
 			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();

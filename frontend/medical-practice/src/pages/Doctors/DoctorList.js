@@ -58,7 +58,7 @@ function ArrayDoctors() {
                         </div>
                     </div>
                     <div className="doctor-card-planning">
-                        <DoctorCardBooking firstname={doctor.firstName} lastname={doctor.lastName} />
+                        <DoctorCardBooking doctorid={doctor.id}/>
                     </div>
                 </div>
             ))}

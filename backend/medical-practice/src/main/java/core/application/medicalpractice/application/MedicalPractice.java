@@ -53,8 +53,8 @@ public class MedicalPractice {
         return doctorRepository.getInformationsDoctorByMail(mail);
     }
 
-    public List<List<String>> displayAppointments(String firstname, String lastname) throws SQLException {
-        return doctorRepository.displayAppointments(firstname, lastname);
+    public List<List<String>> displayAppointments(UUID doctorid) throws SQLException {
+        return doctorRepository.displayAppointments(doctorid);
     }
 
     public List<List<String>> getAllAppointmentsDoctor(String mail) throws SQLException {

@@ -10,7 +10,7 @@ import { useLocation } from "react-router-dom";
 
 import './assets/doctorCardBooking.css'
 
-const DoctorCardBooking = ({ firstname, lastname }) => {
+const DoctorCardBooking = ({ doctorid }) => {
     function NoRDVModal(props) {
         const handleClose = () => {
             props.onClose();
@@ -38,10 +38,8 @@ const DoctorCardBooking = ({ firstname, lastname }) => {
     const navigate = useNavigate();
     const location = useLocation();
 
-    const name = firstname + "-" + lastname;
-
     useEffect(() => {
-        axios.get(`/${name}/booking`).then((res) => {
+        axios.get(`/booking/id=${doctorid}`).then((res) => {
             const newData = res.data;
             const tmp = newData;
             const filteredData = tmp.filter(appointment => appointment[5] === "false");
@@ -62,7 +60,7 @@ const DoctorCardBooking = ({ firstname, lastname }) => {
                 console.log(error)
 
             });
-    }, [name]);
+    }, [doctorid]);
 
     const onClick = (id) => {
         if (!accountService.isLogged()) {
@@ -82,9 +80,6 @@ const DoctorCardBooking = ({ firstname, lastname }) => {
 
     const weekStart = new Date(selectedWeek);
     weekStart.setDate(weekStart.getDate());
-
-    const weekEnd = new Date(selectedWeek);
-    weekEnd.setDate(selectedWeek.getDate() - selectedWeek.getDay() + 6);
 
     const weekDays = [];
     for (let i = 0; i < 7; i++) {
@@ -122,8 +117,14 @@ const DoctorCardBooking = ({ firstname, lastname }) => {
                         <td>
                             <button className="button-week-left" onClick={() => {
                                 const date = new Date();
-                                if (selectedWeek.getTime() - 7 >= date.getTime()) {
-                                    setSelectedWeek(new Date(selectedWeek.getFullYear(), selectedWeek.getMonth(), selectedWeek.getDate() - 7))
+                                date.setHours(0);
+                                date.setMinutes(0);
+                                date.setSeconds(0);
+                                date.setMilliseconds(0);
+                                const previousWeek = new Date(selectedWeek);
+                                previousWeek.setDate(selectedWeek.getDate() - 7);
+                                if (previousWeek >= date) {
+                                    setSelectedWeek(previousWeek);
                                 }
                             }}>
                                 <FontAwesomeIcon icon={faAngleLeft} />

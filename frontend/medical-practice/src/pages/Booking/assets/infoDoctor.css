@@ -1,191 +1,77 @@
-.DoctorPage .booking-container {
-    float: right;
-    margin-left: 840px;
-    transition: transform 0.3s ease;
-}
 
-.DoctorPage {
-    overflow-y: hidden;
-}
-
-.DoctorPage .infoDoctor {
-    display: flex;
-    background-color: aliceblue;
-    padding: 10px;
-    margin-top: 30px;
-    margin-left: 30px;
-    border-top-right-radius: 10px;
-    border-top-left-radius: 10px;
-    width: 43%;
-    position: absolute;
-}
-
-.DoctorPage .extraInformations {
+.infoDoctor{
     background-color: #ffffff;
-    padding: 10px;
-    margin-top: 175px;
-    margin-left: 30px;
-    border-bottom-right-radius: 10px;
-    border-bottom-left-radius: 10px;
-    width: 43%;
-    position: absolute;
-    height: 480px;
+    height: 643px;
+    max-width: 650px;
+    min-width: 420px;
+    border-radius: 10px;
 }
 
-.DoctorPage .imgDoctor img{
+.infoDoctor .mainInformations{
+    background-color: aliceblue;
+    display: flex;
+    align-items: center;
+    border-top-left-radius: 9px;
+    border-top-right-radius: 9px;
+}
+
+.infoDoctor .imgDoctor img{
     height: 100px;
+    margin-top: 15px;
     margin-left: 25px;
-    margin-top: 15px;
     margin-bottom: 15px;
+    margin-right: 30px;
 }
 
-@media only screen and (max-width: 1550px) {
-    .DoctorPage .booking-container {
-      float: none;
-      margin-left: 0;
-      transform: scale(0.9);
-    }
-  
-    .DoctorPage .infoDoctor,
-    .DoctorPage .extraInformations {
-      width: 600px;
-      position: static;
-      margin: 0;
-    }
-
-    .DoctorPage .infoDoctor {
-        margin-top: 30px;
-    }
-
-    .DoctorPage {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-    }
+.infoDoctor .informations p{
+    padding: 8px;
 }
 
-@media screen and (max-width: 1000px) {
-    /* appliquer une transformation d'échelle plus importante pour réduire encore plus la taille de l'élément */
-    .DoctorPage .booking-container {
-        float: none;
-        margin-left: 0;
-        transform: scale(0.8);
-    }
-
-    .DoctorPage .infoDoctor,
-    .DoctorPage .extraInformations {
-      width: 500px;
-      position: static;
-      margin: 0;
-    }
-
-    .DoctorPage .infoDoctor {
-        margin-top: 30px;
-    }
-
-    .DoctorPage {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-    }
+.infoDoctor .extraInformations{
+    height: 489px;
+    padding: 10px;
+    overflow-y: auto;
 }
 
-@media screen and (max-width: 700px) {
-    /* appliquer une transformation d'échelle plus importante pour réduire encore plus la taille de l'élément */
-    .DoctorPage .booking-container {
-        float: none;
-        margin-left: 0;
-        transform: scale(0.7);
-    }
-    .DoctorPage .infoDoctor,
-    .DoctorPage .extraInformations {
-      width: 400px;
-      position: static;
-      margin: 0;
-    }
-
-    .DoctorPage .infoDoctor {
-        margin-top: 30px;
-    }
-
-    .DoctorPage {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-    }
+.infoDoctor .extraInformations::-webkit-scrollbar {
+    width: 5px;
+    background-color: rgb(222, 233, 243);
+    border-bottom-right-radius: 10px;
+}
+      
+.infoDoctor .extraInformations::-webkit-scrollbar-thumb {
+    background-color: rgb(193, 210, 225);
+    border-radius: 4px;
 }
 
-@media screen and (max-width: 600px) {
-    /* appliquer une transformation d'échelle plus importante pour réduire encore plus la taille de l'élément */
-    .DoctorPage .booking-container {
-        float: none;
-        margin-left: 0;
-        transform: scale(0.6);
-    }
-}
-
-.DoctorPage .informations {
+.infoDoctor .title-price,
+.infoDoctor .title-informations,
+.infoDoctor .title-contact{
     display: flex;
-    flex-direction: column;
-    justify-content: center;
-    margin-left: 7%;
-    margin-top: -3%;
+    align-items: center;
+    margin-top:25px;
+    margin-bottom: 5px;
 }
 
-.DoctorPage .personalInformations p {
-    margin-top: 15px;
-}
-
-.DoctorPage .extraInformations p {
-    margin-top: 8px;
-    margin-left: 30px;
-}
-
-.DoctorPage .img-price,
-.DoctorPage .img-info,
-.DoctorPage .img-contact  {
+.infoDoctor .extraInformations .img-title {
     height: 18px;
-    margin-top: 17px;
 }
 
-
-.DoctorPage .title-price,
-.DoctorPage .title-contact{
-    display: flex;
-    align-items: center;
-}
-
-.DoctorPage .title-informations{
-    display: flex;
-    align-items: center;
-}
-
-.DoctorPage .title,
-.DoctorPage .title-info,
-.DoctorPage .title-cont{
+.infoDoctor .extraInformations .title{
     margin-left: 10px;
-    margin-top: 15px;
     color: #64c9c3;
     font-weight : bold;
 }
 
-.DoctorPage .priceAndName p:last-child {
-    margin-left: 5px;
-    font-weight: bold;
+.infoDoctor .extraInformations .priceAndName,
+.infoDoctor .extraInformations .doctor-informations,
+.infoDoctor .extraInformations .doctor-contact {
+    padding: 3px;
+    margin-left: 27px;
+    margin-right: 5px;
 }
 
-.DoctorPage .price {
+.infoDoctor .extraInformations .price {
     font-weight : bold;
 }
 
-.DoctorPage .priceAndName {
-    display: flex;
-}
-
-.DoctorPage .doctor-informations {
-    font-size: 14px;
-    text-align: justify;
-    line-height: 2; /* ajustez la valeur selon vos préférences */
-    margin-bottom: 10px; 
-    margin-right: 20px;
-}
