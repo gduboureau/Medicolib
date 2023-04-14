@@ -1,54 +1,70 @@
+
 .showPatients h2 {
-    margin: 20px;
+    margin: 30px;
 }
 
-.showPatients table {
+.showPatients .table-container{
+    display: flex;
+    justify-content: center;
+}
+
+.showPatients .table-container table {
     background-color: white;
     border-collapse: collapse;
-    margin: 20px;
-    width: 95%;
+    width: 98%;
     border-radius: 20px;
+    
 }
 
-.showPatients table thead th {
+.showPatients .table-container table thead th {
     text-align: left;
     padding: 10px;
 }
 
-.showPatients table tbody td {
+.showPatients .table-container table tbody td {
     text-align: left;
     padding: 10px;
+    word-wrap: break-word;
 }
 
-.showPatients table thead th:nth-child(6) {
-    border-top-right-radius: 20px;
+.showPatients .table-container table thead th:nth-child(1),
+.showPatients .table-container table thead th:nth-child(2),
+.showPatients .table-container table thead th:nth-child(3),
+.showPatients .table-container table thead th:nth-child(4),
+.showPatients .table-container table thead th:nth-child(5),
+.showPatients .table-container table thead th:nth-child(6){
     background-color: #284360;
     color: #fff;
+    font-size: clamp(13px, calc(1.6vw + 0.5vw), 17px);
 }
 
-.showPatients table thead th:nth-child(1) {
+.showPatients .table-container table thead th:nth-child(1) {
     border-top-left-radius: 20px;
-    background-color: #284360;
-    color: #fff;
 }
 
-.showPatients table thead th:nth-child(2),
-.showPatients table thead th:nth-child(3),
-.showPatients table thead th:nth-child(4),
-.showPatients table thead th:nth-child(5) {
-    background-color: #284360;
-    color: #fff;
+.showPatients .table-container table thead th:nth-child(6) {
+    border-top-right-radius: 20px;
 }
 
-.showPatients table tbody tr:nth-child(4){
-    text-align: center;
-}
-
-.showPatients table tbody tr:not(:last-child) td {
+.showPatients .table-container table tbody tr:not(:last-child) td {
     border-bottom: 1px solid #6b6868cc;
 }
 
-.showPatients table tbody tr td button {
+.showPatients .table-container table tbody tr td:nth-child(1),
+.showPatients .table-container table tbody tr td:nth-child(2),
+.showPatients .table-container table tbody tr td:nth-child(3),
+.showPatients .table-container table tbody tr td:nth-child(4),
+.showPatients .table-container table tbody tr td:nth-child(5),
+.showPatients .table-container table tbody tr td:nth-child(6){
+    font-size: clamp(13px, calc(1.6vw + 0.5vw), 17px);
+}
+
+.showPatients .table-container table tbody tr td:nth-child(5){
+    width: 30%;
+    word-break: break-all;
+}
+
+.showPatients .table-container table tbody tr td button {
     background-color: #284360;
     color: #fff;
     border: none;
@@ -58,9 +74,10 @@
     font-weight: 500;
     cursor: pointer;
     transition: all 0.3s ease;
+    font-size: clamp(11px, calc(1.6vw + 0.5vw), 17px);
 }
 
-.showPatients table tbody tr td button:hover {
+.showPatients .table-container table tbody tr td button:hover {
     background-color: #1b2c3f;
 }
 

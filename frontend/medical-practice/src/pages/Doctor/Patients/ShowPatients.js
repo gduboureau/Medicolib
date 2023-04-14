@@ -2,6 +2,7 @@ import axios from 'axios';
 import { accountService } from "../../users/Authentification/Sessionstorage";
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from "react-router-dom";
+import { useMemo } from 'react';
 
 import './assets/showPatients.css'
 
@@ -26,14 +27,14 @@ const ShowPatients = () => {
     const indexOfFirstPatient = indexOfLastPatient - patientsPerPage;
     const currentPatients = patientsList.slice(indexOfFirstPatient, indexOfLastPatient);
 
-    let mail = { mail: accountService.getEmail() };
+    const mail = useMemo(() => ({mail: accountService.getEmail()}), []); // Crée une référence unique à mail
 
     useEffect(() => {
         axios.post("/getPatients", mail).then(res => {
             const newData = res.data;
             setPatientsList(newData)
         });
-    }, []); // eslint-disable-line react-hooks/exhaustive-deps
+    }, [mail]);
 
     const handleClick = (event) => {
         setCurrentPage(Number(event.target.id));
@@ -67,32 +68,34 @@ const ShowPatients = () => {
         return (
             <div className="showPatients">
                 <h2>Liste des patients</h2>
-                <table>
-                    <thead>
-                        <tr>
-                            <th>Nom</th>
-                            <th>Prénom</th>
-                            <th>Date de naissance</th>
-                            <th>Sexe</th>
-                            <th>Mail</th>
-                            <th>Action</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {currentPatients.map((patient, index) => (
-                            <tr key={index}>
-                                <td>{patient["lastName"]}</td>
-                                <td>{patient["firstName"]}</td>
-                                <td>{formatDate(patient["birthday"])}</td>
-                                <td>{patient["gender"]}</td>
-                                <td>{patient["mail"]}</td>
-                                <td>
-                                    <button onClick={() => handleMedicalFile(patient["id"], patient["firstName"], patient["lastName"])}>Accéder au dossier médical</button>
-                                </td>
+                <div className='table-container'>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Nom</th>
+                                <th>Prénom</th>
+                                <th>Date de naissance</th>
+                                <th>Sexe</th>
+                                <th>Mail</th>
+                                <th>Action</th>
                             </tr>
-                        ))}
-                    </tbody>
-                </table>
+                        </thead>
+                        <tbody>
+                            {currentPatients.map((patient, index) => (
+                                <tr key={index}>
+                                    <td>{patient["lastName"]}</td>
+                                    <td>{patient["firstName"]}</td>
+                                    <td>{formatDate(patient["birthday"])}</td>
+                                    <td>{patient["gender"]}</td>
+                                    <td>{patient["mail"]}</td>
+                                    <td>
+                                        <button onClick={() => handleMedicalFile(patient["id"], patient["firstName"], patient["lastName"])}>Accéder au dossier médical</button>
+                                    </td>
+                                </tr>
+                            ))}
+                        </tbody>
+                    </table>
+                </div>
                 <ul id="page-numbers">
                     {pageNumbers.map((number, index) => {
                         if (number === '...' && index === 0) {
