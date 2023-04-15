@@ -1,22 +1,57 @@
-.fc-timegrid-slot {
-    height: 31px !important;
+.CalendarPatient .fc-scrollgrid-section.fc-scrollgrid-section-body{
     background-color: #f5f5f5;
 }
 
-.fc-pointer-cursor {
+.CalendarPatient .fc-pointer-cursor {
     cursor: pointer;
 }
 
-.fc-view-harness {
+.CalendarPatient .fc-view-harness {
     margin-top: 20px;
 }
 
-.fc-toolbar h2 {
-    display: inline;
+.CalendarPatient .fc-toolbar-chunk .fc-today-button.fc-button.fc-button-primary{
+    margin-left: 0px;
 }
-.fc-toolbar-chunk {
+
+.CalendarPatient .fc-toolbar .fc-next-button {
+    margin-left: 0px;
+}
+
+.CalendarPatient .fc-header-toolbar.fc-toolbar .fc-toolbar-chunk .fc-toolbar-title{
+    margin-right: 35px;
+    margin-left: 35px;
+}
+
+.CalendarPatient .fc-toolbar-chunk {
     margin-top: 30px;
+    display: flex;
+    align-items: center;
 }
 
+.CalendarPatient .fc-toolbar .fc-today-button.fc-button.fc-button-primary{
+    height: 40px;
+}
 
+.CalendarPatient .fc-toolbar .fc-next-button.fc-button.fc-button-primary{
+    margin-left: 0;
+    margin-right: 20px;
+    height: 40px;
+}
 
+.CalendarPatient .fc-toolbar .fc-prev-button.fc-button.fc-button-primary{
+    height: 40px;
+}
+
+.CalendarPatient .fc .fc-timegrid-slot {
+    height: 36px;
+}
+
+.CalendarPatient .fc-v-event .fc-event-title-container{
+    white-space: nowrap;
+    font-size: 13px;
+}
+
+.CalendarPatient .fc-timegrid-col.fc-day-today{
+    background-color: #8cb8db26;
+}

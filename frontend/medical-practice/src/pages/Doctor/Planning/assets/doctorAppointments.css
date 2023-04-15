@@ -1,19 +1,12 @@
 .CalendarPatient {
-    width: 85%;
+    width: 90%;
     margin: auto;
-    height: 100vh;
 }
 
 .Calendar {
     width: 100%;
     margin: auto;
 }
-
-
-.fc-event-time {
-    height: 20px
-}
-
 
 .showInfoAppt {
     position: fixed;
@@ -24,7 +17,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    z-index: 9999;
+    z-index: 4;
     background-color: rgba(0, 0, 0, 0.5);
 }
 
@@ -42,7 +35,6 @@
     padding: 20px;
     border-radius: 5px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
-    z-index: 10000;
 }
 
 .modalAppt p {
@@ -51,7 +43,7 @@
 
 .modalAppt+* {
     position: relative;
-    z-index: 1;
+    /* z-index: 1; */
 }
 
 .patient-document {

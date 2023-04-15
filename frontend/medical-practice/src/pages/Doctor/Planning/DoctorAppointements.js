@@ -124,7 +124,8 @@ const DoctorAppointments = () => {
                     }}
                     eventTextColor='black'
                     eventClassNames="fc-pointer-cursor"
-                    eventBackgroundColor='#bcbcbc'
+                    eventBackgroundColor='#becdd9'
+                    eventBorderColor="#284360"
                     locale={frLocale}
                     slotMinTime="08:00:00"
                     slotMaxTime="18:00:00"
