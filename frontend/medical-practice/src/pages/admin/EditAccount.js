@@ -32,19 +32,24 @@ const Edit = () => {
     axios.post("/informations-patient", mail)
       .then((response) => {
         const newData = response.data;
-        if (newData[8] === "1   1  "){
+        const city = newData.adress.city;
+        const number = newData.adress.number;
+        const postalCode = newData.adress.postalCode;
+        const street = newData.adress.street;
+        const adress = number + street + postalCode + city
+        if (newData[8] === adress){
             newData[8] = "";
-          }
+        }
         setData({
-            firstName: newData[1],
-            lastName: newData[2],
-            gender: newData[3],
-            date: newData[4],
-            weight: newData[5],
-            height: newData[6],
-            email: newData[7],
-            address: newData[8],
-            numSocial: newData[9]
+            firstName: newData.firstName,
+            lastName: newData.lastName,
+            gender: newData.gender,
+            date: newData.birthday,
+            weight: newData.weight,
+            height: newData.height,
+            email: newData.mail,
+            address: adress,
+            numSocial: newData.numSocial
           });
       })
       .catch((error) => {

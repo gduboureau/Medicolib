@@ -18,6 +18,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
@@ -34,6 +35,7 @@ import core.application.medicalpractice.UI.controller.PatientController;
 import core.application.medicalpractice.application.MedicalPractice;
 import core.application.medicalpractice.domain.entity.Address;
 import core.application.medicalpractice.domain.entity.Patient;
+import core.application.medicalpractice.domain.entity.User;
 
 public class PatientControllerTest {
 
@@ -63,7 +65,7 @@ public class PatientControllerTest {
         appt1.add("2023-03-31 09:00:00");
         appt1.add("2023-03-31 09:15:00");
         appointments.add(appt1);
-        when(medicalPractice.getAppointmentByPatient("patient@test.com")).thenReturn(appointments);
+        when(medicalPractice.getAppointmentByPatient(medicalPractice.getPatientByMail("patient@test.com"))).thenReturn(appointments);
         ResponseEntity<List<List<String>>> response = patientController.AllAppointmentByPatient(map);
 
 		assertEquals(HttpStatus.OK, response.getStatusCode());
@@ -74,7 +76,7 @@ public class PatientControllerTest {
 	public void testAllAppointmentByPatientInternalServerError() throws SQLException, ParseException {
 		Map<String, String> map = new HashMap<>();
 		map.put("mail", "test@test.com");
-		when(medicalPractice.getAppointmentByPatient("test@test.com")).thenThrow(SQLException.class);
+		when(medicalPractice.getAppointmentByPatient(medicalPractice.getPatientByMail("patient@test.com"))).thenThrow(SQLException.class);
 
 		ResponseEntity<List<List<String>>> response = patientController.AllAppointmentByPatient(map);
 
@@ -86,7 +88,7 @@ public class PatientControllerTest {
         HashMap<String, String> map = new HashMap<>();
         map.put("id", "41e61a68-77e2-4f70-b37b-ca097d70ad29");
         String mail = "johndoe@gmail.com";
-        medicalPractice.makeAnAppointment(map.get("id"), mail);
+        medicalPractice.makeAnAppointment(map.get("id"), medicalPractice.getPatientByMail(mail));
         ResponseEntity<String> response = patientController.cancelAppointment(map);
         assertEquals(HttpStatus.OK, response.getStatusCode());
         assertEquals("Appointment cancelled", response.getBody());
@@ -112,7 +114,7 @@ public class PatientControllerTest {
         HashMap<String, String> map = new HashMap<>();
         map.put("id", "94b9b73a-f561-4ca9-a6c3-6ae7e0361773");
         String mail = "johndoe@gmail.com";
-        medicalPractice.makeAnAppointment(map.get("id"), mail);
+        medicalPractice.makeAnAppointment(map.get("id"), medicalPractice.getPatientByMail(mail));
         ResponseEntity<Date> response = patientController.getAppointmentDateById(map);
         assertEquals(HttpStatus.OK, response.getStatusCode());
     }
@@ -125,7 +127,7 @@ public class PatientControllerTest {
         doc1.add("94b9b73a-f561-4ca9-a6c3-6ae7e0361773");
         doc1.add(file1);
         documents.add(doc1);
-        when(medicalPractice.getDocument("johndoe@gmail.com")).thenReturn(documents);
+        when(medicalPractice.getDocument(medicalPractice.getPatientByMail("johndoe@gmail.com"))).thenReturn(documents);
         HashMap<String, String> map = new HashMap<>();
         map.put("mail", "johndoe@gmail.com");
         ResponseEntity<List<List<Object>>> response = patientController.getDocument(map);
@@ -140,17 +142,12 @@ public class PatientControllerTest {
         map.put("mail", mail);
         SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
         Date date = format.parse("2023-04-03");
-        List<String> infoPatient = new ArrayList<>();
-        infoPatient.add("John");
-        infoPatient.add("Doe");
-        infoPatient.add("M");
-        infoPatient.add(date.toString());
-        infoPatient.add("123456789");
-        infoPatient.add("johndoe@gmail.com");
-        when(medicalPractice.getInformationsPatient(mail)).thenReturn(infoPatient);
-        ResponseEntity<List<String>> response = patientController.getInformationsPatient(map);
+        Patient patient = new Patient(UUID.fromString("dccf9cfd-f2cc-4e44-8357-dd4140e17b73"),
+        "John" , "Doe", "M", date, "54165", "johndoe@gmail.com", null, 0, 0);
+        when(medicalPractice.getPatientByMail(mail)).thenReturn(patient);
+        ResponseEntity<Patient> response = patientController.getInformationsPatient(map);
         assertEquals(HttpStatus.OK, response.getStatusCode());
-        assertEquals(infoPatient, response.getBody());
+        assertEquals(patient, response.getBody());
     }
 
     @Test
@@ -206,13 +203,12 @@ public class PatientControllerTest {
 		infoPatient.add("Main Street");
 		infoPatient.add("12345");
 		infoPatient.add("New York");
-        when(medicalPractice.getAddress("johndoe@example.com")).thenReturn(new Address(20, "Park Avenue", "New York", 54321));
+        when(medicalPractice.getAddress(medicalPractice.getPatientByMail("johndoe@example.com"))).thenReturn(new Address(20, "Park Avenue", "New York", 54321));
 		when(medicalPractice.getInformationsPatient("johndoe@example.com")).thenReturn(infoPatient);
 		ResponseEntity<String> response = patientController.modifyInformationPatient(inputMap);
 		verify(medicalPractice).getInformationsPatient("johndoe@example.com");
 		verify(medicalPractice).saveAddress(any(Patient.class));
 		verify(medicalPractice).savePatient(any(Patient.class));
-		verify(medicalPractice).resetPassword("johndoe@example.com", "mdp");
 		assertEquals(HttpStatus.OK, response.getStatusCode());
 		assertEquals("Informations modified", response.getBody());
     }

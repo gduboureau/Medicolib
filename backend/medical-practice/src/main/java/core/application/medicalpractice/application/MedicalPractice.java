@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
 import java.util.UUID;
 
@@ -33,6 +32,10 @@ public class MedicalPractice {
 
     // requests for doctors
 
+    public Patient getPatientByMail(String mail) throws SQLException {
+        return patientRepository.getPatientByMail(mail);
+    }
+
     public List<Doctor> getAllDoctors() throws SQLException {
         return doctorRepository.getAllDoctors();
     }
@@ -49,7 +52,7 @@ public class MedicalPractice {
         return doctorRepository.getDoctorById(doctorid);
     }
 
-    public List<String> getInformationsDoctorByMail(String mail) throws SQLException {
+    public Doctor getInformationsDoctorByMail(String mail) throws SQLException {
         return doctorRepository.getInformationsDoctorByMail(mail);
     }
 
@@ -57,12 +60,12 @@ public class MedicalPractice {
         return doctorRepository.displayAppointments(doctorid);
     }
 
-    public List<List<String>> getAllAppointmentsDoctor(String mail) throws SQLException {
-        return doctorRepository.getAllAppointmentsDoctor(mail);
+    public List<List<String>> getAllAppointmentsDoctor(Doctor doctor) throws SQLException {
+        return doctorRepository.getAllAppointmentsDoctor(doctor);
     }
 
-    public List<HashMap<String, String>> getPatientsByDoctor(String mail) throws SQLException {
-        return doctorRepository.getPatientsByDoctor(mail);
+    public List<Patient> getPatientsByDoctor(Doctor doctor) throws SQLException {
+        return doctorRepository.getPatientsByDoctor(doctor);
     }
 
     public void addConsultation(String mail, String lastname, String firstname, Date date, String motif,
@@ -79,24 +82,24 @@ public class MedicalPractice {
         return consultations;
     }
 
-    public List<List<Object>> getDocumentPatient(String idAppt) throws SQLException {
-        return doctorRepository.getDocumentPatient(idAppt);
+    public List<List<Object>> getDocumentPatient(Appointment appointment) throws SQLException {
+        return doctorRepository.getDocumentPatient(appointment);
     }
 
-    public List<Object> getPriceConsultations(String idDoctor) throws SQLException {
-        return doctorRepository.getPriceConsultations(idDoctor);
+    public List<Object> getPriceConsultations(Doctor doctor) throws SQLException {
+        return doctorRepository.getPriceConsultations(doctor);
     }
 
-    public void modifyInfoPersoDoctor(String idDoctor, String firstName, String lastName, String gender) throws SQLException{
-        doctorRepository.modifyInfoPersoDoctor(idDoctor, firstName, lastName, gender);
+    public void modifyInfoPersoDoctor(Doctor doctor, String firstName, String lastName, String gender) throws SQLException{
+        doctorRepository.modifyInfoPersoDoctor(doctor, firstName, lastName, gender);
     }
 
-    public void modifyCredentialsDoctor(String idDoctor, String prevMail, String newMail, String password) throws SQLException {
-        doctorRepository.modifyCredentialsDoctor(idDoctor, prevMail, newMail, password);
+    public void modifyCredentialsDoctor(Doctor doctor, String prevMail, String newMail, String password) throws SQLException {
+        doctorRepository.modifyCredentialsDoctor(doctor, prevMail, newMail, password);
     }
 
-    public void modifyProInfoDoctor(String idDoctor, String infos, List<List<String>> priceList, List<List<String>> prevPriceList, List<String> deletedPrice) throws SQLException{
-        doctorRepository.modifyProInfoDoctor(idDoctor, infos, priceList,prevPriceList, deletedPrice);
+    public void modifyProInfoDoctor(Doctor doctor, String infos, List<List<String>> priceList, List<List<String>> prevPriceList, List<String> deletedPrice) throws SQLException{
+        doctorRepository.modifyProInfoDoctor(doctor, infos, priceList,prevPriceList, deletedPrice);
     }
 
     public Boolean checkIsDoctorExist(String mail) throws SQLException  {
@@ -105,8 +108,8 @@ public class MedicalPractice {
 
     // requests for patients
 
-    public List<List<String>> getAppointmentByPatient(String mail) throws SQLException {
-        return patientRepository.getAllAppointmentsByPatient(mail);
+    public List<List<String>> getAppointmentByPatient(Patient patient) throws SQLException {
+        return patientRepository.getAllAppointmentsByPatient(patient);
     }
 
     public void savePatient(Patient patient) throws SQLException {
@@ -122,68 +125,72 @@ public class MedicalPractice {
         return patientRepository.getInformationsPatient(mail);
     }
 
-    public Address getAddress(String mail) throws SQLException {
-        return patientRepository.getAddress(mail);
+    public Address getAddress(Patient patient) throws SQLException {
+        return patientRepository.getAddress(patient);
     }
 
     public void saveAddress(Patient patient) throws SQLException {
         patientRepository.saveAddress(patient);
     }
 
-    public void makeAnAppointment(String id, String mail) throws SQLException {
-        patientRepository.makeAnAppointment(id, mail);
+    public void makeAnAppointment(String id, Patient patient) throws SQLException {
+        patientRepository.makeAnAppointment(id, patient);
     }
 
-    public void cancelAppointment(String id) throws SQLException {
-        patientRepository.cancelAppointment(id);
+    public void cancelAppointment(Appointment appointment) throws SQLException {
+        patientRepository.cancelAppointment(appointment);
     }
 
-    public void saveDocument(String fileName, byte[] fileContent, String mail, String apptId) throws SQLException {
-        patientRepository.saveDocument(fileName, fileContent, mail, apptId);
+    public void saveDocument(String fileName, byte[] fileContent, Patient patient, Appointment appointment) throws SQLException {
+        patientRepository.saveDocument(fileName, fileContent, patient, appointment);
     }
 
-    public List<List<Object>> getDocument(String mail) throws SQLException, IOException {
-        return patientRepository.getDocument(mail);
+    public List<List<Object>> getDocument(Patient patient) throws SQLException, IOException {
+        return patientRepository.getDocument(patient);
     }
 
-    public void deleteDocument(String idAppt, String docName) throws SQLException {
-        patientRepository.deleteDocument(idAppt, docName);
+    public void deleteDocument(Appointment appointment, String docName) throws SQLException {
+        patientRepository.deleteDocument(appointment, docName);
     }
 
-    public List<List<Object>> getPrescriptionsByPatient(String mail) throws SQLException, IOException {
-        return patientRepository.getPrescriptionsByPatient(mail);
+    public List<List<Object>> getPrescriptionsByPatient(Patient patient) throws SQLException, IOException {
+        return patientRepository.getPrescriptionsByPatient(patient);
     }
 
-    public List<Object> getDateAndTimeAppt(String id) throws SQLException {
-        return patientRepository.getDateAndTimeAppt(id);
+    public List<Object> getDateAndTimeAppt(Appointment appointment) throws SQLException {
+        return patientRepository.getDateAndTimeAppt(appointment);
+    }
+
+    public Appointment getAppointmentById(String id) throws SQLException{
+        return patientRepository.getAppointmentById(id);
     }
 
     // requests for user
 
-    public void saveUser(String email, String password) {
-        userRepository.saveUser(email, password);
+    public void saveUser(User user) {
+        userRepository.saveUser(user);
     }
 
-    public boolean checkLoginExist(String email, String password) throws SQLException {
-        return userRepository.checkLoginExist(email, password);
+    public boolean checkLoginExist(User user) throws SQLException {
+        return userRepository.checkLoginExist(user);
     }
 
-    public void resetPassword(String mail, String password) throws SQLException {
-        userRepository.resetPassword(mail, password);
+    public void resetPassword(User user) throws SQLException {
+        userRepository.resetPassword(user);
     }
 
     public boolean checkUserExist(String mail) throws SQLException {
         return userRepository.checkUserExist(mail);
     }
 
-    public String getUserType(String mail) throws SQLException {
-        return userRepository.getUserType(mail);
+    public String getUserType(User user) throws SQLException {
+        return userRepository.getUserType(user);
     }
 
     // requests for medical files
 
-    public Date getAppointmentDateById(String apptId) throws SQLException {
-        return medicalDatas.getAppointmentDateById(apptId);
+    public Date getAppointmentDateById(Appointment appointment) throws SQLException {
+        return medicalDatas.getAppointmentDateById(appointment);
     }
 
 }

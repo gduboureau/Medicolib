@@ -28,8 +28,8 @@ const PatientHeader = () => {
             .then((response) => {
             const newData = response.data;
             setData({
-                firstName: newData[1],
-                lastName: newData[2],
+                firstName: newData.firstName,
+                lastName: newData.lastName,
                 });
             })
             .catch((error) => {

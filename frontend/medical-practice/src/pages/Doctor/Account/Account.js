@@ -38,20 +38,20 @@ const Account = () => {
             .then((response) => {
                 const newData = response.data;
                 setData({
-                    id: newData[0],
-                    firstName: newData[1],
-                    lastName: newData[2],
-                    gender: newData[3],
-                    speciality: newData[4],
+                    id: newData.id,
+                    firstName: newData.firstName,
+                    lastName: newData.lastName,
+                    gender: newData.gender,
+                    speciality: newData.speciality,
                 });
                 setInformationDoctor({
-                    informations: newData[6]
+                    informations: newData.informations
                 })
                 setCredentials({
-                    mail: newData[5],
+                    mail: newData.mail,
                     password: ""
                 })
-                getPriceConsultations(newData[0])
+                getPriceConsultations(newData.id)
                 setHasError(false);
             })
             .catch((error) => {

@@ -5,7 +5,6 @@ import java.sql.SQLException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
@@ -79,13 +78,13 @@ public class DoctorController {
 	}
 
 	@PostMapping(value = "/informations-doctor")
-	public ResponseEntity<List<String>> getInformationsDoctorByMail(@RequestBody Map<String, String> map) throws SQLException {
+	public ResponseEntity<Doctor> getDoctorByMail(@RequestBody Map<String, String> map) throws SQLException {
 		try {
-			List<String> informationsDoctor = medicalPractice.getInformationsDoctorByMail(map.get("mail"));
-			if (informationsDoctor == null){
+			Doctor doctor = medicalPractice.getInformationsDoctorByMail(map.get("mail"));
+			if (doctor == null){
 				return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
 			}
-			return ResponseEntity.ok(informationsDoctor);
+			return ResponseEntity.ok(doctor);
 		} catch (Exception e) {
 			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
 		}
@@ -105,7 +104,7 @@ public class DoctorController {
 	@PostMapping(value = "/doctors/appointments")
 	public ResponseEntity<List<List<String>>> AllAppointmentsByDoctor(@RequestBody Map<String, String> map) throws SQLException {
 		try {
-			List<List<String>> appointmentsByDoctor = medicalPractice.getAllAppointmentsDoctor(map.get("mail"));
+			List<List<String>> appointmentsByDoctor = medicalPractice.getAllAppointmentsDoctor(medicalPractice.getInformationsDoctorByMail(map.get("mail")));
 			return ResponseEntity.ok(appointmentsByDoctor);
 		} catch (Exception e) {
 			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
@@ -113,9 +112,9 @@ public class DoctorController {
 	}
 
 	@PostMapping(value = "/getPatients")
-	public ResponseEntity<List<HashMap<String, String>>> getAllPatientByDoctor(@RequestBody Map<String, String> map) throws SQLException {
+	public ResponseEntity<List<Patient>> getAllPatientByDoctor(@RequestBody Map<String, String> map) throws SQLException {
 		try {
-			List<HashMap<String, String>> patientByDoctor = medicalPractice.getPatientsByDoctor(map.get("mail"));
+			List<Patient> patientByDoctor = medicalPractice.getPatientsByDoctor(medicalPractice.getInformationsDoctorByMail(map.get("mail")));
 			return ResponseEntity.ok(patientByDoctor);
 		} catch (Exception e) {
 			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
@@ -160,7 +159,7 @@ public class DoctorController {
 	public ResponseEntity<List<List<Object>>> getDocumentPatient(@RequestBody Map<String, String> map) throws SQLException, ParseException {
 		try {
 			String idAppt = map.get("id");
-			List<List<Object>> medicalFile = medicalPractice.getDocumentPatient(idAppt);
+			List<List<Object>> medicalFile = medicalPractice.getDocumentPatient(medicalPractice.getAppointmentById(idAppt));
 			return ResponseEntity.ok(medicalFile);
 		} catch (Exception e) {
 			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
@@ -171,7 +170,8 @@ public class DoctorController {
 	public ResponseEntity<List<Object>> getPriceConsultations(@RequestBody Map<String, String> map) throws SQLException, ParseException {
 		try {
 			String idDoctor = map.get("id");
-			List<Object> price = medicalPractice.getPriceConsultations(idDoctor);
+			Doctor doctor = medicalPractice.getDoctorById(UUID.fromString(idDoctor));
+			List<Object> price = medicalPractice.getPriceConsultations(doctor);
 			return ResponseEntity.ok(price);
 		} catch (Exception e) {
 			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
@@ -185,7 +185,8 @@ public class DoctorController {
 			String firstName = map.get("firstName");
 			String lastName = map.get("lastName");
 			String gender = map.get("gender");
-			medicalPractice.modifyInfoPersoDoctor(idDoctor, firstName, lastName, gender);
+			Doctor doctor = medicalPractice.getDoctorById(UUID.fromString(idDoctor));
+			medicalPractice.modifyInfoPersoDoctor(doctor, firstName, lastName, gender);
 			return ResponseEntity.ok("Informations modified");
 		} catch (Exception e) {
 			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
@@ -199,7 +200,8 @@ public class DoctorController {
 			String newMail = map.get("mail");
 			String prevMail = map.get("prevMail");
 			String password = map.get("password");
-			medicalPractice.modifyCredentialsDoctor(idDoctor, newMail,prevMail, password);
+			Doctor doctor = medicalPractice.getDoctorById(UUID.fromString(idDoctor));
+			medicalPractice.modifyCredentialsDoctor(doctor, newMail,prevMail, password);
 			return ResponseEntity.ok("Informations modified");
 		} catch (Exception e) {
 			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
@@ -215,7 +217,8 @@ public class DoctorController {
 			List<List<String>> priceList = (List<List<String>>) map.get("price");
 			List<List<String>> prevPriceList = (List<List<String>>) map.get("prevPrice");
 			List<String> deletedPrice = (List<String>) map.get("deletedPrice");
-			medicalPractice.modifyProInfoDoctor(idDoctor, infos, priceList, prevPriceList, deletedPrice);
+			Doctor doctor = medicalPractice.getDoctorById(UUID.fromString(idDoctor));
+			medicalPractice.modifyProInfoDoctor(doctor, infos, priceList, prevPriceList, deletedPrice);
 			return ResponseEntity.ok("Informations modified");
 		} catch (Exception e) {
 			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();

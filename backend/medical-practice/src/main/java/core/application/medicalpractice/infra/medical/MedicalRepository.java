@@ -1,6 +1,5 @@
 package core.application.medicalpractice.infra.medical;
 
-import core.application.medicalpractice.infra.patient.*;
 import java.sql.*;
 import java.util.UUID;
 
@@ -23,11 +22,10 @@ public class MedicalRepository {
     DBUtil.closeConnection(connection);
   }
 
-  public Boolean checkMedicalFileExist(String mail, UUID doctorId) throws SQLException{
-    JdbcPatientRepository patientRep = new JdbcPatientRepository();
+  public Boolean checkMedicalFileExist(Patient patient, UUID doctorId) throws SQLException{
     Connection connection = DBUtil.getConnection();
     Statement stmt = connection.createStatement();
-    String request = "SELECT * FROM medicalfile where patientid = '" + patientRep.getPatientIdByMail(mail) + "' and doctorid = '" + doctorId + "'";
+    String request = "SELECT * FROM medicalfile where patientid = '" + patient.getId() + "' and doctorid = '" + doctorId + "'";
     ResultSet rs = stmt.executeQuery(request);
     Boolean exist = rs.next();
     rs.close();
@@ -56,10 +54,10 @@ public class MedicalRepository {
     DBUtil.closeConnection(connection);
   }
 
-  public Date getAppointmentDateById(String apptId) throws SQLException {
+  public Date getAppointmentDateById(Appointment appointment) throws SQLException {
     Connection connection = DBUtil.getConnection();
     Statement stmt = connection.createStatement();
-    String request = "SELECT starttime FROM appointments where appointmentid = '" + apptId + "'";
+    String request = "SELECT starttime FROM appointments where appointmentid = '" + appointment.getId() + "'";
     ResultSet rs = stmt.executeQuery(request);
     Date date = null;
     if (rs.next()){

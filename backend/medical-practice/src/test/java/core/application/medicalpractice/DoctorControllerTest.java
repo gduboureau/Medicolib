@@ -34,6 +34,7 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import core.application.medicalpractice.UI.controller.DoctorController;
 import core.application.medicalpractice.application.MedicalPractice;
 import core.application.medicalpractice.domain.entity.Doctor;
+import core.application.medicalpractice.domain.entity.Patient;
 
 public class DoctorControllerTest {
 
@@ -55,7 +56,7 @@ public class DoctorControllerTest {
     void testAllAppointmentsByDoctor() throws SQLException {
 		Map<String, String> map = new HashMap<>();
 		map.put("mail", "test@gmail.com");
-
+        
         List<List<String>> appointments = new ArrayList<>();
         List<String> appt1 = new ArrayList<>();
         appt1.add("94b9b73a-f561-4ca9-a6c3-6ae7e0361773");
@@ -64,7 +65,7 @@ public class DoctorControllerTest {
         appt1.add("2023-03-31 09:00:00");
         appt1.add("2023-03-31 09:15:00");
         appointments.add(appt1);
-        when(medicalPractice.getAllAppointmentsDoctor(map.get("mail"))).thenReturn(appointments);
+        when(medicalPractice.getAllAppointmentsDoctor(medicalPractice.getInformationsDoctorByMail("test@gmail.com"))).thenReturn(appointments);
         ResponseEntity<List<List<String>>> response = doctorController.AllAppointmentsByDoctor(map);
         assertEquals(response.getStatusCode(), HttpStatus.OK);
         assertEquals(response.getBody(), appointments);
@@ -134,20 +135,14 @@ public class DoctorControllerTest {
     void testGetAllPatientByDoctor() throws ParseException, SQLException {
         SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
         Date date = format.parse("2023-04-03");
-        List<HashMap<String, String>> expectedPatients = new ArrayList<>();
-        HashMap<String, String> infoPatient = new HashMap<>();
-        infoPatient.put("firstName","John");
-        infoPatient.put("lastName","Doe");
-        infoPatient.put("gender","M");
-        infoPatient.put("gender","M");
-        infoPatient.put("birthday",date.toString());
-        infoPatient.put("numsocial","123456789");
-        infoPatient.put("mail","johndoe@gmail.com");
-        expectedPatients.add(infoPatient);
+        List<Patient> expectedPatients = new ArrayList<>();
+        Patient patient = new Patient(UUID.fromString("dccf9cfd-f2cc-4e44-8357-dd4140e17b73"),
+        "John" , "Doe", "M", date, "54165", "johndoe@gmail.com", null, 0, 0);
+        expectedPatients.add(patient);
         Map<String, String> requestBody = new HashMap<>();
         requestBody.put("mail", "doctor@gmail.com");
-        when(medicalPractice.getPatientsByDoctor("doctor@gmail.com")).thenReturn(expectedPatients);
-        ResponseEntity<List<HashMap<String, String>>> response = doctorController.getAllPatientByDoctor(requestBody);
+        when(medicalPractice.getPatientsByDoctor(medicalPractice.getInformationsDoctorByMail("doctor@gmail.com"))).thenReturn(expectedPatients);
+        ResponseEntity<List<Patient>> response = doctorController.getAllPatientByDoctor(requestBody);
         assertEquals(HttpStatus.OK, response.getStatusCode());
         assertEquals(expectedPatients, response.getBody());
     }
@@ -207,20 +202,15 @@ public class DoctorControllerTest {
 
     @Test
     void testGetInformationsDoctorByMail() throws SQLException {
-        List<String> informationsDoctor = new ArrayList<>();
-        informationsDoctor.add("John");
-        informationsDoctor.add("Doe");
-        informationsDoctor.add("M");
-        informationsDoctor.add("Neurologue");
-        informationsDoctor.add("johndoe@gmail.com");
-        when(medicalPractice.getInformationsDoctorByMail("johndoe@gmail.com")).thenReturn(informationsDoctor);
+        Doctor doctor = new Doctor(UUID.fromString("dccf9cfd-f2cc-4e44-8357-dd4140e17b73"), "John", "Doe", "M", "Neurologue", "johndoe@gmail.com", null);
+        when(medicalPractice.getInformationsDoctorByMail("johndoe@gmail.com")).thenReturn(doctor);
 
         Map<String, String> requestMap = new HashMap<>();
         requestMap.put("mail", "johndoe@gmail.com");
-        ResponseEntity<List<String>> response = doctorController.getInformationsDoctorByMail(requestMap);
+        ResponseEntity<Doctor> response = doctorController.getDoctorByMail(requestMap);
 
         assertEquals(HttpStatus.OK, response.getStatusCode());
-        assertEquals(informationsDoctor, response.getBody());
+        assertEquals(doctor, response.getBody());
     }
 
     @Test
@@ -229,7 +219,7 @@ public class DoctorControllerTest {
 
         Map<String, String> requestMap = new HashMap<>();
         requestMap.put("mail", "johndeo@gmail.com");
-        ResponseEntity<List<String>> response = doctorController.getInformationsDoctorByMail(requestMap);
+        ResponseEntity<Doctor> response = doctorController.getDoctorByMail(requestMap);
 
         assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());
     }

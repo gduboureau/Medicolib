@@ -26,7 +26,9 @@ import org.springframework.web.multipart.MultipartFile;
 
 import core.application.medicalpractice.application.MedicalPractice;
 import core.application.medicalpractice.domain.entity.Address;
+import core.application.medicalpractice.domain.entity.Appointment;
 import core.application.medicalpractice.domain.entity.Patient;
+import core.application.medicalpractice.domain.entity.User;
 
 @RestController
 public class PatientController {
@@ -47,30 +49,32 @@ public class PatientController {
 		String password = map.get("password");
 		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
 		Date parsed = format.parse(date);
-		if (medicalPractice.checkPatientExist(mail)) {
+		Patient patient = new Patient(firstName, lastName, gender, parsed, "", mail, new Address(1, " ", " ", 1), 0,
+		0);
+		if (medicalPractice.checkPatientExist(patient.getMail())) {
 			return ResponseEntity.status(HttpStatus.FORBIDDEN)
 					.body("Vous avez déjà un compte, veuillez vous connecter.");
 		}
-		if (!medicalPractice.checkPatientExist(mail)) {
-			Patient patient = new Patient(firstName, lastName, gender, parsed, "", mail, new Address(1, " ", " ", 1), 0,
-					0);
+		if (!medicalPractice.checkPatientExist(patient.getMail())) {
 			medicalPractice.saveAddress(patient);
 			medicalPractice.savePatient(patient);
 		}
-		if (!medicalPractice.checkLoginExist(mail, password)) {
-			medicalPractice.saveUser(mail, password);
+		User user = new User(mail, password);
+		if (!medicalPractice.checkLoginExist(user)) {
+			medicalPractice.saveUser(user);
 		}
 		return new ResponseEntity<>(HttpStatus.OK);
 	}
 
 	@PostMapping(value = "/informations-patient")
-	public ResponseEntity<List<String>> getInformationsPatient(@RequestBody Map<String, String> map)
+	public ResponseEntity<Patient> getInformationsPatient(@RequestBody Map<String, String> map)
 			throws SQLException {
+				Patient patient = medicalPractice.getPatientByMail(map.get("mail"));
 		if (map.get("mail") == null) {
 			return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
 		}
 		try {
-			return ResponseEntity.ok(medicalPractice.getInformationsPatient(map.get("mail")));
+			return ResponseEntity.ok(patient);
 		} catch (Exception e) {
 			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
 		}
@@ -100,7 +104,8 @@ public class PatientController {
 				String city = map.get("City");
 				addr = new Address(NumRue, NomRue, city, postalCode);
 			} catch (Exception e) {
-				addr = medicalPractice.getAddress(mail);
+				Patient p = medicalPractice.getPatientByMail(mail);
+				addr = medicalPractice.getAddress(p);
 			}
 
 			UUID idPatient = UUID.fromString(medicalPractice.getInformationsPatient(mail).get(0));
@@ -110,7 +115,8 @@ public class PatientController {
 			medicalPractice.saveAddress(patient);
 			medicalPractice.savePatient(patient);
 			if (newPassword != null) {
-				medicalPractice.resetPassword(mail, newPassword);
+				User user = new User(mail, newPassword);
+				medicalPractice.resetPassword(user);
 			}
 			return ResponseEntity.ok("Informations modified");
 		} catch (Exception e) {
@@ -123,7 +129,8 @@ public class PatientController {
 	public ResponseEntity<List<List<String>>> AllAppointmentByPatient(@RequestBody Map<String, String> map)
 			throws SQLException, ParseException {
 		try {
-			return ResponseEntity.ok(medicalPractice.getAppointmentByPatient(map.get("mail")));
+			Patient patient = medicalPractice.getPatientByMail(map.get("mail"));
+			return ResponseEntity.ok(medicalPractice.getAppointmentByPatient(patient));
 		} catch (Exception e) {
 			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
 		}
@@ -134,12 +141,15 @@ public class PatientController {
 		try {
 			String id = map.get("id");
 			String mail = map.get("mail");
-			medicalPractice.makeAnAppointment(id, mail);
+			Patient patient = medicalPractice.getPatientByMail(mail);
+			medicalPractice.makeAnAppointment(id, patient);
 			if (mail == null || id == null) {
 				return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
 			}
 
-			List<Object> timeDate = medicalPractice.getDateAndTimeAppt(id);
+			Appointment appointment = medicalPractice.getAppointmentById(id);
+
+			List<Object> timeDate = medicalPractice.getDateAndTimeAppt(appointment);
 
 			if (!timeDate.isEmpty()) {
 				SimpleMailMessage message = new SimpleMailMessage();
@@ -179,7 +189,8 @@ public class PatientController {
 			if (id == null) {
 				return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
 			} else {
-				List<Object> timeDate = medicalPractice.getDateAndTimeAppt(id);
+				Appointment appointment = medicalPractice.getAppointmentById(id);
+				List<Object> timeDate = medicalPractice.getDateAndTimeAppt(appointment);
 
 				if (!timeDate.isEmpty()) {
 
@@ -203,7 +214,7 @@ public class PatientController {
 					message.setText(body);
 					javaMailSender.send(message);
 				}
-				medicalPractice.cancelAppointment(id);
+				medicalPractice.cancelAppointment(appointment);
 				return ResponseEntity.ok("Appointment cancelled");
 			}
 		} catch (Exception e) {
@@ -216,9 +227,11 @@ public class PatientController {
 	public ResponseEntity<String> uploadFile(@RequestParam("file") MultipartFile file,
 			@RequestParam("mail") String mail, @RequestParam("apptid") String id) throws SQLException {
 		try {
+			Patient patient = medicalPractice.getPatientByMail(mail);
+			Appointment appointment = medicalPractice.getAppointmentById(id);
 			String fileName = file.getOriginalFilename();
 			byte[] fileContent = file.getBytes();
-			medicalPractice.saveDocument(fileName, fileContent, mail, id);
+			medicalPractice.saveDocument(fileName, fileContent, patient, appointment);
 			return ResponseEntity.ok("File uploaded successfully");
 		} catch (IOException e) {
 			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Failed to upload file");
@@ -230,10 +243,11 @@ public class PatientController {
 			throws SQLException, IOException {
 		try {
 			String mail = map.get("mail");
+			Patient patient = medicalPractice.getPatientByMail(mail);
 			if (mail == null) {
 				return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
 			}
-			List<List<Object>> documents = medicalPractice.getDocument(mail);
+			List<List<Object>> documents = medicalPractice.getDocument(patient);
 			return ResponseEntity.ok(documents);
 		} catch (IOException e) {
 			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
@@ -245,10 +259,11 @@ public class PatientController {
 	public ResponseEntity<Date> getAppointmentDateById(@RequestBody HashMap<String, String> map) throws SQLException {
 		try {
 			String idAppt = map.get("id");
+			Appointment appointment = medicalPractice.getAppointmentById(idAppt);
 			if (idAppt == null) {
 				return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
 			}
-			Date date = medicalPractice.getAppointmentDateById(idAppt);
+			Date date = medicalPractice.getAppointmentDateById(appointment);
 			return ResponseEntity.ok().body(date);
 		} catch (Exception e) {
 			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
@@ -261,10 +276,11 @@ public class PatientController {
 		try {
 			String idAppt = map.get("id");
 			String docName = map.get("name");
+			Appointment appointment = medicalPractice.getAppointmentById(idAppt);
 			if (docName == null || idAppt == null) {
 				return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
 			}
-			medicalPractice.deleteDocument(idAppt, docName);
+			medicalPractice.deleteDocument(appointment, docName);
 			return ResponseEntity.ok("File deleted successfully");
 		} catch (Exception e) {
 			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
@@ -277,7 +293,8 @@ public class PatientController {
 			throws SQLException, IOException {
 		try {
 			String mail = map.get("mail");
-			List<List<Object>> documents = medicalPractice.getPrescriptionsByPatient(mail);
+			Patient patient = medicalPractice.getPatientByMail(mail);
+			List<List<Object>> documents = medicalPractice.getPrescriptionsByPatient(patient);
 			return ResponseEntity.ok(documents);
 		} catch (IOException e) {
 			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);

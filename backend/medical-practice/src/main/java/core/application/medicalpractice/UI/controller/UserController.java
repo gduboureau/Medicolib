@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 import java.util.Random;
-
+import core.application.medicalpractice.domain.entity.User;
 import core.application.medicalpractice.application.MedicalPractice;
 
 @RestController
@@ -34,10 +34,11 @@ public class UserController {
     public ResponseEntity<?> checkLogin(@RequestBody Map<String, String> map) throws SQLException {
         String email = map.get("login");
         String password = map.get("password");
+        User user = new User(email, password);
         List<String> response = new ArrayList<>();
-        if (medicalPractice.checkLoginExist(email, password)) {
+        if (medicalPractice.checkLoginExist(user)) {
             String token = jwtToken.createToken(email);
-            String userType = medicalPractice.getUserType(email);
+            String userType = medicalPractice.getUserType(user);
             response.add(token);
             response.add(userType);
             return ResponseEntity.ok(response);
@@ -76,7 +77,9 @@ public class UserController {
             message.setText(body);
             javaMailSender.send(message);
 
-            medicalPractice.resetPassword(mail, newPassword);
+            User user = new User(mail, newPassword);
+
+            medicalPractice.resetPassword(user);
 
             return ResponseEntity.ok("Le mot de passe a été réinitialisé et un nouveau a été renvoyé par mail");
         }
