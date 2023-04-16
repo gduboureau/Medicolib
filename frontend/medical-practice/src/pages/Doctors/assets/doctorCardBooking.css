@@ -20,6 +20,10 @@
     background-color: #1b2c3f;
 }
 
+.doctor-card-booking .card-booking-table{
+    margin-top: 15px;
+}
+
 .doctor-card-booking .card-booking-table th p {
     font-size: 14px;
     line-height: 0%;

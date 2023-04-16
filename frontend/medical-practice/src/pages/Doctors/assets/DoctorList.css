@@ -6,11 +6,12 @@
 
 .doctorlist .doctor-card {
     display: flex;
-    align-items: flex-start;
+    align-items: center;
     flex-wrap: wrap;
-    justify-content: space-between;
-    width: 60%;
-    min-width: 410px;
+    justify-content: center;
+    width: 80%;
+    max-width: 1000px;
+    min-width: 430px;
     margin: 10px;
     padding: 10px;
     background-color: #fff;
@@ -22,7 +23,8 @@
 .doctorlist .doctor-card .doctor-card-infos {
     display: flex;
     margin: 10px;
-    margin-top: 50px;
+    /* margin-top: 50px; */
+    /* width: 40%; */
 }
 
 .doctorlist .doctor-card .doctor-card-infos img {
@@ -30,21 +32,23 @@
     height: 100px;
     margin-right: 20px;
     margin-left: 20px;
-    margin-top: 10px;
+    /* margin-top: 10px; */
 }
 
 .doctorlist .doctor-card .doctor-card-details {
     display: flex;
     flex-direction: column;
-    margin-top: 20px;
+    margin-top: 10px;
+    width: 200px;
 }
 
 .doctorlist .doctor-card .doctor-card-details p {
-    margin-bottom: 10px;
+    margin-bottom: 15px;
 }
 
 .doctorlist .doctor-card .doctor-card-details .name {
     font-weight: bold;
+    word-break: break-word;
 }
 
 .doctorlist .doctor-card .doctor-card-details .speciality {
@@ -56,6 +60,7 @@
     padding: 10px;
     border-radius: 5px;
     font-weight: bold;
+    width: 85%;
     color: #fff;
     text-align: center;
     text-decoration: none;
