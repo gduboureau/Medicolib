@@ -427,4 +427,16 @@ public class JdbcDoctorRepository implements DoctorRepository {
     DBUtil.closeConnection(connection);
   }
 
+  public Boolean checkIsDoctorExist(String mail) throws SQLException {
+    Connection connection = DBUtil.getConnection();
+    Statement stmt = connection.createStatement();
+    String request = "SELECT * from doctors where mail = '" + mail + "'";
+    ResultSet rs = stmt.executeQuery(request);
+    Boolean exist = rs.next();
+    rs.close();
+    stmt.close();
+    DBUtil.closeConnection(connection);
+    return exist;
+  }
+
 }

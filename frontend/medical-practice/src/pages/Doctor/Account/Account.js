@@ -79,12 +79,32 @@ const Account = () => {
 
     const handleChangePersoInfo = (e) => {
         const { name, value } = e.target;
-        setData(prevState => ({ ...prevState, [name]: value }));
-    }
+        if (name === "lastName" || name === "firstName") {
+          setData((prevState) => ({
+            ...prevState,
+            [name]: value.toLowerCase().charAt(0).toUpperCase() + value.slice(1).toLowerCase(),
+          }));
+        }else{
+          setData((prevState) => ({
+            ...prevState,
+            [name]: value,
+          }));
+        }
+      }
 
     const handleChangeCredentials = (e) => {
         const { name, value } = e.target;
-        setCredentials(prevState => ({ ...prevState, [name]: value }));
+        if (name === "mail"){
+            setCredentials((prevState) => ({
+              ...prevState,
+              [name]: value.toLowerCase(),
+            }));
+        }else{
+            setCredentials((prevState) => ({
+              ...prevState,
+              [name]: value,
+            }));
+        }
     }
 
     const modifyPersonalInformations = (e) => {

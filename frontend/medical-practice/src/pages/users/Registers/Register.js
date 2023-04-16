@@ -43,7 +43,23 @@ const Register = () => {
   });
 
   const handleChange = (e) => {
-    setData({ ...data, [e.target.name]: e.target.value });
+    const { name, value } = e.target;
+    if (name === "lastName" || name === "firstName") {
+      setData((prevState) => ({
+        ...prevState,
+        [name]: value.toLowerCase().charAt(0).toUpperCase() + value.slice(1).toLowerCase(),
+      }));
+    } else if (name === "mail"){
+      setData((prevState) => ({
+        ...prevState,
+        [name]: value.toLowerCase(),
+      }));
+    }else{
+      setData((prevState) => ({
+        ...prevState,
+        [name]: value,
+      }));
+    }
   }
 
   const handleSubmit = (e) => {

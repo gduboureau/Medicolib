@@ -54,8 +54,23 @@ const Edit = () => {
 
     const handleChange = (e) => {
         const { name, value } = e.target;
-        setData(prevState => ({ ...prevState, [name]: value }));
-    }
+        if (name === "lastName" || name === "firstName") {
+          setData((prevState) => ({
+            ...prevState,
+            [name]: value.toLowerCase().charAt(0).toUpperCase() + value.slice(1).toLowerCase(),
+          }));
+        } else if (name === "mail"){
+          setData((prevState) => ({
+            ...prevState,
+            [name]: value.toLowerCase(),
+          }));
+        }else{
+          setData((prevState) => ({
+            ...prevState,
+            [name]: value,
+          }));
+        }
+      }
 
     const handleRadioChange = (e) => {
         if (window.event.target.value === "showInputs") {

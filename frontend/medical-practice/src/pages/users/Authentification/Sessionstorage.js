@@ -25,10 +25,6 @@ let deleteEmail = () => {
     sessionStorage.removeItem('mail');
 }
 
-let saveUserType = (userType) => {
-    sessionStorage.setItem('userType',userType);
-}
-
 let removeUserType = () => {
     sessionStorage.removeItem('userType');
 }
@@ -38,4 +34,4 @@ let isDoctor = () => {
     return token === 'doctor';
 }
 
-export const accountService = {saveToken, logout, isLogged, saveEmail, getEmail, deleteEmail, saveUserType, removeUserType, isDoctor}
+export const accountService = {saveToken, logout, isLogged, saveEmail, getEmail, deleteEmail, removeUserType, isDoctor}

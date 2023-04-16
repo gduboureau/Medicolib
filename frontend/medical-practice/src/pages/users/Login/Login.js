@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import { accountService } from '../Authentification/Sessionstorage';
 import { Link, useNavigate, useLocation } from "react-router-dom";
-
 import Show from "../Registers/assets/show.png"
 import Hide from "../Registers/assets/hide.png"
 
@@ -60,7 +59,6 @@ const Login = () => {
             .then(res => {
                 accountService.saveToken(res.data[0])
                 accountService.saveEmail(credentials.login)
-                accountService.saveUserType(res.data[1])
                 if (res.data[1] === 'patient') {
                     navigate(location.state?.prevS + location.state?.prevA);
                     window.location.reload();

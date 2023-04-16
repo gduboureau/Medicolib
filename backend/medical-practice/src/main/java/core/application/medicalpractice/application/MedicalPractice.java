@@ -99,6 +99,10 @@ public class MedicalPractice {
         doctorRepository.modifyProInfoDoctor(idDoctor, infos, priceList,prevPriceList, deletedPrice);
     }
 
+    public Boolean checkIsDoctorExist(String mail) throws SQLException  {
+        return doctorRepository.checkIsDoctorExist(mail);
+    }
+
     // requests for patients
 
     public List<List<String>> getAppointmentByPatient(String mail) throws SQLException {

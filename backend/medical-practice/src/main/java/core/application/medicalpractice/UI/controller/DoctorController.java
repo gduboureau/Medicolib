@@ -221,6 +221,11 @@ public class DoctorController {
 			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
 		}
 	}
-	
+
+	@PostMapping(value = "/checkDoctorExist")
+	public Boolean isDoctorExist(@RequestBody Map<String, Object> map) throws SQLException, ParseException {
+		String mail = (String) map.get("mail");
+		return medicalPractice.checkIsDoctorExist(mail);
+	}
 
 }
