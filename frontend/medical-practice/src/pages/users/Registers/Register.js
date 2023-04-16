@@ -3,8 +3,11 @@ import axios from 'axios';
 import { useNavigate, Link } from 'react-router-dom';
 import { accountService } from "../Authentification/Sessionstorage";
 
-import Show from "./assets/show.png"
-import Hide from "./assets/hide.png"
+import ShowPassword from "./assets/show.png"
+import HidePassword from "./assets/hide.png"
+
+import ShowConfirmPassword from "./assets/show.png"
+import HideConfirmPassword from "./assets/hide.png"
 
 import './assets/register.css'
 
@@ -16,11 +19,18 @@ const Register = () => {
   const [errorMail, setErrorMail] = useState("");
   const [errorPassword, setErrorPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
-  const [eyeIcon, setEyeIcon] = useState(Hide);
+  const [showPasswordConfirm, setShowPasswordConfirm] = useState(false);
+  const [eyeIcon1, setEyeIcon1] = useState(HidePassword);
+  const [eyeIcon2, setEyeIcon2] = useState(HideConfirmPassword);
 
   function togglePassword() {
     setShowPassword(!showPassword);
-    setEyeIcon(showPassword ? Hide : Show);
+    setEyeIcon1(showPassword ? HidePassword : ShowPassword);
+  }
+
+  function togglePasswordConfirm() {
+    setShowPasswordConfirm(!showPasswordConfirm);
+    setEyeIcon2(showPasswordConfirm ? HideConfirmPassword : ShowConfirmPassword);
   }
 
   const [data, setData] = useState({
@@ -113,8 +123,10 @@ const Register = () => {
                   id="password"
                   name="password"
                   placeholder="Entrez votre mot de passe"
+                  onChange={handleChange}
+                  required
                 />
-                <img src={eyeIcon} alt="eye-icon" onClick={togglePassword} />
+                <img src={eyeIcon1} alt="eye-icon" onClick={togglePassword} />
 
               </span>
             </label>
@@ -123,7 +135,8 @@ const Register = () => {
             <label>
 
               <span>
-                <input type="password" value={confirmPassword} name="confirmPassword" placeholder="Confirmez votre mot de passe" onChange={(event) => setConfirmPassword(event.target.value)} required />
+                <input type={showPasswordConfirm ? "text" : "password"} value={confirmPassword} name="confirmPassword" placeholder="Confirmez votre mot de passe" onChange={(event) => setConfirmPassword(event.target.value)} required />
+                <img src={eyeIcon2} alt="eye-icon" onClick={togglePasswordConfirm} />
               </span>
             </label>
           </div>
