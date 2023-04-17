@@ -17,7 +17,7 @@ CREATE TABLE Patients (
 DROP TABLE IF EXISTS Users;
 CREATE TABLE Users ( 
     Mail varchar(320) CONSTRAINT User_key PRIMARY KEY,
-    password varchar(50) CONSTRAINT Password_null NOT NULL, 
+    password varchar(100) CONSTRAINT Password_null NOT NULL, 
     userType varchar(50) DEFAULT 'patient' CONSTRAINT userType_null NOT NULL
 );
 

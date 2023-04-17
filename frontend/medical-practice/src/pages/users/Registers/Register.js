@@ -72,7 +72,7 @@ const Register = () => {
             .then(res => {
               accountService.saveToken(res.data)
               accountService.saveEmail(data.mail)
-              navigate('/')
+              navigate('/patient/edit')
             })
             .catch(error => console.log(error))
 

@@ -5,6 +5,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import core.application.DButils.DBUtil;
@@ -17,7 +18,8 @@ public class JdbcUserRepository implements UserRepository {
         try {
             Connection connection = DBUtil.getConnection();
             Statement stmt = connection.createStatement();
-            String request = "INSERT INTO Users(mail, password) VALUES (" + "'" + user.getMail() + "'" + "," + "'" + user.getPassword()+ "'" + ")";
+            String request = "INSERT INTO Users(mail, password) VALUES (" + "'" + user.getMail() + "'" + "," + "'"
+                    + user.getPassword() + "'" + ")";
             stmt.executeUpdate(request);
             stmt.close();
             DBUtil.closeConnection(connection);
@@ -30,22 +32,31 @@ public class JdbcUserRepository implements UserRepository {
     public void resetPassword(User user) throws SQLException {
         Connection connection = DBUtil.getConnection();
         Statement stmt = connection.createStatement();
-        String request = "UPDATE Users SET password=" + "'" + user.getPassword() + "'" + "WHERE mail=" + "'" + user.getMail() + "'";
+        String request = "UPDATE Users SET password=" + "'" + user.getPassword() + "'" + "WHERE mail=" + "'"
+                + user.getMail() + "'";
         stmt.executeUpdate(request);
         stmt.close();
         DBUtil.closeConnection(connection);
     }
 
     public boolean checkLoginExist(User user) throws SQLException {
+        BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
         Connection connection = DBUtil.getConnection();
         Statement stmt = connection.createStatement();
-        String request = "SELECT * FROM Users WHERE mail=" + "'" + user.getMail() + "' AND " + "password=" + "'" + user.getPassword() + "'";
+        String request = "SELECT password FROM Users WHERE mail=" + "'" + user.getMail() + "'";
         ResultSet rs = stmt.executeQuery(request);
         Boolean exist = rs.next();
+        String passwordBDD = null;
+        if (exist) {
+            passwordBDD = rs.getString(1);
+        }
         rs.close();
         stmt.close();
         DBUtil.closeConnection(connection);
-        return exist;
+        if (exist) {
+            return passwordEncoder.matches(user.getPassword(), passwordBDD);
+        }
+        return false;
     }
 
     public boolean checkUserExist(String mail) throws SQLException {
@@ -67,7 +78,7 @@ public class JdbcUserRepository implements UserRepository {
         Statement stmt = connection.createStatement();
         String request = "SELECT userType FROM Users WHERE mail=" + "'" + user.getMail() + "'";
         ResultSet rs = stmt.executeQuery(request);
-        if (rs.next()){
+        if (rs.next()) {
             userType = rs.getString(1);
         }
         rs.close();

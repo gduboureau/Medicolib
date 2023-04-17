@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -200,8 +201,10 @@ public class DoctorController {
 			String newMail = map.get("mail");
 			String prevMail = map.get("prevMail");
 			String password = map.get("password");
+			BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+        	String cryptedPassword = passwordEncoder.encode(password);
 			Doctor doctor = medicalPractice.getDoctorById(UUID.fromString(idDoctor));
-			medicalPractice.modifyCredentialsDoctor(doctor, newMail,prevMail, password);
+			medicalPractice.modifyCredentialsDoctor(doctor, newMail,prevMail, cryptedPassword);
 			return ResponseEntity.ok("Informations modified");
 		} catch (Exception e) {
 			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();

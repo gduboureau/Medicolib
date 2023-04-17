@@ -35,7 +35,6 @@ import core.application.medicalpractice.UI.controller.PatientController;
 import core.application.medicalpractice.application.MedicalPractice;
 import core.application.medicalpractice.domain.entity.Address;
 import core.application.medicalpractice.domain.entity.Patient;
-import core.application.medicalpractice.domain.entity.User;
 
 public class PatientControllerTest {
 

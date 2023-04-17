@@ -18,6 +18,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -59,7 +60,10 @@ public class PatientController {
 			medicalPractice.saveAddress(patient);
 			medicalPractice.savePatient(patient);
 		}
-		User user = new User(mail, password);
+		
+		BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+        String cryptedPassword = passwordEncoder.encode(password);
+        User user = new User(mail, cryptedPassword);
 		if (!medicalPractice.checkLoginExist(user)) {
 			medicalPractice.saveUser(user);
 		}
@@ -115,7 +119,9 @@ public class PatientController {
 			medicalPractice.saveAddress(patient);
 			medicalPractice.savePatient(patient);
 			if (newPassword != null) {
-				User user = new User(mail, newPassword);
+				BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+        		String cryptedPassword = passwordEncoder.encode(newPassword);
+				User user = new User(mail, cryptedPassword);
 				medicalPractice.resetPassword(user);
 			}
 			return ResponseEntity.ok("Informations modified");

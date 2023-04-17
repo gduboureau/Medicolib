@@ -14,5 +14,4 @@ public interface UserRepository {
     public boolean checkLoginExist(User user) throws SQLException;
     public boolean checkUserExist(String mail) throws SQLException;
     public String getUserType(User user) throws SQLException;
-    
 }

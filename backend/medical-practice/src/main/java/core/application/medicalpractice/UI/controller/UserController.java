@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.Random;
 import core.application.medicalpractice.domain.entity.User;
 import core.application.medicalpractice.application.MedicalPractice;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 @RestController
 public class UserController {
@@ -77,7 +78,9 @@ public class UserController {
             message.setText(body);
             javaMailSender.send(message);
 
-            User user = new User(mail, newPassword);
+            BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+            String cryptedPassword = passwordEncoder.encode(newPassword);
+            User user = new User(mail, cryptedPassword);
 
             medicalPractice.resetPassword(user);
 
