@@ -204,9 +204,9 @@ l’ergonomie des interfaces, la sécurité etc. Et parmi ces besoins nous citon
 \chapter{Conception}
 
 
-Pour ce projet, nous avons décidé d'utiliser une architecture DDD (Domain-Driven Design) qui se compose de quatre couches distinctes: une couche domaine, 
-une couche infrastructure, une couche application et une couche interface utilisateur.
-Dans notre application pour le cabinet médical, nous avons adopté une approche DDD pour garantir que notre modèle soit clair et bien structuré. \newline \newline
+L'architecture logicielle de notre application web pour la gestion d'un cabinet médical se compose d'un front-end, d'un back-end et d'une base de données.
+Pour le back-end, nous avons décidé d'utiliser une architecture DDD (Domain-Driven Design) qui se compose de quatre couches distinctes: une couche domaine, 
+une couche infrastructure, une couche application et une couche interface utilisateur. \newline \newline
 Dans la couche domaine, on trouve les éléments clés de notre application tels que les patients, les médecins, les rendez-vous, les créneaux horaires, les consultations, 
 les adresses des patients et les prescriptions médicales. \newline \newline
 Nous avons également mis en place une couche infrastructure en utilisant des bases de 
@@ -228,16 +228,56 @@ Avec cette architecture DDD, nous avons créé une application structurée pour 
     \item[$\bullet$] \underline{Maven} : Pour la construction du projet nous avons choisi Maven, un outil de gestion de projet facile à configurer et à utiliser. Il peut être étendu grâce à des plugins pour répondre à des besoins spécifiques. \newline
     \item[$\bullet$] \underline{Git} : Pour pouvoir au mieux travailler sur ce projet chacun de notre côté, nous avons décidé d'utiliser Git qui est un logiciel de gestion de versions décentralisé. Il permet de travailler
     sur des parties différentes du code en même temps et il est très utile pour le travail en équipe.  \newline
-    \item[$\bullet$] \underline{Postgresql} : Pour la gestion de nos bases de données nous avons utilisé Postgresql qui est un système de gestion de bases de données relationnelles. Il est fiable et robuste, de plus 
+    \item[$\bullet$] \underline{Postgresql} : Pour la gestion de notre base de données nous avons utilisé Postgresql qui est un système de gestion de bases de données relationnelles. Il est fiable et robuste, de plus 
     nous avions déjà utilisé ce système donc c'était facile pour nous de l'utiliser pour notre projet. \newline
     \item[$\bullet$] \underline{JUnit} : Pour les tests, nous avons utilisé JUnit qui est un framework de test unitaire pour Java et qui permet de tester des fragments de code de manière isolée et automatisée.\newline
 \end{itemize}
 
+\section{Côté back-end}
 
-(outils, logiciels, interfaces graphiques, réf biblio)
+Pour la partie back-end, nous avons entamé le processus par l'implémentation de la couche domaine en y incluant les protagonistes majeurs 
+du cabinet médical : les docteurs et les patients. Nous avons poursuivi notre travail en créant des value objects et des 
+entités tels que les adresses postales, les rendez-vous, les consultations, les ordonnances et les utilisateurs. Nous avons conclu en créant l'agrégat, qui est un dossier médical. \newline\newline
+Ensuite, nous avons développé la couche infrastructure en créant quatre dépôts distincts : un pour les médecins, un pour les 
+patients, un pour les utilisateurs et un pour le cabinet médical dans son ensemble. Ces dépôts contiennent les requêtes et les 
+insertions dans les tables de la base de données.\newline\newline
+Par la suite, nous avons travaillé sur la couche application, qui récupère les informations de la couche infrastructure afin de les transmettre à la couche interface utilisateur. \newline\newline
+Enfin, nous avons implémenté la couche interface utilisateur, dans laquelle se trouvent des contrôleurs pour les patients, les médecins et les utilisateurs qui font le lien entre la partie 
+serveur et la partie client.\newline
+
+\section{Côté front-end}
+
+Le développement de l'interface utilisateur de notre application web a été effectué en utilisant React JS. Ce framework a permis de créer une 
+interface utilisateur attrayante et réactive pour les utilisateurs. \newline\newline
+Nous avons commencé par concevoir la page principale, qui comprend une liste 
+déroulante permettant aux utilisateurs de sélectionner la spécialité du médecin recherché (Dentiste, Généraliste, etc.). \newline\newline
+Ensuite, nous avons créé les pages d'inscription et de connexion pour permettre aux patients de se connecter à leur compte ou d'en créer un nouveau.
+Une partie d'administration a également été développée, avec un router dédié permettant d'accéder à toutes les pages disponibles pour les patients 
+connectés, telles que la page "Mes rendez-vous", "Mes documents" et "Mon compte", où les patients peuvent modifier leurs informations personnelles. 
+Un header a également été ajouté pour faciliter la navigation entre ces différentes pages.\newline\newline
+Dans la partie publique de l'application, accessible à tous les utilisateurs, y compris ceux qui ne sont pas connectés, nous avons créé des pages 
+dédiées à chaque médecin pour afficher les créneaux horaires disponibles. Nous avons ensuite créé une partie réservée uniquement aux médecins, où 
+ils peuvent accéder à leur planning, visualiser leurs patients et modifier leurs informations personnelles. \newline
+En somme, nous avons mis en place un router public qui comprend un router pour les patients et un autre pour les médecins, permettant une navigation aisée et intuitive pour tous les utilisateurs.
+
+\section{Base de données}
+
+Nous avons créé une base de données à l'aide du système Postgresql dans laquelle nous avons ajouté des tables pour chaque classe de notre domaine DDD.\newline
+\begin{itemize}
+    \item \textbf{Table doctors} : on stocke les informations relatives aux docteurs comme leur nom, prénom, spécialité et les informations qu'on retrouve sur leur page Medicolib.\newline
+    \item \textbf{Table patients} : on stocke les informations personnelles des patients comme leur nom, prénom, genre, poids, taille, adresse mail et date de naissance. \newline
+    \item \textbf{Table address} : on stocke les différentes parties d'une adresse postale d'un patient tel que le numéro et nom de la rue, le code postal et le nom de la ville. \newline
+    \item \textbf{Table users} : on stocke les adresses mails et mots de passe cryptés des utilisateurs ainsi que leur rôle (patient ou doctor). \newline
+    \item \textbf{Table availableTimeSlots} : on stocke les créneaux de rendez-vous disponibles pour chaque médecin. \newline
+    \item \textbf{Table appointments} : on stocke tous les rendez-vous pris pour chaque médecin et chaque patient. \newline
+    \item \textbf{Table documents} : on stocke les documents que les patients peuvent ajouter en amont de leur rendez-vous. \newline
+    \item \textbf{Table consultations} : on stocke les informations d'une consultation entre un médecin et un patient et un identifiant d'ordonnance si il y en a une à la suite de la consultation. \newline
+    \item \textbf{Table prescriptions} : on stocke les ordonnances que le médecin prescrit au patient. \newline
+    \item \textbf{Table medicalFile} :  on stocke les dossiers médicaux des patients pour chaque médecin, qui correspondent à une liste de leurs consultations. \newline
+    \item \textbf{Table price} : on stocke le prix des services proposés pour tous les médecins c'est-à-dire l'identifiant du docteur avec l'intitulé de la prestation et le prix. \newline
+\end{itemize}
 
 \chapter{Tests}
-
 
 \chapter{Résultats}
 

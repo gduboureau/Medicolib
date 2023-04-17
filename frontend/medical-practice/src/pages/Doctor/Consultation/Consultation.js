@@ -35,9 +35,9 @@ const Consultation = () => {
       .then((response) => {
         const newData = response.data;
         setData({
-          firstName: newData[1],
-          lastName: newData[2],
-          speciality: newData[4],
+          firstName: newData.firstName,
+          lastName: newData.lastName,
+          speciality: newData.speciality,
           mail: mail.mail
         });
       })
