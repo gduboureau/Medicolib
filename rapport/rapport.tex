@@ -1,4 +1,4 @@
-\documentclass[a4paper]{book}
+\documentclass[a4paper]{report}
 \usepackage{fullpage}
 \usepackage{color}
 \usepackage{caption}
@@ -10,6 +10,9 @@
 \usepackage{graphicx}
 \usepackage{titlesec}
 \usepackage{listings}
+\usepackage{beraserif}
+\usepackage{hyperref}
+\usepackage{xcolor}
 \lstset{language=Java,
 basicstyle=\small\ttfamily,
 keywordstyle=\color{blue},
@@ -19,13 +22,55 @@ keywordstyle=\color{blue},
         breaklines=true,
         xleftmargin=-8mm}
 
+
+\definecolor{navyblue}{RGB}{39,66,94}
+
+\titleformat{\chapter}[display]
+    {\bfseries\huge\color{navyblue}}{\chaptertitlename\ \thechapter}{18pt}{}
+          
+\titleformat{\section}
+    {\bfseries\Large\color{navyblue}}{\thesection}{1em}{}
+        
+\titleformat{\subsection}
+    {\color{navyblue}\normalfont\large}
+    {\color{navyblue}\thesubsection}{1em}{}
+
 \begin{document}
 
-\title{Conception et Réalisation d’une application web pour la gestion
-d’un cabinet médical}
-\author{Loustau Valentin \and Duboureau Guillaume \and Ephrem Jennifer \and Abdoul Goudoussy Diallo}
-\date{}
-\maketitle
+\begin{titlepage}
+    \centering
+    
+    \includegraphics[width=0.3\textwidth]{logo/logo_univ_bordeaux.png}\par\vspace{1cm}
+    
+    {\scshape\LARGE Université de Bordeaux\par}
+    \vspace{1cm}
+    {\scshape\Large Master 1 Génie Logiciel\par}
+    \vspace{3cm}
+    {\Large\bfseries Rapport de Projet de Programmation:\par}
+    \vspace{1cm}
+    {\Huge {Conception d'une application web pour la gestion d'un cabinet médical}\par}
+
+    \vspace{2.5cm}
+    \noindent\rule{0.6\textwidth}{0.7pt}
+    \vspace{0.5cm}
+
+    \vspace{4cm}
+    \begin{tabular}{@{}p{0.5\linewidth}p{0.5\linewidth}@{}}
+    \raggedright
+    {\large\itshape Réalisé par\par}
+    \vspace{0.5cm}
+    {\Large Ephrem Jennifer\\Loustau Valentin\\Duboureau Guillaume\\Goudoussy Diallo Abdoul\par}
+    &
+    \vspace{1cm}
+    \raggedleft
+    {\large\itshape Encadré par\par}
+    {\Large Mme Sarah Fara Ouada\par}
+    \vspace{0.5cm}
+
+    {\large Année universitaire 2022-2023\par}
+    \end{tabular}
+    
+\end{titlepage}
 \let\cleardoublepage\clearpage
 \tableofcontents
 \newpage
@@ -50,7 +95,7 @@ Vous trouverez en dernière partie de ce rapport, toutes les fonctionnalités, i
 \newline\newline
 Enfin, nous discuterons des améliorations futures possibles de notre application et des opportunités d'extension de ses fonctionnalités.
 
-\chapter{Analyse des besoins}
+\chapter{Analyse des besoins}\label{besoins}
 \section{Identification des acteurs}
 
 Un acteur représente un rôle joué par une personne externe ou par un processus qui interagit avec le système.
@@ -439,6 +484,57 @@ d'écrire beaucoup de tests permettant de couvrir une grande partie de notre pro
 
 
 \chapter{Résultats}
+
+La partie résultats de ce rapport présente les conclusions de notre projet. Dans cette section, nous présentons les fonctionnalités de l'application, son interface utilisateur, sa sécurité et sa facilité d'utilisation. Nous évaluons également les avantages de l'application pour les utilisateurs. Les informations présentées dans cette section ont été obtenues à partir d'une étude approfondie des \textit{\hyperref[besoins]{besoins}}, d'une analyse comparative d'autres applications similaires et d'une phase de conception et de développement rigoureuses. Nous sommes convaincus que cette application représente une solution efficace et innovante pour la gestion des cabinets médicaux et qu'elle répondra aux besoins spécifiques des professionnels de santé et de leurs patients.
+\newline
+\newline
+
+\section{\underline{\noindent Navigation en tant que \textit{Visiteur} {\fontsize{12}{16}\selectfont(utilisateur non-connecté)}: }}
+\vspace{0.8cm}
+
+\subsection{\underline{Fonctionnalité de la page d'Accueil (Homepage)}:}
+    \begin{itemize}
+        \item[$\bullet$] Se renseigner sur la nature du site, les services qu’il propose et la qualité de ces services.
+        \item[$\bullet$] Utiliser la barre de navigation :
+        \begin{itemize}
+            \item Rechercher sans spécifier une spécialité médicale : redirection vers la page \textit{\hyperref[docteurs]{Docteurs}} répertoriant l’ensemble des praticiens du cabinet, toute spécialité confondue.
+            \item Rechercher avec une spécialité choisie dans la liste déroulante (qui est à jour en direct, affichant chaque spécialité disponible selon les médecins enregistrés dans la base de données) : redirection vers la page \textit{\hyperref[docteurs]{Docteurs}} répertoriant les praticiens correspondant à la spécialité recherchée.
+        \end{itemize}
+        \item[$\bullet$] Cliquer sur se connecter pour être redirigé vers la page \textit{\hyperref[login]{Login}}.
+    \end{itemize}
+    \vspace{3mm}
+
+\subsection{\underline{Fonctionnalité de la page repertoriant les docteurs (Docteurs)}:}\label{docteurs}
+    \begin{itemize}
+        \item[$\bullet$] Cliquer sur le bouton prendre RDV pour accéder à la page \textit{\hyperref[docteur]{Docteur}} (page personnelle du docteur).
+        \item[$\bullet$] Naviguer sur le planning, en changeant de semaine pour trouver un jour et un créneau.
+        \item[$\bullet$] Afficher toutes les horaires des jours de la semaine choisie.
+        \item[$\bullet$] Prendre directement un rendez-vous sur le planning selon disponibilité (les créneaux déjà reservés ne sont pas affichés), en cliquant sur un créneau, l’utilisateur sera alors redirigé vers la page \textit{\hyperref[login]{Login}} car il est impossible de réserver un créneau si l'utilisateur n'est pas connecté.
+    \end{itemize}
+    \vspace{3mm}
+
+\subsection{\underline{Fonctionnalité de la page personnel d'un médecin (Docteur)}:}\label{docteur}
+    \begin{itemize}
+        \item[$\bullet$] Consulter les informations pratiques du docteur en question (tarifs, informations, contact).
+        \item[$\bullet$] Naviguer sur le planning pour trouver un jour et un créneau.
+        \item[$\bullet$] Prendre un rendez-vous sur le planning selon disponibilité (les créneaux déjà reservés seront affichés mais barrés et non cliquable), en cliquant sur un créneau, l’utilisateur sera alors redirigé vers la page \textit{\hyperref[login]{Login}}.
+    \end{itemize}
+    \vspace{3mm}
+
+\subsection{\underline{Fonctionnalité de la page de connexion (Login)}:}\label{login}
+    \begin{itemize}
+        \item[$\bullet$] Se connecter via son email et son mot de passe (que l’on peut masquer ou non). {\fontsize{8}{14}\selectfont Remarque: le mot de passe est stocké de manière crypté dans la base de données grâce à un encodage de celui-ci, definit par sa valeur hashage.}
+        \item[$\bullet$] Indiquer "mot de passe oublié", ce qui nous invite à entrer notre email pour recevoir un mail contenant un nouveau mot de passe aléatoire. {\fontsize{8}{14}\selectfont Remarque: si le mail n'existe pas dans la base de données, alors aucun mail ne sera envoyé.}
+        \item[$\bullet$] S’enregistrer pour les nouveaux utilisateurs, ce qui nous redirige sur la page \textit{\hyperref[register]{Register}}.
+    \end{itemize}
+    \vspace{3mm}
+
+\subsection{\underline{Fonctionnalité de la page de création de compte (Register)}:}\label{register}
+    \begin{itemize}
+        \item[$\bullet$] Renseigner l'intégralité des informations demandées pour créer son compte en tant que patient (les professionnels sont ajoutés par le biais des administrateurs), puis se connecter.
+    \end{itemize}
+
+\vspace{2cm}
 
 (Mettre ici les captures et les fonctionnalités)
 
