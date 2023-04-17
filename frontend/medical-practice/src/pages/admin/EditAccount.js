@@ -1,6 +1,9 @@
 import React from "react";
 import axios from 'axios';
 import {useState, useEffect} from "react";
+import { toast } from 'react-toastify';
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 import { accountService } from "../users/Authentification/Sessionstorage";
 import {  } from "./assets/editAccount.css";
@@ -25,8 +28,6 @@ const Edit = () => {
         City: '',
         numSocial: '',
     });
-
-    const [showInputs, setShowInputs] = useState(false);
 
     useEffect(() =>{
     axios.post("/informations-patient", mail)
@@ -79,9 +80,13 @@ const Edit = () => {
 
     const handleRadioChange = (e) => {
         if (window.event.target.value === "showInputs") {
-            setShowInputs(true);
+            document.querySelector(".info-nouvelle-adress").classList.add("active");
+            document.querySelector(".personalInformation").classList.add("active");
+            document.querySelector(".info-adress-connue").classList.add("hide");
         } else {
-            setShowInputs(false);
+            document.querySelector(".info-nouvelle-adress").classList.remove("active");
+            document.querySelector(".personalInformation").classList.remove("active");
+            document.querySelector(".info-adress-connue").classList.remove("hide");
         }
       };
 
@@ -90,6 +95,7 @@ const Edit = () => {
         axios.post("/modify-informations", data)
           .then((response) => {
             console.log(data)
+            toast.success('Vos informations ont été mise à jour !');
           })
           .catch((error) => {
             console.log(error);
@@ -99,38 +105,41 @@ const Edit = () => {
 
     return (
         <div className="InfoPatient">
-            <p>Mes Coordonnées</p>
+            <ToastContainer />
             <form onSubmit={handleSubmit} className="form-editAccount">
-                <div className="infoPatient-mere1">
+                <div className="top-wrap">
                     <div className="personalInformation">
                         <h3>Mes informations personnelles</h3>
                         <div className="info-lastName-firstName">
                             <div>
                                 <label>
-                                    <input type="text" name="lastName" placeholder="Votre nom" defaultValue={data.lastName} onChange={handleChange} />
+                                    <p>Prénom</p>
+                                    <input type="text" name="firstName" placeholder="Votre prénom" defaultValue={data.firstName} onChange={handleChange} />
                                 </label>
                             </div>
                             <div>
                                 <label>
-                                    <input type="text" name="firstName" placeholder="Votre prénom" defaultValue={data.firstName} onChange={handleChange} />
+                                    <p>Nom</p>
+                                    <input type="text" name="lastName" placeholder="Votre nom" defaultValue={data.lastName} onChange={handleChange} />
                                 </label>
                             </div>
                         </div>
                         <div className="secu-adress">
                             <div className="info-secu">
                                 <label>
+                                    <p>Numéro de sécurité sociale</p>
                                     <input type="text" name="numSocial" placeholder="Votre numéro de sécurité sociale" defaultValue={data.numSocial} onChange={handleChange} />
                                 </label>
                             </div>
                             <div className="infoPatient-adress">
                                 <div className="adress-connue-inconnue">
                                     <input type="radio" name="option" value="noInputs" defaultChecked onChange={handleRadioChange} />
-                                    Adresse connue  
+                                    <p>Adresse actuelle</p>
                                     <input type="radio" name="option" value="showInputs" onChange={handleRadioChange} />
-                                    Nouvelle adresse 
+                                    <p>Nouvelle adresse</p>
                                 </div>
-                                {showInputs ?(
-                                <>
+                                {/* {showInputs ?(
+                                <> */}
                                 <div className="info-nouvelle-adress">
                                     <div>
                                         <input type="number" name="NumRue" placeholder="N°Rue" defaultValue={data.NumRue} onChange={handleChange} required/>
@@ -145,14 +154,14 @@ const Edit = () => {
                                         <input type="text" name="City" placeholder="Ville" defaultValue={data.City} onChange={handleChange} required/>
                                     </div>
                                 </div>
-                                </>
+                                {/* </>
                                 ) : (
-                                <>
+                                <> */}
                                 <div className="info-adress-connue">
-                                    <input type="text" name="addr" placeholder="Votre adresse" value={data.address} onChange={handleChange} />
+                                    <input type="text" name="addr" placeholder="Adresse non renseigné" value={data.address} onChange={handleChange} />
                                 </div>
-                                </>
-                                )}
+                                {/* </>
+                                )} */}
                             </div>
                         </div>
                     </div>
@@ -160,13 +169,14 @@ const Edit = () => {
                     <div className="medicalInformation">
                         <h3>Mes informations médicale</h3>
                         <div className="info-medic-sexe-dateNaissance">
-                            <div className="infoPatient-medi-sexe">
-                                <label >
-                                <p>Sexe</p>
-                                    <input type="radio" id="h" name="gender" value="M" checked={data.gender === "M"}  onChange={handleChange} /> Homme
-                                    <input type="radio" id="f" name="gender" value="F" checked={data.gender === "F"}  onChange={handleChange} /> Femme
+                                <label className="infoPatient-medi-sexe">
+                                    <p>Homme
+                                        <input type="radio" id="h" name="gender" value="M" checked={data.gender === "M"}  onChange={handleChange} />
+                                    </p>
+                                    <p>Femme
+                                        <input type="radio" id="f" name="gender" value="F" checked={data.gender === "F"}  onChange={handleChange} />
+                                    </p>
                                 </label>
-                            </div>
                             <div className="info-medic-date">
                                 <label>
                                     <p>Date de naissance</p>
@@ -192,27 +202,32 @@ const Edit = () => {
 
                 </div>
 
-                <div className="infoPatient-mere2">
+                <div className="bottom-wrap">
                     <div className="myAccount">
-                        <h3>Mon compte</h3>
-                        <div>
-                            <input type="email" name="mail" placeholder="Votre adresse email" defaultValue={data.email} onChange={handleChange} />
+                        <h3>Mes informations de connexion</h3>
+                            <div className="login">
+                                <div className="patientmail">
+                                    <p>Mail</p>
+                                    <input type="email" name="mail" placeholder="Votre adresse email" defaultValue={data.email} onChange={handleChange} />
+                                </div>
+                                <div className="patientpassword">
+                                    <p>Mot de passe</p>
+                                    <input type="password" name="password" placeholder="Votre nouveau mot de passe" defaultValue={data.password} onChange={handleChange} />
+                                </div>
+                            </div>
                         </div>
-                        <div>
-                            <input type="password" name="password" placeholder="Votre nouveau mot de passe" defaultValue={data.password} onChange={handleChange} />
+                    <div className="button-div">
+                        <div className="save-modification">
+                            <button type="submit" className="btn modif-info">
+                                Enregistrer les modifications
+                            </button>
+                        </div>
+                        <div className="deleteAccount">
+                            <button type="submit" className="btn supprimer-compte">
+                                Supprimer le compte
+                            </button>
                         </div>
                     </div>
-                    <div className="deleteAccount">
-                        <h3>Supprimer le compte</h3>
-                        <button type="submit" className="btn supprimer-compte">
-                            Supprimer
-                        </button>
-                    </div>
-                </div>
-                <div className="info-registration">
-                    <button type="submit" className="btn modif-info">
-                            Enregistrer les modifications
-                    </button>
                 </div>
 
             </form>
