@@ -98,8 +98,8 @@ public class MedicalPractice {
         doctorRepository.modifyCredentialsDoctor(doctor, prevMail, newMail, password);
     }
 
-    public void modifyProInfoDoctor(Doctor doctor, String infos, List<List<String>> priceList, List<List<String>> prevPriceList, List<String> deletedPrice) throws SQLException{
-        doctorRepository.modifyProInfoDoctor(doctor, infos, priceList,prevPriceList, deletedPrice);
+    public void modifyProInfoDoctor(Doctor doctor, String infos, List<List<String>> priceList) throws SQLException{
+        doctorRepository.modifyProInfoDoctor(doctor, infos, priceList);
     }
 
     public Boolean checkIsDoctorExist(String mail) throws SQLException  {
@@ -163,6 +163,10 @@ public class MedicalPractice {
 
     public Appointment getAppointmentById(String id) throws SQLException{
         return patientRepository.getAppointmentById(id);
+    }
+
+    public void deleteAccount(Patient patient) throws SQLException {
+        patientRepository.deleteAccount(patient);
     }
 
     // requests for user

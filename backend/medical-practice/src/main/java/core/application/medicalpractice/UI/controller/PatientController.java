@@ -314,4 +314,12 @@ public class PatientController {
 		return medicalPractice.checkPatientExist(mail);
 	}
 
+
+	@PostMapping(value = "/deleteaccount")
+	public ResponseEntity<String> deleteAccount(@RequestBody Map<String, String> map) throws SQLException, ParseException, IOException {
+		String mail = map.get("mail");
+		Patient patient = medicalPractice.getPatientByMail(mail);
+		medicalPractice.deleteAccount(patient);
+		return ResponseEntity.ok("Account deleted");
+	}
 }

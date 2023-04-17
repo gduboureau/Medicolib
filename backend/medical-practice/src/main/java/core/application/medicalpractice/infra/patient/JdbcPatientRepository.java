@@ -179,7 +179,7 @@ public class JdbcPatientRepository implements PatientRepository {
       String request = "UPDATE Address SET numrue = '" + patient.getAdress().getNumber()
           + "', nomrue = '" + patient.getAdress().getStreet() + "', postalcode = '"
           + patient.getAdress().getPostalCode() + "', city = '"
-          + patient.getAdress().getCity() + "'";
+          + patient.getAdress().getCity() + "' where patientid = '" + patient.getId() + "'";
       stmt.executeUpdate(request);
     }
     stmt.close();
@@ -409,6 +409,50 @@ public class JdbcPatientRepository implements PatientRepository {
     stmt.close();
     DBUtil.closeConnection(connection);
     return appointment;
+  }
+
+  public void deleteAccount(Patient patient) throws SQLException {
+    Connection connection = DBUtil.getConnection();
+
+    Statement stmt = connection.createStatement();
+    String request = "DELETE FROM patients WHERE mail =" + "'" + patient.getMail() + "'";
+    stmt.executeUpdate(request);
+    stmt.close();
+
+    Statement stmt1 = connection.createStatement();
+    String request1 = "DELETE FROM users WHERE mail =" + "'" + patient.getMail() + "'";
+    stmt1.executeUpdate(request1);
+    stmt1.close();
+
+    Statement stmt2 = connection.createStatement();
+    String request2 = "DELETE FROM address WHERE patientid =" + "'" + patient.getId() + "'";
+    stmt2.executeUpdate(request2);
+    stmt2.close();
+
+    
+    Statement stmt3 = connection.createStatement();
+    String request3 = "DELETE FROM medicalfile WHERE patientid =" + "'" + patient.getId() + "'";
+    stmt3.executeUpdate(request3);
+    stmt3.close();
+
+    Statement stmt4 = connection.createStatement();
+    String request4 = "DELETE FROM documents WHERE patientid =" + "'" + patient.getId() + "'";
+    stmt4.executeUpdate(request4);
+    stmt4.close();
+
+    Statement stmt5 = connection.createStatement();
+    String request5 = "DELETE FROM consultations WHERE patientid =" + "'" + patient.getId() + "'";
+    stmt5.executeUpdate(request5);
+    stmt5.close();
+
+    Statement stmt6 = connection.createStatement();
+    String request6 = "DELETE FROM appointments WHERE patientid =" + "'" + patient.getId() + "'";
+    stmt6.executeUpdate(request6);
+    stmt6.close();
+
+    patient = null;
+
+    DBUtil.closeConnection(connection);
   }
 
 }

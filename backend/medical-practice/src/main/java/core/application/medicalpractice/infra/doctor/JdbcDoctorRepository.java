@@ -415,32 +415,24 @@ public class JdbcDoctorRepository implements DoctorRepository {
     DBUtil.closeConnection(connection);
   }
 
-  public void modifyProInfoDoctor(Doctor doctor, String infos, List<List<String>> priceList, List<List<String>> prevPriceList, List<String> deletedPrice)
+  public void modifyProInfoDoctor(Doctor doctor, String infos, List<List<String>> priceList)
       throws SQLException {
     Connection connection = DBUtil.getConnection();
     Statement stmt = connection.createStatement();
     String request = "UPDATE doctors SET informations = '" + infos + "' where doctorid = '" + doctor.getId() + "'";
     stmt.executeUpdate(request);
     stmt.close();
-    for (int i = 0; i < priceList.size(); ++i){
-      if (i >= prevPriceList.size()){
-        Statement stmt1 = connection.createStatement();
-        String request1 = "INSERT INTO price(doctorid , pricename , price ) VALUES (" + "'"
+
+    Statement stmt1 = connection.createStatement();
+    String request1 = "DELETE from price where doctorid = '" + doctor.getId() + "'";
+    stmt1.executeUpdate(request1);
+    stmt1.close();
+
+    for(int i = 0; i < priceList.size(); i++){
+      Statement stmt2 = connection.createStatement();
+      String request2 = "INSERT INTO price(doctorid , pricename , price ) VALUES (" + "'"
         + doctor.getId() + "'" + "," + "'" + priceList.get(i).get(0) + "'" + ","
         + priceList.get(i).get(1) + ")";
-        stmt1.executeUpdate(request1);
-        stmt1.close();
-      }else{
-        Statement stmt1 = connection.createStatement();
-        String request1 = "UPDATE price SET pricename = '" + priceList.get(i).get(0) + "',price = " + priceList.get(i).get(1) +
-          " where doctorid = '" + doctor.getId() + "' and pricename = '" + prevPriceList.get(i).get(0) + "'";
-        stmt1.executeUpdate(request1);
-        stmt1.close();
-      }
-    }
-    for (int i = 0; i < deletedPrice.size(); i += 2){
-      Statement stmt2 = connection.createStatement();
-      String request2 = "DELETE FROM price where doctorid = '" + doctor.getId() + "' and pricename = '" + deletedPrice.get(i) + "'";
       stmt2.executeUpdate(request2);
       stmt2.close();
     }

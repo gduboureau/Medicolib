@@ -49,4 +49,6 @@ public interface PatientRepository {
     public List<List<Object>> getPrescriptionsByPatient(Patient patient) throws SQLException, IOException;
 
     public Appointment getAppointmentById(String id) throws SQLException;
+
+    public void deleteAccount(Patient patient) throws SQLException;
 }

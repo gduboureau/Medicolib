@@ -48,7 +48,7 @@ public interface DoctorRepository {
 
         public void modifyCredentialsDoctor(Doctor doctor, String prevMail, String newMail, String password) throws SQLException;
 
-        public void modifyProInfoDoctor(Doctor doctor, String infos, List<List<String>> priceList, List<List<String>> prevPriceList, List<String> deletedPrice) throws SQLException;
+        public void modifyProInfoDoctor(Doctor doctor, String infos, List<List<String>> priceList) throws SQLException;
 
         public Boolean checkIsDoctorExist(String mail) throws SQLException;
 

@@ -291,7 +291,7 @@ const Account = () => {
                                                     name={price[0]}
                                                     value={price[1]}
                                                     onChange={(e) => handleValueChange(e, index)} required/> €
-                                                <label onClick={() => deleteRow(index)}>-</label>
+                                                <button onClick={() => deleteRow(index)}>-</button>
                                             </td>
                                         </tr>
                                     ))}

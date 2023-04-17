@@ -137,6 +137,7 @@ const Edit = () => {
         .then(() => {
             handleCloseModal();
             accountService.logout();
+            document.location.reload();
         })
         .catch((error) => {
             console.log(error);
