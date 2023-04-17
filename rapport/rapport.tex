@@ -1,11 +1,23 @@
 \documentclass[a4paper]{book}
 \usepackage{fullpage}
-
+\usepackage{color}
+\usepackage{caption}
+\usepackage{tocloft}
+\usepackage{float}
 \usepackage[utf8]{inputenc}
 \usepackage[T1]{fontenc}
 \usepackage[french]{babel}
 \usepackage{graphicx}
 \usepackage{titlesec}
+\usepackage{listings}
+\lstset{language=Java,
+basicstyle=\small\ttfamily,
+keywordstyle=\color{blue},
+        commentstyle=\color{green},
+        stringstyle=\color{red},
+        showstringspaces=false,
+        breaklines=true,
+        xleftmargin=-8mm}
 
 \begin{document}
 
@@ -16,6 +28,9 @@ d’un cabinet médical}
 \maketitle
 \let\cleardoublepage\clearpage
 \tableofcontents
+\newpage
+\listoffigures
+
 
 \chapter{Introduction}
 
@@ -23,10 +38,17 @@ La gestion d'un cabinet médical peut vite devenir compliquée pour les professi
 clés pour fournir des soins de qualité aux patients. Pour faciliter ces tâches, nous avons conçu une application de gestion d'un cabinet 
 médical qui permettra aux professionnels de santé de gérer efficacement leurs rendez-vous, les dossiers médicaux ainsi que les ordonnances de leurs patients. 
 Notre interface intuitive et simple d'utilisation permettra aux patients de trouver un rendez-vous avec le spécialiste de leur choix en un rien de temps. \newline\newline
+L'objectif et la problématique, ici, est de concevoir une application web qui soit la mieux construite possible. Cela permettra ainsi d'avoir une gestion d'un cabinet 
+médicale la plus simple et fluide possible. Pour cela, nous devrons répondre à certains besoins, que nous détaillerons dans les parties suivantes, tels que la centralisation des dossiers médicaux
+et de facilité la navigation et l'expérience utilisateur, que se soit pour le médecin ou la patient.
+ \newline\newline
 Dans ce rapport, nous allons décrire en détail la conception de cette application en expliquant les choix que nous avons faits 
-pour les différentes fonctionnalités. Nous allons fournir un cahier d'analyse des besoins avec des diagrammes de cas d'utilisations, 
-un diagramme de classe et des diagrammes de séquence pour illustrer la conception de l'application. Nous allons également présenter 
-les technologies et les outils que nous avons utilisés pour développer cette application, notamment ReactJS et Java.
+pour les différentes fonctionnalités. Nous fournirons un cahier d'analyse des besoins avec des diagrammes de cas d'utilisations et
+un diagramme de classe pour illustrer la conception de l'application. Nous présenterons également 
+les technologies et outils que nous avons utilisés pour développer cette application, notamment ReactJS et Java.
+Vous trouverez en dernière partie de ce rapport, toutes les fonctionnalités, imagées, que nous avons implémentées.
+\newline\newline
+Enfin, nous discuterons des améliorations futures possibles de notre application et des opportunités d'extension de ses fonctionnalités.
 
 \chapter{Analyse des besoins}
 \section{Identification des acteurs}
@@ -160,46 +182,88 @@ l’ergonomie des interfaces, la sécurité etc. Et parmi ces besoins nous citon
 \end{enumerate}
 
 \section{Diagrammes de cas d'utilisation}
+
 \subsection{Créer un compte}
-\begin{center}
+\begin{figure}[H]
+    \vspace{-10pt}
     \centering
-    \includegraphics[scale=0.5]{besoins/creer-compte.png}
-\end{center}
+    \includegraphics[width=0.5\textwidth]{besoins/creer-compte.png}
+    \caption{Diagramme de cas d'utilisation : créer un compte}
+    \label{fig:DCU1}
+\end{figure}
 
 \subsection{S'authentifier}
-\begin{center}
-    \includegraphics[scale=0.5]{besoins/authentification.png}
-\end{center}
+\begin{figure}[H]
+    \vspace{-10pt}
+    \centering
+    \includegraphics[width=0.5\textwidth]{besoins/authentification.png}
+    \caption{Diagramme de cas d'utilisation : s'authentifier}
+    \label{fig:DCU2}
+\end{figure}
 
-\subsection{Gérer les rendez-vous en ligne}
-\begin{center}
-    \includegraphics[scale=0.5]{besoins/gerer-rdv-patient.png}
-\end{center}
+\subsection{Gérer les rendez-vous en ligne (Patient)}
+\begin{figure}[H]
+    \vspace{-10pt}
+    \centering
+    \includegraphics[width=0.5\textwidth]{besoins/gerer-rdv-patient.png}
+    \caption{Diagramme de cas d'utilisation : Gérer les rendez-vous en ligne (Patient)}
+    \label{fig:DCU3}
+\end{figure}
 
-\begin{center}
-    \includegraphics[scale=0.5]{besoins/gerer-rdv-medecin.png}
-\end{center}
+\subsection{Gérer les rendez-vous en ligne (Médecin)}
+\begin{figure}[H]
+    \vspace{-10pt}
+    \centering
+    \includegraphics[width=0.5\textwidth]{besoins/gerer-rdv-medecin.png}
+    \caption{Diagramme de cas d'utilisation : Gérer les rendez-vous en ligne (Médecin)}
+    \label{fig:DCU4}
+\end{figure}
 
 \subsection{Consulter les rendez-vous}
-\begin{center}
+\begin{figure}[H]
+    \vspace{-10pt}
     \centering
-    \includegraphics[scale=0.5]{besoins/consulter-rdv.png}
-\end{center}
+    \includegraphics[width=0.55\textwidth]{besoins/consulter-rdv.png}
+    \caption{Diagramme de cas d'utilisation : Consulter les rendez-vous}
+    \label{fig:DCU5}
+\end{figure}
 
 \subsection{Consulter le dossier médical}
-\begin{center}
-    \includegraphics[scale=0.5]{besoins/consulter-dossier-medical.png}
-\end{center}
+\begin{figure}[H]
+    \vspace{-10pt}
+    \centering
+    \includegraphics[width=0.6\textwidth]{besoins/consulter-dossier-medical.png}
+    \caption{Diagramme de cas d'utilisation : Consulter le dossier médical}
+    \label{fig:DCU6}
+\end{figure}
 
 \subsection{Gérer le dossier médical}
-\begin{center}
-    \includegraphics[scale=0.5]{besoins/gerer-dossier-medical.png}
-\end{center}
+\begin{figure}[H]
+    \vspace{-10pt}
+    \centering
+    \includegraphics[width=0.5\textwidth]{besoins/gerer-dossier-medical.png}
+    \caption{Diagramme de cas d'utilisation : Gérer le dossier médical}
+    \label{fig:DCU7}
+\end{figure}
 
 \subsection{Génerer le bilan de santé}
-\begin{center}
-    \includegraphics[scale=0.5]{besoins/bilan-sante.png}
-\end{center}
+\begin{figure}[H]
+    \vspace{-10pt}
+    \centering
+    \includegraphics[width=0.5\textwidth]{besoins/bilan-sante.png}
+    \caption{Diagramme de cas d'utilisation : Génerer le bilan de santé}
+    \label{fig:DCU8}
+\end{figure}
+
+\section{Diagrammes de classe du Domain}
+Concernant le diagramme de classe, nous avons représenté seulement les classes du Domain car elle représente le coeur de l'architecture DDD.
+\begin{figure}[H]
+    \vspace{-10pt}
+    \centering
+    \includegraphics[width=0.85\textwidth]{besoins/class_diagram.png}
+    \caption{Diagramme de classes}
+    \label{fig:DCU9}
+\end{figure}
 
 \chapter{Conception}
 
@@ -208,13 +272,19 @@ L'architecture logicielle de notre application web pour la gestion d'un cabinet 
 Pour le back-end, nous avons décidé d'utiliser une architecture DDD (Domain-Driven Design) qui se compose de quatre couches distinctes: une couche domaine, 
 une couche infrastructure, une couche application et une couche interface utilisateur. \newline \newline
 Dans la couche domaine, on trouve les éléments clés de notre application tels que les patients, les médecins, les rendez-vous, les créneaux horaires, les consultations, 
-les adresses des patients et les prescriptions médicales. \newline \newline
+les adresses des patients et les prescriptions médicales. 
+Nous avons distingué les "values object" des Entity et de notre Aggrégat, le dossier médical. Ainsi, nous pouvons recréer nos objets en les récupérant de la base de données ou
+alors sauvegarder ces objets. C'est ce qui nous permet de faire le pont entre la base de données et le frontend qui reçoit et met en forme les données.\newline \newline
 Nous avons également mis en place une couche infrastructure en utilisant des bases de 
 données relationnelles pour stocker les informations de l'application. Cette couche infrastructure est responsable de créer 
-pour chaque classe du domaine une base de données et de gérer les requêtes et les mises à jour dans celles-ci. \newline \newline
+pour chaque classe du domaine une table et de gérer les requêtes et les mises à jour dans celles-ci. \newline \newline
 Dans la couche interface utilisateur, on a des controllers qui servent d'intérmédiaires entre la partie client et la partie serveur. 
-Les controllers reçoivent les entrées utilisateurs, les envoient à la couche application et envoient une réponse au client. \newline \newline
-Avec cette architecture DDD, nous avons créé une application structurée pour répondre aux besoins spécifiques d'un cabinet médical. \newline\newline
+Les controllers reçoivent les entrées utilisateurs, les envoient à la couche application et envoient une réponse au client. Les controllers renvoient en général
+une réponse HTTP afin de distinguer les différents code HTTP que l'on reçoit (ok, forbiden...) \newline \newline
+Avec cette architecture DDD, nous avons créé une application structurée pour répondre aux besoins spécifiques d'un cabinet médical. Le code est ainsi plus facile à lire
+car les données sont structurées par couches.\newline\newline
+Concernant le frontend, nous nous occupons ici de présenter les données, et c'est donc une partie de conception graphique et de présentation aux utilisateurs et non pas une partie
+de conception d'un modèle pour la modélisation du cabinet médical. Les données sont donc traitées dans le backend pour pouvoir être stockées dans la base de données.
 
 \chapter{Réalisation}
 
@@ -278,6 +348,95 @@ Nous avons créé une base de données à l'aide du système Postgresql dans laq
 \end{itemize}
 
 \chapter{Tests}
+
+
+Nous allons maintenant aborder la partie sur les tests. Nous avons utiliser JUnit pour effectuer des tests unitaires sur les contrôleurs. JUnit est un framework permettant de développer des tests unitaires
+automatisables. Ainsi, nous pouvous nous assurer que le code répond toujours aux besoins après avoir implémenté ou effectué des modifications. Ces tests correspondent à des assertions qui permettent de tester les résultats 
+attendus. L'objectif ici, est de tester les méthodes des différents contrôleurs que nous avons implémentés pour vérifier que le code que nous avons produit est bien correct.
+Les tests sont séparés du code de la classe permettant ainsi de la tester. Le principe d'implémentation de ces tests est le suivant : \newline
+\begin{itemize}
+    \item[$\bullet$] Création d'une instance du contrôleur et de tout autre objet nécessaire aux tests
+    \item[$\bullet$] Appel de la méthode à tester
+    \item[$\bullet$] Comparaison du résultat attendu avec le résultat que l'on vient d'obtenir \newline
+\end{itemize}
+L'avantage est de pouvoir écrire un certain nombre de tests permettant de tester chacun différents cas de figure et de trouver le plus de bugs possibles dans notre application.
+Nous utilisons également, des objets Mock (du framework Mockito). MockMvc est en fait un objet de Spring permettant de simuler un objet qu'on aura besoin d'utiliser pour effectuer nos tests. Cela permet notamment, de simuler
+des accès à la base de données.
+Tout cela nous permet ainsi de rédiger nos tests sur les contrôleurs. Nous pouvons ainsi vérifier que les reqûetes effectuées et les objets retournés et/ou intégrés dans la base de données
+sont conformes au résultat attendu.
+Nous avons trois contrôleurs donc trois classes de tests correspondantes.
+
+\subsection{UserControllerTest}
+Cette section correspond aux tests sur toute la partie "connexion" de notre site web. Plus précisement, nous testons ici que les connexions et rénitialisation de mot de passe s'effectuent bien.
+Nous avons effectué des tests positifs et négatifs, c'est-à-dire avec des bons identifiants de connexion et des mauvais et nous nous s'assurons que les réponses HTTP renvoyées sont bien identiques.
+Par exemple, si un utilisateur se connecte avec un mauvais mot de passe, il faut que la réponse attendue soit "Forbiden". Ainsi, si un des tests ne passent pas, il est simple de savoir où l'erreur se produit.
+Voici un exemple d'un de nos tests pour vérifier qu'un utilisateur ne peut pas rénitialiser son mot de passe s'il n'est pas enregistré en tant qu'utilisateur (qu'il n'a pas de compte).
+\begin{lstlisting}
+    @Test
+    public void testResetPasswordWithNonUser() throws Exception {
+        Map<String, String> map = new HashMap<>();
+        map.put("mail", "test@gmail.com");
+
+        when(medicalPractice.checkUserExist("test@gmail.com")).thenReturn(false);
+
+        mockMvc.perform(post("/new-password")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(asJsonString(map)))
+                .andExpect(status().isNotFound());
+    }
+\end{lstlisting}
+
+
+
+\subsection{PatientControllerTest}
+Cette section va correspondre aux tests du controleur du patient et va, comme précédemment, tester les différentes fonctionnalités de l'API Rest (avec les codes HTTP).
+Nous testons ainsi toutes les demandes liées aux patients : modifications d'informations, prises et annulations de RDV, ajout de documents\dots Comme précédemment, nous avons, pour certaines méthodes,
+tester plusieurs cas, lorsque la méthode en question peut retourner une réponse "ok" ou "forbiden" par exemple.
+Voici un exemple d'un de nos tests pour vérifier qu'un utilisateur peut supprimer un document : 
+\begin{lstlisting}
+    @Test
+    void testDeleteDocument() throws SQLException, IOException {
+        HashMap<String, String> mockMap = new HashMap<>();
+        mockMap.put("apptid", "94b9b73a-f561-4ca9-a6c3-6ae7e0361773");
+        mockMap.put("mail", "johndoe@gmail.com");
+        MockMultipartFile file = new MockMultipartFile("test", "test.txt", "text/plain", "file content".getBytes());
+        patientController.uploadFile(file, mockMap.get("mail"), mockMap.get("apptid"));
+        HashMap<String, String> map = new HashMap<>();
+        map.put("id", "94b9b73a-f561-4ca9-a6c3-6ae7e0361773");
+        map.put("name", file.getName());
+        ResponseEntity<String> response = patientController.deleteDocument(map);
+        assertEquals(HttpStatus.OK, response.getStatusCode());
+        assertEquals("File deleted successfully", response.getBody());
+    }
+\end{lstlisting}
+
+\subsection{DoctorControllerTest}
+Cette section va correspondre aux tests du controleur concernant les docteurs. Nous allons, comme précédemment effectuer des tests sur les différentes méthodes du contrôleur et plus précisement sur les points suivants :
+la consultation du planning par le docteur, l'ajout de consultations, l'annulation de RDV\dots
+Voici un exemple de test pour récupérer la liste des patients d'un docteur : \newline
+\begin{lstlisting}
+    @Test
+    void testGetAllPatientByDoctor() throws ParseException, SQLException {
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+        Date date = format.parse("2023-04-03");
+        List<Patient> expectedPatients = new ArrayList<>();
+        Patient patient = new Patient(
+            UUID.fromString("dccf9cfd-f2cc-4e44-8357-dd4140e17b73"),
+            "John" , "Doe", "M", date, "54165", "johndoe@gmail.com", null, 0, 0);
+        expectedPatients.add(patient);
+        Map<String, String> requestBody = new HashMap<>();
+        requestBody.put("mail", "doctor@gmail.com");
+        when(medicalPractice.getPatientsByDoctor(medicalPractice.getInformationsDoctorByMail("doctor@gmail.com"))).thenReturn(expectedPatients);
+        ResponseEntity<List<Patient>> response = doctorController.getAllPatientByDoctor(requestBody);
+        assertEquals(HttpStatus.OK, response.getStatusCode());
+        assertEquals(expectedPatients, response.getBody()); 
+    }
+\end{lstlisting}
+
+Pour conclure cette partie sur les tests, nous pouvons dire que les tests représentent une partie très importante du projet car elles nous permettent de suivre l'évolution de notre application
+et de détecter des bugs rapidement et lors de l'ajout de nouvelles fonctionnalités. L'avantage de JUnit est que c'est très simple à utiliser, et très rapide à mettre en place et cela nous permet
+d'écrire beaucoup de tests permettant de couvrir une grande partie de notre programme.
+
 
 \chapter{Résultats}
 
