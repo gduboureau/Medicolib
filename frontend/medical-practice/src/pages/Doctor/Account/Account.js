@@ -4,6 +4,9 @@ import { useState, useEffect, useMemo } from "react";
 import Error from "../../../utils/Error";
 import './assets/account.css'
 import { accountService } from "../../users/Authentification/Sessionstorage";
+import { toast } from 'react-toastify';
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 
 const Account = () => {
@@ -110,7 +113,9 @@ const Account = () => {
     const modifyPersonalInformations = (e) => {
         e.preventDefault();
         axios.post('/modifyInfoPersoDoctor', data).then((response) => {
-        })
+            console.log(response)
+            toast.success('Vos informations ont été mise à jour !');
+          })
         .catch((error) => {
             console.log(error);
             setHasError(true);
@@ -126,8 +131,8 @@ const Account = () => {
             mail: credentials.mail,
             prevMail : mail.mail
         }).then((response) => {
-            const newData = response.data;
-            console.log(newData);
+            console.log(response);
+            toast.success('Vos informations ont été mise à jour !');
         })
         .catch((error) => {
             console.log(error);
@@ -145,8 +150,8 @@ const Account = () => {
         }
         e.preventDefault();
         axios.post('/modifyProInfoDoctor', donnee).then((response) => {
-            const newData = response.data;
-            console.log(newData);
+            console.log(response);
+            toast.success('Vos informations ont été mise à jour !');
             setPriceConsultations(donnee.price)
             setprevPriceConsultations(donnee.price)
         })
@@ -192,6 +197,7 @@ const Account = () => {
 
     return (
         <div className="DoctorAccount">
+            <ToastContainer />
             <div>
                 <div className="PersonalInfos">
                     <form onSubmit={modifyPersonalInformations} className="form-editDoctorAccount">
@@ -285,7 +291,7 @@ const Account = () => {
                                                     name={price[0]}
                                                     value={price[1]}
                                                     onChange={(e) => handleValueChange(e, index)} required/> €
-                                                <button onClick={() => deleteRow(index)}>-</button>
+                                                <label onClick={() => deleteRow(index)}>-</label>
                                             </td>
                                         </tr>
                                     ))}

@@ -114,7 +114,8 @@ const Edit = () => {
     const handleSubmit = (e) => {
         e.preventDefault();
         axios.post("/modify-informations", data)
-          .then(() => {
+          .then((response) => {
+            console.log(response)
             toast.success('Vos informations ont été mise à jour !');
           })
           .catch((error) => {
