@@ -10,7 +10,27 @@ import {  } from "./assets/editAccount.css";
 
 const Edit = () => {
 
+    function ConfirmationModal(props) {
+        const handleClose = () => {
+            props.onClose();
+        };
+    
+        return (
+            <div className="modal-overlay">
+                <div className="modal">
+                    <h2>{props.title}</h2>
+                    <p>{props.message}</p>
+                    <div className="modal-buttons">
+                        <button onClick={() => props.onConfirm()}>Supprimer</button>
+                        <button onClick={handleClose}>Annuler</button>
+                    </div>
+                </div>
+            </div>
+        );
+    }
+
     let mail = {mail : accountService.getEmail()};
+    const [deleteAccount, setDeleteAccount] = useState(false);
 
     const [data, setData] = useState({
         firstName:"",
@@ -37,10 +57,10 @@ const Edit = () => {
         const number = newData.adress.number;
         const postalCode = newData.adress.postalCode;
         const street = newData.adress.street;
-        const adress = number + street + postalCode + city
-        if (newData[8] === adress){
-            newData[8] = "";
-        }
+        let adress = number + " " + street + " " + postalCode + " " + city
+        if ("1   1  " === adress){
+            adress = "";
+        } 
         setData({
             firstName: newData.firstName,
             lastName: newData.lastName,
@@ -84,6 +104,7 @@ const Edit = () => {
             document.querySelector(".personalInformation").classList.add("active");
             document.querySelector(".info-adress-connue").classList.add("hide");
         } else {
+            
             document.querySelector(".info-nouvelle-adress").classList.remove("active");
             document.querySelector(".personalInformation").classList.remove("active");
             document.querySelector(".info-adress-connue").classList.remove("hide");
@@ -93,14 +114,33 @@ const Edit = () => {
     const handleSubmit = (e) => {
         e.preventDefault();
         axios.post("/modify-informations", data)
-          .then((response) => {
-            console.log(data)
+          .then(() => {
             toast.success('Vos informations ont été mise à jour !');
           })
           .catch((error) => {
             console.log(error);
           })
       }
+
+    const handleCloseModal = () => {
+        setDeleteAccount(false);
+    };
+
+    const confirmDeleteAccount = () => {
+            setDeleteAccount(true)
+    }
+
+    const handleConfirmDeleteAccount = () => {
+        axios
+        .post('/deleteaccount', mail)
+        .then(() => {
+            handleCloseModal();
+            accountService.logout();
+        })
+        .catch((error) => {
+            console.log(error);
+        });
+    }
     
 
     return (
@@ -138,30 +178,26 @@ const Edit = () => {
                                     <input type="radio" name="option" value="showInputs" onChange={handleRadioChange} />
                                     <p>Nouvelle adresse</p>
                                 </div>
-                                {/* {showInputs ?(
-                                <> */}
+
                                 <div className="info-nouvelle-adress">
                                     <div>
-                                        <input type="number" name="NumRue" placeholder="N°Rue" defaultValue={data.NumRue} onChange={handleChange} required/>
+                                        <input type="number" name="NumRue" placeholder="N°Rue" defaultValue={data.NumRue} onChange={handleChange} />
                                     </div>
                                     <div>
-                                        <input type="text" name="NomRue" placeholder="Nom de la rue" defaultValue={data.NomRue} onChange={handleChange} required/>
+                                        <input type="text" name="NomRue" placeholder="Nom de la rue" defaultValue={data.NomRue} onChange={handleChange} />
                                     </div>
                                     <div>
-                                        <input type="number" name="PostalCode" placeholder="Code postal" defaultValue={data.PostalCode} onChange={handleChange} required/>
+                                        <input type="number" name="PostalCode" placeholder="Code postal" defaultValue={data.PostalCode} onChange={handleChange} />
                                     </div>
                                     <div>
-                                        <input type="text" name="City" placeholder="Ville" defaultValue={data.City} onChange={handleChange} required/>
+                                        <input type="text" name="City" placeholder="Ville" defaultValue={data.City} onChange={handleChange} />
                                     </div>
                                 </div>
-                                {/* </>
-                                ) : (
-                                <> */}
+
                                 <div className="info-adress-connue">
                                     <input type="text" name="addr" placeholder="Adresse non renseigné" value={data.address} onChange={handleChange} />
                                 </div>
-                                {/* </>
-                                )} */}
+
                             </div>
                         </div>
                     </div>
@@ -223,14 +259,22 @@ const Edit = () => {
                             </button>
                         </div>
                         <div className="deleteAccount">
-                            <button type="submit" className="btn supprimer-compte">
+                            <label className="btn supprimer-compte" onClick={confirmDeleteAccount}>
                                 Supprimer le compte
-                            </button>
+                            </label>
                         </div>
                     </div>
                 </div>
 
             </form>
+            {deleteAccount === true && (
+                <ConfirmationModal
+                    title="Supprimer le compte"
+                    message="Êtes-vous sûr de vouloir supprimer votre compte Medicolib ? Cette action est définitive"
+                    onClose={handleCloseModal}
+                    onConfirm={handleConfirmDeleteAccount}
+                />
+            )}
         </div>
     );
 };
