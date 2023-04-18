@@ -218,7 +218,7 @@ const Edit = () => {
                             <div className="info-medic-date">
                                 <label>
                                     <p>Date de naissance</p>
-                                    <input type="date" name="date" defaultValue={data.date} onChange={handleChange} />
+                                    <input type="date" name="date" max={new Date().toISOString().split("T")[0]} defaultValue={data.date} onChange={handleChange} />
                                 </label>
                             </div>
                         </div>

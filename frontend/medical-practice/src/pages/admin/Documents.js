@@ -59,7 +59,6 @@ const Documents = () => {
 
     const removeDocument = (document) => {
         const updatedDocs = documentList.filter(doc => doc[0] !== document[0]);
-        console.log(updatedDocs)
         setDocumentList(updatedDocs);
         const updatedDates = { ...date };
         delete updatedDates[document[3]];
@@ -92,9 +91,6 @@ const Documents = () => {
         const dateB = b[2] ? moment(date[b[2]], 'YYYY-MM-DD') : moment(prescriptionDate(b[0]), 'D MMMM YYYY');
         return dateA - dateB;
     });
-
-
-    console.log(sortedList)
 
     if (combinedList.length !== 0) {
         return (
