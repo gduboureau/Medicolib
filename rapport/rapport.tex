@@ -488,14 +488,19 @@ d'écrire beaucoup de tests permettant de couvrir une grande partie de notre pro
 
 \chapter{Résultats}
 
-La partie résultats de ce rapport présente les conclusions de notre projet. Dans cette section, nous présentons les fonctionnalités de l'application, son interface utilisateur, sa sécurité et sa facilité d'utilisation. Nous évaluons également les avantages de l'application pour les utilisateurs. Les informations présentées dans cette section ont été obtenues à partir d'une étude approfondie des \textit{\hyperref[besoins]{besoins}}, d'une analyse comparative d'autres applications similaires et d'une phase de conception et de développement rigoureuses. Nous sommes convaincus que cette application représente une solution efficace et innovante pour la gestion des cabinets médicaux et qu'elle répondra aux besoins spécifiques des professionnels de santé et de leurs patients.
+La partie résultats de ce rapport présente les conclusions de notre projet. Dans cette section, nous présentons les fonctionnalités de l’application, son interface utilisateur, sa sécurité et sa facilité d’utilisation.Nous avons fait au mieux pour établir une mise en relation simple et efficace entre patient et professionnel de santé. Notamment grâce à une prise de rendez-vous simple et intuitive selon les besoins des patients mais aussi permettre aux professionnels de santé de pouvoir suivre les dossiers médicaux de chacun de leurs patients et avoir une vue générale sur l’ensemble de leurs rendez-vous sur un planning. Les informations présentées dans cette section ont été obtenues à partir d’une étude approfondie des besoins, d’une analyse comparative d’autres applications similaires et d’une phase de conception et de développement rigoureuses. Nous sommes convaincus que cette application représente une solution efficace et facile d’utilisation pour la gestion des cabinets médicaux et qu’elle répondra aux besoins spécifiques des professionnels de santé et de leurs patients.{\fontsize{8}{14}\selectfont Note: Nous avons conceptualisé au mieux cette application en proposant un \textit{responsive web design}, permettant à l'application de s'adapter à toutes les tailles de fenêtres}.
 \newline
 \newline
 
-\section{\underline{\noindent Navigation en tant que \textit{Visiteur} {\fontsize{12}{16}\selectfont(utilisateur non-connecté)}: }}
-\vspace{0.8cm}
+\section{\noindent Navigation en tant que \textit{Visiteur} {\fontsize{12}{16}\selectfont(utilisateur non-connecté)}: }
 
-\subsection{\underline{Fonctionnalité de la page d'Accueil (Homepage)}:}
+\subsection{Fonctionnalité de l'entête (Header):}
+    \begin{itemize} 
+        \item[$\bullet$] Cliquer sur se connecter pour être redirigé vers la page \textit{\hyperref[login]{Login}}.
+    \end{itemize}
+    \vspace{3mm}
+
+\subsection{Fonctionnalité de la page d'Accueil (Homepage):}\label{homepage}
     \begin{itemize}
         \item[$\bullet$] Se renseigner sur la nature du site, les services qu’il propose et la qualité de ces services.
         \item[$\bullet$] Utiliser la barre de navigation :
@@ -503,11 +508,10 @@ La partie résultats de ce rapport présente les conclusions de notre projet. Da
             \item Rechercher sans spécifier une spécialité médicale : redirection vers la page \textit{\hyperref[docteurs]{Docteurs}} répertoriant l’ensemble des praticiens du cabinet, toute spécialité confondue.
             \item Rechercher avec une spécialité choisie dans la liste déroulante (qui est à jour en direct, affichant chaque spécialité disponible selon les médecins enregistrés dans la base de données) : redirection vers la page \textit{\hyperref[docteurs]{Docteurs}} répertoriant les praticiens correspondant à la spécialité recherchée.
         \end{itemize}
-        \item[$\bullet$] Cliquer sur se connecter pour être redirigé vers la page \textit{\hyperref[login]{Login}}.
     \end{itemize}
     \vspace{3mm}
 
-\subsection{\underline{Fonctionnalité de la page repertoriant les docteurs (Docteurs)}:}\label{docteurs}
+\subsection{Fonctionnalité de la page repertoriant les docteurs (Docteurs):}\label{docteurs}
     \begin{itemize}
         \item[$\bullet$] Cliquer sur le bouton prendre RDV pour accéder à la page \textit{\hyperref[docteur]{Docteur}} (page personnelle du docteur).
         \item[$\bullet$] Naviguer sur le planning, en changeant de semaine pour trouver un jour et un créneau.
@@ -516,7 +520,7 @@ La partie résultats de ce rapport présente les conclusions de notre projet. Da
     \end{itemize}
     \vspace{3mm}
 
-\subsection{\underline{Fonctionnalité de la page personnel d'un médecin (Docteur)}:}\label{docteur}
+\subsection{Fonctionnalité de la page personnel d'un médecin (Docteur):}\label{docteur}
     \begin{itemize}
         \item[$\bullet$] Consulter les informations pratiques du docteur en question (tarifs, informations, contact).
         \item[$\bullet$] Naviguer sur le planning pour trouver un jour et un créneau.
@@ -524,20 +528,175 @@ La partie résultats de ce rapport présente les conclusions de notre projet. Da
     \end{itemize}
     \vspace{3mm}
 
-\subsection{\underline{Fonctionnalité de la page de connexion (Login)}:}\label{login}
+\subsection{Fonctionnalité de la page de connexion (Login):}\label{login}
     \begin{itemize}
-        \item[$\bullet$] Se connecter via son email et son mot de passe (que l’on peut masquer ou non). {\fontsize{8}{14}\selectfont Remarque: le mot de passe est stocké de manière crypté dans la base de données grâce à un encodage de celui-ci, definit par sa valeur hashage.}
+        \item[$\bullet$] Se connecter via son email et son mot de passe (que l’on peut masquer ou non). {\fontsize{8}{14}\selectfont Remarque: le mot de passe est stocké de manière crypté dans la base de données grâce à un encodage de celui-ci, definit par sa valeur de hashage.}
         \item[$\bullet$] Indiquer "mot de passe oublié", ce qui nous invite à entrer notre email pour recevoir un mail contenant un nouveau mot de passe aléatoire. {\fontsize{8}{14}\selectfont Remarque: si le mail n'existe pas dans la base de données, alors aucun mail ne sera envoyé.}
-        \item[$\bullet$] S’enregistrer pour les nouveaux utilisateurs, ce qui nous redirige sur la page \textit{\hyperref[register]{Register}}.
+        \item[$\bullet$] Cliquer sur "Enregistrez-vous", ce qui redirigera l'utilisateur sur la page \textit{\hyperref[register]{Register}}.
     \end{itemize}
     \vspace{3mm}
 
-\subsection{\underline{Fonctionnalité de la page de création de compte (Register)}:}\label{register}
+\subsection{Fonctionnalité de la page de création de compte (Register):}\label{register}
     \begin{itemize}
         \item[$\bullet$] Renseigner l'intégralité des informations demandées pour créer son compte en tant que patient (les professionnels sont ajoutés par le biais des administrateurs), puis se connecter.
     \end{itemize}
 
-\vspace{2cm}
+\vspace{1.5cm}
+
+
+\section{\noindent Navigation en tant que \textit{Patient} {\fontsize{12}{16}\selectfont(connecté)}: }
+\vspace{0.6cm}
+
+\subsection{Fonctionnalité de l'entête (Header):}
+    \begin{itemize}
+        \item[$\bullet$] Cliquer sur "Mes rendez-vous" pour être redirigé vers la page \textit{\hyperref[appointments]{Appointments}}.
+        \item[$\bullet$] Cliquer sur "Mes documents" pour être redirigé vers la page \textit{\hyperref[documents]{Documents}}.
+        \item[$\bullet$] Cliquer sur le prénom pour faire apparaitre une liste déroulante:
+        \begin{itemize}
+            \item Cliquer sur "Mon compte" pour être redirigé vers la page \textit{\hyperref[edit]{Edit}}.
+            \item Cliquer sur "Déconnexion" pour être déconnecté et fermer la session.
+        \end{itemize}
+        \item[$\bullet$] Si la taille de la page est réduite, tous les boutons du header se retrouve dans la liste déroulante en cliquant sur son prénom.
+    \end{itemize}
+    \vspace{3mm}
+
+\subsection{Fonctionnalité de la page d'Accueil (Homepage):}
+    \begin{itemize}
+        \item[$\bullet$] Décrite dans la partie \textit{\hyperref[homepage]{6.1.2}}.
+    \end{itemize}
+    \vspace{3mm}
+
+\subsection{Fonctionnalité de la page repertoriant les docteurs (Docteurs):}\label{docteurs2}
+    \begin{itemize}
+        \item[$\bullet$] Décrite dans la partie \textit{\hyperref[docteurs]{6.1.3}}.
+        \item[$\bullet$] Cependant il est désormais possible de réserver un créneau car le patient est connecté, il sera alors redirigé vers la page \textit{\hyperref[appointments]{Appointments}}. {\fontsize{8}{14}\selectfont Remarque: le patient recevra un mail lui indiquant que son rendez-vous à la date X et l’horaire Y a été réservé}.
+    \end{itemize}
+    \vspace{3mm}
+
+\subsection{Fonctionnalité de la page personnel d'un médecin (Docteur):}\label{docteur2}
+    \begin{itemize}
+        \item[$\bullet$] Décrite dans la partie \textit{\hyperref[docteur]{6.1.4}}.
+        \item[$\bullet$] Cependant il est désormais possible de réserver un créneau car le patient est connecté, il sera alors redirigé vers la page \textit{\hyperref[appointments]{Appointments}}. {\fontsize{8}{14}\selectfont Remarque: le patient recevra un mail lui indiquant que le rendez-vous à la date X et l’horaire Y a été réservé}.
+    \end{itemize}
+    \vspace{3mm}
+
+\subsection{Fonctionnalité de la page des rendez-vous (Appointments):}\label{appointments}
+    \begin{itemize}
+        \item[$\bullet$] Affiche les rendez vous à venir pris par le patient, si aucun rendez vous n’est planifié alors un message sera affiché pour indiquer au patient qu’aucun rendez vous n’est planifié pour le moment.
+        \item[$\bullet$] Possibilité de cliquer sur “voir mes rendez-vous passés” pour afficher les rendez-vous passés, si aucun rendez-vous n’est passé, de même un message sera présent pour prévenir le patient. {\fontsize{8}{14}\selectfont Remarque: au bout d’un an les rendez vous passés ainsi que les documents qu’ils comportent seront effacé}.
+        \item[$\bullet$] Ajouter des documents pour un rendez-vous, ils seront alors répertoriés sur la page \textit{\hyperref[documents]{Documents}}. {\fontsize{8}{14}\selectfont Remarque: les documents ajoutés seront visibles uniquement par le médecin indiqué sur le rendez-vous}.
+        \item[$\bullet$] Annuler un rendez vous, par conséquent le créneau disparaitra de la page, le rendant à nouveau disponible pour d’autres patients. {\fontsize{8}{14}\selectfont Remarque: un mail sera alors envoyé indiquant que le rendez vous à la date X et l’horaire Y a été annulé}.
+    \end{itemize}
+    \vspace{3mm}
+
+\subsection{Fonctionnalité de la page des documents (Documents):}\label{documents}
+    \begin{itemize}
+        \item[$\bullet$] Affiche tous les documents déposés par le patient avec la date de la consultation concernée, avec possibilité de télécharger le document ou de le retirer (ce qui va le retirer pour le praticien également).
+        \item[$\bullet$] Affiche les ordonnances prescrite par le praticien avec la date de la consultation concernée, il est possible de la télécharger sous le format pdf.
+        \item[$\bullet$] Si aucun document n’est disponible alors un message sera affiché pour indiquer au patient qu’aucun document n’est disponible pour le moment.
+    \end{itemize}
+    \vspace{3mm}
+
+\subsection{Fonctionnalité de la page du compte (Edit):}\label{edit}
+    \begin{itemize}
+        \item[$\bullet$] Modifier les informations personnelles: prénom, nom, numéro de sécurité sociale et adresse postale. {\fontsize{8}{14}\selectfont Remarque: le prénom et nom sera parsé sous la forme Xxxxx et Xxxxx permettant une bonne lisibilité des informations, de plus si le patient souhaite modifier son adresse et que celle-ci n'est pas complète, elle ne sera pas prise en compte laissant l’ancienne adresse.}
+        \item[$\bullet$] Modifier les informations médicale: sexe, date de naissance, poids et taille. {\fontsize{8}{14}\selectfont Remarque: il n’est pas possible de rentrer une date de naissance supérieure à la date actuelle}.
+        \item[$\bullet$] Modifier les informations de connexion: mail et mot de passe.
+        \item[$\bullet$] Enregistrer les modifications, une notification apparaîtra alors sur l'écran à la suite de la requête axios pour indiquer la bonne prise en compte des modifications.
+        \item[$\bullet$] Supprimer le compte, un pop-up apparaîtra demandant une confirmation, à la suite de cette confirmation le patient sera déconnecté et le compte supprimé.
+    \end{itemize}
+
+\vspace{1.5cm}
+
+\section{{\noindent Navigation en tant que \textit{Docteur} {\fontsize{12}{16}\selectfont(connecté)}: }}
+\vspace{0.6cm}
+
+\subsection{Fonctionnalité de l'entête (Header):}
+    \begin{itemize}
+        \item[$\bullet$] Cliquer sur "Planning" pour être redirigé vers la page \textit{\hyperref[planning]{Planning}}.
+        \item[$\bullet$] Cliquer sur "Mes patients" pour être redirigé vers la page \textit{\hyperref[patients]{Patients}}.
+        \item[$\bullet$] Cliquer sur le prénom pour faire apparaitre une liste déroulante:
+            \begin{itemize}
+                \item Cliquer sur "Mon compte" pour être redirigé vers la page \textit{\hyperref[edit2]{Edit}}.
+                \item Cliquer sur "Déconnexion" pour être déconnecté et fermer la session.
+            \end{itemize}
+        \item[$\bullet$] Si la taille de la page est réduite, tous les boutons du header se retrouve dans la liste déroulante en cliquant sur son prénom.
+    \end{itemize}
+    \vspace{3mm}
+    
+\subsection{{Fonctionnalité de la page répertoriant les RDV (Planning)}:}\label{planning}
+    \begin{itemize}
+        \item[$\bullet$] Se déplacer de semaine en semaine et visualiser tous les jours de la semaine selectionnée.
+        \item[$\bullet$] Pouvoir revenir au jour actuel en cliquant sur un bouton "Aujourd'hui" pour faciliter la navigation.
+        \item[$\bullet$] Cliquer sur un RDV apparaissant sur le planning (dont on peut prévisualiser le nom, prénom du patient et l'heure du RDV) 
+        et ouverture d'un popup avec différentes fonctionnalités :
+        \begin{itemize}
+            \item Affichage des informations (Nom et prénom du patient, heure et date).
+            \item Voir les documents ajoutés par le patient (s'il en a ajouté sinon un message indiquant qu'il n'y a pas de documents apparait) et pouvoir les télécharger.
+            \item Cliquer sur un bouton amenant directement au dossier médical du patient.
+            \item Cliquer sur un bouton permettant d'ajouter une consultation au patient au moment du RDV.
+            \item Pour les RDV qui ne sont pas encore passés, un bouton "Annuler" est disponible permettant ainsi au docteur de pouvoir annuler ce RDV. Une notification est envoyé au patient par mail.
+            \item Pouvoir cliquer sur le bouton pour fermer ce popup.\newline
+        \end{itemize}
+    \end{itemize}
+    Le docteur peut voir ses RDV qui sont passés et ceux à venir dans le planning en se déplacant de semaine en semaine. Ainsi, il peut retrouver des documents transmis par le patient même lorsqu'un RDV est passé.
+    \vspace{3mm}
+    
+\subsection{{Fonctionnalité de la page répertoriant les patients d'un docteur (Patients)}:}\label{patients}
+Pour qu'un docteur puisse avoir des patients, il faut que ceux-ci prennent un RDV pour la première fois avec ce docteur. Un dossier médical entre le patient et le docteur
+est alors créé même si le patient ne reprend plus de RDV après.
+\begin{itemize}
+    \item[$\bullet$] Si le docteur n'a jamais eu de patients, la page sera vide. Si des patients ont déjà pris RDV avec lui, un tableau de patients est disponible :
+    \begin{itemize}
+        \item Affichage du nom, prénom, date de naissance, sexe et mail de chaque patient.
+        \item Possibilité d'accéder au \textit{\hyperref[dossier médical]{dossier médical}} d'un patient.
+    \end{itemize}
+    \item[$\bullet$] Les patients sont affichés 10 par 10, donc on peut accéder aux pages suivantes si besoin.
+\end{itemize}
+\vspace{3mm}
+    
+\subsection{{Fonctionnalité de la page de consultation du dossier médical d'un patient}:}\label{dossier médical}
+\begin{itemize}
+    \item[$\bullet$] En haut à gauche : affichage du numéro du dossier médical.
+    \item[$\bullet$] Sur la partie gauche de la page, affichage des informations personnelles du patient : Nom, prénom, sexe, date de naissance, taille, poids,
+    numéro de sécurité sociale, son adresse et son mail. Pour les informations qui n'ont pas été transmises (le poid par exemple), "non renseigné" apparait.
+    \item[$\bullet$] Sur la partie droite de la page, affichage des consultations de ce patient : 
+    \begin{itemize}
+        \item Si le premier RDV du patient n'est pas encore passé, alors cette partie sera vide car aucune consultation n'aura encore été créée par le médecin.
+        \item Si le patient a déjà eu au moins un RDV, alors le docteur a normalement créé une consultation lors de ce RDV. On retrouve ainsi la date de chaque consultation,
+        le motif de la venue du patient et les différentes ordonnances si le médecin en a généré (voir en détail \textit{{\hyperref[consultation]{Consultations}}} ). Si des ordonnances
+        sont donc présentes, le docteur peut les télécharger. Notons que le docteur ne peut consulter que les consultations qui lui sont liées et non pas les consultations des 
+        autres docteurs avec le même patient.
+    \end{itemize}
+\end{itemize}
+\vspace{3mm}
+    
+\subsection{{Fonctionnalité de la page d'ajout d'une consultation}:}\label{consultation}
+\begin{itemize}
+    \item[$\bullet$] Lors du RDV, le docteur ajoute une consultation au patient :
+    \begin{itemize}
+        \item Il peut ajouter ajouter la date de la consultation. Par défaut, c'est la date actuelle qui est mise.
+        \item Il peut ajouter le motif de la consultation.
+        \item Il peut ensuite ajouter une ordonnance ou non. S'il n'ne ajoute pas (par exemple, le patient n'a aucun traitement à prendre) et qu'il enregsitre la consultation,
+        celle-ci s'ajoute dans la section du {\hyperref[dossier médical]{dossier médical}} du patient. S'il ajoute une ordonnance, des cases de texte apparaissent pour ajouter les différentes
+        prescriptions (de médicaments par exemple). On peut ajouter autant de prescriptions que l'on veut. Lorsqu'on enregistre, la consultation est créée avec l'ordonnance qui est générée sous forme de pdf.
+        Ce pdf contient les informations du coteur (adresse du cabinet, nom...) ainsi que les différentes prescriptions. Ce pdf est également transmis au patient.
+    \end{itemize}
+\end{itemize}
+\vspace{3mm}
+    
+\subsection{{Fonctionnalité de la page du compe (Edit)}:}\label{edit2}
+Le docteur peut modifier ses différentes informations ici :
+\begin{itemize}
+    \item[$\bullet$] Dans la partie en haut à gauche, il peut modifier ses informations personnelles : nom, prénom et sexe. Pour pouvoir modifier sa spécialité,
+    il doit contacter les administrateurs du site (au survol de la case, un message apparait pour le préciser). En cliquant sur le bouton "enregistrer", les informations sont 
+    modifiées et un message de confirmation apparait.
+    \item[$\bullet$] Dans la partie en bas à gauche, il peut modifier ses informations de connexion : adresse email et mot de passe. Comme précédemment, lorsqu'il clique sur le bouton "enregistrer", ses
+    informations de connexion sont modifiées et un message de confirmation apparait.
+    \item[$\bullet$] Dans la partie droite, il peut modifier ses informations professionnelles. Il peut ainsi, modifier ses différents tarifs de consultation (ainsi que leur nom), en ajouter et/ou 
+    en supprimer. Il peut également, modifier son texte disponible pour les patients au moment de la réservation du RDV. Comme précédemment, un bouton "enregister" est disponible.
+\end{itemize}
+\vspace{1cm}
 
 (Mettre ici les captures et les fonctionnalités)
 
