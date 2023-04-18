@@ -38,17 +38,18 @@ const Documents = () => {
     }
 
     const downloadDocument = (doc) => {
-        var data = Uint8Array.from(atob(doc[2]), c => c.charCodeAt(0));
+        var data = Uint8Array.from(atob(doc[1]), c => c.charCodeAt(0));
         //const linkSource = `data:application/pdf;base64,${doc[1]}`;
         var blob = new Blob([data], { type: "octet/stream" });
         var link = document.createElement("a");
         link.href = window.URL.createObjectURL(blob);
-        link.download = doc[1];
+        link.download = doc[0];
         link.click();
     }
 
     const removeDocument = (document) => {
         const updatedDocs = documentList.filter(doc => doc[0] !== document[0]);
+        console.log(updatedDocs)
         setDocumentList(updatedDocs);
         const updatedDates = { ...date };
         delete updatedDates[document[3]];
