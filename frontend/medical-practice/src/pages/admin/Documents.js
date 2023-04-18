@@ -38,13 +38,23 @@ const Documents = () => {
     }
 
     const downloadDocument = (doc) => {
-        var data = Uint8Array.from(atob(doc[1]), c => c.charCodeAt(0));
-        //const linkSource = `data:application/pdf;base64,${doc[1]}`;
-        var blob = new Blob([data], { type: "octet/stream" });
-        var link = document.createElement("a");
-        link.href = window.URL.createObjectURL(blob);
-        link.download = doc[0];
-        link.click();
+        if(doc.length === 2){
+            var data = Uint8Array.from(atob(doc[1]), c => c.charCodeAt(0));
+            //const linkSource = `data:application/pdf;base64,${doc[1]}`;
+            var blob = new Blob([data], { type: "octet/stream" });
+            var link = document.createElement("a");
+            link.href = window.URL.createObjectURL(blob);
+            link.download = doc[0];
+            link.click();
+        } else {
+            data = Uint8Array.from(atob(doc[2]), c => c.charCodeAt(0));
+            //const linkSource = `data:application/pdf;base64,${doc[1]}`;
+            blob = new Blob([data], { type: "octet/stream" });
+            link = document.createElement("a");
+            link.href = window.URL.createObjectURL(blob);
+            link.download = doc[1];
+            link.click();
+        }
     }
 
     const removeDocument = (document) => {
@@ -82,6 +92,9 @@ const Documents = () => {
         const dateB = b[2] ? moment(date[b[2]], 'YYYY-MM-DD') : moment(prescriptionDate(b[0]), 'D MMMM YYYY');
         return dateA - dateB;
     });
+
+
+    console.log(sortedList)
 
     if (combinedList.length !== 0) {
         return (
