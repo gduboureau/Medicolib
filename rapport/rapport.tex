@@ -22,6 +22,7 @@ keywordstyle=\color{blue},
         breaklines=true,
         xleftmargin=-8mm}
 
+\bibliographystyle{alpha}
 
 \definecolor{navyblue}{RGB}{39,66,94}
 
@@ -336,16 +337,18 @@ de conception d'un modèle pour la modélisation du cabinet médical. Les donné
 \section{Outils de développement}
 
 \begin{itemize}
-    \item[$\bullet$] \underline{Java} : Nous avons utilisé le langage de programmation orienté objet Java pour notre projet.\newline
+    \item[$\bullet$] \underline{Java} : Nous avons utilisé le langage de programmation orienté objet Java pour notre projet. \cite{JavaSE17API} \newline
     \item[$\bullet$] \underline{ReactJS} : Pour le côté Front-end, nous avons utilisé la bibliothèque JavaScript ReactJS qui est très populaire dans le monde du développement web et 
     très facile d'utilisation. Elle fonctionne avec des composants où chaque composant représente une partie de l'interface utilisateur. Ces composants sont réutilisables ce qui nous permet de gagner du temps. 
-    Elle possède également une documentation bien organisée et facile à comprendre. \newline
-    \item[$\bullet$] \underline{Maven} : Pour la construction du projet nous avons choisi Maven, un outil de gestion de projet facile à configurer et à utiliser. Il peut être étendu grâce à des plugins pour répondre à des besoins spécifiques. \newline
+    Elle possède également une documentation bien organisée et facile à comprendre. \cite{ReactJS} \newline
+    \item[$\bullet$] \underline{Maven} : Pour la construction du projet nous avons choisi Maven, un outil de gestion de projet facile à configurer et à utiliser. Il peut être étendu grâce à des plugins pour répondre à des besoins spécifiques. \cite{ApacheMaven}\newline
+    \item[$\bullet$] \underline{Springboot} : Pour créer notre application web, nous avons décidé d'utiliser Spring Boot qui est un framework Java qui fournit un ensemble de fonctionnalités prêtes à l'emploi pour simplifier la configuration, 
+    le déploiement et la gestion des applications web. \cite{springboot} \newline 
     \item[$\bullet$] \underline{Git} : Pour pouvoir au mieux travailler sur ce projet chacun de notre côté, nous avons décidé d'utiliser Git qui est un logiciel de gestion de versions décentralisé. Il permet de travailler
-    sur des parties différentes du code en même temps et il est très utile pour le travail en équipe.  \newline
+    sur des parties différentes du code en même temps et il est très utile pour le travail en équipe. \cite{GitDocumentation}\newline
     \item[$\bullet$] \underline{Postgresql} : Pour la gestion de notre base de données nous avons utilisé Postgresql qui est un système de gestion de bases de données relationnelles. Il est fiable et robuste, de plus 
-    nous avions déjà utilisé ce système donc c'était facile pour nous de l'utiliser pour notre projet. \newline
-    \item[$\bullet$] \underline{JUnit} : Pour les tests, nous avons utilisé JUnit qui est un framework de test unitaire pour Java et qui permet de tester des fragments de code de manière isolée et automatisée.\newline
+    nous avions déjà utilisé ce système donc c'était facile pour nous de l'utiliser pour notre projet. \cite{postgresql_doc} \newline
+    \item[$\bullet$] \underline{JUnit} : Pour les tests, nous avons utilisé JUnit qui est un framework de test unitaire pour Java et qui permet de tester des fragments de code de manière isolée et automatisée. \cite{JUnit5}\newline
 \end{itemize}
 
 \section{Côté back-end}
@@ -405,7 +408,7 @@ Les tests sont séparés du code de la classe permettant ainsi de la tester. Le 
     \item[$\bullet$] Comparaison du résultat attendu avec le résultat que l'on vient d'obtenir \newline
 \end{itemize}
 L'avantage est de pouvoir écrire un certain nombre de tests permettant de tester chacun différents cas de figure et de trouver le plus de bugs possibles dans notre application.
-Nous utilisons également, des objets Mock (du framework Mockito). MockMvc est en fait un objet de Spring permettant de simuler un objet qu'on aura besoin d'utiliser pour effectuer nos tests. Cela permet notamment, de simuler
+Nous utilisons également, des objets Mock (du framework Mockito). MockMvc est en fait un objet de Spring \cite{spring_testing_web} permettant de simuler un objet qu'on aura besoin d'utiliser pour effectuer nos tests. Cela permet notamment, de simuler
 des accès à la base de données.
 Tout cela nous permet ainsi de rédiger nos tests sur les contrôleurs. Nous pouvons ainsi vérifier que les reqûetes effectuées et les objets retournés et/ou intégrés dans la base de données
 sont conformes au résultat attendu.
@@ -561,5 +564,7 @@ Dans l'ensemble, nous sommes fiers de ce que nous avons accompli avec cette appl
 convaincus que notre solution répondra aux besoins des médecins et des patients, et nous sommes impatients de recevoir les commentaires 
 et les suggestions de nos utilisateurs pour continuer à améliorer notre application.
 
+
+\bibliography{biblio}
 
 \end{document}
