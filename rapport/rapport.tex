@@ -88,15 +88,20 @@ médical qui permettra aux professionnels de santé de gérer efficacement leurs
 Notre interface intuitive et simple d'utilisation permettra aux patients de trouver un rendez-vous avec le spécialiste de leur choix en un rien de temps. \newline\newline
 L'objectif et la problématique, ici, est de concevoir une application web qui soit la mieux construite possible. Cela permettra ainsi d'avoir une gestion d'un cabinet 
 médicale la plus simple et fluide possible. Pour cela, nous devrons répondre à certains besoins, que nous détaillerons dans les parties suivantes, tels que la centralisation des dossiers médicaux
-et de facilité la navigation et l'expérience utilisateur, que se soit pour le médecin ou la patient.
+et de faciliter la navigation et l'expérience utilisateur, que se soit pour le médecin ou le patient.
  \newline\newline
-Dans ce rapport, nous allons décrire en détail la conception de cette application en expliquant les choix que nous avons faits 
-pour les différentes fonctionnalités. Nous fournirons un cahier d'analyse des besoins avec des diagrammes de cas d'utilisations et
-un diagramme de classe pour illustrer la conception de l'application. Nous présenterons également 
-les technologies et outils que nous avons utilisés pour développer cette application, notamment ReactJS et Java.
-Vous trouverez en dernière partie de ce rapport, toutes les fonctionnalités, imagées, que nous avons implémentées.
-\newline\newline
-Enfin, nous discuterons des améliorations futures possibles de notre application et des opportunités d'extension de ses fonctionnalités.
+
+Le présent document expose les différentes étapes franchises afin de mener à bien ce projet et qui se traduisent à travers quatre chapitres.
+Nous commençons dans le premier chapitre par introduire le cadre général du travail en présentant la problématique traitée dans ce projet. Par la suite, nous établirons une description complète du comportement du système à développer, où nous allons présenter les différents besoins fonctionnels et non-fonctionnels capturés, ainsi qu’une identification des acteurs du système. Ensuite, nous analyserons les besoins à travers l’élaboration des diagrammes de cas d’utilisation.
+\newline
+Le seconde chapitre est consacré à la conception et à la réalisation, dans laquelle nous détaillons notre solution en définissant l’architecture logicielle, la présentation du modèle de conception orientés objets Domain Driven Design (DDD), qu'il est focalisé sur le domaine de l'application, sur la logique associée, et le métier adressé par le logiciel. De plus, la description des choix technologique des outils et langages de développement utilisés pour la réalisation de notre application.
+\newline
+Le troisième chapitre aborde la partie sur les tests implémentés.
+\newline
+Enfin, nous exposons dans le quatrième et dernier chapitre le travail réalisé en présentant les différentes interfaces.
+\newline
+Nous concluons ce rapport par une conclusion générale résumant les principales fonctionnalités réalisées et proposant 
+quelques perspectives en vue d’élargir et d’améliorer ce travail. 
 
 \chapter{Analyse des besoins}\label{besoins}
 \section{Identification des acteurs}
@@ -108,7 +113,7 @@ Les acteurs de notre système sont :
 \begin{itemize}
     \item[$\bullet$] \textbf{Patient} : il s’agit d’un acteur qui utilise le site pour gérer 
     (ajouter, consulter, supprimer) ses rendez-vous, consulter son dossier médical. 
-    Il peut également mettre à jour ses informations personnelles et communiquer ses infos au médecin.
+    Il peut également mettre à jour ses informations personnelles et communiquer ses informations au médecin.
     \item[$\bullet$] \textbf{Médecin} : il s’agit d’un acteur qui gère les dossiers des patients, prescrit des ordonnances et 
     les imprime. Il s’occupe de la gestion des rendez-vous de ses patients et les notifie s’il effectue 
     quelconque modification.
@@ -303,6 +308,28 @@ l’ergonomie des interfaces, la sécurité etc. Et parmi ces besoins nous citon
     \label{fig:DCU8}
 \end{figure}
 
+
+\chapter{Conception et Réalisation}
+
+
+L'architecture logicielle de notre application web pour la gestion d'un cabinet médical se compose d'un front-end, d'un back-end et d'une base de données.
+Pour le back-end, nous avons décidé d'utiliser une architecture DDD (Domain-Driven Design) qui se compose de quatre couches distinctes: une couche domaine, 
+une couche infrastructure, une couche application et une couche interface utilisateur. \newline \newline
+Dans la couche domaine, on trouve les objets metiers qui representent les éléments clés de notre application tels que les patients, les médecins, les rendez-vous, les créneaux horaires, les consultations, 
+les adresses des patients et les prescriptions médicales. 
+Nous avons distingué les "values object" des Entity et de notre Aggrégat, le dossier médical. Ainsi, nous pouvons recréer nos objets en les récupérant de la base de données ou
+alors sauvegarder ces objets. C'est ce qui nous permet de faire le pont entre la base de données et le frontend qui reçoit et met en forme les données.\newline \newline
+Nous avons également mis en place une couche infrastructure en utilisant des bases de 
+données relationnelles pour stocker les informations de l'application. Cette couche infrastructure est responsable de créer 
+pour chaque classe du domaine une table et de gérer les requêtes et les mises à jour dans celles-ci. \newline \newline
+Dans la couche interface utilisateur, on a des controllers qui servent d'intérmédiaires entre la partie client et la partie serveur. 
+Les controllers reçoivent les entrées utilisateurs, les envoient à la couche application et envoient une réponse au client. Les controllers renvoient en général
+une réponse HTTP afin de distinguer les différents code HTTP que l'on reçoit (ok, forbiden...) \newline \newline
+Avec cette architecture DDD, nous avons créé une application structurée pour répondre aux besoins spécifiques au cahier des charges. Le code est ainsi plus facile à lire
+car les données sont structurées par couches.\newline\newline
+Concernant le frontend, nous nous occupons ici de présenter les données, et c'est donc une partie de conception graphique et de présentation aux utilisateurs et non pas une partie
+de conception d'un modèle pour la modélisation du cabinet médical. Les données sont donc traitées dans le backend pour pouvoir être stockées dans la base de données.
+
 \section{Diagrammes de classe du Domain}
 Concernant le diagramme de classe, nous avons représenté seulement les classes du Domain car elle représente le coeur de l'architecture DDD.
 \begin{figure}[H]
@@ -313,44 +340,59 @@ Concernant le diagramme de classe, nous avons représenté seulement les classes
     \label{fig:DCU9}
 \end{figure}
 
-\chapter{Conception}
+\section{Passage au modèle relationnel}
+Le modèle relationnel est le modèle logique de données qui correspond à l'organisation des données dans les bases de données relationnelles.
+Un modèle relationnel est composé de relations, appelée table. Ces tables sont décrites par des attributs ou champs.Pour décrire une relation, on indique tout simplement son
+nom, suivi du nom de ses attributs entre parenthèses. L'identifiant d'une relation
+est composé d'un ou plusieurs attributs qui forment la clé primaire. Une relation
+peut faire référence à une autre en utilisant une clé étrangère, qui correspond à
+la clé primaire de la relation référencée. 
 
 
-L'architecture logicielle de notre application web pour la gestion d'un cabinet médical se compose d'un front-end, d'un back-end et d'une base de données.
-Pour le back-end, nous avons décidé d'utiliser une architecture DDD (Domain-Driven Design) qui se compose de quatre couches distinctes: une couche domaine, 
-une couche infrastructure, une couche application et une couche interface utilisateur. \newline \newline
-Dans la couche domaine, on trouve les éléments clés de notre application tels que les patients, les médecins, les rendez-vous, les créneaux horaires, les consultations, 
-les adresses des patients et les prescriptions médicales. 
-Nous avons distingué les "values object" des Entity et de notre Aggrégat, le dossier médical. Ainsi, nous pouvons recréer nos objets en les récupérant de la base de données ou
-alors sauvegarder ces objets. C'est ce qui nous permet de faire le pont entre la base de données et le frontend qui reçoit et met en forme les données.\newline \newline
-Nous avons également mis en place une couche infrastructure en utilisant des bases de 
-données relationnelles pour stocker les informations de l'application. Cette couche infrastructure est responsable de créer 
-pour chaque classe du domaine une table et de gérer les requêtes et les mises à jour dans celles-ci. \newline \newline
-Dans la couche interface utilisateur, on a des controllers qui servent d'intérmédiaires entre la partie client et la partie serveur. 
-Les controllers reçoivent les entrées utilisateurs, les envoient à la couche application et envoient une réponse au client. Les controllers renvoient en général
-une réponse HTTP afin de distinguer les différents code HTTP que l'on reçoit (ok, forbiden...) \newline \newline
-Avec cette architecture DDD, nous avons créé une application structurée pour répondre aux besoins spécifiques d'un cabinet médical. Le code est ainsi plus facile à lire
-car les données sont structurées par couches.\newline\newline
-Concernant le frontend, nous nous occupons ici de présenter les données, et c'est donc une partie de conception graphique et de présentation aux utilisateurs et non pas une partie
-de conception d'un modèle pour la modélisation du cabinet médical. Les données sont donc traitées dans le backend pour pouvoir être stockées dans la base de données.
+\subsection{Passage au modèle relationnel}
 
-\chapter{Réalisation}
+A partir du modèle de classes UML de notre application, nous avons obtenu notre modèle
+relationnel en appliquant les règles de passage suivantes :
+
+R1 : chaque entité (classe) devient une relation ayant un identiant comme clé primaire.
+
+R2 : une association (X, n). . . (X, 1) (association père fils) provoque la migration d'une
+clé primaire, l'identiant coté (X, 1) migre vers l'entité coté (X, n) comme étant une clé
+étrangère.
+
+R3 : une association 1..1 dans ce cas on choisit une classe et sa clé migre dans la seconde
+comme étant clé étrangère.
+
+R4 : dans le cas de la composition la clé primaire du composé migre vers le composant
+et devient à la fois une clé primaire et étrangère.
+
+
+\subsection{Modèle logique de données}
+En appliquant les règles de passages pour notre diagramme de classes, nous
+aboutissons au schéma relationnel suivant :
+\begin{figure}[H]
+    \vspace{-10pt}
+    \centering
+    \includegraphics[width=0.85\textwidth]{besoins/modele_relationnel.png}
+    \caption{Schéma Relationnel}
+    \label{fig:SR}
+\end{figure}
 
 \section{Outils de développement}
 
 \begin{itemize}
-    \item[$\bullet$] \underline{Java} : Nous avons utilisé le langage de programmation orienté objet Java pour notre projet. \cite{JavaSE17API} \newline
+    \item[$\bullet$] \underline{Java} : Nous avons utilisé le langage de programmation orienté objet Java pour notre projet \cite{JavaSE17API}. \newline
     \item[$\bullet$] \underline{ReactJS} : Pour le côté Front-end, nous avons utilisé la bibliothèque JavaScript ReactJS qui est très populaire dans le monde du développement web et 
     très facile d'utilisation. Elle fonctionne avec des composants où chaque composant représente une partie de l'interface utilisateur. Ces composants sont réutilisables ce qui nous permet de gagner du temps. 
-    Elle possède également une documentation bien organisée et facile à comprendre. \cite{ReactJS} \newline
+    Elle possède également une documentation bien organisée et facile à comprendre \cite{ReactJS}. \newline
     \item[$\bullet$] \underline{Maven} : Pour la construction du projet nous avons choisi Maven, un outil de gestion de projet facile à configurer et à utiliser. Il peut être étendu grâce à des plugins pour répondre à des besoins spécifiques. \cite{ApacheMaven}\newline
     \item[$\bullet$] \underline{Springboot} : Pour créer notre application web, nous avons décidé d'utiliser Spring Boot qui est un framework Java qui fournit un ensemble de fonctionnalités prêtes à l'emploi pour simplifier la configuration, 
-    le déploiement et la gestion des applications web. \cite{springboot} \newline 
+    le déploiement et la gestion des applications web \cite{springboot}. \newline 
     \item[$\bullet$] \underline{Git} : Pour pouvoir au mieux travailler sur ce projet chacun de notre côté, nous avons décidé d'utiliser Git qui est un logiciel de gestion de versions décentralisé. Il permet de travailler
-    sur des parties différentes du code en même temps et il est très utile pour le travail en équipe. \cite{GitDocumentation}\newline
+    sur des parties différentes du code en même temps et il est très utile pour le travail en équipe \cite{GitDocumentation}.\newline
     \item[$\bullet$] \underline{Postgresql} : Pour la gestion de notre base de données nous avons utilisé Postgresql qui est un système de gestion de bases de données relationnelles. Il est fiable et robuste, de plus 
-    nous avions déjà utilisé ce système donc c'était facile pour nous de l'utiliser pour notre projet. \cite{postgresql_doc} \newline
-    \item[$\bullet$] \underline{JUnit} : Pour les tests, nous avons utilisé JUnit qui est un framework de test unitaire pour Java et qui permet de tester des fragments de code de manière isolée et automatisée. \cite{JUnit5}\newline
+    nous avions déjà utilisé ce système donc c'était facile pour nous de l'utiliser pour notre projet \cite{postgresql_doc}. \newline
+    \item[$\bullet$] \underline{JUnit} : Pour les tests, nous avons utilisé JUnit qui est un framework de test unitaire pour Java et qui permet de tester des fragments de code de manière isolée et automatisée \cite{JUnit5}.\newline
 \end{itemize}
 
 \section{Côté back-end}
@@ -378,7 +420,8 @@ Un header a également été ajouté pour faciliter la navigation entre ces diff
 Dans la partie publique de l'application, accessible à tous les utilisateurs, y compris ceux qui ne sont pas connectés, nous avons créé des pages 
 dédiées à chaque médecin pour afficher les créneaux horaires disponibles. Nous avons ensuite créé une partie réservée uniquement aux médecins, où 
 ils peuvent accéder à leur planning, visualiser leurs patients et modifier leurs informations personnelles. \newline
-En somme, nous avons mis en place un router public qui comprend un router pour les patients et un autre pour les médecins, permettant une navigation aisée et intuitive pour tous les utilisateurs.
+Pour appliquer ceci, nous avons définit un router grâce au module React.Router permettant de gérer les routes de notre application web en fonction des URL qui sont appelées par l'utilisateur. En d'autres termes, le router permet de faire correspondre une URL donnée à un composant spécifique dans l'application.
+Cette méthode nous permet également de gérer les redirections et les transitions d'une page à l'autre, pour gérer l'historique de navigation et les paramètres d'URL, et pour autoriser ou refuser l'accès à certaines pages en fonction des autorisations de l'utilisateur.
 
 \section{Base de données}
 
@@ -439,9 +482,9 @@ Voici un exemple d'un de nos tests pour vérifier qu'un utilisateur ne peut pas 
 
 
 \subsection{PatientControllerTest}
-Cette section va correspondre aux tests du controleur du patient et va, comme précédemment, tester les différentes fonctionnalités de l'API Rest (avec les codes HTTP).
-Nous testons ainsi toutes les demandes liées aux patients : modifications d'informations, prises et annulations de RDV, ajout de documents\dots Comme précédemment, nous avons, pour certaines méthodes,
-tester plusieurs cas, lorsque la méthode en question peut retourner une réponse "ok" ou "forbiden" par exemple.
+Cette section va correspondre aux tests du controleur du patient et va comme précédemment, tester les différentes fonctionnalités de l'API Rest (avec les codes HTTP).
+Nous testons ainsi toutes les demandes liées aux patients : modifications d'informations, prises et annulations de RDV, ajout de documents, etc. Comme précédemment, nous avons, pour certaines méthodes,
+tester plusieurs cas, lorsque la méthode en question peut retourner une réponse "ok" ou "forbiden".
 Voici un exemple d'un de nos tests pour vérifier qu'un utilisateur peut supprimer un document : 
 \begin{lstlisting}
     @Test
@@ -462,7 +505,7 @@ Voici un exemple d'un de nos tests pour vérifier qu'un utilisateur peut supprim
 
 \subsection{DoctorControllerTest}
 Cette section va correspondre aux tests du controleur concernant les docteurs. Nous allons, comme précédemment effectuer des tests sur les différentes méthodes du contrôleur et plus précisement sur les points suivants :
-la consultation du planning par le docteur, l'ajout de consultations, l'annulation de RDV\dots
+la consultation du planning par le docteur, l'ajout de consultations, l'annulation de RDV etc.
 Voici un exemple de test pour récupérer la liste des patients d'un docteur : \newline
 \begin{lstlisting}
     @Test
@@ -490,11 +533,11 @@ d'écrire beaucoup de tests permettant de couvrir une grande partie de notre pro
 
 \chapter{Résultats}
 
-La partie résultats de ce rapport présente les conclusions de notre projet. Dans cette section, nous présentons les fonctionnalités de l’application, son interface utilisateur, sa sécurité et sa facilité d’utilisation.Nous avons fait au mieux pour établir une mise en relation simple et efficace entre patient et professionnel de santé. Notamment grâce à une prise de rendez-vous simple et intuitive selon les besoins des patients mais aussi permettre aux professionnels de santé de pouvoir suivre les dossiers médicaux de chacun de leurs patients et avoir une vue générale sur l’ensemble de leurs rendez-vous sur un planning. Les informations présentées dans cette section ont été obtenues à partir d’une étude approfondie des besoins, d’une analyse comparative d’autres applications similaires et d’une phase de conception et de développement rigoureuses. Nous sommes convaincus que cette application représente une solution efficace et facile d’utilisation pour la gestion des cabinets médicaux et qu’elle répondra aux besoins spécifiques des professionnels de santé et de leurs patients.{\fontsize{8}{14}\selectfont Note: Nous avons conceptualisé au mieux cette application en proposant un \textit{responsive web design}, permettant à l'application de s'adapter à toutes les tailles de fenêtres}.
+La partie résultats de ce rapport présente les conclusions de notre projet. Dans cette section, nous présentons les fonctionnalités de l'application (les besoins fonctionnels et non fonctionnels), son interface utilisateur, sa sécurité et sa facilité d'utilisation. Nous avons fait au mieux pour établir une mise en relation simple et efficace entre patient et professionnel de santé. Notamment grâce à une prise de rendez-vous simple et intuitive selon les besoins des patients mais aussi permettre aux professionnels de santé de pouvoir suivre les dossiers médicaux de chacun de leurs patients et avoir une vue générale sur l'ensemble de leurs rendez-vous sur un planning. Les informations présentées dans cette section ont été obtenues à partir d'une étude approfondie des besoins, d'une analyse comparative d'autres applications similaires et d'une phase de conception et de développement rigoureuses. Nous sommes convaincus que cette application représente une solution efficace et facile d'utilisation pour la gestion des cabinets médicaux et qu'elle répondra aux besoins spécifiques des professionnels de santé et de leurs patients. En effet, nous avons conceptualisé au mieux cette application en proposant un \textit{responsive web design}, permettant à l'application de s'adapter à toutes les tailles de fenêtres.
 \newline
 \newline
 
-\section{\noindent Navigation en tant que \textit{Visiteur} {\fontsize{12}{16}\selectfont(utilisateur non-connecté)}: }
+\section{\noindent Navigation en tant que \textit{Visiteur} {\fontsize{12}{16}\selectfont(Utilisateur non-connecté)}: }
 
 \subsection{Fonctionnalité de l'entête (Header):}
     \begin{itemize} 
@@ -507,8 +550,8 @@ La partie résultats de ce rapport présente les conclusions de notre projet. Da
         \item[$\bullet$] Se renseigner sur la nature du site, les services qu’il propose et la qualité de ces services.
         \item[$\bullet$] Utiliser la barre de navigation :
         \begin{itemize}
-            \item Rechercher sans spécifier une spécialité médicale : redirection vers la page \textit{\hyperref[docteurs]{Docteurs}} répertoriant l’ensemble des praticiens du cabinet, toute spécialité confondue.
-            \item Rechercher avec une spécialité choisie dans la liste déroulante (qui est à jour en direct, affichant chaque spécialité disponible selon les médecins enregistrés dans la base de données) : redirection vers la page \textit{\hyperref[docteurs]{Docteurs}} répertoriant les praticiens correspondant à la spécialité recherchée.
+            \item Rechercher sans spécifier une spécialité médicale : redirection vers la page \textit{\hyperref[docteurs]{Docteurs}} en  répertoriant l’ensemble des praticiens du cabinet, toute spécialité confondue.
+            \item Rechercher avec une spécialité choisie dans la liste déroulante (qui est à jour en direct, en affichant chaque spécialité disponible selon les médecins enregistrés dans la base de données), et ce par une redirection vers la page \textit{\hyperref[docteurs]{Docteurs}} répertoriant les praticiens correspondant à la spécialité recherchée.
         \end{itemize}
     \end{itemize}
     \vspace{3mm}
@@ -601,7 +644,7 @@ La partie résultats de ce rapport présente les conclusions de notre projet. Da
 
 \subsection{Fonctionnalité de la page du compte (Edit):}\label{edit}
     \begin{itemize}
-        \item[$\bullet$] Modifier les informations personnelles: prénom, nom, numéro de sécurité sociale et adresse postale. {\fontsize{8}{14}\selectfont Remarque: le prénom et nom sera parsé sous la forme Xxxxx et Xxxxx permettant une bonne lisibilité des informations, de plus si le patient souhaite modifier son adresse et que celle-ci n'est pas complète, elle ne sera pas prise en compte laissant l’ancienne adresse.}
+        \item[$\bullet$] Modifier les informations personnelles: prénom, nom, numéro de sécurité sociale et adresse postale. {\fontsize{8}{14}\selectfont Remarque: le prénom et nom sera parsé sous la forme Xxxxx et Xxxxx permettant une bonne lisibilité des informations. De plus, si le patient souhaite modifier son adresse et que celle-ci n'est pas complète, elle ne sera pas prise en compte, en laissant l’ancienne adresse.}
         \item[$\bullet$] Modifier les informations médicale: sexe, date de naissance, poids et taille. {\fontsize{8}{14}\selectfont Remarque: il n’est pas possible de rentrer une date de naissance supérieure à la date actuelle}.
         \item[$\bullet$] Modifier les informations de connexion: mail et mot de passe.
         \item[$\bullet$] Enregistrer les modifications, une notification apparaîtra alors sur l'écran à la suite de la requête axios pour indiquer la bonne prise en compte des modifications.
@@ -677,18 +720,18 @@ est alors créé même si le patient ne reprend plus de RDV après.
 \begin{itemize}
     \item[$\bullet$] Lors du RDV, le docteur ajoute une consultation au patient :
     \begin{itemize}
-        \item Il peut ajouter ajouter la date de la consultation. Par défaut, c'est la date actuelle qui est mise.
+        \item Il peut ajouter la date de la consultation. Par défaut, c'est la date actuelle qui est mise.
         \item Il peut ajouter le motif de la consultation.
-        \item Il peut ensuite ajouter une ordonnance ou non. S'il n'ne ajoute pas (par exemple, le patient n'a aucun traitement à prendre) et qu'il enregsitre la consultation,
+        \item Il peut ensuite ajouter une ordonnance ou non. S'il n'ajoute pas d'ordonnance, dans le cas où le patient n'a aucun traitement à prendre et qu'il enregsitre la consultation,
         celle-ci s'ajoute dans la section du {\hyperref[dossier médical]{dossier médical}} du patient. S'il ajoute une ordonnance, des cases de texte apparaissent pour ajouter les différentes
-        prescriptions (de médicaments par exemple). On peut ajouter autant de prescriptions que l'on veut. Lorsqu'on enregistre, la consultation est créée avec l'ordonnance qui est générée sous forme de pdf.
-        Ce pdf contient les informations du coteur (adresse du cabinet, nom...) ainsi que les différentes prescriptions. Ce pdf est également transmis au patient.
+        prescriptions (de médicaments par exemple). On peut ajouter autant de prescriptions que l'on veut. Lorsqu'on enregistre, la consultation est créée avec l'ordonnance qui est générée sous forme d'un fichier pdf.
+        Ce fichier contient les informations du docteur (Nom, l'adresse du cabinet, etc), ainsi que les différentes prescriptions. Ce pdf est également transmis au patient.
     \end{itemize}
 \end{itemize}
 \vspace{3mm}
     
 \subsection{{Fonctionnalité de la page du compe (Edit)}:}\label{edit2}
-Le docteur peut modifier ses différentes informations ici :
+Le docteur peut modifier ses différentes informations :
 \begin{itemize}
     \item[$\bullet$] Dans la partie en haut à gauche, il peut modifier ses informations personnelles : nom, prénom et sexe. Pour pouvoir modifier sa spécialité,
     il doit contacter les administrateurs du site (au survol de la case, un message apparait pour le préciser). En cliquant sur le bouton "enregistrer", les informations sont 
@@ -700,7 +743,8 @@ Le docteur peut modifier ses différentes informations ici :
 \end{itemize}
 \vspace{1cm}
 
-\section{{\noindent Présentation de l'application: }}
+\section{{\noindent Présentation de l'application }}
+
 \vspace{0.6cm}
 Nous présentons ici les différentes pages de notre site web.
 
@@ -901,8 +945,8 @@ Parmi les perspectives d'amélioration, nous souhaitons renforcer la sécurité 
 sensibles, notamment les dossiers médicaux, et non pas simplement les mots de passe. Nous voulons ainsi assurer la protection maximale 
 des informations médicales de nos patients. 
 Nous souhaitons également mettre en place un sytème de téléconsultation pour que les patients puissent bénéficier 
-des soins nécessaires directement depuis chez eux. Enfin, nous souhaitons minimiser autant que possible les injections dans notre base de données, 
-dans un souci de fiabilité et de confidentialité. \newline\newline
+des soins nécessaires directement depuis chez eux. Enfin, dans le contexte de notre application web,  notre objectif serait de réduire au maximum 
+les risques d'injections SQL dans notre base de données afin d'assurer la fiabilité et la confidentialité des données. \newline\newline
 Dans l'ensemble, nous sommes fiers de ce que nous avons accompli avec cette application web pour un cabinet médical. Nous sommes 
 convaincus que notre solution répondra aux besoins des médecins et des patients, et nous sommes impatients de recevoir les commentaires 
 et les suggestions de nos utilisateurs pour continuer à améliorer notre application.
