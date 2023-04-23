@@ -88,18 +88,12 @@ médical qui permettra aux professionnels de santé de gérer efficacement leurs
 Notre interface intuitive et simple d'utilisation permettra aux patients de trouver un rendez-vous avec le spécialiste de leur choix en un rien de temps. \newline\newline
 L'objectif et la problématique, ici, est de concevoir une application web qui soit la mieux construite possible. Cela permettra ainsi d'avoir une gestion d'un cabinet 
 médicale la plus simple et fluide possible. Pour cela, nous devrons répondre à certains besoins, que nous détaillerons dans les parties suivantes, tels que la centralisation des dossiers médicaux
-et de faciliter la navigation et l'expérience utilisateur, que se soit pour le médecin ou le patient.
- \newline\newline
-
+et de faciliter la navigation et l'expérience utilisateur, que se soit pour le médecin ou le patient.\newline\newline
 Le présent document expose les différentes étapes franchises afin de mener à bien ce projet et qui se traduisent à travers quatre chapitres.
-Nous commençons dans le premier chapitre par introduire le cadre général du travail en présentant la problématique traitée dans ce projet. Par la suite, nous établirons une description complète du comportement du système à développer, où nous allons présenter les différents besoins fonctionnels et non-fonctionnels capturés, ainsi qu’une identification des acteurs du système. Ensuite, nous analyserons les besoins à travers l’élaboration des diagrammes de cas d’utilisation.
-\newline
-Le seconde chapitre est consacré à la conception et à la réalisation, dans laquelle nous détaillons notre solution en définissant l’architecture logicielle, la présentation du modèle de conception orientés objets Domain Driven Design (DDD), qu'il est focalisé sur le domaine de l'application, sur la logique associée, et le métier adressé par le logiciel. De plus, la description des choix technologique des outils et langages de développement utilisés pour la réalisation de notre application.
-\newline
-Le troisième chapitre aborde la partie sur les tests implémentés.
-\newline
-Enfin, nous exposons dans le quatrième et dernier chapitre le travail réalisé en présentant les différentes interfaces.
-\newline
+Nous commençons dans le premier chapitre par introduire le cadre général du travail en présentant la problématique traitée dans ce projet. Par la suite, nous établirons une description complète du comportement du système à développer, où nous allons présenter les différents besoins fonctionnels et non-fonctionnels capturés, ainsi qu’une identification des acteurs du système. Ensuite, nous analyserons les besoins à travers l’élaboration des diagrammes de cas d’utilisation.\newline\newline
+Le seconde chapitre est consacré à la conception et à la réalisation, dans laquelle nous détaillons notre solution en définissant l’architecture logicielle, la présentation du modèle de conception orientés objets Domain Driven Design (DDD), qu'il est focalisé sur le domaine de l'application, sur la logique associée, et le métier adressé par le logiciel. De plus, la description des choix technologique des outils et langages de développement utilisés pour la réalisation de notre application.\newline\newline
+Le troisième chapitre aborde la partie sur les tests implémentés.\newline\newline
+Enfin, nous exposons dans le quatrième et dernier chapitre le travail réalisé en présentant les différentes interfaces.\newline\newline
 Nous concluons ce rapport par une conclusion générale résumant les principales fonctionnalités réalisées et proposant 
 quelques perspectives en vue d’élargir et d’améliorer ce travail. 
 
@@ -218,7 +212,7 @@ l’ergonomie des interfaces, la sécurité etc. Et parmi ces besoins nous citon
     mais aussi pour la conception et la mise en œuvre d’une telle interface.
     \item[$\bullet$] \underline{Énonciation des risques et parades}: Risque de confusion pour les utilisateurs et bug de navigation.\newline
     \textbf{Parade}: Il faudrait faire tester le logiciel par plusieurs utilisateurs et recueillir un feedback.
-    \item[$\bullet$] \underline{Spécification des tests de contrôle}: Tests unitaires.	\newline
+    \item[$\bullet$] \underline{Spécification des tests de contrôle}: Tests unitaires.\newline
 \end{itemize}
 
 \item Performance du système en temps de réponse, stockage mémoire
@@ -349,14 +343,14 @@ peut faire référence à une autre en utilisant une clé étrangère, qui corre
 la clé primaire de la relation référencée. 
 
 
-\subsection{Passage au modèle relationnel}
+\subsection{Règles de passage du diagramme de classes au modèle logique}
 
 A partir du modèle de classes UML de notre application, nous avons obtenu notre modèle
 relationnel en appliquant les règles de passage suivantes :
 
 R1 : chaque entité (classe) devient une relation ayant un identiant comme clé primaire.
 
-R2 : une association (X, n). . . (X, 1) (association père fils) provoque la migration d'une
+R2 : une association (X, n)..(X, 1) (association père fils) provoque la migration d'une
 clé primaire, l'identiant coté (X, 1) migre vers l'entité coté (X, n) comme étant une clé
 étrangère.
 
